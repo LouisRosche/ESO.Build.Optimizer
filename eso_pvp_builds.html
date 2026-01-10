@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESO PvP Optimized Builds - January 2026</title>
+    <style>
+        :root {
+            --bg-dark: #1a1a2e;
+            --bg-card: #16213e;
+            --accent-gold: #d4af37;
+            --accent-blue: #4a9eff;
+            --accent-red: #ff6b6b;
+            --accent-green: #6bcb77;
+            --accent-purple: #9d4edd;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --border: #2d3a5a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: var(--accent-gold);
+            font-size: 2rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        .build-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 20px;
+        }
+        .build-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .build-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .build-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .build-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .brawler .build-header { background: linear-gradient(135deg, #1e3a5f 0%, #16213e 100%); }
+        .brawler .build-title { color: var(--accent-blue); }
+        .bomber .build-header { background: linear-gradient(135deg, #3d1f1f 0%, #16213e 100%); }
+        .bomber .build-title { color: var(--accent-red); }
+        .ganker .build-header { background: linear-gradient(135deg, #2d1f3d 0%, #16213e 100%); }
+        .ganker .build-title { color: var(--accent-purple); }
+        .build-content { padding: 16px 20px; }
+        .section {
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .gear-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .gear-item {
+            background: rgba(0,0,0,0.2);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .gear-slot {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+        .gear-name {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+        .gear-detail {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .skill-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .skill {
+            background: rgba(0,0,0,0.3);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+        .skill.ult { border-left-color: var(--accent-gold); }
+        .skill.subclass { border-left-color: var(--accent-purple); }
+        .bar-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+        }
+        .stat-label { color: var(--text-secondary); }
+        .stat-value { color: var(--text-primary); font-weight: 500; }
+        .buff-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .buff {
+            background: rgba(107, 203, 119, 0.15);
+            color: var(--accent-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        .consumable {
+            background: rgba(0,0,0,0.2);
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        .consumable-name { color: var(--accent-gold); }
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+        .trait-item {
+            background: rgba(0,0,0,0.2);
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+        .note-box {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 3px solid var(--accent-gold);
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            margin-top: 12px;
+            border-radius: 0 6px 6px 0;
+        }
+        .scribing-box {
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .scribing-skill {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+        .cp-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .cp-tree {
+            background: rgba(0,0,0,0.2);
+            padding: 8px 10px;
+            border-radius: 6px;
+        }
+        .cp-tree-name {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .cp-item {
+            font-size: 0.8rem;
+            padding: 2px 0;
+        }
+        .full-width { grid-column: 1 / -1; }
+        .highlight { color: var(--accent-gold); }
+        .subclass-note {
+            background: rgba(157, 78, 221, 0.15);
+            color: var(--accent-purple);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ESO PvP Meta Builds</h1>
+        <p class="subtitle">Update 48 / January 2026 — Subclassing Optimized</p>
+
+        <div class="build-grid">
+            <!-- BUILD 1: BRAWLER -->
+            <div class="build-card brawler">
+                <div class="build-header">
+                    <div class="build-title">⚔️ IRONCLAD BRAWLER</div>
+                    <div class="build-subtitle">Dragonknight Base • Solo/Small Group Cyrodiil • 1vX Capable</div>
+                </div>
+                <div class="build-content">
+                    <div class="subclass-note">Subclass: Warden (Ice Fortress, Bull Netch)</div>
+
+                    <div class="section">
+                        <div class="section-title">Gear Setup</div>
+                        <div class="gear-grid">
+                            <div class="gear-item">
+                                <div class="gear-slot">Head</div>
+                                <div class="gear-name">Balorgh</div>
+                                <div class="gear-detail">Heavy • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Shoulders</div>
+                                <div class="gear-name">Balorgh</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Chest</div>
+                                <div class="gear-name">Rallying Cry</div>
+                                <div class="gear-detail">Heavy • Reinforced</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Legs</div>
+                                <div class="gear-name">Rallying Cry</div>
+                                <div class="gear-detail">Heavy • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Hands</div>
+                                <div class="gear-name">Daedric Trickery</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Waist</div>
+                                <div class="gear-name">Daedric Trickery</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Feet</div>
+                                <div class="gear-name">Daedric Trickery</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Neck</div>
+                                <div class="gear-name">Daedric Trickery</div>
+                                <div class="gear-detail">Infused • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 1</div>
+                                <div class="gear-name">Daedric Trickery</div>
+                                <div class="gear-detail">Infused • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 2</div>
+                                <div class="gear-name">Markyn Ring of Majesty</div>
+                                <div class="gear-detail">Mythic</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Front Bar</div>
+                                <div class="gear-name">Rallying Cry S&B</div>
+                                <div class="gear-detail">Nirnhoned / Sturdy</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Back Bar</div>
+                                <div class="gear-name">Rallying Cry Ice Staff</div>
+                                <div class="gear-detail">Defending • Crusher</div>
+                            </div>
+                        </div>
+                        <div class="stat-row" style="margin-top: 10px;">
+                            <span class="stat-label">Armor Weight</span>
+                            <span class="stat-value">5 Heavy / 2 Medium / 0 Light</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Front Bar (S&B) — Offense</div>
+                        <div class="skill-bar">
+                            <div class="skill">Molten Whip</div>
+                            <div class="skill">Fossilize</div>
+                            <div class="skill">Flames of Oblivion</div>
+                            <div class="skill subclass">Bull Netch</div>
+                            <div class="skill">Coagulating Blood</div>
+                            <div class="skill ult">Corrosive Armor</div>
+                        </div>
+                        <div class="section-title">Back Bar (Ice Staff) — Defense</div>
+                        <div class="skill-bar">
+                            <div class="skill">Elemental Susceptibility</div>
+                            <div class="skill">Cauterize</div>
+                            <div class="skill">Draw Essence</div>
+                            <div class="skill subclass">Ice Fortress</div>
+                            <div class="skill">Elusive Mist</div>
+                            <div class="skill ult">Temporal Guard</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Scribing Grimoire</div>
+                        <div class="scribing-box">
+                            <div class="scribing-skill">Traveling Knife</div>
+                            <div>Focus: Lingering Torment (bleed) | Signature: Class Mastery | Affix: Warrior's Boon (W/S Damage)</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Active Buffs (Self-Generated)</div>
+                        <div class="buff-list">
+                            <span class="buff">Major Brutality</span>
+                            <span class="buff">Major Sorcery</span>
+                            <span class="buff">Major Resolve</span>
+                            <span class="buff">Major Heroism</span>
+                            <span class="buff">Major Protection</span>
+                            <span class="buff">Minor Toughness</span>
+                            <span class="buff">Minor Berserk</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Consumables</div>
+                        <div class="consumable">
+                            <span class="consumable-name">Food:</span> Bewitched Sugar Skulls (Max Health/Stam/Mag + Recovery)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Potion:</span> Tri-Stat (Health/Stam/Mag + Immovability)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Mundus:</span> The Atronach (Mag Recovery) or The Serpent (Stam Recovery)
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Champion Points (Slottables)</div>
+                        <div class="cp-grid">
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Warfare</div>
+                                <div class="cp-item">• Deadly Aim</div>
+                                <div class="cp-item">• Master-at-Arms</div>
+                                <div class="cp-item">• Duelist's Rebuff</div>
+                                <div class="cp-item">• Ironclad</div>
+                            </div>
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Fitness</div>
+                                <div class="cp-item">• Boundless Vitality</div>
+                                <div class="cp-item">• Rejuvenation</div>
+                                <div class="cp-item">• Fortified</div>
+                                <div class="cp-item">• Celerity</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Playstyle:</strong> Proc Daedric Trickery via damage → stack Major Heroism for Battle Roar sustain → pressure with DoTs → execute with Molten Whip at 3 stacks. Ice Fortress from Warden subclass provides Major Resolve without slotting Hardened Armor.
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUILD 2: BOMBER -->
+            <div class="build-card bomber">
+                <div class="build-header">
+                    <div class="build-title">💥 PLAGUE BOMBER</div>
+                    <div class="build-subtitle">Nightblade Base • Cyrodiil Zergs • Multi-Kill Specialist</div>
+                </div>
+                <div class="build-content">
+                    <div class="subclass-note">Subclass: Templar (Radiant Glory execute)</div>
+
+                    <div class="section">
+                        <div class="section-title">Gear Setup</div>
+                        <div class="gear-grid">
+                            <div class="gear-item">
+                                <div class="gear-slot">Head</div>
+                                <div class="gear-name">Valkyn Skoria</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Shoulders</div>
+                                <div class="gear-name">Valkyn Skoria</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Chest</div>
+                                <div class="gear-name">Rush of Agony</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Legs</div>
+                                <div class="gear-name">Rush of Agony</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Hands</div>
+                                <div class="gear-name">Rush of Agony</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Waist</div>
+                                <div class="gear-name">Plaguebreak</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Feet</div>
+                                <div class="gear-name">Plaguebreak</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Neck</div>
+                                <div class="gear-name">Rush of Agony</div>
+                                <div class="gear-detail">Infused • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 1</div>
+                                <div class="gear-name">Rush of Agony</div>
+                                <div class="gear-detail">Infused • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 2</div>
+                                <div class="gear-name">Gaze of Sithis</div>
+                                <div class="gear-detail">Mythic</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Front Bar</div>
+                                <div class="gear-name">Plaguebreak DW</div>
+                                <div class="gear-detail">Nirnhoned / Sharpened</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Back Bar</div>
+                                <div class="gear-name">Plaguebreak Ice Staff</div>
+                                <div class="gear-detail">Infused • Weapon Damage</div>
+                            </div>
+                        </div>
+                        <div class="stat-row" style="margin-top: 10px;">
+                            <span class="stat-label">Armor Weight</span>
+                            <span class="stat-value">5 Medium / 2 Light / 0 Heavy</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Front Bar (DW) — Bomb Execution</div>
+                        <div class="skill-bar">
+                            <div class="skill">Ambush</div>
+                            <div class="skill">Whirling Blades</div>
+                            <div class="skill">Surprise Attack</div>
+                            <div class="skill subclass">Radiant Glory</div>
+                            <div class="skill">Shadowy Disguise</div>
+                            <div class="skill ult">Incap Strike</div>
+                        </div>
+                        <div class="section-title">Back Bar (Ice Staff) — Setup/Sustain</div>
+                        <div class="skill-bar">
+                            <div class="skill">Elemental Susceptibility</div>
+                            <div class="skill">Merciless Resolve</div>
+                            <div class="skill">Twisting Path</div>
+                            <div class="skill">Siphoning Attacks</div>
+                            <div class="skill">Shadow Image</div>
+                            <div class="skill ult">Soul Tether</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Scribing Grimoire</div>
+                        <div class="scribing-box">
+                            <div class="scribing-skill">Soul Burst</div>
+                            <div>Focus: Soul Thief (Mag steal) | Signature: Class Mastery | Affix: Berserk (damage boost)</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Active Buffs</div>
+                        <div class="buff-list">
+                            <span class="buff">Major Brutality</span>
+                            <span class="buff">Major Savagery</span>
+                            <span class="buff">Major Expedition</span>
+                            <span class="buff">Minor Berserk</span>
+                            <span class="buff">Guaranteed Crit (Shadowy)</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Consumables</div>
+                        <div class="consumable">
+                            <span class="consumable-name">Food:</span> Artaeum Takeaway Broth (Max Health + Stam + Health Recovery)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Potion:</span> Essence of Weapon Power (W. Damage + W. Crit + Immovability)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Mundus:</span> The Lover (Penetration)
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Champion Points (Slottables)</div>
+                        <div class="cp-grid">
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Warfare</div>
+                                <div class="cp-item">• Fighting Finesse</div>
+                                <div class="cp-item">• Deadly Aim</div>
+                                <div class="cp-item">• Master-at-Arms</div>
+                                <div class="cp-item">• Backstabber</div>
+                            </div>
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Fitness</div>
+                                <div class="cp-item">• Boundless Vitality</div>
+                                <div class="cp-item">• Bloody Renewal</div>
+                                <div class="cp-item">• Celerity</div>
+                                <div class="cp-item">• Sustained by Suffering</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Combo Sequence:</strong> Stealth → Ambush (triggers Rush of Agony pull) → Whirling Blades → Soul Burst. Plaguebreak DoT spreads; first kill chains explosions. Radiant Glory subclass execute finishes low-health targets. Gaze of Sithis requires NO BLOCKING playstyle—rely on mobility/cloak.
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUILD 3: BURST MAGE -->
+            <div class="build-card ganker">
+                <div class="build-header">
+                    <div class="build-title">⚡ MECHANICAL BURST</div>
+                    <div class="build-subtitle">Sorcerer Base • Battlegrounds • High Skill Ceiling</div>
+                </div>
+                <div class="build-content">
+                    <div class="subclass-note">Subclass: Arcanist (Cephaliarch's Flail for execute)</div>
+
+                    <div class="section">
+                        <div class="section-title">Gear Setup</div>
+                        <div class="gear-grid">
+                            <div class="gear-item">
+                                <div class="gear-slot">Head</div>
+                                <div class="gear-name">Balorgh</div>
+                                <div class="gear-detail">Medium • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Shoulders</div>
+                                <div class="gear-name">Balorgh</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Chest</div>
+                                <div class="gear-name">Mechanical Acuity</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Legs</div>
+                                <div class="gear-name">Mechanical Acuity</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Hands</div>
+                                <div class="gear-name">Mechanical Acuity</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Waist</div>
+                                <div class="gear-name">Rallying Cry</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Feet</div>
+                                <div class="gear-name">Rallying Cry</div>
+                                <div class="gear-detail">Light • Impenetrable</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Neck</div>
+                                <div class="gear-name">Mechanical Acuity</div>
+                                <div class="gear-detail">Bloodthirsty • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 1</div>
+                                <div class="gear-name">Mechanical Acuity</div>
+                                <div class="gear-detail">Bloodthirsty • Spell Damage</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Ring 2</div>
+                                <div class="gear-name">Monomyth Reforged</div>
+                                <div class="gear-detail">Mythic</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Front Bar</div>
+                                <div class="gear-name">Rallying Cry DW</div>
+                                <div class="gear-detail">Nirnhoned / Charged</div>
+                            </div>
+                            <div class="gear-item">
+                                <div class="gear-slot">Back Bar</div>
+                                <div class="gear-name">Rallying Cry Rest Staff</div>
+                                <div class="gear-detail">Powered • Absorb Mag</div>
+                            </div>
+                        </div>
+                        <div class="stat-row" style="margin-top: 10px;">
+                            <span class="stat-label">Armor Weight</span>
+                            <span class="stat-value">5 Light / 1 Medium / 1 Heavy</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Front Bar (DW) — Burst Window</div>
+                        <div class="skill-bar">
+                            <div class="skill">Crystal Fragments</div>
+                            <div class="skill">Haunting Curse</div>
+                            <div class="skill">Streak</div>
+                            <div class="skill subclass">Cephaliarch's Flail</div>
+                            <div class="skill">Hardened Ward</div>
+                            <div class="skill ult">Shooting Star</div>
+                        </div>
+                        <div class="section-title">Back Bar (Resto Staff) — Sustain/Defense</div>
+                        <div class="skill-bar">
+                            <div class="skill">Critical Surge</div>
+                            <div class="skill">Daedric Minefield</div>
+                            <div class="skill">Dark Conversion</div>
+                            <div class="skill">Boundless Storm</div>
+                            <div class="skill">Healing Ward</div>
+                            <div class="skill ult">Absorption Field</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Scribing Grimoire</div>
+                        <div class="scribing-box">
+                            <div class="scribing-skill">Elemental Explosion</div>
+                            <div>Focus: Shock | Signature: Class Mastery | Affix: Vulnerability (applies Minor Vuln)</div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Active Buffs</div>
+                        <div class="buff-list">
+                            <span class="buff">Major Sorcery</span>
+                            <span class="buff">Major Prophecy</span>
+                            <span class="buff">Major Resolve</span>
+                            <span class="buff">Major Expedition</span>
+                            <span class="buff">Minor Vulnerability (target)</span>
+                            <span class="buff">Guaranteed Crit (Mech Acuity)</span>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Consumables</div>
+                        <div class="consumable">
+                            <span class="consumable-name">Food:</span> Clockwork Citrus Filet (Max Health/Mag + Mag Recovery + Health Recovery)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Potion:</span> Essence of Spell Power (S. Damage + S. Crit + Immovability)
+                        </div>
+                        <div class="consumable">
+                            <span class="consumable-name">Mundus:</span> The Apprentice (Spell Damage)
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Champion Points (Slottables)</div>
+                        <div class="cp-grid">
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Warfare</div>
+                                <div class="cp-item">• Fighting Finesse</div>
+                                <div class="cp-item">• Master-at-Arms</div>
+                                <div class="cp-item">• Deadly Aim</div>
+                                <div class="cp-item">• Biting Aura</div>
+                            </div>
+                            <div class="cp-tree">
+                                <div class="cp-tree-name">Fitness</div>
+                                <div class="cp-item">• Boundless Vitality</div>
+                                <div class="cp-item">• Fortified</div>
+                                <div class="cp-item">• Celerity</div>
+                                <div class="cp-item">• Slippery</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Burst Combo:</strong> Curse → DoTs → proc Mechanical Acuity (on 6th hit) → Shooting Star + Frags + Flail during guaranteed crit window. Monomyth provides both bars +20% crit damage. Cephaliarch's Flail (Arcanist subclass) is top execute with Crux generation. 25s downtime between burst windows—reset with Streak mobility.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GLOBAL NOTES -->
+        <div class="build-card" style="margin-top: 20px;">
+            <div class="build-header" style="background: linear-gradient(135deg, #2d3a2d 0%, #16213e 100%);">
+                <div class="build-title" style="color: var(--accent-green);">📊 UNIVERSAL OPTIMIZATION NOTES</div>
+            </div>
+            <div class="build-content">
+                <div class="gear-grid">
+                    <div class="section">
+                        <div class="section-title">Attribute Distribution</div>
+                        <div class="stat-row"><span class="stat-label">Brawler</span><span class="stat-value">64 Magicka (or split 32/32)</span></div>
+                        <div class="stat-row"><span class="stat-label">Bomber</span><span class="stat-value">64 Stamina</span></div>
+                        <div class="stat-row"><span class="stat-label">Burst Mage</span><span class="stat-value">64 Magicka</span></div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Race Recommendations</div>
+                        <div class="stat-row"><span class="stat-label">Brawler</span><span class="stat-value">Dark Elf / Imperial / Orc</span></div>
+                        <div class="stat-row"><span class="stat-label">Bomber</span><span class="stat-value">Khajiit / Dark Elf / Wood Elf</span></div>
+                        <div class="stat-row"><span class="stat-label">Burst Mage</span><span class="stat-value">High Elf / Breton / Dark Elf</span></div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Enchantment Priority</div>
+                        <div class="stat-row"><span class="stat-label">Armor</span><span class="stat-value">Prismatic (Tri-Stat) on large; Magicka/Stamina on small</span></div>
+                        <div class="stat-row"><span class="stat-label">Jewelry</span><span class="stat-value">Weapon/Spell Damage (Infused) or Recovery</span></div>
+                        <div class="stat-row"><span class="stat-label">Weapons</span><span class="stat-value">Damage glyph front; Crusher/Absorb back</span></div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Subclassing Priority Skills</div>
+                        <div class="stat-row"><span class="stat-label">Bull Netch (Warden)</span><span class="stat-value">Best sustain skill in game</span></div>
+                        <div class="stat-row"><span class="stat-label">Radiant Glory (Templar)</span><span class="stat-value">Top ranged execute</span></div>
+                        <div class="stat-row"><span class="stat-label">Cephaliarch's Flail (Arcanist)</span><span class="stat-value">Strongest execute w/ Crux</span></div>
+                        <div class="stat-row"><span class="stat-label">Ice Fortress (Warden)</span><span class="stat-value">Major Resolve + Minor Protection</span></div>
+                    </div>
+                </div>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>Meta Context:</strong> Update 48 (Oct 2025) introduced no major PvP set changes. Subclassing from U46 remains dominant—mixing class skills provides significant advantages. Expect potential rebalancing in Update 49+ (Q1 2026). Current meta favors sustain brawlers in Cyrodiil; burst remains king in Battlegrounds.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
