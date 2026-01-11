@@ -37,6 +37,9 @@ local TRACKED_RESULTS = {
     [ACTION_RESULT_BLOCKED_DAMAGE] = "blocked",
     [ACTION_RESULT_DAMAGE_SHIELDED] = "shielded",
     [ACTION_RESULT_INTERRUPT] = "interrupt",
+    [ACTION_RESULT_ABSORBED] = "absorbed",
+    [ACTION_RESULT_FALL_DAMAGE] = "fall_damage",
+    [ACTION_RESULT_KILLING_BLOW] = "killing_blow",
 }
 
 -- Buff categories for uptime tracking

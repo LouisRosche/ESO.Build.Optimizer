@@ -51,10 +51,7 @@ AsyncSessionLocal = async_sessionmaker(
 async def get_db():
     """Dependency to get database session."""
     async with AsyncSessionLocal() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+        yield session
 
 
 # =============================================================================

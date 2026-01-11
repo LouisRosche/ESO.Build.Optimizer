@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -13,31 +13,35 @@ import clsx from 'clsx';
 import CharacterCard from '../components/CharacterCard';
 import RunCard from '../components/RunCard';
 import { mockCharacters, mockRuns, formatDPS, mockDPSTrend } from '../data/mockData';
+import { classColors } from '../utils/classColors';
 import type { Character } from '../types';
+
+// TODO: Replace mock data with API hooks when backend is connected
+// Use: import { useCharacters, useCharacterRuns } from '../api/hooks';
+// Example: const { data: characters, isLoading } = useCharacters();
+// Example: const { data: runs } = useCharacterRuns(selectedCharacter?.id);
 
 export default function Characters() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
 
-  // Get runs for selected character
-  const characterRuns = selectedCharacter
-    ? mockRuns.filter((run) => run.character_name === selectedCharacter.name)
-    : [];
+  // Get runs for selected character - memoized to prevent unnecessary recalculations
+  const characterRuns = useMemo(
+    () =>
+      selectedCharacter
+        ? mockRuns.filter((run) => run.character_name === selectedCharacter.name)
+        : [],
+    [selectedCharacter?.name]
+  );
 
-  // Mock DPS history for selected character
-  const characterDPSHistory = mockDPSTrend.map((point, index) => ({
-    date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    dps: point.dps + (selectedCharacter ? (selectedCharacter.id === 'char-001' ? 0 : -5000 - index * 500) : 0),
-  }));
-
-  const classIcons: Record<string, string> = {
-    Dragonknight: 'text-orange-400',
-    Nightblade: 'text-purple-400',
-    Sorcerer: 'text-blue-400',
-    Templar: 'text-yellow-400',
-    Warden: 'text-green-400',
-    Necromancer: 'text-emerald-400',
-    Arcanist: 'text-cyan-400',
-  };
+  // Mock DPS history for selected character - memoized to prevent unnecessary recalculations
+  const characterDPSHistory = useMemo(
+    () =>
+      mockDPSTrend.map((point, index) => ({
+        date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        dps: point.dps + (selectedCharacter ? (selectedCharacter.id === 'char-001' ? 0 : -5000 - index * 500) : 0),
+      })),
+    [selectedCharacter?.id]
+  );
 
   return (
     <div className="space-y-8">
@@ -77,7 +81,7 @@ export default function Characters() {
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-eso-dark-800 flex items-center justify-center">
-                      <span className={clsx('text-3xl', classIcons[selectedCharacter.class])}>
+                      <span className={clsx('text-3xl', classColors[selectedCharacter.class])}>
                         {selectedCharacter.class.charAt(0)}
                       </span>
                     </div>
@@ -85,7 +89,7 @@ export default function Characters() {
                       <h2 className="text-xl font-bold text-gray-100">
                         {selectedCharacter.name}
                       </h2>
-                      <p className={clsx('text-sm', classIcons[selectedCharacter.class])}>
+                      <p className={clsx('text-sm', classColors[selectedCharacter.class])}>
                         {selectedCharacter.class}
                         {selectedCharacter.subclass && ` / ${selectedCharacter.subclass}`}
                       </p>

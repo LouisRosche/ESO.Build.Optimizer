@@ -27,6 +27,14 @@ import {
   mockDetailedRun,
 } from '../data/mockData';
 
+// TODO: Replace mock data with API hooks when backend is connected
+// Use: import { useAnalytics, useBuffAnalysis, useRuns } from '../api/hooks';
+// Example: const { data: analytics, isLoading } = useAnalytics(timeRange);
+// Example: const { data: buffAnalysis } = useBuffAnalysis();
+
+// Constant for converting percentage to degrees (for conic-gradient in contribution circles)
+const PERCENT_TO_DEG = 360 / 100; // 3.6
+
 export default function Analytics() {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
 
@@ -371,7 +379,7 @@ export default function Analytics() {
                 className="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-lg font-bold"
                 style={{
                   background: `conic-gradient(
-                    ${item.value >= 80 ? '#22c55e' : item.value >= 60 ? '#d4a012' : '#ef4444'} ${item.value * 3.6}deg,
+                    ${item.value >= 80 ? '#22c55e' : item.value >= 60 ? '#d4a012' : '#ef4444'} ${item.value * PERCENT_TO_DEG}deg,
                     #393941 0deg
                   )`,
                 }}

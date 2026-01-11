@@ -133,10 +133,10 @@ local function IsSkillAoE(abilityId, abilityName)
         end
     end
 
-    -- Fallback to name pattern matching
+    -- Fallback to name pattern matching (plain search, no regex)
     if abilityName then
         for _, pattern in ipairs(AOE_SKILL_PATTERNS) do
-            if string.find(abilityName, pattern) then
+            if string.find(abilityName, pattern, 1, true) then  -- true = plain search
                 return true
             end
         end
@@ -156,10 +156,10 @@ local function IsSkillExecute(abilityId, abilityName)
         end
     end
 
-    -- Fallback to name pattern matching
+    -- Fallback to name pattern matching (plain search, no regex)
     if abilityName then
         for _, pattern in ipairs(EXECUTE_SKILL_PATTERNS) do
-            if string.find(abilityName, pattern) then
+            if string.find(abilityName, pattern, 1, true) then  -- true = plain search
                 return true
             end
         end
@@ -528,6 +528,8 @@ local function OnUpdate()
 end
 
 local function StartUpdateLoop()
+    -- Unregister first to prevent duplicate registrations (safe if not registered)
+    EVENT_MANAGER:UnregisterForUpdate(state.updateName)
     EVENT_MANAGER:RegisterForUpdate(state.updateName, UPDATE_INTERVAL_MS, OnUpdate)
 end
 

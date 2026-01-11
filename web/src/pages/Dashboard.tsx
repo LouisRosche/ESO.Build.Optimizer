@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Swords, Trophy, Clock, Target, TrendingUp } from 'lucide-react';
 import {
   LineChart,
@@ -20,6 +21,11 @@ import {
   mockPercentileTrend,
   formatDPS,
 } from '../data/mockData';
+
+// TODO: Replace mock data with API hooks when backend is connected
+// Use: import { useRuns, useStatistics } from '../api/hooks';
+// Example: const { data: runs, isLoading } = useRuns();
+// Example: const { data: stats } = useStatistics();
 
 export default function Dashboard() {
   const successRate = mockStatistics.total_runs > 0
@@ -189,7 +195,7 @@ export default function Dashboard() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-100">Recent Encounters</h2>
-          <button className="btn-ghost text-sm">View All</button>
+          <Link to="/analytics" className="btn-ghost text-sm">View All</Link>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {mockRuns.slice(0, 6).map((run) => (

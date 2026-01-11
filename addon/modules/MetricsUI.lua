@@ -124,7 +124,7 @@ local function CreateButton(parent, name, anchor, anchorTo, anchorToPoint, offse
     bg:SetAnchorFill(button)
     bg:SetCenterColor(unpack(COLORS.button))
     bg:SetEdgeColor(unpack(COLORS.border))
-    bg:SetEdgeTexture("", 1, 1, 1)
+    -- Note: SetEdgeTexture with empty string removed - can cause issues
     button.bg = bg
 
     -- Hover effect
@@ -180,7 +180,7 @@ local function CreateBackground(parent)
     bg:SetAnchorFill(parent)
     bg:SetCenterColor(unpack(COLORS.background))
     bg:SetEdgeColor(unpack(COLORS.border))
-    bg:SetEdgeTexture("", 1, 1, 1)
+    -- Note: SetEdgeTexture with empty string removed - can cause issues
     return bg
 end
 

@@ -395,6 +395,10 @@ class PercentileCalculator:
         Returns:
             PercentileResult with percentiles, confidence, and metadata.
         """
+        # Validate input - ensure population is not None
+        if population is None:
+            population = []
+
         criteria = criteria or self.default_criteria
 
         # Try to use cached distribution
@@ -849,6 +853,8 @@ class PercentileCalculator:
                     "std": 0.0,
                     "min": 0.0,
                     "max": 0.0,
+                    "q25": 0.0,
+                    "q75": 0.0,
                 }
                 continue
 
@@ -858,6 +864,8 @@ class PercentileCalculator:
                 "std": float(np.std(values)),
                 "min": float(np.min(values)),
                 "max": float(np.max(values)),
+                "q25": float(np.percentile(values, 25)),
+                "q75": float(np.percentile(values, 75)),
             }
 
         return statistics

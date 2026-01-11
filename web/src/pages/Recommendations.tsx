@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Filter, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import clsx from 'clsx';
 import RecommendationCard from '../components/RecommendationCard';
 import { mockRecommendations, mockRuns, formatDPS, getRelativeTime } from '../data/mockData';
 import type { RecommendationCategory } from '../types';
+
+// TODO: Replace mock data with API hooks when backend is connected
+// Use: import { useRecommendations, useRuns } from '../api/hooks';
+// Example: const { data: recommendations, isLoading } = useRecommendations(selectedRunId);
+// Example: const { data: runs } = useRuns();
 
 export default function Recommendations() {
   const [selectedCategory, setSelectedCategory] = useState<RecommendationCategory | 'all'>('all');
@@ -17,17 +22,31 @@ export default function Recommendations() {
     { value: 'build', label: 'Build', icon: Lightbulb },
   ];
 
-  const filteredRecommendations = mockRecommendations.filter((rec) => {
-    if (selectedCategory !== 'all' && rec.category !== selectedCategory) return false;
-    if (selectedRunId && rec.run_id !== selectedRunId) return false;
-    return true;
-  });
+  // Filtered recommendations - memoized to prevent unnecessary recalculations
+  const filteredRecommendations = useMemo(
+    () =>
+      mockRecommendations.filter((rec) => {
+        if (selectedCategory !== 'all' && rec.category !== selectedCategory) return false;
+        if (selectedRunId && rec.run_id !== selectedRunId) return false;
+        return true;
+      }),
+    [selectedCategory, selectedRunId]
+  );
 
-  // Summary stats
-  const totalRecommendations = mockRecommendations.length;
-  const highConfidenceCount = mockRecommendations.filter((r) => r.confidence >= 0.8).length;
-  const gearRecommendations = mockRecommendations.filter((r) => r.category === 'gear').length;
-  const executionRecommendations = mockRecommendations.filter((r) => r.category === 'execution').length;
+  // Summary stats - memoized to prevent unnecessary recalculations
+  const totalRecommendations = useMemo(() => mockRecommendations.length, []);
+  const highConfidenceCount = useMemo(
+    () => mockRecommendations.filter((r) => r.confidence >= 0.8).length,
+    []
+  );
+  const gearRecommendations = useMemo(
+    () => mockRecommendations.filter((r) => r.category === 'gear').length,
+    []
+  );
+  const executionRecommendations = useMemo(
+    () => mockRecommendations.filter((r) => r.category === 'execution').length,
+    []
+  );
 
   return (
     <div className="space-y-8">

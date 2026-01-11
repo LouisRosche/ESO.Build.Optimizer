@@ -50,6 +50,9 @@ except ImportError:
 # Configure module logger
 logger = logging.getLogger(__name__)
 
+# Maximum cached combat runs to prevent unbounded memory growth
+MAX_CACHED_RUNS = 10000
+
 
 # =============================================================================
 # Platform-Specific Path Detection
@@ -70,7 +73,10 @@ def get_default_saved_variables_path() -> Path:
 
     if system == "Windows":
         # Windows: Documents/Elder Scrolls Online/live/SavedVariables/
-        documents = Path(os.environ.get("USERPROFILE", "")) / "Documents"
+        userprofile = os.environ.get("USERPROFILE")
+        if not userprofile:
+            userprofile = os.path.expanduser("~")
+        documents = Path(userprofile) / "Documents"
         return documents / "Elder Scrolls Online" / "live" / "SavedVariables"
 
     elif system == "Darwin":
@@ -765,15 +771,28 @@ class SavedVariablesWatcher:
             return None
 
     def _handle_file_change(self, path: Path) -> None:
-        """Handle a detected file change."""
+        """Handle a detected file change with retry logic for race conditions."""
         with self._lock:
-            try:
-                # Check if file actually changed
-                if not path.exists():
-                    return
+            content = None
+            # Retry logic to handle race conditions during file writes
+            for attempt in range(3):
+                try:
+                    if not path.exists():
+                        return
+                    content = path.read_text(encoding="utf-8")
+                    break
+                except (PermissionError, IOError) as e:
+                    if attempt < 2:
+                        time.sleep(0.5)
+                    else:
+                        logger.warning(f"Could not read file after retries: {e}")
+                        return
 
-                content = path.read_text(encoding="utf-8")
-                current_hash = hashlib.md5(content.encode()).hexdigest()
+            if content is None:
+                return
+
+            try:
+                current_hash = hashlib.sha256(content.encode()).hexdigest()
 
                 if current_hash == self._last_file_hash:
                     return
@@ -841,6 +860,14 @@ class SavedVariablesWatcher:
 
             self._last_combat_runs.add(run_id)
 
+            # Prevent unbounded memory growth by limiting cache size
+            if len(self._last_combat_runs) > MAX_CACHED_RUNS:
+                # Convert to list, sort would require timestamps - just keep arbitrary subset
+                # Since run_ids are UUIDs/timestamps, we keep the set but trim it
+                excess = len(self._last_combat_runs) - MAX_CACHED_RUNS
+                runs_list = list(self._last_combat_runs)
+                self._last_combat_runs = set(runs_list[excess:])
+
             try:
                 combat_run = self._create_combat_run(run_data)
                 if self.on_combat_run:
@@ -867,7 +894,7 @@ class SavedVariablesWatcher:
             return
 
         # Check if build changed
-        build_hash = hashlib.md5(str(current_build).encode()).hexdigest()
+        build_hash = hashlib.sha256(str(current_build).encode()).hexdigest()
         if build_hash == self._last_build_hash:
             return
 

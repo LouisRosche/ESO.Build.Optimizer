@@ -9,7 +9,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import and_, func, select
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.core.config import settings
@@ -87,7 +87,10 @@ async def calculate_percentiles(
     # Calculate percentiles for DPS (primary metric)
     dps_values = sorted([r.dps for r in similar_runs])
     player_dps = run.dps
-    dps_percentile = bisect.bisect_left(dps_values, player_dps) / len(dps_values)
+    if len(dps_values) > 0:
+        dps_percentile = bisect.bisect_left(dps_values, player_dps) / len(dps_values)
+    else:
+        dps_percentile = 0.0
 
     percentiles = {
         "dps": dps_percentile,
@@ -104,11 +107,13 @@ async def calculate_percentiles(
                     for r in similar_runs
                     if r.contribution_scores and metric in r.contribution_scores
                 ])
-                if metric_values:
+                if len(metric_values) > 0:
                     player_value = run.contribution_scores.get(metric, 0)
                     percentiles[metric] = (
                         bisect.bisect_left(metric_values, player_value) / len(metric_values)
                     )
+                else:
+                    percentiles[metric] = 0.0
 
     return percentiles, sample_size, confidence
 

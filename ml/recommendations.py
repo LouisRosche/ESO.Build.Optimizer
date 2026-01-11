@@ -23,13 +23,43 @@ from __future__ import annotations
 
 import bisect
 import json
+import logging
 import re
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
+
+# Configure logging
+logger = logging.getLogger(__name__)
+
+
+# =============================================================================
+# Threshold Constants
+# =============================================================================
+# These thresholds define performance boundaries for generating recommendations.
+
+# Minimum buff uptime percentage considered acceptable (80%)
+# Below this, an execution recommendation is generated to improve uptime.
+BUFF_UPTIME_THRESHOLD = 0.8
+
+# Minimum DoT uptime percentage considered acceptable (85%)
+# DoTs require higher uptime than buffs for optimal sustained damage.
+DOT_UPTIME_THRESHOLD = 0.85
+
+# Maximum overhealing percentage before recommendation (30%)
+# Healers with more than this percentage are wasting resources.
+OVERHEALING_THRESHOLD = 0.3
+
+# Minimum average percentile before suggesting build overhaul (30th percentile)
+# Only recommend wholesale build changes for players performing very poorly.
+BUILD_OVERHAUL_PERCENTILE_THRESHOLD = 0.3
+
+# Minimum class usage among top performers to recommend class change (40%)
+# At least this percentage of top performers should use the class before suggesting it.
+TOP_PERFORMER_CLASS_USAGE_THRESHOLD = 0.4
 
 
 class RecommendationCategory(Enum):
@@ -170,11 +200,28 @@ class CombatRun:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> CombatRun:
         """Create a CombatRun from a dictionary."""
+        # Parse timestamp with error handling
+        try:
+            timestamp = datetime.fromisoformat(data["timestamp"])
+        except (ValueError, TypeError):
+            timestamp = datetime.now()
+            logger.warning(f"Invalid timestamp in run {data.get('run_id')}, using current time")
+
+        # Filter metrics to known fields to prevent errors from unknown keys
+        metrics_data = data.get("metrics", {})
+        known_metric_fields = {f.name for f in fields(CombatMetrics)}
+        filtered_metrics = {k: v for k, v in metrics_data.items() if k in known_metric_fields}
+
+        # Filter contribution scores to known fields
+        contribution_data = data.get("contribution_scores", {})
+        known_contrib_fields = {f.name for f in fields(ContributionScores)}
+        filtered_contributions = {k: v for k, v in contribution_data.items() if k in known_contrib_fields}
+
         return cls(
             run_id=data.get("run_id", str(uuid.uuid4())),
             player_id=data["player_id"],
             character_name=data["character_name"],
-            timestamp=datetime.fromisoformat(data["timestamp"]),
+            timestamp=timestamp,
             content=ContentInfo(**data["content"]),
             duration_sec=data["duration_sec"],
             success=data["success"],
@@ -189,18 +236,27 @@ class CombatRun:
                 skills_back=data["build_snapshot"]["skills_back"],
                 champion_points=data["build_snapshot"].get("champion_points", {}),
             ),
-            metrics=CombatMetrics(**data.get("metrics", {})),
-            contribution_scores=ContributionScores(**data.get("contribution_scores", {})),
+            metrics=CombatMetrics(**filtered_metrics),
+            contribution_scores=ContributionScores(**filtered_contributions),
         )
 
 
 @dataclass
 class PercentileResult:
-    """Result of percentile calculation for a single metric."""
+    """Result of percentile calculation for a single metric.
+
+    Note on confidence types:
+        This class uses a string confidence ("low", "medium", "high") to provide
+        human-readable confidence levels. In contrast, the Recommendation class
+        uses a float confidence (0.0-1.0) for more granular scoring during
+        recommendation prioritization. This difference is intentional:
+        - PercentileResult.confidence: Categorical for display/filtering
+        - Recommendation.confidence: Numeric for sorting/weighting
+    """
     metric: str
     percentile: float
     sample_size: int
-    confidence: str  # low, medium, high
+    confidence: str  # low, medium, high (categorical for display)
 
     @property
     def is_below_median(self) -> bool:
@@ -239,7 +295,14 @@ class PercentileResults:
 
 @dataclass
 class Recommendation:
-    """A single recommendation for improvement."""
+    """A single recommendation for improvement.
+
+    Note on confidence types:
+        This class uses a float confidence (0.0-1.0) for granular scoring
+        during recommendation prioritization and sorting. In contrast,
+        PercentileResult uses a string confidence ("low", "medium", "high")
+        for human-readable categorical display.
+    """
     recommendation_id: str
     run_id: str
     category: RecommendationCategory
@@ -248,7 +311,7 @@ class Recommendation:
     recommended_change: str
     expected_improvement: str
     reasoning: str
-    confidence: float
+    confidence: float  # 0.0-1.0 numeric for sorting/weighting
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary matching the output schema."""
@@ -351,7 +414,8 @@ class FeatureDatabase:
                                 # Also index by name for convenience if present
                                 if "name" in item:
                                     self._skills_cache[item["name"]] = item
-                except (json.JSONDecodeError, IOError, KeyError):
+                except (json.JSONDecodeError, IOError, KeyError) as e:
+                    logger.warning(f"Failed to load skill data from {file_path}: {e}")
                     continue
 
         # Load set files
@@ -365,7 +429,8 @@ class FeatureDatabase:
                             # Also index by name if present
                             if "name" in item:
                                 self._sets_cache[item["name"]] = item
-            except (json.JSONDecodeError, IOError, KeyError):
+            except (json.JSONDecodeError, IOError, KeyError) as e:
+                logger.warning(f"Failed to load set data from {file_path}: {e}")
                 continue
 
         self._loaded = True
@@ -1028,7 +1093,7 @@ class RecommendationEngine:
 
         # Check buff uptime
         for buff_name, uptime in metrics.buff_uptime.items():
-            if uptime < 0.8:  # Less than 80% uptime
+            if uptime < BUFF_UPTIME_THRESHOLD:  # Less than threshold uptime
                 improvement_str, confidence = self.estimate_improvement(
                     uptime,
                     ContributionMetric.BUFF_UPTIME.value,
@@ -1054,7 +1119,7 @@ class RecommendationEngine:
 
         # Check DoT uptime
         for dot_name, uptime in metrics.dot_uptime.items():
-            if uptime < 0.85:  # Less than 85% uptime for DoTs
+            if uptime < DOT_UPTIME_THRESHOLD:  # Less than threshold uptime for DoTs
                 improvement_str, confidence = self.estimate_improvement(
                     uptime,
                     ContributionMetric.DAMAGE_DEALT.value,
@@ -1101,7 +1166,7 @@ class RecommendationEngine:
         # Check overhealing (for healers)
         if metrics.healing_done > 0 and metrics.overhealing > 0:
             overheal_pct = metrics.overhealing / (metrics.healing_done + metrics.overhealing)
-            if overheal_pct > 0.3:  # More than 30% overhealing
+            if overheal_pct > OVERHEALING_THRESHOLD:  # More than threshold overhealing
                 rec = Recommendation(
                     recommendation_id=str(uuid.uuid4()),
                     run_id=run.run_id,
@@ -1133,7 +1198,7 @@ class RecommendationEngine:
         weakest = percentiles.get_weakest_categories(3)
         avg_percentile = sum(w.percentile for w in weakest) / len(weakest) if weakest else 0.5
 
-        if avg_percentile > 0.3:
+        if avg_percentile > BUILD_OVERHAUL_PERCENTILE_THRESHOLD:
             return []  # Don't suggest build overhaul unless really struggling
 
         # Find most common build archetype among top performers
@@ -1164,7 +1229,7 @@ class RecommendationEngine:
             if top_class != current_class or top_subclass != current_subclass:
                 class_usage = class_counts.get(top_class, 0) / len(top_performers)
 
-                if class_usage > 0.4:  # At least 40% of top performers use this
+                if class_usage > TOP_PERFORMER_CLASS_USAGE_THRESHOLD:  # Minimum % of top performers
                     improvement_str, confidence = self.estimate_improvement(
                         avg_percentile,
                         weakest[0].metric if weakest else "damage_dealt",

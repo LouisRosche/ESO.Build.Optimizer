@@ -1,9 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { ArrowLeftRight, TrendingUp, AlertCircle, Search } from 'lucide-react';
 import clsx from 'clsx';
 import GearSetCard from '../components/GearSetCard';
 import { mockGearSets, mockCharacters, formatDPS } from '../data/mockData';
 import type { GearSet, Character } from '../types';
+
+// TODO: Replace mock data with API hooks when backend is connected
+// Use: import { useGearSets, useCharacters } from '../api/hooks';
+// Example: const { data: gearSets, isLoading } = useGearSets({ search: searchQuery });
+// Example: const { data: characters } = useCharacters();
 
 export default function Builds() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
@@ -17,13 +22,16 @@ export default function Builds() {
     set.set_type.toLowerCase().includes(searchQuery.toLowerCase())
   ), [searchQuery]);
 
-  const toggleSetSelection = (set: GearSet) => {
-    if (selectedSets.find((s) => s.set_id === set.set_id)) {
-      setSelectedSets(selectedSets.filter((s) => s.set_id !== set.set_id));
-    } else if (selectedSets.length < 3) {
-      setSelectedSets([...selectedSets, set]);
-    }
-  };
+  // Memoized toggle function to prevent unnecessary re-renders in child components
+  const toggleSetSelection = useCallback((set: GearSet) => {
+    setSelectedSets((prev) =>
+      prev.find((s) => s.set_id === set.set_id)
+        ? prev.filter((s) => s.set_id !== set.set_id)
+        : prev.length < 3
+        ? [...prev, set]
+        : prev
+    );
+  }, []);
 
   // Calculate expected DPS difference
   const calculateExpectedDPS = () => {

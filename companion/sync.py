@@ -21,6 +21,7 @@ import json
 import logging
 import os
 import sqlite3
+import threading
 import time
 import uuid
 from abc import ABC, abstractmethod
@@ -138,9 +139,9 @@ class SyncItem:
             self.checksum = self._calculate_checksum()
 
     def _calculate_checksum(self) -> str:
-        """Calculate MD5 checksum of the data."""
+        """Calculate SHA256 checksum of the data."""
         data_str = json.dumps(self.data, sort_keys=True, default=str)
-        return hashlib.md5(data_str.encode()).hexdigest()
+        return hashlib.sha256(data_str.encode()).hexdigest()
 
     def to_dict(self) -> dict:
         """Convert to dictionary for serialization."""
@@ -273,6 +274,7 @@ class RateLimiter:
         self.minute_window: deque[float] = deque()
         self.hour_window: deque[float] = deque()
         self._lock = asyncio.Lock()
+        self._sync_lock = threading.Lock()  # For sync property access
 
     async def acquire(self) -> None:
         """Acquire permission to make a request, blocking if necessary."""
@@ -317,18 +319,20 @@ class RateLimiter:
     @property
     def remaining_minute(self) -> int:
         """Remaining requests this minute."""
-        now = time.time()
-        minute_ago = now - 60
-        count = sum(1 for t in self.minute_window if t >= minute_ago)
-        return max(0, self.rpm_limit - count)
+        with self._sync_lock:
+            now = time.time()
+            minute_ago = now - 60
+            count = sum(1 for t in self.minute_window if t >= minute_ago)
+            return max(0, self.rpm_limit - count)
 
     @property
     def remaining_hour(self) -> int:
         """Remaining requests this hour."""
-        now = time.time()
-        hour_ago = now - 3600
-        count = sum(1 for t in self.hour_window if t >= hour_ago)
-        return max(0, self.rph_limit - count)
+        with self._sync_lock:
+            now = time.time()
+            hour_ago = now - 3600
+            count = sum(1 for t in self.hour_window if t >= hour_ago)
+            return max(0, self.rph_limit - count)
 
 
 # =============================================================================
@@ -396,13 +400,23 @@ class LocalCache:
 
     @contextmanager
     def _get_connection(self):
-        """Get a database connection with proper cleanup."""
-        conn = sqlite3.connect(str(self.db_path), timeout=30.0)
-        conn.row_factory = sqlite3.Row
+        """Get a database connection with proper cleanup and retry for SQLITE_BUSY."""
+        conn = None
+        for attempt in range(5):
+            try:
+                conn = sqlite3.connect(str(self.db_path), timeout=30.0)
+                conn.row_factory = sqlite3.Row
+                break
+            except sqlite3.OperationalError as e:
+                if "database is locked" in str(e) and attempt < 4:
+                    time.sleep(0.1 * (2 ** attempt))
+                else:
+                    raise
         try:
             yield conn
         finally:
-            conn.close()
+            if conn:
+                conn.close()
 
     # === Sync Queue Operations ===
 
@@ -534,7 +548,7 @@ class LocalCache:
         if ttl_seconds:
             expires_at = now + timedelta(seconds=ttl_seconds)
 
-        checksum = hashlib.md5(json.dumps(data, sort_keys=True).encode()).hexdigest()
+        checksum = hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
 
         with self._get_connection() as conn:
             conn.execute(

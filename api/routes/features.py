@@ -78,7 +78,9 @@ async def list_features(
     if class_restriction:
         query = query.where(Feature.class_restriction == class_restriction.value)
     if search:
-        search_pattern = f"%{search}%"
+        # Escape SQL LIKE special characters to prevent pattern injection
+        search_escaped = search.replace("%", r"\%").replace("_", r"\_")
+        search_pattern = f"%{search_escaped}%"
         query = query.where(
             or_(
                 Feature.name.ilike(search_pattern),
@@ -146,7 +148,9 @@ async def list_gear_sets(
     if pve_tier:
         query = query.where(GearSet.pve_tier == pve_tier.value)
     if search:
-        search_pattern = f"%{search}%"
+        # Escape SQL LIKE special characters to prevent pattern injection
+        search_escaped = search.replace("%", r"\%").replace("_", r"\_")
+        search_pattern = f"%{search_escaped}%"
         query = query.where(
             or_(
                 GearSet.name.ilike(search_pattern),
@@ -219,6 +223,9 @@ async def get_gear_set(
 # =============================================================================
 
 # Patch ordering for comparison
+# NOTE: This list must be updated each ESO quarterly patch release.
+# Consider moving to a configuration file or database table for easier maintenance.
+# ESO releases updates quarterly: Q1 (March), Q2 Chapter (June), Q3 (September), Q4 (December)
 PATCH_ORDER = [
     "U35", "U36", "U37", "U38", "U39", "U40",
     "U41", "U42", "U43", "U44", "U45", "U46",
@@ -372,7 +379,9 @@ async def search_features(
     Searches in names, effects, tags, and locations.
     Returns combined results ordered by relevance.
     """
-    search_pattern = f"%{q}%"
+    # Escape SQL LIKE special characters to prevent pattern injection
+    search_escaped = q.replace("%", r"\%").replace("_", r"\_")
+    search_pattern = f"%{search_escaped}%"
 
     # Search features
     feature_query = (
