@@ -1,0 +1,1002 @@
+[
+  {
+    "set_id": "SET_TRIAL_BERSERKING_WARRIOR",
+    "name": "Berserking Warrior",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Hel Ra Citadel",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Increases your Critical Damage by 16%.",
+        "proc_condition": "passive",
+        "crit_damage_bonus_percent": 16,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit-damage|stamina-dps|passive|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/berserking-warrior"
+  },
+  {
+    "set_id": "SET_TRIAL_IMMORTAL_WARRIOR",
+    "name": "Immortal Warrior",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Hel Ra Citadel",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "When you take damage that would kill you, you are instead healed to 100% Health. After the effect triggers, you restore 250 Stamina every 1 second for 8 seconds. This effect can occur once every 5 minutes.",
+        "proc_condition": "lethal_damage",
+        "heal_percent": 100,
+        "resource_restore_per_sec": 250,
+        "resource_type": "Stamina",
+        "recovery_duration_sec": 8,
+        "cooldown_sec": 300
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|survivability|cheat-death|emergency|heavy-armor|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/immortal-warrior"
+  },
+  {
+    "set_id": "SET_TRIAL_DEFENDING_WARRIOR",
+    "name": "Defending Warrior",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Hel Ra Citadel",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Reduce the cost of Block by 8%.",
+        "proc_condition": "passive",
+        "block_cost_reduction_percent": 8,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|block|sustain|heavy-armor|classic|niche",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/defending-warrior"
+  },
+  {
+    "set_id": "SET_TRIAL_HEALING_MAGE",
+    "name": "Healing Mage",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Aetherian Archive",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Casting a healing ability places a circle of healing at the target's location for 6 seconds. Any ally standing within receives Major Mending, increasing healing received by 16%. 10 second cooldown.",
+        "proc_condition": "healing_ability_cast",
+        "ground_effect": true,
+        "ground_duration_sec": 6,
+        "buff_granted": "Major Mending",
+        "buff_effect": "16% healing received",
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.40,
+      "healing_done": 0.80,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|ground-effect|mending|healing-boost|classic|outdated",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/healing-mage"
+  },
+  {
+    "set_id": "SET_TRIAL_QUICK_SERPENT",
+    "name": "Quick Serpent",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Aetherian Archive",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Reduce the cost of Sprint by 50% and increase your Movement Speed while Sprinting by 20%.",
+        "proc_condition": "passive",
+        "sprint_cost_reduction_percent": 50,
+        "sprint_speed_bonus_percent": 20,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "F",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "movement|sprint|overworld|niche|outdated|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/quick-serpent"
+  },
+  {
+    "set_id": "SET_TRIAL_TWICE_FANGED_SERPENT",
+    "name": "Twice-Fanged Serpent",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Aetherian Archive",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Physical Penetration", "value": 1487},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Dealing damage with a Light Attack grants you a stack of Snake Fangs for 5 seconds, granting 358 Physical Penetration per stack. Max 5 stacks.",
+        "proc_condition": "light_attack",
+        "stat_per_stack": 358,
+        "stat_type": "Physical Penetration",
+        "max_stacks": 5,
+        "max_penetration": 1790,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|penetration|stacking|light-attack|stamina-dps|solo-content",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/twice-fanged-serpent"
+  },
+  {
+    "set_id": "SET_TRIAL_POISONOUS_SERPENT",
+    "name": "Poisonous Serpent",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sanctum Ophidia",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Dealing damage with a Light Attack applies a stack of Serpent's Poison to your target for 5 seconds, dealing Poison Damage every 1 second. Max 5 stacks.",
+        "proc_condition": "light_attack",
+        "damage_type": "Poison",
+        "tick_interval_sec": 1,
+        "max_stacks": 5,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dot|poison|light-attack|stacking|stamina-dps|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/poisonous-serpent"
+  },
+  {
+    "set_id": "SET_TRIAL_INFALLIBLE_AETHER",
+    "name": "Infallible Aether",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Aetherian Archive",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Fully-charged Heavy Attacks place a debuff on the enemy for 10 seconds, granting you and allies Minor Vulnerability against that target, increasing your damage done by 5%.",
+        "proc_condition": "fully_charged_heavy_attack",
+        "debuff_applied": "Minor Vulnerability",
+        "debuff_effect": "5% increased damage taken",
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.75,
+      "healing_done": 0.40,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|debuff|minor-vulnerability|heavy-attack|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/infallible-aether"
+  },
+  {
+    "set_id": "SET_TRIAL_LUNAR_BASTION",
+    "name": "Lunar Bastion",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maw of Lorkhaj",
+    "dlc_required": "Thieves Guild",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "When you activate a synergy, you grant yourself and up to 11 group members a damage shield that absorbs damage for 3 seconds.",
+        "proc_condition": "synergy_activation",
+        "shield_type": "damage_shield",
+        "shield_scaling": "Max Health",
+        "group_size": 12,
+        "duration_sec": 3
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.60,
+      "healing_done": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|shield|synergy|group-protection|heavy-armor|mechanic-heavy",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lunar-bastion"
+  },
+  {
+    "set_id": "SET_TRIAL_ROAR_ALKOSH",
+    "name": "Roar of Alkosh",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maw of Lorkhaj",
+    "dlc_required": "Thieves Guild",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Minor Slayer", "uptime": "always"},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Activating a synergy sends a shockwave from your position that deals Physical Damage and applies Major Breach to enemies within 10 meters for 10 seconds, reducing their Armor by 5948.",
+        "proc_condition": "synergy_activation",
+        "damage_type": "Physical",
+        "debuff_applied": "Major Breach",
+        "debuff_effect": "5948 Armor reduction",
+        "radius_m": 10,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.90,
+      "healing_done": 0.0,
+      "damage_taken": 0.50
+    },
+    "tags": "tank|support|debuff|major-breach|penetration|synergy|trial-meta|group-dps",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/roar-of-alkosh"
+  },
+  {
+    "set_id": "SET_TRIAL_TWILIGHT_REMEDY",
+    "name": "Twilight Remedy",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maw of Lorkhaj",
+    "dlc_required": "Thieves Guild",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "When an ally activates your synergy, they are healed and granted Minor Force for 10 seconds, increasing Critical Damage by 10%.",
+        "proc_condition": "ally_synergy_activation",
+        "heal_type": "direct",
+        "heal_scaling": "Max Magicka",
+        "buff_granted": "Minor Force",
+        "buff_effect": "10% Critical Damage",
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.65,
+      "healing_done": 0.75,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|synergy|minor-force|crit-damage|support|proc-healing",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/twilight-remedy"
+  },
+  {
+    "set_id": "SET_TRIAL_AUTOMATED_DEFENSE",
+    "name": "Automated Defense",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Halls of Fabrication",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Blocking an attack grants you and up to 11 group members Minor Aegis for 5 seconds, reducing damage taken from Dungeon, Trial, and Arena Monsters by 5%.",
+        "proc_condition": "block",
+        "buff_granted": "Minor Aegis",
+        "buff_effect": "5% damage reduction from PvE enemies",
+        "group_size": 12,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.70,
+      "healing_done": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|block|minor-aegis|group-mitigation|trial-support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/automated-defense"
+  },
+  {
+    "set_id": "SET_TRIAL_MASTER_ARCHITECT",
+    "name": "Master Architect",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Halls of Fabrication",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Casting an Ultimate ability grants you and up to 11 group members Minor Slayer for 10 seconds, increasing damage done to Dungeon, Trial, and Arena Monsters by 5%.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Minor Slayer",
+        "buff_effect": "5% damage to PvE monsters",
+        "group_size": 12,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.75,
+      "healing_done": 0.50,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|minor-slayer|ultimate|group-buff|duplicate-war-machine",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/master-architect"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_DESTRO",
+    "name": "Concentrated Force",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "Fully-charged Heavy Attacks grant you a stack of Concentrated Force for 10 seconds, increasing the damage of your Force Shock and Crushing Shock by 6% per stack. Max 10 stacks. At 10 stacks, Force Shock and Crushing Shock always apply the Concussed status effect.",
+        "proc_condition": "fully_charged_heavy_attack",
+        "damage_boost_per_stack": 6,
+        "max_stacks": 10,
+        "max_damage_boost_percent": 60,
+        "duration_sec": 10,
+        "guaranteed_status": "Concussed"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.20,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "weapon|destruction-staff|force-shock|stacking|status-effect|heavy-attack",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/concentrated-force"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_RESTO",
+    "name": "Timeless Blessing",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "When you cast Regeneration or its morphs on an ally, they also gain Minor Protection for 10 seconds, reducing their damage taken by 5%.",
+        "proc_condition": "regeneration_cast",
+        "buff_granted": "Minor Protection",
+        "buff_effect": "5% damage reduction",
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.65,
+      "healing_done": 0.70,
+      "damage_taken": 0.0
+    },
+    "tags": "weapon|restoration-staff|regeneration|minor-protection|healer-support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/timeless-blessing"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_2H",
+    "name": "Mender's Ward",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "When you heal yourself with Brawler, you gain a damage shield equal to the amount healed for 6 seconds.",
+        "proc_condition": "brawler_self_heal",
+        "shield_type": "damage_shield",
+        "shield_scaling": "heal_amount",
+        "duration_sec": 6
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.60
+    },
+    "tags": "weapon|two-handed|brawler|shield|survival|niche",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/menders-ward"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_DW",
+    "name": "Piercing Spray",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "Blade Cloak deals 100% increased damage to all enemies hit beyond the first.",
+        "proc_condition": "blade_cloak_hit",
+        "damage_bonus_percent": 100,
+        "applies_to": "secondary_targets"
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "weapon|dual-wield|blade-cloak|aoe|cleave|niche",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/piercing-spray"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_BOW",
+    "name": "Disciplined Slash",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "Arrow Spray and its morphs now knock enemies back 6 meters.",
+        "proc_condition": "arrow_spray_hit",
+        "knockback_distance_m": 6
+      }
+    },
+    "pve_tier": "F",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.10
+    },
+    "tags": "weapon|bow|arrow-spray|knockback|crowd-control|pvp",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/disciplined-slash"
+  },
+  {
+    "set_id": "SET_TRIAL_ASYLUM_SNB",
+    "name": "Shroud of the Lich",
+    "set_type": "Trial",
+    "weight": "Weapon",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Asylum Sanctorium",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {
+        "effect": "Power Bash applies Major Defile to the target for 4 seconds, reducing their healing received by 16%.",
+        "proc_condition": "power_bash_hit",
+        "debuff_applied": "Major Defile",
+        "debuff_effect": "16% reduced healing received",
+        "duration_sec": 4
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.50
+    },
+    "tags": "weapon|sword-shield|power-bash|defile|debuff|pvp|tank",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/asylum-sword-and-shield"
+  },
+  {
+    "set_id": "SET_TRIAL_FALSE_GODS",
+    "name": "False God's Devotion",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sunspire",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Killing an enemy restores 2456 Magicka. Reduces the cost of your Magicka abilities by 8%.",
+        "proc_condition": "enemy_kill",
+        "resource_restore": 2456,
+        "resource_type": "Magicka",
+        "cost_reduction_percent": 8
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|sustain|magicka-dps|cost-reduction|trash-clear|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/false-gods-devotion"
+  },
+  {
+    "set_id": "SET_TRIAL_YOLNAHKRIIN",
+    "name": "Claw of Yolnahkriin",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sunspire",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "When you taunt an enemy, you and up to 11 group members gain Minor Courage for 15 seconds, increasing your Weapon and Spell Damage by 215.",
+        "proc_condition": "taunt",
+        "buff_granted": "Minor Courage",
+        "buff_effect": "215 Weapon and Spell Damage",
+        "group_size": 12,
+        "duration_sec": 15
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.95,
+      "healing_done": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|support|minor-courage|group-buff|taunt|trial-meta|must-have",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/claw-of-yolnahkriin"
+  },
+  {
+    "set_id": "SET_TRIAL_YANDIRS_MIGHT",
+    "name": "Yandir's Might",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Kyne's Aegis",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Fully-charged Heavy Attacks deal an additional 1720 Physical Damage and restore 620 Stamina.",
+        "proc_condition": "fully_charged_heavy_attack",
+        "damage_type": "Physical",
+        "bonus_damage": 1720,
+        "resource_restore": 620,
+        "resource_type": "Stamina"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|heavy-attack|stamina-dps|sustain|physical",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/yandirs-might"
+  },
+  {
+    "set_id": "SET_TRIAL_ELEMENTAL_CATALYST",
+    "name": "Elemental Catalyst",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Kyne's Aegis",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Dealing Flame, Shock, or Frost Damage to an enemy grants you a stack of Elemental Catalyst for 10 seconds, up to 3 stacks. Each unique element grants 412 Weapon and Spell Damage.",
+        "proc_condition": "elemental_damage",
+        "damage_per_stack": 412,
+        "max_stacks": 3,
+        "max_damage_boost": 1236,
+        "stack_types": ["Flame", "Shock", "Frost"],
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.40,
+      "healing_done": 0.30,
+      "damage_taken": 0.0
+    },
+    "tags": "hybrid|elemental|damage|support|stacking|healer-dps",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/elemental-catalyst"
+  },
+  {
+    "set_id": "SET_TRIAL_SULXAN_TORMENT",
+    "name": "Sul-Xan's Torment",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Rockgrove",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "When you deal damage to an enemy with 25% Health or less, you deal an additional 2070 Disease Damage and heal for the damage done. 1 second cooldown.",
+        "proc_condition": "damage_to_low_health_enemy",
+        "health_threshold_percent": 25,
+        "damage_type": "Disease",
+        "bonus_damage": 2070,
+        "self_heal": true,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.05,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|execute|disease|self-heal|stamina-dps|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sul-xans-torment"
+  },
+  {
+    "set_id": "SET_TRIAL_PEARLESCENT_WARD",
+    "name": "Pearlescent Ward",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dreadsail Reef",
+    "dlc_required": "High Isle",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Blocking an attack grants you and up to 11 group members Major Evasion for 3 seconds, reducing damage from area attacks by 20%.",
+        "proc_condition": "block",
+        "buff_granted": "Major Evasion",
+        "buff_effect": "20% AoE damage reduction",
+        "group_size": 12,
+        "duration_sec": 3
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.70,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|block|major-evasion|aoe-mitigation|group-survival|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/pearlescent-ward"
+  },
+  {
+    "set_id": "SET_TRIAL_LUCENT_ECHOES",
+    "name": "Lucent Echoes",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sanity's Edge",
+    "dlc_required": "Necrom",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "When you heal an ally with a direct heal ability, you grant them and up to 11 group members a damage shield for 6 seconds that absorbs damage. 6 second cooldown.",
+        "proc_condition": "direct_heal",
+        "shield_type": "damage_shield",
+        "shield_scaling": "Max Magicka",
+        "group_size": 12,
+        "duration_sec": 6,
+        "cooldown_sec": 6
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.50,
+      "healing_done": 0.85,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|shield|group-protection|direct-heal|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lucent-echoes"
+  },
+  {
+    "set_id": "SET_TRIAL_SHATTERED_DESTINY",
+    "name": "Shattered Destiny",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sanity's Edge",
+    "dlc_required": "Necrom",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Dealing damage with a damage over time effect grants you a stack of Shard for 5 seconds, up to 20 stacks. At 20 stacks, release all Shards at your target, dealing 12000 Physical Damage.",
+        "proc_condition": "damage_over_time",
+        "max_stacks": 20,
+        "damage_type": "Physical",
+        "burst_damage": 12000,
+        "stack_duration_sec": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dot-build|stacking|burst|stamina-dps|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/shattered-destiny"
+  },
+  {
+    "set_id": "SET_TRIAL_TENACITY",
+    "name": "Tenacity",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sanity's Edge",
+    "dlc_required": "Necrom",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Blocking an attack grants you Tenacious Resolve for 5 seconds, reducing the cost of your abilities by 5%. Stacks up to 3 times.",
+        "proc_condition": "block",
+        "cost_reduction_per_stack": 5,
+        "max_stacks": 3,
+        "max_cost_reduction": 15,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|block|sustain|cost-reduction|stacking",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/tenacity"
+  },
+  {
+    "set_id": "SET_TRIAL_DREAMING_TWILIGHT",
+    "name": "Dreaming Twilight",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Lucent Citadel",
+    "dlc_required": "Gold Road",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "When you cast an ability while under 50% Health, you heal for 3000 Health. 5 second cooldown.",
+        "proc_condition": "ability_cast_low_health",
+        "health_threshold_percent": 50,
+        "heal_amount": 3000,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.0,
+      "healing_done": 0.40,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|hybrid|self-sustain|low-health|emergency|survival",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/dreaming-twilight"
+  },
+  {
+    "set_id": "SET_TRIAL_SCORIAS_WAKE",
+    "name": "Scoria's Wake",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Lucent Citadel",
+    "dlc_required": "Gold Road",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Dealing damage with a channeled ability grants you a stack of Molten Fury for 10 seconds, up to 10 stacks. Each stack increases your Weapon and Spell Damage by 40. At 10 stacks, your Critical Damage is increased by 8%.",
+        "proc_condition": "channeled_ability",
+        "damage_per_stack": 40,
+        "max_stacks": 10,
+        "max_damage_boost": 400,
+        "crit_damage_at_max": 8,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|channeled|beam|stacking|arcanist|stamina-dps|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/scorias-wake"
+  },
+  {
+    "set_id": "SET_TRIAL_SCORION_BANE",
+    "name": "Scorion's Bane",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Lucent Citadel",
+    "dlc_required": "Gold Road",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "When you taunt an enemy, you and up to 11 group members within 28 meters gain Major Protection for 3 seconds, reducing damage taken by 10%.",
+        "proc_condition": "taunt",
+        "buff_granted": "Major Protection",
+        "buff_effect": "10% damage reduction",
+        "group_size": 12,
+        "range_m": 28,
+        "duration_sec": 3
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.70,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|taunt|major-protection|group-mitigation|trial-support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/scorions-bane"
+  }
+]

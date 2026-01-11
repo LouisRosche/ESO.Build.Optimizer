@@ -1,0 +1,771 @@
+[
+    {
+        "set_id": "SET_CRAFTABLE_HUNDINGS_RAGE",
+        "name": "Hunding's Rage",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Bangkorai, Reaper's March, The Rift",
+        "traits_required": 6,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Weapon Critical", "value": 657},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Weapon Critical", "value": 657},
+            "5": {"stat": "Weapon Damage", "value": 300}
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.9,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|stamina|crit|weapon-damage|beginner-friendly",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/hundings-rage"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_LAW_OF_JULIANOS",
+        "name": "Law of Julianos",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Wrothgar",
+        "traits_required": 6,
+        "dlc_required": "Orsinium",
+        "bonuses": {
+            "2": {"stat": "Spell Critical", "value": 657},
+            "3": {"stat": "Magicka Recovery", "value": 129},
+            "4": {"stat": "Spell Critical", "value": 657},
+            "5": {"stat": "Spell Damage", "value": 300}
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.9,
+            "buff_uptime": 0.0,
+            "healing_done": 0.3
+        },
+        "tags": "damage|magicka|crit|spell-damage|beginner-friendly",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/law-of-julianos"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_MECHANICAL_ACUITY",
+        "name": "Mechanical Acuity",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Clockwork City",
+        "traits_required": 9,
+        "dlc_required": "Clockwork City",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Critical", "value": 657},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "When you deal Critical Damage, gain guaranteed Critical Damage for 5 seconds. This effect can occur once every 18 seconds.",
+                "proc_condition": "critical_damage",
+                "buff_granted": "Mechanical Acuity",
+                "duration_sec": 5,
+                "cooldown_sec": 18
+            }
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.95,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|crit|burst|proc|guaranteed-crit",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/mechanical-acuity"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_NEW_MOON_ACOLYTE",
+        "name": "New Moon Acolyte",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Southern Elsweyr",
+        "traits_required": 9,
+        "dlc_required": "Dragonhold",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Critical", "value": 657},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "Increase your damage done by 13%. Increase the cost of your active abilities by 5%.",
+                "damage_bonus": 0.13,
+                "cost_penalty": 0.05
+            }
+        },
+        "pve_tier": "S",
+        "role_affinity": {
+            "damage_dealt": 1.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|meta|high-cost|all-content|trial-viable",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/new-moon-acolyte"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_INNATE_AXIOM",
+        "name": "Innate Axiom",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Clockwork City",
+        "traits_required": 4,
+        "dlc_required": "Clockwork City",
+        "bonuses": {
+            "2": {"stat": "Magicka Recovery", "value": 129},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "Increase the damage of your Class abilities by 8%.",
+                "damage_type": "class_abilities",
+                "damage_bonus": 0.08
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.75,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|class-abilities|niche|nightblade|arcanist",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/innate-axiom"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_CLEVER_ALCHEMIST",
+        "name": "Clever Alchemist",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Hew's Bane",
+        "traits_required": 7,
+        "dlc_required": "Thieves Guild",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Critical", "value": 657},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "When you drink a potion, gain 675 Weapon and Spell Damage for 15 seconds.",
+                "proc_condition": "drink_potion",
+                "stat_buff": "Weapon and Spell Damage",
+                "value": 675,
+                "duration_sec": 15
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.85,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|burst|potion-synergy|pvp-popular",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/clever-alchemist"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_SHACKLEBREAKER",
+        "name": "Shacklebreaker",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Vvardenfell",
+        "traits_required": 6,
+        "dlc_required": "Morrowind",
+        "bonuses": {
+            "2": {"stat": "Magicka Recovery", "value": 129},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Max Magicka", "value": 1096},
+            "4b": {"stat": "Max Stamina", "value": 1096},
+            "5": {
+                "stat": "Max Magicka",
+                "value": 2000,
+                "additional": {"stat": "Max Stamina", "value": 2000}
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.5,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "hybrid|stats|sustain|pvp-meta|versatile",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/shacklebreaker"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_FORTIFIED_BRASS",
+        "name": "Fortified Brass",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Clockwork City",
+        "traits_required": 4,
+        "dlc_required": "Clockwork City",
+        "bonuses": {
+            "2": {"stat": "Max Health", "value": 1206},
+            "3": {"stat": "Max Health", "value": 1206},
+            "4": {"stat": "Max Health", "value": 1206},
+            "5": {"stat": "Physical and Spell Resistance", "value": 5280}
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0,
+            "damage_taken": 0.85
+        },
+        "tags": "tank|resistance|survivability|beginner-tank",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/fortified-brass"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_TORUGS_PACT",
+        "name": "Torug's Pact",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Grahtwood, Stormhaven, Deshaan",
+        "traits_required": 3,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Damage", "value": 129},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "Reduce the cooldown of your weapon enchantments by 30%. Increase the damage or healing of your weapon enchantments by 45%.",
+                "enchantment_cooldown_reduction": 0.30,
+                "enchantment_damage_bonus": 0.45
+            }
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.3,
+            "buff_uptime": 0.8,
+            "healing_done": 0.0,
+            "debuff_uptime": 0.9
+        },
+        "tags": "support|tank|enchantments|crusher|weakening|group-utility",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/torugs-pact"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_KAGRENACS_HOPE",
+        "name": "Kagrenac's Hope",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Alik'r Desert, Eastmarch, Malabal Tor",
+        "traits_required": 8,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Spell Critical", "value": 657},
+            "3": {"stat": "Spell Damage", "value": 129},
+            "4": {"stat": "Spell Critical", "value": 657},
+            "5": {
+                "effect": "Reduce the cast time of resurrect by 50%. When you resurrect an ally, restore 4000 Health, Magicka, and Stamina to you.",
+                "resurrect_speed_bonus": 0.50,
+                "resource_restore": 4000
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.6,
+            "buff_uptime": 0.0,
+            "healing_done": 0.7
+        },
+        "tags": "healer|resurrect|utility|progression|magicka",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/kagrenacs-hope"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_ALESSIAN_ORDER",
+        "name": "Alessian Order",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Blackwood",
+        "traits_required": 5,
+        "dlc_required": "Blackwood",
+        "bonuses": {
+            "2": {"stat": "Health Recovery", "value": 129},
+            "3": {"stat": "Health Recovery", "value": 129},
+            "4": {"stat": "Max Health", "value": 1206},
+            "5": {
+                "effect": "While you have a Health, Magicka, or Stamina enchantment on your chest, legs, and head, increase your Health Recovery by 90% of the combined values.",
+                "scaling": "enchantment_values",
+                "recovery_type": "Health",
+                "bonus_percent": 0.90
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0,
+            "damage_taken": 0.75
+        },
+        "tags": "tank|health-recovery|sustain|self-healing",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/alessian-order"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_ORGNUMS_SCALES",
+        "name": "Orgnum's Scales",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Auridon, Glenumbra, Stonefalls",
+        "traits_required": 4,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Health Recovery", "value": 129},
+            "3": {"stat": "Health Recovery", "value": 129},
+            "4": {"stat": "Health Recovery", "value": 129},
+            "5": {
+                "effect": "Increase your swim speed by 200%. While swimming, restore 500 Health every 1 second.",
+                "swim_speed_bonus": 2.0,
+                "heal_per_second": 500,
+                "condition": "swimming"
+            }
+        },
+        "pve_tier": "F",
+        "role_affinity": {
+            "damage_dealt": 0.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "niche|swimming|exploration|fun|non-combat",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/orgnums-scales"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_TWICE_BORN_STAR",
+        "name": "Twice-Born Star",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Craglorn",
+        "traits_required": 9,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Max Health", "value": 1206},
+            "3": {"stat": "Max Magicka", "value": 1096},
+            "4": {"stat": "Max Stamina", "value": 1096},
+            "5": {
+                "effect": "You can gain the benefits of two Mundus Stones at once.",
+                "mundus_count": 2
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.7,
+            "buff_uptime": 0.0,
+            "healing_done": 0.5
+        },
+        "tags": "mundus|versatile|unique|dual-boon",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/twice-born-star"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_ETERNAL_HUNT",
+        "name": "Eternal Hunt",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Hew's Bane",
+        "traits_required": 9,
+        "dlc_required": "Thieves Guild",
+        "bonuses": {
+            "2": {"stat": "Max Stamina", "value": 1096},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Max Stamina", "value": 1096},
+            "5": {
+                "effect": "When you roll dodge, create a trap at your starting location that takes 1 second to arm and lasts for 5 seconds. The trap immobilizes and deals 4200 Poison Damage to the first enemy that enters its 3 meter radius. This can occur once every 3 seconds.",
+                "proc_condition": "roll_dodge",
+                "damage_type": "Poison",
+                "damage": 4200,
+                "cc_type": "immobilize",
+                "arm_time_sec": 1,
+                "duration_sec": 5,
+                "radius_m": 3,
+                "cooldown_sec": 3
+            }
+        },
+        "pve_tier": "C",
+        "role_affinity": {
+            "damage_dealt": 0.4,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "pvp|trap|roll-dodge|crowd-control|stamina",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/eternal-hunt"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_TAVAS_FAVOR",
+        "name": "Tava's Favor",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Hew's Bane",
+        "traits_required": 5,
+        "dlc_required": "Thieves Guild",
+        "bonuses": {
+            "2": {"stat": "Max Stamina", "value": 1096},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Max Stamina", "value": 1096},
+            "5": {
+                "effect": "When you roll dodge, gain 9 Ultimate. This effect can occur once every 6 seconds.",
+                "proc_condition": "roll_dodge",
+                "ultimate_gain": 9,
+                "cooldown_sec": 6
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.3,
+            "buff_uptime": 0.5,
+            "healing_done": 0.0,
+            "damage_taken": 0.7
+        },
+        "tags": "tank|ultimate|roll-dodge|stamina|warhorn",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/tavas-favor"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_SENCHE_RAHTS_GRIT",
+        "name": "Senche-Raht's Grit",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Northern Elsweyr",
+        "traits_required": 5,
+        "dlc_required": "Elsweyr",
+        "bonuses": {
+            "2": {"stat": "Max Health", "value": 1206},
+            "3": {"stat": "Max Stamina", "value": 1096},
+            "4": {"stat": "Max Magicka", "value": 1096},
+            "5": {
+                "effect": "Increase Max Health, Max Magicka, and Max Stamina by 1000.",
+                "stat_bonus": {
+                    "Max Health": 1000,
+                    "Max Magicka": 1000,
+                    "Max Stamina": 1000
+                }
+            }
+        },
+        "pve_tier": "C",
+        "role_affinity": {
+            "damage_dealt": 0.4,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "hybrid|stats|versatile|all-resources",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/senche-rahts-grit"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_ARMOR_MASTER",
+        "name": "Armor Master",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Imperial City",
+        "traits_required": 9,
+        "dlc_required": "Imperial City",
+        "bonuses": {
+            "2": {"stat": "Max Health", "value": 1206},
+            "3": {"stat": "Health Recovery", "value": 129},
+            "4": {"stat": "Max Health", "value": 1206},
+            "5": {
+                "effect": "When you cast an armor ability, increase your Physical and Spell Resistance by 6500 for 10 seconds.",
+                "proc_condition": "cast_armor_ability",
+                "stat_buff": "Physical and Spell Resistance",
+                "value": 6500,
+                "duration_sec": 10
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0,
+            "damage_taken": 0.8
+        },
+        "tags": "tank|resistance|survivability|armor-abilities",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/armor-master"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_TRIAL_BY_FIRE",
+        "name": "Trial by Fire",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Deadlands",
+        "traits_required": 7,
+        "dlc_required": "Deadlands",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Max Stamina", "value": 1096},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "Dealing damage to a Burning enemy grants you 300 Weapon and Spell Damage for 12 seconds.",
+                "proc_condition": "damage_burning_enemy",
+                "stat_buff": "Weapon and Spell Damage",
+                "value": 300,
+                "duration_sec": 12
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.85,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|fire|burning|dragonknight-synergy",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/trial-by-fire"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_UNCHAINED_AGGRESSOR",
+        "name": "Unchained Aggressor",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "The Reach",
+        "traits_required": 6,
+        "dlc_required": "Markarth",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Max Stamina", "value": 1096},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "When you break free, gain 860 Weapon and Spell Damage for 6 seconds. This effect can occur once every 15 seconds.",
+                "proc_condition": "break_free",
+                "stat_buff": "Weapon and Spell Damage",
+                "value": 860,
+                "duration_sec": 6,
+                "cooldown_sec": 15
+            }
+        },
+        "pve_tier": "C",
+        "role_affinity": {
+            "damage_dealt": 0.65,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|pvp|break-free|burst|situational",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/unchained-aggressor"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_STUHNS_FAVOR",
+        "name": "Stuhn's Favor",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Western Skyrim",
+        "traits_required": 6,
+        "dlc_required": "Greymoor",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Damage", "value": 129},
+            "4": {"stat": "Physical and Spell Penetration", "value": 1487},
+            "5": {
+                "effect": "When you immobilize or stun an enemy, increase your Physical and Spell Penetration by 6230 for 10 seconds.",
+                "proc_condition": "immobilize_or_stun",
+                "stat_buff": "Physical and Spell Penetration",
+                "value": 6230,
+                "duration_sec": 10
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.85,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|penetration|crowd-control|solo|overland",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/stuhns-favor"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_DRAGONS_APPETITE",
+        "name": "Dragon's Appetite",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Northern Elsweyr",
+        "traits_required": 3,
+        "dlc_required": "Elsweyr",
+        "bonuses": {
+            "2": {"stat": "Magicka Recovery", "value": 129},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Health Recovery", "value": 129},
+            "5": {
+                "effect": "When you kill an enemy, restore 5% of your Max Health, Magicka, and Stamina. This effect can occur once every 1 second.",
+                "proc_condition": "kill",
+                "resource_restore_percent": 0.05,
+                "cooldown_sec": 1
+            }
+        },
+        "pve_tier": "C",
+        "role_affinity": {
+            "damage_dealt": 0.3,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "sustain|kill-proc|overland|trash-clear",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/dragons-appetite"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_NOCTURNALS_FAVOR",
+        "name": "Nocturnal's Favor",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Summerset",
+        "traits_required": 5,
+        "dlc_required": "Summerset",
+        "bonuses": {
+            "2": {"stat": "Max Stamina", "value": 1096},
+            "3": {"stat": "Max Magicka", "value": 1096},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "While in Sneak or Invisible, increase your Weapon and Spell Damage by 350.",
+                "condition": "stealth_or_invisible",
+                "stat_buff": "Weapon and Spell Damage",
+                "value": 350
+            }
+        },
+        "pve_tier": "C",
+        "role_affinity": {
+            "damage_dealt": 0.6,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "stealth|nightblade|sneak|pvp|ganking",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/nocturnals-favor"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_ORDERS_WRATH",
+        "name": "Order's Wrath",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "High Isle",
+        "traits_required": 4,
+        "dlc_required": "High Isle",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Critical", "value": 657},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {"stat": "Critical Damage", "value": 0.08}
+        },
+        "pve_tier": "S",
+        "role_affinity": {
+            "damage_dealt": 0.95,
+            "buff_uptime": 0.0,
+            "healing_done": 0.3
+        },
+        "tags": "damage|crit|meta|beginner-friendly|trial-viable|all-content",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/orders-wrath"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_HEARTLAND_CONQUEROR",
+        "name": "Heartland Conqueror",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Blackwood",
+        "traits_required": 9,
+        "dlc_required": "Blackwood",
+        "bonuses": {
+            "2": {"stat": "Weapon and Spell Damage", "value": 129},
+            "3": {"stat": "Weapon and Spell Critical", "value": 657},
+            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "5": {
+                "effect": "Increase the effectiveness of your equipped weapon trait by 100%.",
+                "trait_effectiveness_bonus": 1.0
+            }
+        },
+        "pve_tier": "A",
+        "role_affinity": {
+            "damage_dealt": 0.8,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0
+        },
+        "tags": "damage|trait-bonus|versatile|nirnhoned|charged",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/heartland-conqueror"
+    },
+    {
+        "set_id": "SET_CRAFTABLE_HIST_BARK",
+        "name": "Hist Bark",
+        "set_type": "Craftable",
+        "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+        "bind_type": "Craftable",
+        "tradeable": true,
+        "location": "Greenshade, Rivenspire, Shadowfen",
+        "traits_required": 4,
+        "dlc_required": "Base Game",
+        "bonuses": {
+            "2": {"stat": "Max Health", "value": 1206},
+            "3": {"stat": "Stamina Recovery", "value": 129},
+            "4": {"stat": "Max Health", "value": 1206},
+            "5": {
+                "effect": "Increase your Block Mitigation by 8%. When you block, gain Major Evasion for 5 seconds, reducing damage from area attacks by 20%.",
+                "block_mitigation_bonus": 0.08,
+                "buff_granted": "Major Evasion",
+                "buff_effect": "Reduce area damage taken by 20%",
+                "buff_duration_sec": 5,
+                "proc_condition": "block"
+            }
+        },
+        "pve_tier": "B",
+        "role_affinity": {
+            "damage_dealt": 0.0,
+            "buff_uptime": 0.0,
+            "healing_done": 0.0,
+            "damage_taken": 0.8
+        },
+        "tags": "tank|block|mitigation|evasion|beginner-tank",
+        "patch_updated": "U48",
+        "source_url": "https://eso-hub.com/en/sets/hist-bark"
+    }
+]

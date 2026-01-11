@@ -1,0 +1,1028 @@
+[
+  {
+    "set_id": "SET_MONSTER_NAZARAY",
+    "name": "Nazaray",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Coral Aerie",
+    "dlc_required": "Ascending Tide",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you use an Ultimate ability while in combat, you and up to 11 group members within 28 meters gain Minor Slayer for 1 second per 10 Ultimate spent, increasing damage done to Dungeon, Trial, and Arena Monsters by 5%.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Minor Slayer",
+        "duration_sec": "1 per 10 Ultimate",
+        "cooldown_sec": 0,
+        "radius_m": 28,
+        "max_targets": 12
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "buff_uptime": 0.95,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "group_utility": 0.95
+    },
+    "tags": "support|group-buff|slayer|healer-meta|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/nazaray"
+  },
+  {
+    "set_id": "SET_MONSTER_MAGMA_INCARNATE",
+    "name": "Magma Incarnate",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "The Cauldron",
+    "dlc_required": "Flames of Ambition",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally who is under 50% Health, grant them Minor Courage and Minor Resolve for 10 seconds, increasing their Weapon and Spell Damage by 215 and Physical and Spell Resistance by 2974.",
+        "proc_condition": "heal_ally_below_50_percent",
+        "buff_granted": "Minor Courage, Minor Resolve",
+        "buff_value_damage": 215,
+        "buff_value_resistance": 2974,
+        "duration_sec": 10,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.80,
+      "healing_done": 0.70,
+      "damage_taken": 0.0,
+      "group_utility": 0.85
+    },
+    "tags": "healing|support|courage|resolve|healer-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/magma-incarnate"
+  },
+  {
+    "set_id": "SET_MONSTER_BLOODSPAWN",
+    "name": "Bloodspawn",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Spindleclutch II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Stamina Recovery", "value": 129},
+      "2": {
+        "effect": "When you take damage, you have a 6% chance to generate 14 Ultimate and gain 6450 Physical and Spell Resistance for 5 seconds.",
+        "proc_condition": "damage_taken",
+        "proc_chance": 0.06,
+        "buff_granted": "Physical and Spell Resistance",
+        "buff_value": 6450,
+        "ultimate_gain": 14,
+        "duration_sec": 5,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.90,
+      "resource_efficiency": 0.80
+    },
+    "tags": "tank|ultimate|resistances|tank-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bloodspawn"
+  },
+  {
+    "set_id": "SET_MONSTER_THURVOKUN",
+    "name": "Thurvokun",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Fang Lair",
+    "dlc_required": "Dragon Bones",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you taunt an enemy, you call a cloud of necrotic bone which deals Disease Damage over 8 seconds to enemies within 8 meters and afflicts them with Minor Maim and Minor Defile, reducing their damage done by 5% and healing received and Health Recovery by 8%.",
+        "proc_condition": "taunt",
+        "buff_granted": null,
+        "debuff_granted": "Minor Maim, Minor Defile",
+        "damage_type": "Disease",
+        "duration_sec": 8,
+        "cooldown_sec": 10,
+        "radius_m": 8
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.80,
+      "debuff_uptime": 0.90
+    },
+    "tags": "tank|debuff|maim|defile|disease|tank-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/thurvokun"
+  },
+  {
+    "set_id": "SET_MONSTER_MIGHTY_CHUDAN",
+    "name": "Mighty Chudan",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Ruins of Mazzatun",
+    "dlc_required": "Shadows of the Hist",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "Gain Major Resolve at all times, increasing your Physical and Spell Resistance by 5948.",
+        "proc_condition": "always",
+        "buff_granted": "Major Resolve",
+        "buff_value": 5948,
+        "duration_sec": null,
+        "cooldown_sec": 0
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 1.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|resolve|resistances|passive|consistent",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/mighty-chudan"
+  },
+  {
+    "set_id": "SET_MONSTER_PIRATE_SKELETON",
+    "name": "Pirate Skeleton",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackheart Haven",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you take damage while in combat, transform into a skeleton and gain 2550 Physical and Spell Resistance plus 50% increased healing taken for 20 seconds. You cannot gain these bonuses again while transformed.",
+        "proc_condition": "damage_taken_in_combat",
+        "buff_granted": "Physical and Spell Resistance, Increased Healing",
+        "buff_value_resistance": 2550,
+        "buff_value_healing": 0.50,
+        "duration_sec": 20,
+        "cooldown_sec": 20
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|resistances|healing-received|transformation|solo",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/pirate-skeleton"
+  },
+  {
+    "set_id": "SET_MONSTER_CHOKETHORN",
+    "name": "Chokethorn",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Elden Hollow I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally, you have a 33% chance to summon a strangler plant that heals you or the lowest health ally within 28 meters for Health over 6 seconds.",
+        "proc_condition": "heal_ally",
+        "proc_chance": 0.33,
+        "buff_granted": null,
+        "heal_value": 15000,
+        "summon": "Strangler Plant",
+        "duration_sec": 6,
+        "cooldown_sec": 6,
+        "range_m": 28
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.75,
+      "damage_taken": 0.0
+    },
+    "tags": "healing|smart-heal|summon",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/chokethorn"
+  },
+  {
+    "set_id": "SET_MONSTER_BOGDAN_THE_NIGHTFLAME",
+    "name": "Bogdan the Nightflame",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Elden Hollow II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally, you have a 10% chance to summon a totem for 6 seconds that heals you and your allies within 5 meters for Health every 1 second.",
+        "proc_condition": "heal_ally",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "summon": "Healing Totem",
+        "heal_value": 2500,
+        "heal_interval": 1,
+        "duration_sec": 6,
+        "cooldown_sec": 6,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.80,
+      "damage_taken": 0.0
+    },
+    "tags": "healing|aoe|totem|summon",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bogdan-the-nightflame"
+  },
+  {
+    "set_id": "SET_MONSTER_TROLL_KING",
+    "name": "Troll King",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blessed Crucible",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally whose Health is below 50%, grant them an additional 1548 Health Recovery for 10 seconds.",
+        "proc_condition": "heal_ally_below_50_percent",
+        "buff_granted": "Health Recovery",
+        "buff_value": 1548,
+        "duration_sec": 10,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.40,
+      "healing_done": 0.70,
+      "damage_taken": 0.0
+    },
+    "tags": "healing|recovery|emergency|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/troll-king"
+  },
+  {
+    "set_id": "SET_MONSTER_SPAWN_OF_MEPHALA",
+    "name": "Spawn of Mephala",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Fungal Grotto II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Weapon and Spell Damage", "value": 129},
+      "2": {
+        "effect": "When you deal damage, you have a 10% chance to create webs beneath your feet for 10 seconds. Enemies within 4 meters are snared by 50% and take Poison Damage every 1 second. While standing in your webs, you gain 4110 Physical and Spell Resistance.",
+        "proc_condition": "any_damage",
+        "proc_chance": 0.10,
+        "buff_granted": "Physical and Spell Resistance",
+        "buff_value": 4110,
+        "damage_type": "Poison",
+        "debuff_granted": "Snare",
+        "snare_value": 0.50,
+        "duration_sec": 10,
+        "cooldown_sec": 5,
+        "radius_m": 4
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.50,
+      "debuff_uptime": 0.60
+    },
+    "tags": "damage|poison|snare|control|melee|stationary",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spawn-of-mephala"
+  },
+  {
+    "set_id": "SET_MONSTER_ENGINE_GUARDIAN",
+    "name": "Engine Guardian",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Darkshade Caverns II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you activate an ability, you have a 25% chance to summon a Dwemer spider that restores Health, Stamina, or Magicka over 6 seconds. The resource restored is random.",
+        "proc_condition": "ability_cast",
+        "proc_chance": 0.25,
+        "buff_granted": null,
+        "summon": "Dwemer Spider",
+        "resource_restore": 550,
+        "restore_interval": 0.5,
+        "resource_type": "Random (Health/Stamina/Magicka)",
+        "duration_sec": 6,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.30,
+      "damage_taken": 0.50,
+      "resource_efficiency": 0.90
+    },
+    "tags": "sustain|resource|tank|summon|versatile",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/engine-guardian"
+  },
+  {
+    "set_id": "SET_MONSTER_VYKOSA",
+    "name": "Vykosa",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Moon Hunter Keep",
+    "dlc_required": "Wolfhunter",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you Bash an enemy, you summon a wolf to harass them for 10 seconds. The wolf bites targets within 5 meters of its target, dealing Physical Damage and applying Minor Maim for 10 seconds, reducing their damage done by 5%.",
+        "proc_condition": "bash",
+        "buff_granted": null,
+        "debuff_granted": "Minor Maim",
+        "summon": "Wolf",
+        "damage_type": "Physical",
+        "duration_sec": 10,
+        "cooldown_sec": 15,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.80,
+      "debuff_uptime": 0.85
+    },
+    "tags": "tank|debuff|maim|summon|bash",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vykosa"
+  },
+  {
+    "set_id": "SET_MONSTER_LADY_THORN",
+    "name": "Lady Thorn",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Castle Thorn",
+    "dlc_required": "Stonethorn",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you deal direct damage, you generate a blood ball for 10 seconds. Up to 3 blood balls can be generated. When a blood ball is generated, the oldest is launched at an enemy dealing Magic Damage. The damage is increased by 50% per ball consumed if you have Vampirism.",
+        "proc_condition": "direct_damage",
+        "buff_granted": null,
+        "damage_type": "Magic",
+        "base_damage": 3480,
+        "vampire_bonus": 0.50,
+        "max_balls": 3,
+        "duration_sec": 10,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magic|vampire|stacking",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lady-thorn"
+  },
+  {
+    "set_id": "SET_MONSTER_PRIOR_THIERRIC",
+    "name": "Prior Thierric",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Red Petal Bastion",
+    "dlc_required": "Waking Flame",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal yourself or an ally, grant them a damage shield that absorbs damage for 6 seconds. This effect can occur once every 8 seconds per target.",
+        "proc_condition": "heal_self_or_ally",
+        "buff_granted": "Damage Shield",
+        "shield_strength": 6000,
+        "duration_sec": 6,
+        "cooldown_sec": 8,
+        "cooldown_type": "per_target"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.60,
+      "healing_done": 0.75,
+      "damage_taken": 0.0,
+      "group_utility": 0.80
+    },
+    "tags": "healing|shield|group|support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/prior-thierric"
+  },
+  {
+    "set_id": "SET_MONSTER_BARON_ZAUDRUS",
+    "name": "Baron Zaudrus",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "The Cauldron",
+    "dlc_required": "Flames of Ambition",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you apply a status effect, gain a stack of Oblivion's Edge for 10 seconds. When you reach 3 stacks, consume them and launch a projectile at your target that deals Oblivion Damage.",
+        "proc_condition": "status_effect_applied",
+        "buff_granted": "Oblivion's Edge",
+        "damage_type": "Oblivion",
+        "base_damage": 9000,
+        "max_stacks": 3,
+        "duration_sec": 10,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|oblivion|status-effect|stacking|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/baron-zaudrus"
+  },
+  {
+    "set_id": "SET_MONSTER_ARCHDRUID_DEVYRIC",
+    "name": "Archdruid Devyric",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Earthen Root Enclave",
+    "dlc_required": "Lost Depths",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a fully-charged Heavy Attack, you have a 50% chance to call down a bolt of primal energy that deals Magic Damage and applies Primal Charge to you and up to 3 allies within 15 meters for 20 seconds, increasing their Weapon and Spell Damage by 225.",
+        "proc_condition": "fully_charged_heavy_attack",
+        "proc_chance": 0.50,
+        "buff_granted": "Primal Charge",
+        "buff_value": 225,
+        "damage_type": "Magic",
+        "base_damage": 6958,
+        "duration_sec": 20,
+        "cooldown_sec": 20,
+        "max_targets": 4,
+        "radius_m": 15
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.65,
+      "buff_uptime": 0.70,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "group_utility": 0.75
+    },
+    "tags": "damage|support|group-buff|heavy-attack|nature",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/archdruid-devyric"
+  },
+  {
+    "set_id": "SET_MONSTER_OZEZAN_THE_INFERNO",
+    "name": "Ozezan the Inferno",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Scrivener's Hall",
+    "dlc_required": "Scribes of Fate",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a damage over time effect, you have a 10% chance to hurl an ink ball at your enemy that explodes for Flame Damage and leaves a pool of ink for 6 seconds that deals additional Flame Damage every 1 second to enemies within 4 meters.",
+        "proc_condition": "dot_damage",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "damage_type": "Flame",
+        "base_damage": 5200,
+        "dot_damage": 1733,
+        "duration_sec": 6,
+        "cooldown_sec": 6,
+        "radius_m": 4
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|dot|aoe|ink|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ozezan-the-inferno"
+  },
+  {
+    "set_id": "SET_MONSTER_ROKSA_THE_WARPED",
+    "name": "Roksa the Warped",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Bedlam Veil",
+    "dlc_required": "Scions of Ithelia",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, summon a crystal that fires at your enemy after 2 seconds, dealing Physical Damage. When the crystal is summoned, you gain Minor Force for 5 seconds, increasing your Critical Damage by 10%.",
+        "proc_condition": "light_heavy_attack",
+        "buff_granted": "Minor Force",
+        "damage_type": "Physical",
+        "base_damage": 7825,
+        "duration_sec": 5,
+        "cooldown_sec": 6
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.60,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|physical|crystal|crit|force",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/roksa-the-warped"
+  },
+  {
+    "set_id": "SET_MONSTER_EUPHOTIC_GATEKEEPER",
+    "name": "Euphotic Gatekeeper",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Graven Deep",
+    "dlc_required": "Lost Depths",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a damage over time effect, you have a 10% chance to open a portal to the void beneath your enemy, dealing Frost Damage over 4 seconds and pulling them toward the center.",
+        "proc_condition": "dot_damage",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "debuff_granted": "Pull",
+        "damage_type": "Frost",
+        "duration_sec": 4,
+        "cooldown_sec": 10,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "debuff_uptime": 0.40
+    },
+    "tags": "damage|frost|void|control|pull|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/euphotic-gatekeeper"
+  },
+  {
+    "set_id": "SET_MONSTER_SYMPHONY_OF_BLADES",
+    "name": "Symphony of Blades",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Depths of Malatar",
+    "dlc_required": "Wrathstone",
+    "bonuses": {
+      "1": {"stat": "Magicka Recovery", "value": 129},
+      "2": {
+        "effect": "When you heal an ally whose primary resource is under 50%, grant them Meridia's Favor for 6 seconds, restoring 570 of their primary resource every 1 second.",
+        "proc_condition": "heal_ally_resource_below_50",
+        "buff_granted": "Meridia's Favor",
+        "resource_restore": 570,
+        "restore_interval": 1,
+        "duration_sec": 6,
+        "cooldown_sec": 18,
+        "cooldown_type": "per_target"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.30,
+      "damage_taken": 0.0,
+      "resource_efficiency": 0.95,
+      "group_utility": 0.95
+    },
+    "tags": "support|sustain|resource|healer-meta|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/symphony-of-blades"
+  },
+  {
+    "set_id": "SET_MONSTER_SENTINEL_OF_RKUGAMZ",
+    "name": "Sentinel of Rkugamz",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Darkshade Caverns I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally, you have a 10% chance to summon a Dwemer spider that heals you and your allies within 5 meters and restores Stamina over 8 seconds.",
+        "proc_condition": "heal_ally",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "summon": "Dwemer Spider",
+        "heal_value": 1456,
+        "stamina_restore": 130,
+        "heal_interval": 1,
+        "duration_sec": 8,
+        "cooldown_sec": 15,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.70,
+      "damage_taken": 0.0,
+      "resource_efficiency": 0.60
+    },
+    "tags": "healing|stamina|sustain|summon|aoe",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sentinel-of-rkugamz"
+  },
+  {
+    "set_id": "SET_MONSTER_LORD_WARDEN",
+    "name": "Lord Warden",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Imperial City Prison",
+    "dlc_required": "Imperial City",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you take damage, you have a 50% chance to summon a shadow orb for 10 seconds that grants you and group members within 8 meters 5320 Physical and Spell Resistance.",
+        "proc_condition": "damage_taken",
+        "proc_chance": 0.50,
+        "buff_granted": "Physical and Spell Resistance",
+        "buff_value": 5320,
+        "summon": "Shadow Orb",
+        "duration_sec": 10,
+        "cooldown_sec": 10,
+        "radius_m": 8
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.80,
+      "healing_done": 0.0,
+      "damage_taken": 0.85,
+      "group_utility": 0.85
+    },
+    "tags": "tank|resistances|group-buff|tank-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lord-warden"
+  },
+  {
+    "set_id": "SET_MONSTER_SWARM_MOTHER",
+    "name": "Swarm Mother",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Spindleclutch I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you Block, you have a 15% chance to pull an enemy to you within 15 meters and deal Physical Damage and taunt them for 15 seconds.",
+        "proc_condition": "block",
+        "proc_chance": 0.15,
+        "buff_granted": null,
+        "effect_type": "Pull + Taunt",
+        "damage_type": "Physical",
+        "base_damage": 6000,
+        "taunt_duration": 15,
+        "cooldown_sec": 3,
+        "range_m": 15
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.75,
+      "debuff_uptime": 0.50
+    },
+    "tags": "tank|pull|taunt|control|add-management",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/swarm-mother"
+  },
+  {
+    "set_id": "SET_MONSTER_TREMORSCALE",
+    "name": "Tremorscale",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Volenfell",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you taunt an enemy, you cause a duneripper to burst from the ground beneath them after 1 second, dealing Physical Damage and reducing their Physical Resistance by 2395 for 8 seconds.",
+        "proc_condition": "taunt",
+        "buff_granted": null,
+        "debuff_granted": "Physical Resistance Reduction",
+        "debuff_value": 2395,
+        "damage_type": "Physical",
+        "base_damage": 10000,
+        "duration_sec": 8,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.80,
+      "debuff_uptime": 0.85
+    },
+    "tags": "tank|debuff|penetration|physical|dungeon-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/tremorscale"
+  },
+  {
+    "set_id": "SET_MONSTER_SCOURGE_HARVESTER",
+    "name": "Scourge Harvester",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Wayrest Sewers II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you take damage, you have a 6% chance to create a beam that steals 3000 Health over 4 seconds from up to 2 nearby enemies.",
+        "proc_condition": "damage_taken",
+        "proc_chance": 0.06,
+        "buff_granted": null,
+        "effect_type": "Life Steal",
+        "heal_value": 3000,
+        "duration_sec": 4,
+        "cooldown_sec": 4,
+        "max_targets": 2
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.50,
+      "damage_taken": 0.60
+    },
+    "tags": "tank|life-steal|sustain|self-heal",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/scourge-harvester"
+  },
+  {
+    "set_id": "SET_MONSTER_INFERNAL_GUARDIAN",
+    "name": "Infernal Guardian",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "City of Ash I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you activate a damage shield ability, you lob a mortar at the enemy dealing Flame Damage over 2 seconds within 5 meters.",
+        "proc_condition": "damage_shield_ability",
+        "buff_granted": null,
+        "damage_type": "Flame",
+        "base_damage": 8700,
+        "duration_sec": 2,
+        "cooldown_sec": 6,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.30
+    },
+    "tags": "damage|fire|shield|aoe|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/infernal-guardian"
+  },
+  {
+    "set_id": "SET_MONSTER_STONE_HUSK",
+    "name": "Stone Husk",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Frostvault",
+    "dlc_required": "Wrathstone",
+    "bonuses": {
+      "1": {"stat": "Max Health", "value": 1206},
+      "2": {
+        "effect": "When you are hit with a heavy attack, you gain 9966 Physical and Spell Resistance for 6 seconds and heal for 7000 Health.",
+        "proc_condition": "hit_by_heavy_attack",
+        "buff_granted": "Physical and Spell Resistance",
+        "buff_value": 9966,
+        "heal_value": 7000,
+        "duration_sec": 6,
+        "cooldown_sec": 6
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.40,
+      "healing_done": 0.30,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|resistances|self-heal|heavy-attack-counter",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stone-husk"
+  },
+  {
+    "set_id": "SET_MONSTER_ENCRATISS_BEHEMOTH",
+    "name": "Encratis's Behemoth",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Black Drake Villa",
+    "dlc_required": "Flames of Ambition",
+    "bonuses": {
+      "1": {"stat": "Magicka Recovery", "value": 129},
+      "2": {
+        "effect": "When you deal Flame Damage, you create a ring of fire for 10 seconds. You and your group members standing inside the ring gain Minor Sorcery (10% Spell Damage) and enemies take Flame Damage every 1 second. You can have up to 3 rings active at a time.",
+        "proc_condition": "flame_damage",
+        "buff_granted": "Minor Sorcery",
+        "damage_type": "Flame",
+        "dot_damage": 800,
+        "duration_sec": 10,
+        "cooldown_sec": 10,
+        "max_rings": 3
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.85,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "group_utility": 0.85
+    },
+    "tags": "support|fire|group-buff|sorcery|healer-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/encratiss-behemoth"
+  },
+  {
+    "set_id": "SET_MONSTER_HAVEN_OF_URSUS",
+    "name": "Haven of Ursus",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Moongrave Fane",
+    "dlc_required": "Scalebreaker",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally, you have a 50% chance to manifest the Haven of Ursus for 8 seconds. Up to 2 allies in the haven are healed for Health every 2 seconds. You can only have one haven active at a time.",
+        "proc_condition": "heal_ally",
+        "proc_chance": 0.50,
+        "buff_granted": null,
+        "summon": "Haven of Ursus",
+        "heal_value": 3250,
+        "heal_interval": 2,
+        "max_targets": 2,
+        "duration_sec": 8,
+        "cooldown_sec": 12
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.80,
+      "damage_taken": 0.0
+    },
+    "tags": "healing|aoe|summon|bear|smart-heal",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/haven-of-ursus"
+  },
+  {
+    "set_id": "SET_MONSTER_NERIENETHS_LICH_CRYSTAL",
+    "name": "Lich Crystal",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Crypt of Hearts I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Magicka Recovery", "value": 129},
+      "2": {
+        "effect": "When you use an ability that costs Magicka while in combat, you have a 15% chance to generate 3 lich crystals around you. Activating the synergy will consume the crystals and restore 3960 Magicka.",
+        "proc_condition": "magicka_ability_cast",
+        "proc_chance": 0.15,
+        "buff_granted": null,
+        "synergy": "Soul Leech",
+        "resource_restore": 3960,
+        "resource_type": "Magicka",
+        "crystal_count": 3,
+        "duration_sec": 20,
+        "cooldown_sec": 20
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "resource_efficiency": 0.85
+    },
+    "tags": "sustain|magicka|synergy|recovery",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lich"
+  }
+]

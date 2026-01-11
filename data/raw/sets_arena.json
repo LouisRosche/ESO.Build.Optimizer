@@ -1,0 +1,1840 @@
+[
+  {
+    "set_id": "SET_ARENA_MAELSTROM_BOW",
+    "name": "Thunderous Volley",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Volley and its morphs deal additional damage over time to the initial target.",
+        "skill_enhanced": "Volley|Endless Hail|Arrow Barrage",
+        "skill_line": "Bow",
+        "damage_type": "Physical",
+        "bonus_type": "flat_damage"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.98,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|dot|aoe|ranged|stamina-dps|meta|backbar",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/thunderous-volley"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_BOW_PERFECTED",
+    "name": "Perfected Thunderous Volley",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Volley and its morphs deal additional damage over time to the initial target. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Volley|Endless Hail|Arrow Barrage",
+        "skill_line": "Bow",
+        "damage_type": "Physical",
+        "bonus_type": "flat_damage",
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.99,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|dot|aoe|ranged|stamina-dps|meta|backbar|perfected|bis",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-thunderous-volley"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_INFERNO",
+    "name": "Crushing Wall",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Flame",
+        "bonus_type": "flat_damage"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.98,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|dot|aoe|magicka-dps|meta|backbar|flame",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_INFERNO_PERFECTED",
+    "name": "Perfected Crushing Wall",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Flame",
+        "bonus_type": "flat_damage",
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.99,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|dot|aoe|magicka-dps|meta|backbar|flame|perfected|bis",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_LIGHTNING",
+    "name": "Crushing Wall (Lightning)",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "bonus_type": "flat_damage"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.15,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|dot|aoe|magicka-dps|backbar|shock|off-balance",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_LIGHTNING_PERFECTED",
+    "name": "Perfected Crushing Wall (Lightning)",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "bonus_type": "flat_damage",
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.92,
+      "buff_uptime": 0.15,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|dot|aoe|magicka-dps|backbar|shock|off-balance|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_ICE",
+    "name": "Crushing Wall (Ice)",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area. Ice version restores resources when enemies are in the wall.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "bonus_type": "flat_damage_and_sustain"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.20,
+      "healing_done": 0.0,
+      "damage_taken": 0.60
+    },
+    "tags": "tank|destruction-staff|dot|aoe|sustain|backbar|frost",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_ICE_PERFECTED",
+    "name": "Perfected Crushing Wall (Ice)",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Wall of Elements and its morphs deal additional damage to enemies in the area. Ice version restores resources when enemies are in the wall. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Wall of Elements|Unstable Wall of Elements|Elemental Blockade",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "bonus_type": "flat_damage_and_sustain",
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.45,
+      "buff_uptime": 0.20,
+      "healing_done": 0.0,
+      "damage_taken": 0.60
+    },
+    "tags": "tank|destruction-staff|dot|aoe|sustain|backbar|frost|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-crushing-wall"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_RESTORATION",
+    "name": "Precise Regeneration",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Regeneration and its morphs heal for additional amount and have a chance to apply Minor Force to the target for 3 seconds, increasing Critical Damage by 10%.",
+        "skill_enhanced": "Regeneration|Rapid Regeneration|Radiating Regeneration",
+        "skill_line": "Restoration Staff",
+        "healing_bonus": true,
+        "buff_granted": "Minor Force",
+        "buff_duration_sec": 3,
+        "proc_chance": 0.15
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.40,
+      "healing_done": 0.80,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|heal-over-time|minor-force|support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/precise-regeneration"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_RESTORATION_PERFECTED",
+    "name": "Perfected Precise Regeneration",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Regeneration and its morphs heal for additional amount and have a chance to apply Minor Force to the target for 3 seconds. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Regeneration|Rapid Regeneration|Radiating Regeneration",
+        "skill_line": "Restoration Staff",
+        "healing_bonus": true,
+        "buff_granted": "Minor Force",
+        "buff_duration_sec": 3,
+        "proc_chance": 0.15,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.45,
+      "healing_done": 0.85,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|heal-over-time|minor-force|support|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-precise-regeneration"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_GREATSWORD",
+    "name": "Merciless Charge",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Executioner and its morphs deal increased damage and grant you a damage shield for 6 seconds equal to the damage dealt.",
+        "skill_enhanced": "Executioner|Reverse Slash|Executioner",
+        "skill_line": "Two-Handed",
+        "damage_bonus_percent": 50,
+        "shield_duration_sec": 6
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.15
+    },
+    "tags": "damage|two-handed|execute|shield|stamina-dps|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/merciless-charge"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_GREATSWORD_PERFECTED",
+    "name": "Perfected Merciless Charge",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Executioner and its morphs deal increased damage and grant you a damage shield for 6 seconds equal to the damage dealt. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Executioner|Reverse Slash|Executioner",
+        "skill_line": "Two-Handed",
+        "damage_bonus_percent": 50,
+        "shield_duration_sec": 6,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.15
+    },
+    "tags": "damage|two-handed|execute|shield|stamina-dps|survivability|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-merciless-charge"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_SWORD_SHIELD",
+    "name": "Rampaging Slash",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Power Bash and its morphs deal additional damage and heal you based on damage dealt.",
+        "skill_enhanced": "Power Bash|Reverberating Bash|Power Slam",
+        "skill_line": "One Hand and Shield",
+        "damage_bonus": true,
+        "healing_percent": 0.60
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.20,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|one-hand-and-shield|bash|self-heal|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/rampaging-slash"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_SWORD_SHIELD_PERFECTED",
+    "name": "Perfected Rampaging Slash",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Power Bash and its morphs deal additional damage and heal you based on damage dealt. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Power Bash|Reverberating Bash|Power Slam",
+        "skill_line": "One Hand and Shield",
+        "damage_bonus": true,
+        "healing_percent": 0.60,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.35,
+      "buff_uptime": 0.0,
+      "healing_done": 0.25,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|one-hand-and-shield|bash|self-heal|sustain|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-rampaging-slash"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_DUAL_WIELD",
+    "name": "Cruel Flurry",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Whirlwind and its morphs deal additional damage and have a chance to reduce the cost of your next ability cast within 5 seconds by 50%.",
+        "skill_enhanced": "Whirlwind|Whirling Blades|Steel Tornado",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "cost_reduction_percent": 50,
+        "proc_duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dual-wield|aoe|execute|stamina-dps|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/cruel-flurry"
+  },
+  {
+    "set_id": "SET_ARENA_MAELSTROM_DUAL_WIELD_PERFECTED",
+    "name": "Perfected Cruel Flurry",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Maelstrom Arena",
+    "dlc_required": "Orsinium",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Whirlwind and its morphs deal additional damage and have a chance to reduce the cost of your next ability cast within 5 seconds by 50%. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Whirlwind|Whirling Blades|Steel Tornado",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "cost_reduction_percent": 50,
+        "proc_duration_sec": 5,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dual-wield|aoe|execute|stamina-dps|sustain|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-cruel-flurry"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_BOW",
+    "name": "Frenzied Momentum",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Arrow Spray and its morphs deal additional damage. Enemies damaged by Arrow Spray are afflicted with Minor Breach for 10 seconds, reducing their Physical and Spell Resistance by 2974.",
+        "skill_enhanced": "Arrow Spray|Bombard|Acid Spray",
+        "skill_line": "Bow",
+        "damage_bonus": true,
+        "debuff_applied": "Minor Breach",
+        "debuff_duration_sec": 10,
+        "resistance_reduction": 2974
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|aoe|minor-breach|debuff|stamina-dps",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/frenzied-momentum"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_BOW_PERFECTED",
+    "name": "Perfected Frenzied Momentum",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Arrow Spray and its morphs deal additional damage. Enemies damaged are afflicted with Minor Breach for 10 seconds. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Arrow Spray|Bombard|Acid Spray",
+        "skill_line": "Bow",
+        "damage_bonus": true,
+        "debuff_applied": "Minor Breach",
+        "debuff_duration_sec": 10,
+        "resistance_reduction": 2974,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|aoe|minor-breach|debuff|stamina-dps|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-frenzied-momentum"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_INFERNO",
+    "name": "Scorching Glare",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Destructive Reach and its morphs deal additional damage. Targets hit by Destructive Reach are afflicted with Major Breach for 5 seconds, reducing Physical and Spell Resistance by 5948.",
+        "skill_enhanced": "Destructive Reach|Destructive Clench|Destructive Touch",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Flame",
+        "damage_bonus": true,
+        "debuff_applied": "Major Breach",
+        "debuff_duration_sec": 5,
+        "resistance_reduction": 5948
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.40,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|ranged|major-breach|debuff|magicka-dps|flame",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/scorching-glare"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_INFERNO_PERFECTED",
+    "name": "Perfected Scorching Glare",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Destructive Reach and its morphs deal additional damage. Targets hit are afflicted with Major Breach for 5 seconds. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Destructive Reach|Destructive Clench|Destructive Touch",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Flame",
+        "damage_bonus": true,
+        "debuff_applied": "Major Breach",
+        "debuff_duration_sec": 5,
+        "resistance_reduction": 5948,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.40,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|ranged|major-breach|debuff|magicka-dps|flame|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-scorching-glare"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_LIGHTNING",
+    "name": "Disciplined Slash",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Force Shock and its morphs deal additional damage. Successful Light Attacks grant you a stack of Disciplined Shock, increasing your damage done by 1% per stack, up to 5 stacks. Heavy Attacks consume stacks and deal additional damage per stack.",
+        "skill_enhanced": "Force Shock|Crushing Shock|Force Pulse",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "damage_bonus_per_stack_percent": 1,
+        "max_stacks": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|single-target|shock|magicka-dps|stacking|frontbar",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/disciplined-slash"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_LIGHTNING_PERFECTED",
+    "name": "Perfected Disciplined Slash",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Force Shock and its morphs deal additional damage. Light Attacks grant Disciplined Shock stacks (1% damage per stack, 5 max). Heavy Attacks consume and deal bonus damage per stack. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Force Shock|Crushing Shock|Force Pulse",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "damage_bonus_per_stack_percent": 1,
+        "max_stacks": 5,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.92,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|single-target|shock|magicka-dps|stacking|frontbar|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-disciplined-slash"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_ICE",
+    "name": "Winter's Respite",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Frost abilities deal additional damage and restore Health, Magicka, and Stamina when damaging an enemy. 1 second cooldown.",
+        "skill_enhanced": "Frost abilities (Wall of Elements, Destructive Reach, etc.)",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "damage_bonus": true,
+        "resource_restore": true,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.20,
+      "healing_done": 0.30,
+      "damage_taken": 0.50
+    },
+    "tags": "tank|destruction-staff|frost|sustain|self-heal|resource-management",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/winters-respite"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_ICE_PERFECTED",
+    "name": "Perfected Winter's Respite",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Frost abilities deal additional damage and restore Health, Magicka, and Stamina when damaging an enemy. 1 second cooldown. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Frost abilities (Wall of Elements, Destructive Reach, etc.)",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "damage_bonus": true,
+        "resource_restore": true,
+        "cooldown_sec": 1,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.45,
+      "buff_uptime": 0.20,
+      "healing_done": 0.35,
+      "damage_taken": 0.50
+    },
+    "tags": "tank|destruction-staff|frost|sustain|self-heal|resource-management|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-winters-respite"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_RESTORATION",
+    "name": "Concentrated Force",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Grand Healing and its morphs heal for additional amount. Allies standing in Grand Healing gain Minor Courage for 3 seconds, increasing Weapon and Spell Damage by 215.",
+        "skill_enhanced": "Grand Healing|Healing Springs|Illustrious Healing",
+        "skill_line": "Restoration Staff",
+        "healing_bonus": true,
+        "buff_granted": "Minor Courage",
+        "buff_value": 215,
+        "buff_duration_sec": 3
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.50,
+      "healing_done": 0.80,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|ground-heal|minor-courage|support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/concentrated-force"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_RESTORATION_PERFECTED",
+    "name": "Perfected Concentrated Force",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Grand Healing and its morphs heal for additional amount. Allies standing in Grand Healing gain Minor Courage for 3 seconds. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Grand Healing|Healing Springs|Illustrious Healing",
+        "skill_line": "Restoration Staff",
+        "healing_bonus": true,
+        "buff_granted": "Minor Courage",
+        "buff_value": 215,
+        "buff_duration_sec": 3,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.55,
+      "healing_done": 0.85,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|ground-heal|minor-courage|support|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-concentrated-force"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_2H",
+    "name": "Wrath of Elements",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Stampede and its morphs deal additional damage. Casting Stampede grants Major Expedition for 6 seconds, increasing Movement Speed by 30%.",
+        "skill_enhanced": "Stampede|Stampede (morph 1)|Stampede (morph 2)",
+        "skill_line": "Two-Handed",
+        "damage_bonus": true,
+        "buff_granted": "Major Expedition",
+        "buff_duration_sec": 6,
+        "movement_speed_bonus_percent": 30
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.15,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|two-handed|gap-closer|dot|aoe|stamina-dps|mobility",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/wrath-of-elements"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_2H_PERFECTED",
+    "name": "Perfected Wrath of Elements",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Stampede and its morphs deal additional damage. Casting Stampede grants Major Expedition for 6 seconds. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Stampede|Stampede (morph 1)|Stampede (morph 2)",
+        "skill_line": "Two-Handed",
+        "damage_bonus": true,
+        "buff_granted": "Major Expedition",
+        "buff_duration_sec": 6,
+        "movement_speed_bonus_percent": 30,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.88,
+      "buff_uptime": 0.15,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|two-handed|gap-closer|dot|aoe|stamina-dps|mobility|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-wrath-of-elements"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_SWORD_SHIELD",
+    "name": "Puncturing Remedy",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Defensive Posture and its morphs absorb additional damage. When Defensive Posture expires or is recast, you heal for the remaining shield amount.",
+        "skill_enhanced": "Defensive Posture|Defensive Stance|Absorb Missile",
+        "skill_line": "One Hand and Shield",
+        "shield_bonus": true,
+        "heal_on_expire": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.20,
+      "healing_done": 0.30,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|one-hand-and-shield|shield|self-heal|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/puncturing-remedy"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_SWORD_SHIELD_PERFECTED",
+    "name": "Perfected Puncturing Remedy",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Defensive Posture and its morphs absorb additional damage. When Defensive Posture expires or is recast, you heal for the remaining shield amount. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Defensive Posture|Defensive Stance|Absorb Missile",
+        "skill_line": "One Hand and Shield",
+        "shield_bonus": true,
+        "heal_on_expire": true,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.15,
+      "buff_uptime": 0.20,
+      "healing_done": 0.35,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|one-hand-and-shield|shield|self-heal|survivability|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-puncturing-remedy"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_DUAL_WIELD",
+    "name": "Executioner's Blade",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Normal",
+    "bonuses": {
+      "1": {
+        "effect": "Rapid Strikes and its morphs deal additional damage. Rapid Strikes final hit deals 100% more damage to enemies below 50% Health.",
+        "skill_enhanced": "Rapid Strikes|Bloodthirst|Shrouded Daggers",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "execute_threshold_percent": 50,
+        "execute_bonus_percent": 100
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dual-wield|single-target|execute|stamina-dps|frontbar",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/executioners-blade"
+  },
+  {
+    "set_id": "SET_ARENA_VATESHRAN_DUAL_WIELD_PERFECTED",
+    "name": "Perfected Executioner's Blade",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Vateshran Hollows",
+    "dlc_required": "Markarth",
+    "difficulty": "Veteran",
+    "bonuses": {
+      "1": {
+        "effect": "Rapid Strikes and its morphs deal additional damage. Rapid Strikes final hit deals 100% more damage to enemies below 50% Health. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Rapid Strikes|Bloodthirst|Shrouded Daggers",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "execute_threshold_percent": 50,
+        "execute_bonus_percent": 100,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.92,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dual-wield|single-target|execute|stamina-dps|frontbar|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-executioners-blade"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_BOW",
+    "name": "Caustic Arrow",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Poison Arrow and its morphs deal additional damage over time and enemies hit take increased Poison damage from all sources for the duration.",
+        "skill_enhanced": "Poison Arrow|Venom Arrow|Poison Injection",
+        "skill_line": "Bow",
+        "damage_type": "Poison",
+        "damage_bonus": true,
+        "debuff_applied": "Increased Poison Damage Taken"
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.20,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|poison|dot|debuff|stamina-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/caustic-arrow"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_INFERNO",
+    "name": "Destructive Impact",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Impulse and its morphs deal additional damage and cost is reduced by 15%.",
+        "skill_enhanced": "Impulse|Pulsar|Elemental Ring",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Flame",
+        "damage_bonus": true,
+        "cost_reduction_percent": 15
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|aoe|flame|magicka-dps|group-arena|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/destructive-impact"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_LIGHTNING",
+    "name": "Destructive Impact (Lightning)",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Impulse and its morphs deal additional damage and cost is reduced by 15%.",
+        "skill_enhanced": "Impulse|Pulsar|Elemental Ring",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "damage_bonus": true,
+        "cost_reduction_percent": 15
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|aoe|shock|magicka-dps|group-arena|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/destructive-impact"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_RESTORATION",
+    "name": "Restorative Wand",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Blessing of Protection and its morphs heal for additional amount and grant additional resource recovery to targets.",
+        "skill_enhanced": "Blessing of Protection|Combat Prayer|Blessing of Restoration",
+        "skill_line": "Restoration Staff",
+        "healing_bonus": true,
+        "resource_recovery_bonus": true
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.40,
+      "healing_done": 0.75,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|heal|sustain|support|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/restorative-wand"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_2H",
+    "name": "Titanic Cleave",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Cleave and its morphs deal additional damage and execute enemies below 25% Health for bonus damage.",
+        "skill_enhanced": "Cleave|Brawler|Carve",
+        "skill_line": "Two-Handed",
+        "damage_bonus": true,
+        "execute_threshold_percent": 25
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.10
+    },
+    "tags": "damage|two-handed|aoe|execute|stamina-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/titanic-cleave"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_SWORD_SHIELD",
+    "name": "Stinging Slashes",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Low Slash and its morphs deal additional damage and apply Minor Maim to enemies hit, reducing their damage done by 5%.",
+        "skill_enhanced": "Low Slash|Deep Slash|Heroic Slash",
+        "skill_line": "One Hand and Shield",
+        "damage_bonus": true,
+        "debuff_applied": "Minor Maim",
+        "debuff_effect": "5% reduced damage done"
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.40,
+      "healing_done": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|one-hand-and-shield|debuff|minor-maim|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stinging-slashes"
+  },
+  {
+    "set_id": "SET_ARENA_DRAGONSTAR_DUAL_WIELD",
+    "name": "Razor Caltrops",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dragonstar Arena",
+    "dlc_required": "Base Game (Craglorn)",
+    "difficulty": "Normal/Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Twin Slashes and its morphs deal additional damage and heal you based on damage dealt.",
+        "skill_enhanced": "Twin Slashes|Rending Slashes|Blood Craze",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "healing_on_damage": true
+      }
+    },
+    "pve_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.15,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dual-wield|dot|self-heal|stamina-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/razor-caltrops"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_BOW",
+    "name": "Sniper's Stalk",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Poison Arrow and its morphs deal additional damage. After dealing damage with Poison Arrow, your next Light Attack within 5 seconds deals 100% more damage.",
+        "skill_enhanced": "Poison Arrow|Venom Arrow|Poison Injection",
+        "skill_line": "Bow",
+        "damage_type": "Poison",
+        "damage_bonus": true,
+        "next_light_attack_bonus_percent": 100,
+        "proc_duration_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|poison|execute|light-attack|stamina-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/snipers-stalk"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_BOW_PERFECTED",
+    "name": "Perfected Sniper's Stalk",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Bow",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Poison Arrow and its morphs deal additional damage. After dealing damage with Poison Arrow, your next Light Attack within 5 seconds deals 100% more damage. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Poison Arrow|Venom Arrow|Poison Injection",
+        "skill_line": "Bow",
+        "damage_type": "Poison",
+        "damage_bonus": true,
+        "next_light_attack_bonus_percent": 100,
+        "proc_duration_sec": 5,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.88,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|poison|execute|light-attack|stamina-dps|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-snipers-stalk"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_DUAL_WIELD",
+    "name": "Spectral Cloak",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Blade Cloak and its morphs deal additional damage and grant Major Evasion for 2 additional seconds, reducing damage from area attacks by 20%.",
+        "skill_enhanced": "Blade Cloak|Quick Cloak|Deadly Cloak",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "buff_granted": "Major Evasion",
+        "buff_extension_sec": 2,
+        "aoe_damage_reduction_percent": 20
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.25,
+      "healing_done": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "damage|dual-wield|aoe|survivability|major-evasion|stamina-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spectral-cloak"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_DUAL_WIELD_PERFECTED",
+    "name": "Perfected Spectral Cloak",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Dual Wield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Blade Cloak and its morphs deal additional damage and grant Major Evasion for 2 additional seconds. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Blade Cloak|Quick Cloak|Deadly Cloak",
+        "skill_line": "Dual Wield",
+        "damage_bonus": true,
+        "buff_granted": "Major Evasion",
+        "buff_extension_sec": 2,
+        "aoe_damage_reduction_percent": 20,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.25,
+      "healing_done": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "damage|dual-wield|aoe|survivability|major-evasion|stamina-dps|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-spectral-cloak"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_2H",
+    "name": "Virulent Shot",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Brawler grants a damage shield and deals additional damage. Each enemy hit by Brawler increases the damage shield strength by 50%.",
+        "skill_enhanced": "Cleave|Brawler|Carve",
+        "skill_line": "Two-Handed",
+        "damage_bonus": true,
+        "shield_bonus_per_enemy_percent": 50
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.40
+    },
+    "tags": "damage|two-handed|aoe|shield|survivability|stamina-dps|group-arena|trash-clear",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/virulent-shot"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_2H_PERFECTED",
+    "name": "Perfected Virulent Shot",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Two-Handed (Greatsword/Battleaxe/Maul)",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Brawler grants a damage shield and deals additional damage. Each enemy hit increases the damage shield strength by 50%. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Cleave|Brawler|Carve",
+        "skill_line": "Two-Handed",
+        "damage_bonus": true,
+        "shield_bonus_per_enemy_percent": 50,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.40
+    },
+    "tags": "damage|two-handed|aoe|shield|survivability|stamina-dps|group-arena|trash-clear|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-virulent-shot"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_RESTORATION",
+    "name": "Mender's Ward",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Steadfast Ward and its morphs absorb additional damage. When Steadfast Ward is removed, it heals the target and up to 5 allies within 10 meters for the remaining shield amount.",
+        "skill_enhanced": "Steadfast Ward|Ward Ally|Healing Ward",
+        "skill_line": "Restoration Staff",
+        "shield_bonus": true,
+        "heal_on_removal": true,
+        "group_heal_range_m": 10,
+        "group_heal_targets": 6
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.20,
+      "healing_done": 0.90,
+      "damage_taken": 0.10
+    },
+    "tags": "healer|restoration-staff|shield|group-heal|support|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/menders-ward"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_RESTORATION_PERFECTED",
+    "name": "Perfected Mender's Ward",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Restoration Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Steadfast Ward and its morphs absorb additional damage. When Steadfast Ward is removed, it heals the target and up to 5 allies within 10 meters. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Steadfast Ward|Ward Ally|Healing Ward",
+        "skill_line": "Restoration Staff",
+        "shield_bonus": true,
+        "heal_on_removal": true,
+        "group_heal_range_m": 10,
+        "group_heal_targets": 6,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.20,
+      "healing_done": 0.92,
+      "damage_taken": 0.10
+    },
+    "tags": "healer|restoration-staff|shield|group-heal|support|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-menders-ward"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_SWORD_SHIELD",
+    "name": "Radial Uppercut",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Shield Charge and its morphs deal additional damage. Successfully stunning an enemy with Shield Charge grants you Major Protection for 5 seconds, reducing damage taken by 10%.",
+        "skill_enhanced": "Shield Charge|Invasion|Shielded Assault",
+        "skill_line": "One Hand and Shield",
+        "damage_bonus": true,
+        "buff_granted": "Major Protection",
+        "buff_duration_sec": 5,
+        "damage_reduction_percent": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|one-hand-and-shield|gap-closer|stun|major-protection|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/radial-uppercut"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_SWORD_SHIELD_PERFECTED",
+    "name": "Perfected Radial Uppercut",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "One Hand and Shield",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Shield Charge and its morphs deal additional damage. Successfully stunning an enemy grants Major Protection for 5 seconds. Adds Weapon Damage bonus.",
+        "skill_enhanced": "Shield Charge|Invasion|Shielded Assault",
+        "skill_line": "One Hand and Shield",
+        "damage_bonus": true,
+        "buff_granted": "Major Protection",
+        "buff_duration_sec": 5,
+        "damage_reduction_percent": 10,
+        "weapon_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.35,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|one-hand-and-shield|gap-closer|stun|major-protection|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-radial-uppercut"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_INFERNO",
+    "name": "Elemental Succession",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Force Shock and its morphs deal additional damage. Dealing Flame, Frost, or Shock Damage grants you a stack of Elemental Succession, increasing damage of your next spell of a different element by 5% per stack, up to 3 stacks.",
+        "skill_enhanced": "Force Shock|Crushing Shock|Force Pulse",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Multi-element",
+        "damage_bonus_per_stack_percent": 5,
+        "max_stacks": 3
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|multi-element|stacking|magicka-dps|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/elemental-succession"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_INFERNO_PERFECTED",
+    "name": "Perfected Elemental Succession",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Inferno Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Force Shock and its morphs deal additional damage. Dealing elemental damage grants Elemental Succession stacks (5% damage per stack, 3 max) for different elements. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Force Shock|Crushing Shock|Force Pulse",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Multi-element",
+        "damage_bonus_per_stack_percent": 5,
+        "max_stacks": 3,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|multi-element|stacking|magicka-dps|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-elemental-succession"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_ICE",
+    "name": "Glacial Wall",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Frost abilities deal additional damage. Blocking an attack while wielding an Ice Staff grants you and nearby allies a damage shield for 6 seconds, absorbing damage based on your Max Health.",
+        "skill_enhanced": "Frost Staff abilities",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "damage_bonus": true,
+        "shield_on_block": true,
+        "shield_duration_sec": 6
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.25,
+      "healing_done": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|destruction-staff|frost|block|shield|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/glacial-wall"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_ICE_PERFECTED",
+    "name": "Perfected Glacial Wall",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Ice Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Frost abilities deal additional damage. Blocking an attack grants you and nearby allies a damage shield for 6 seconds. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Frost Staff abilities",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Frost",
+        "damage_bonus": true,
+        "shield_on_block": true,
+        "shield_duration_sec": 6,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.35,
+      "buff_uptime": 0.25,
+      "healing_done": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|destruction-staff|frost|block|shield|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-glacial-wall"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_LIGHTNING",
+    "name": "Torrent of Lightning",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Normal",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Lightning abilities deal additional damage. Heavy Attacks with Lightning Staff restore additional Magicka and bounce to 2 additional enemies.",
+        "skill_enhanced": "Lightning Staff abilities",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "damage_bonus": true,
+        "heavy_attack_bonus": true,
+        "additional_chain_targets": 2
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|shock|heavy-attack|sustain|aoe|group-arena",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/torrent-of-lightning"
+  },
+  {
+    "set_id": "SET_ARENA_BLACKROSE_LIGHTNING_PERFECTED",
+    "name": "Perfected Torrent of Lightning",
+    "set_type": "Arena",
+    "weight": "Weapon",
+    "weapon_type": "Lightning Staff",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Veteran Blackrose Prison",
+    "dlc_required": "Murkmire",
+    "difficulty": "Veteran",
+    "group_content": true,
+    "bonuses": {
+      "1": {
+        "effect": "Lightning abilities deal additional damage. Heavy Attacks restore additional Magicka and bounce to 2 additional enemies. Adds Weapon and Spell Damage bonus.",
+        "skill_enhanced": "Lightning Staff abilities",
+        "skill_line": "Destruction Staff",
+        "damage_type": "Shock",
+        "damage_bonus": true,
+        "heavy_attack_bonus": true,
+        "additional_chain_targets": 2,
+        "spell_damage_bonus": 189,
+        "perfected": true
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|destruction-staff|shock|heavy-attack|sustain|aoe|group-arena|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/perfected-torrent-of-lightning"
+  }
+]
