@@ -1,0 +1,60 @@
+# Render Blueprint for ESO Build Optimizer Backend
+# Deploy via: https://render.com/docs/blueprint-spec
+# Free tier: 750 hours/month, spins down after 15 min inactivity
+
+services:
+  # FastAPI Backend Service
+  - type: web
+    name: eso-build-optimizer-api
+    runtime: python
+    region: oregon  # or: ohio, frankfurt, singapore
+    plan: free
+    branch: main
+
+    # Build configuration
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+
+    # Health check
+    healthCheckPath: /health
+
+    # Environment variables
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: DATABASE_URL
+        sync: false  # Set manually in Render dashboard
+      - key: JWT_SECRET_KEY
+        generateValue: true  # Render generates a secure random value
+      - key: ALLOWED_ORIGINS
+        sync: false  # Set to your Vercel frontend URL
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: RATE_LIMIT_REQUESTS_PER_MINUTE
+        value: 60
+      - key: RATE_LIMIT_REQUESTS_PER_DAY
+        value: 10000
+
+    # Auto-deploy on push
+    autoDeploy: true
+
+    # Free tier disk (optional, for caching)
+    # disk:
+    #   name: api-cache
+    #   mountPath: /var/cache
+    #   sizeGB: 1
+
+# Optional: Render PostgreSQL (alternative to Neon)
+# Uncomment if you prefer Render's managed Postgres
+# databases:
+#   - name: eso-optimizer-db
+#     plan: free  # 90-day limit on free tier
+#     region: oregon
+#     postgresMajorVersion: 15
+#     ipAllowList: []  # Allow all IPs (or specify Render service IPs)
+
+# Preview environments for PRs (requires paid plan)
+# previewsEnabled: true
+# previewsExpireAfterDays: 7

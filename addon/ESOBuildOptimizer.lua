@@ -26,6 +26,7 @@ addon.author = "ESO Build Optimizer Team"
 addon.CombatTracker = nil
 addon.BuildSnapshot = nil
 addon.MetricsUI = nil
+addon.SkillAdvisor = nil
 
 ---------------------------------------------------------------------------
 -- Default SavedVariables Structure
@@ -41,6 +42,14 @@ local defaultSavedVars = {
         uiScale = 1.0,
         uiLocked = false,
         uiPosition = { x = 100, y = 100 },
+
+        -- UI View Settings
+        expandedView = false,           -- Default collapsed (minimal view)
+        autoDisplayMetrics = true,      -- Opt-in default for auto-display during combat
+
+        -- Skill Advisor Settings
+        showSkillAdvisor = true,        -- Opt-in default for skill suggestions
+        skillHighlightEnabled = true,   -- Glow effect on recommended abilities
     },
 
     -- Combat run history (synced to companion app)
@@ -175,6 +184,10 @@ local function OnPlayerActivated(eventCode, initial)
         addon.MetricsUI:Initialize()
     end
 
+    if addon.SkillAdvisor then
+        addon.SkillAdvisor:Initialize()
+    end
+
     addon:Info("Ready - v%s", addon.version)
 end
 
@@ -225,12 +238,27 @@ local function OnActionSlotUpdated(eventCode, actionSlotIndex)
     if addon.BuildSnapshot and isPlayerActivated then
         addon.BuildSnapshot:OnActionBarChanged(actionSlotIndex)
     end
+
+    -- Notify SkillAdvisor of action bar changes
+    if addon.SkillAdvisor and isPlayerActivated then
+        addon.SkillAdvisor:OnActionBarChanged(actionSlotIndex)
+    end
 end
 
 -- Boss encounter detection via combat state
 local function OnPlayerCombatState(eventCode, inCombat)
     if addon.CombatTracker then
         addon.CombatTracker:OnCombatStateChanged(inCombat)
+    end
+
+    -- Notify SkillAdvisor of combat state
+    if addon.SkillAdvisor then
+        addon.SkillAdvisor:OnCombatStateChanged(inCombat)
+    end
+
+    -- Notify MetricsUI for auto-display
+    if addon.MetricsUI then
+        addon.MetricsUI:OnCombatStateChanged(inCombat)
     end
 end
 
@@ -323,6 +351,28 @@ end
 SLASH_COMMANDS["/ebo"] = function(args)
     if args == "toggle" or args == "" then
         addon:ToggleUI()
+    elseif args == "expand" then
+        if addon.MetricsUI then
+            addon.MetricsUI:ToggleExpanded()
+            addon:Info("UI %s", addon.MetricsUI:IsExpanded() and "expanded" or "collapsed")
+        end
+    elseif args == "advisor" then
+        if addon.SkillAdvisor then
+            local newState = not addon.SkillAdvisor:IsEnabled()
+            addon.SkillAdvisor:SetEnabled(newState)
+            addon:Info("Skill Advisor: %s", newState and "ON" or "OFF")
+        end
+    elseif args == "highlight" then
+        if addon.SkillAdvisor then
+            local newState = not addon.SkillAdvisor:IsHighlightEnabled()
+            addon.SkillAdvisor:SetHighlightEnabled(newState)
+            addon:Info("Skill Highlights: %s", newState and "ON" or "OFF")
+        end
+    elseif args == "auto" then
+        if addon.MetricsUI then
+            addon.MetricsUI:ToggleAutoDisplay()
+            addon:Info("Auto-display: %s", addon.MetricsUI:IsAutoDisplayEnabled() and "ON" or "OFF")
+        end
     elseif args == "debug" then
         addon.savedVars.settings.verboseLogging = not addon.savedVars.settings.verboseLogging
         addon:Info("Debug logging: %s", addon.savedVars.settings.verboseLogging and "ON" or "OFF")
@@ -334,7 +384,7 @@ SLASH_COMMANDS["/ebo"] = function(args)
     elseif args == "status" then
         addon:Info("Status: %s", addon.CombatTracker and addon.CombatTracker:GetStatus() or "Unknown")
     else
-        addon:Info("Commands: /ebo [toggle|debug|snapshot|status]")
+        addon:Info("Commands: /ebo [toggle|expand|advisor|highlight|auto|debug|snapshot|status]")
     end
 end
 
