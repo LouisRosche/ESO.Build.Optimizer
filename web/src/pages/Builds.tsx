@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { ArrowLeftRight, TrendingUp, AlertCircle, Search } from 'lucide-react';
 import clsx from 'clsx';
 import GearSetCard from '../components/GearSetCard';
@@ -12,10 +12,10 @@ export default function Builds() {
   const [selectedSets, setSelectedSets] = useState<GearSet[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredSets = mockGearSets.filter((set) =>
+  const filteredSets = useMemo(() => mockGearSets.filter((set) =>
     set.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     set.set_type.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ), [searchQuery]);
 
   const toggleSetSelection = (set: GearSet) => {
     if (selectedSets.find((s) => s.set_id === set.set_id)) {
@@ -30,16 +30,16 @@ export default function Builds() {
     if (!selectedCharacter || selectedSets.length === 0) return null;
 
     // Mock calculation based on set tiers
-    const tierMultipliers = { S: 1.12, A: 1.08, B: 1.04, C: 1.0, F: 0.95 };
+    const tierMultipliers: Record<string, number> = { S: 1.12, A: 1.08, B: 1.04, C: 1.0, F: 0.95 };
     const currentAvgTier = 'A'; // Assume current build is A-tier
-    const newAvgTier = selectedSets.reduce((best, set) => {
+    const tiers = ['S', 'A', 'B', 'C', 'F'];
+    const newAvgTier = selectedSets.reduce<string>((best, set) => {
       if (!set.pve_tier) return best;
-      const tiers = ['S', 'A', 'B', 'C', 'F'];
       return tiers.indexOf(set.pve_tier) < tiers.indexOf(best) ? set.pve_tier : best;
-    }, 'C' as const);
+    }, 'C');
 
-    const currentMultiplier = tierMultipliers[currentAvgTier as keyof typeof tierMultipliers];
-    const newMultiplier = tierMultipliers[newAvgTier as keyof typeof tierMultipliers];
+    const currentMultiplier = tierMultipliers[currentAvgTier] ?? 1.0;
+    const newMultiplier = tierMultipliers[newAvgTier] ?? 1.0;
     const baseDPS = selectedCharacter.average_dps;
     const expectedDPS = Math.round((baseDPS / currentMultiplier) * newMultiplier);
     const difference = expectedDPS - baseDPS;

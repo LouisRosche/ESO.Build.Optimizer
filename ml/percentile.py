@@ -23,7 +23,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from functools import lru_cache
-from typing import Any, Callable, Optional
+from collections import OrderedDict
+from typing import Any, Optional
 
 import numpy as np
 from scipy import stats
@@ -261,7 +262,7 @@ class SimilarityCriteria:
             "criteria": self.to_dict(),
         }
         key_str = json.dumps(key_data, sort_keys=True)
-        return hashlib.md5(key_str.encode()).hexdigest()
+        return hashlib.sha256(key_str.encode()).hexdigest()
 
 
 @dataclass
@@ -366,7 +367,7 @@ class PercentileCalculator:
         self.default_criteria = default_criteria or SimilarityCriteria()
         self.cache_ttl_seconds = cache_ttl_seconds
         self.max_cache_entries = max_cache_entries
-        self._cache: dict[str, PercentileCacheEntry] = {}
+        self._cache: OrderedDict[str, PercentileCacheEntry] = OrderedDict()
 
     def calculate_percentile(
         self,
@@ -621,8 +622,11 @@ class PercentileCalculator:
 
         weights_array = np.array(weights, dtype=np.float64)
 
-        # Normalize weights
-        weights_array = weights_array / weights_array.sum()
+        # Normalize weights (guard against division by zero)
+        weight_sum = weights_array.sum()
+        if weight_sum == 0:
+            return 0.0
+        weights_array = weights_array / weight_sum
 
         # Sort by values
         sorted_indices = np.argsort(values_array)
@@ -643,6 +647,11 @@ class PercentileCalculator:
         # Linear interpolation
         lower_weight = cumsum[idx - 1]
         upper_weight = cumsum[idx]
+
+        # Guard against division by zero when weights are equal
+        if upper_weight == lower_weight:
+            return float(sorted_values[idx])
+
         fraction = (percentile - lower_weight) / (upper_weight - lower_weight)
 
         return float(
@@ -896,6 +905,8 @@ class PercentileCalculator:
             return None
 
         entry.access()
+        # Move to end for LRU ordering (most recently used)
+        self._cache.move_to_end(cache_key)
         return entry
 
     def _cache_distribution(
@@ -934,14 +945,10 @@ class PercentileCalculator:
         for key in expired_keys:
             del self._cache[key]
 
-        # If still over limit, remove least recently used
+        # If still over limit, remove least recently used (O(1) with OrderedDict)
         while len(self._cache) >= self.max_cache_entries:
-            # Find least recently accessed entry
-            lru_key = min(
-                self._cache.keys(),
-                key=lambda k: self._cache[k].last_accessed
-            )
-            del self._cache[lru_key]
+            # Remove oldest entry (first item in OrderedDict is LRU)
+            self._cache.popitem(last=False)
 
     def _create_empty_result(
         self,

@@ -108,45 +108,6 @@ async def list_features(
 
 
 # =============================================================================
-# Get Single Feature
-# =============================================================================
-
-@router.get(
-    "/{feature_id}",
-    response_model=FeatureResponse,
-    responses={
-        200: {"description": "Feature details"},
-        401: {"description": "Not authenticated", "model": ErrorResponse},
-        404: {"description": "Feature not found", "model": ErrorResponse},
-    },
-    summary="Get feature details",
-    description="Get detailed information about a specific feature.",
-)
-async def get_feature(
-    feature_id: str,
-    current_user: CurrentUser,
-    db: Annotated[AsyncSession, Depends(get_db)],
-) -> FeatureResponse:
-    """
-    Get details of a specific feature by ID.
-
-    Returns complete information including effects, scaling, and unlock requirements.
-    """
-    result = await db.execute(
-        select(Feature).where(Feature.feature_id == feature_id)
-    )
-    feature = result.scalar_one_or_none()
-
-    if not feature:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Feature '{feature_id}' not found",
-        )
-
-    return FeatureResponse.model_validate(feature)
-
-
-# =============================================================================
 # List Gear Sets
 # =============================================================================
 
@@ -528,3 +489,45 @@ async def get_features_by_class(
         limit=len(features),
         offset=0,
     )
+
+
+# =============================================================================
+# Get Single Feature
+# =============================================================================
+# NOTE: This route MUST be defined AFTER all static routes like /sets, /updates,
+# /search, and /class/{class_name} to prevent those paths from being matched
+# as feature_id values.
+
+@router.get(
+    "/{feature_id}",
+    response_model=FeatureResponse,
+    responses={
+        200: {"description": "Feature details"},
+        401: {"description": "Not authenticated", "model": ErrorResponse},
+        404: {"description": "Feature not found", "model": ErrorResponse},
+    },
+    summary="Get feature details",
+    description="Get detailed information about a specific feature.",
+)
+async def get_feature(
+    feature_id: str,
+    current_user: CurrentUser,
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> FeatureResponse:
+    """
+    Get details of a specific feature by ID.
+
+    Returns complete information including effects, scaling, and unlock requirements.
+    """
+    result = await db.execute(
+        select(Feature).where(Feature.feature_id == feature_id)
+    )
+    feature = result.scalar_one_or_none()
+
+    if not feature:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Feature '{feature_id}' not found",
+        )
+
+    return FeatureResponse.model_validate(feature)

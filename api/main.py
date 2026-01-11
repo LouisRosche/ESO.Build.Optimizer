@@ -14,12 +14,13 @@ from typing import Any
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from api.core.config import settings
 from api.core.rate_limit import RateLimitMiddleware
-from api.models.database import init_db
+from api.models.database import engine, init_db
 from api.models.schemas import ErrorResponse, HealthResponse
 from api.routes import auth, features, recommendations, runs
 
@@ -96,6 +97,9 @@ Use the `/api/v1/auth/login` endpoint to obtain a token.
 # =============================================================================
 # Middleware
 # =============================================================================
+
+# GZip Compression Middleware (compress responses > 500 bytes)
+app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # CORS Middleware
 app.add_middleware(
@@ -220,11 +224,23 @@ async def health_check() -> HealthResponse:
     Returns the current status of the API and database connection.
     Used by load balancers and monitoring systems.
     """
-    # TODO: Add actual database connection check
+    # Check database connection
+    db_status = "disconnected"
+    try:
+        async with engine.connect() as conn:
+            from sqlalchemy import text
+            await conn.execute(text("SELECT 1"))
+            db_status = "connected"
+    except Exception as e:
+        logger.warning(f"Database health check failed: {e}")
+        db_status = "disconnected"
+
+    overall_status = "healthy" if db_status == "connected" else "degraded"
+
     return HealthResponse(
-        status="healthy",
+        status=overall_status,
         version=settings.app_version,
-        database="connected",
+        database=db_status,
     )
 
 

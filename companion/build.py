@@ -66,8 +66,11 @@ def build_executable(output_dir: Path = None):
     for dir_name in ['build', 'dist']:
         dir_path = companion_dir / dir_name
         if dir_path.exists():
-            shutil.rmtree(dir_path)
-            print(f"Cleaned {dir_name}/")
+            try:
+                shutil.rmtree(dir_path)
+                print(f"Cleaned {dir_name}/")
+            except OSError as e:
+                print(f"Warning: Could not clean {dir_name}/: {e}")
 
     # Run PyInstaller
     cmd = [

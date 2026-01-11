@@ -75,6 +75,12 @@ local defaultSavedVars = {
 }
 
 ---------------------------------------------------------------------------
+-- Constants
+---------------------------------------------------------------------------
+
+local MAX_PENDING_RUNS = 100  -- Maximum pending runs before FIFO eviction
+
+---------------------------------------------------------------------------
 -- Local State
 ---------------------------------------------------------------------------
 
@@ -84,6 +90,21 @@ local isPlayerActivated = false
 ---------------------------------------------------------------------------
 -- Utility Functions
 ---------------------------------------------------------------------------
+
+-- Deep copy function for nested tables
+local function DeepCopy(orig)
+    local origType = type(orig)
+    local copy
+    if origType == "table" then
+        copy = {}
+        for origKey, origValue in pairs(orig) do
+            copy[DeepCopy(origKey)] = DeepCopy(origValue)
+        end
+    else
+        copy = orig
+    end
+    return copy
+end
 
 -- Debug logging
 function addon:Debug(message, ...)
@@ -125,17 +146,10 @@ local function InitializeSavedVariables()
     -- Initialize SavedVariables with defaults
     ESOBuildOptimizerSV = ESOBuildOptimizerSV or {}
 
-    -- Merge defaults with saved data
+    -- Merge defaults with saved data using deep copy for nested tables
     for key, defaultValue in pairs(defaultSavedVars) do
         if ESOBuildOptimizerSV[key] == nil then
-            if type(defaultValue) == "table" then
-                ESOBuildOptimizerSV[key] = {}
-                for k, v in pairs(defaultValue) do
-                    ESOBuildOptimizerSV[key][k] = v
-                end
-            else
-                ESOBuildOptimizerSV[key] = defaultValue
-            end
+            ESOBuildOptimizerSV[key] = DeepCopy(defaultValue)
         end
     end
 
@@ -153,6 +167,9 @@ local function OnAddonLoaded(eventCode, addonName)
 
     -- Unregister this event
     EVENT_MANAGER:UnregisterForEvent(addon.name, EVENT_ADD_ON_LOADED)
+
+    -- Initialize random seed for unique ID generation
+    math.randomseed(GetGameTimeMilliseconds())
 
     -- Initialize SavedVariables
     InitializeSavedVariables()
@@ -295,8 +312,12 @@ local function RegisterEvents()
     em:RegisterForEvent(name, EVENT_ADD_ON_LOADED, OnAddonLoaded)
     em:RegisterForEvent(name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
-    -- Combat events
-    em:RegisterForEvent(name, EVENT_COMBAT_EVENT, OnCombatEvent)
+    -- Combat events with unique namespace for filtered event
+    local combatEventName = name .. "_combat"
+    em:RegisterForEvent(combatEventName, EVENT_COMBAT_EVENT, OnCombatEvent)
+    em:AddFilterForEvent(combatEventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+    em:AddFilterForEvent(combatEventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_IS_ERROR, false)
+
     em:RegisterForEvent(name, EVENT_UNIT_DEATH_STATE_CHANGED, OnUnitDeathStateChanged)
     em:RegisterForEvent(name, EVENT_PLAYER_COMBAT_STATE, OnPlayerCombatState)
     em:RegisterForEvent(name, EVENT_BOSSES_CHANGED, OnBossesChanged)
@@ -306,10 +327,6 @@ local function RegisterEvents()
     em:RegisterForEvent(name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, OnInventorySlotUpdate)
     em:RegisterForEvent(name, EVENT_SKILL_RANK_UPDATE, OnSkillRankUpdate)
     em:RegisterForEvent(name, EVENT_ACTION_SLOT_UPDATED, OnActionSlotUpdated)
-
-    -- Filter combat events to relevant ones only (performance optimization)
-    em:AddFilterForEvent(name, EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-    em:AddFilterForEvent(name, EVENT_COMBAT_EVENT, REGISTER_FILTER_IS_ERROR, false)
 end
 
 ---------------------------------------------------------------------------
@@ -323,8 +340,12 @@ function addon:SaveRun(runData)
     -- Add to runs history
     table.insert(self.savedVars.runs, runData)
 
-    -- Add to pending sync
+    -- Add to pending sync with FIFO eviction if limit exceeded
     table.insert(self.savedVars.pendingSync.runs, runData)
+    while #self.savedVars.pendingSync.runs > MAX_PENDING_RUNS do
+        table.remove(self.savedVars.pendingSync.runs, 1)
+        self:Debug("Pending sync limit exceeded, evicted oldest run")
+    end
 
     -- Update stats
     self.savedVars.stats.totalRunsRecorded = self.savedVars.stats.totalRunsRecorded + 1

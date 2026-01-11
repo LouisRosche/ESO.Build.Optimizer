@@ -46,16 +46,29 @@ async function request<T>(
   // Get auth token from storage
   const token = localStorage.getItem('auth_token');
 
+  // Only set Content-Type when body exists
+  const headers: Record<string, string> = {
+    ...(fetchOptions.body && { 'Content-Type': 'application/json' }),
+    ...(token && { Authorization: `Bearer ${token}` }),
+    ...(fetchOptions.headers as Record<string, string>),
+  };
+
   const response = await fetch(url, {
     ...fetchOptions,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...fetchOptions.headers,
-    },
+    headers,
   });
 
-  const data = await response.json();
+  // Handle JSON parsing safely - response.json() can throw on empty or invalid responses
+  let data: unknown;
+  try {
+    const text = await response.text();
+    data = text ? JSON.parse(text) : null;
+  } catch (e) {
+    if (!response.ok) {
+      throw new APIError(response.status, response.statusText, null);
+    }
+    data = null;
+  }
 
   if (!response.ok) {
     throw new APIError(response.status, response.statusText, data);

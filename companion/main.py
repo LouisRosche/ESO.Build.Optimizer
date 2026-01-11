@@ -19,13 +19,19 @@ import threading
 from pathlib import Path
 from typing import Optional
 
-# Configure logging
+# Configure logging with proper app data directory
+def _get_log_path() -> Path:
+    """Get the log file path in proper app data directory."""
+    log_dir = Path.home() / '.eso_optimizer'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    return log_dir / 'companion.log'
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('companion.log', encoding='utf-8'),
+        logging.FileHandler(_get_log_path(), encoding='utf-8'),
     ]
 )
 logger = logging.getLogger('ESOBuildOptimizer')
@@ -78,26 +84,26 @@ class CompanionApp:
     def _setup_watcher(self):
         """Initialize the SavedVariables file watcher."""
         try:
-            from watcher import SavedVariablesWatcher, find_eso_path
+            from watcher import SavedVariablesWatcher, get_default_saved_variables_path
 
-            # Find ESO path
-            eso_path = self.config.get('eso_path')
-            if not eso_path:
-                eso_path = find_eso_path()
-                if eso_path:
-                    self.config['eso_path'] = str(eso_path)
+            # Find SavedVariables path
+            saved_variables_path = self.config.get('eso_path')
+            if not saved_variables_path:
+                saved_variables_path = get_default_saved_variables_path()
+                if saved_variables_path:
+                    self.config['eso_path'] = str(saved_variables_path)
                     self._save_config(self.config)
 
-            if not eso_path:
-                logger.error('Could not find ESO installation. Please set eso_path in config.json')
+            if not saved_variables_path:
+                logger.error('Could not find ESO SavedVariables. Please set eso_path in config.json')
                 return False
 
-            # Create watcher with callback
+            # Create watcher and set callback
             self.watcher = SavedVariablesWatcher(
-                eso_path=Path(eso_path),
+                saved_variables_path=Path(saved_variables_path),
                 addon_name='ESOBuildOptimizer',
-                callback=self._on_data_changed,
             )
+            self.watcher.on_file_change = self._on_data_changed
             return True
 
         except ImportError as e:
@@ -121,13 +127,16 @@ class CompanionApp:
 
     def _on_data_changed(self, data: dict):
         """Callback when SavedVariables data changes."""
-        logger.info('SavedVariables updated, queueing sync...')
+        try:
+            logger.info('SavedVariables updated, queueing sync...')
 
-        if self.sync_client and not self.config.get('offline_mode'):
-            # Queue data for sync
-            pending_runs = data.get('pendingSync', {}).get('runs', [])
-            for run in pending_runs:
-                self.sync_client.queue_run(run)
+            if self.sync_client and not self.config.get('offline_mode'):
+                # Queue data for sync
+                pending_runs = data.get('pendingSync', {}).get('runs', [])
+                for run in pending_runs:
+                    self.sync_client.queue_run(run)
+        except Exception as e:
+            logger.error(f'Error processing data change: {e}')
 
     async def _sync_loop(self):
         """Background sync loop."""
@@ -152,7 +161,9 @@ class CompanionApp:
             self.stop()
 
         signal.signal(signal.SIGINT, handle_signal)
-        signal.signal(signal.SIGTERM, handle_signal)
+        # SIGTERM is not available on Windows
+        if hasattr(signal, 'SIGTERM'):
+            signal.signal(signal.SIGTERM, handle_signal)
 
         # Start watcher in background thread
         if self.watcher:

@@ -8,6 +8,7 @@ from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import Field
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -228,7 +229,7 @@ async def get_current_user_info(
 
 class PasswordChange(UserLogin):
     """Schema for password change request."""
-    new_password: str
+    new_password: str = Field(..., min_length=8, max_length=128)
 
 
 @router.post(

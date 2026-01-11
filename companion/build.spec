@@ -53,7 +53,7 @@ a = Analysis(
         'numpy',
         'pandas',
         'scipy',
-        'PIL',
+        # Note: PIL is required for tray icons, do not exclude
         'cv2',
     ],
     win_no_prefer_redirects=False,

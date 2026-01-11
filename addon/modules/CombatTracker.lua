@@ -64,6 +64,15 @@ local MINOR_DEBUFFS = {
 -- Combat timeout (seconds without combat event = encounter end)
 local COMBAT_TIMEOUT = 8
 
+-- Pre-computed boss unit tags for fast lookup
+local BOSS_UNIT_TAGS = {}
+local BOSS_UNIT_TAGS_SET = {}
+for i = 1, MAX_BOSSES do
+    local tag = "boss" .. i
+    BOSS_UNIT_TAGS[i] = tag
+    BOSS_UNIT_TAGS_SET[tag] = true
+end
+
 ---------------------------------------------------------------------------
 -- State
 ---------------------------------------------------------------------------
@@ -72,6 +81,7 @@ local state = {
     initialized = false,
     inCombat = false,
     inEncounter = false,
+    encounterCounter = 0,  -- Counter to track encounter instance for race condition prevention
 
     -- Current encounter data
     encounter = {
@@ -231,15 +241,16 @@ local function StartEncounter()
     if state.inEncounter then return end
 
     state.inEncounter = true
+    state.encounterCounter = state.encounterCounter + 1
     ResetEncounter()
 
     state.encounter.startTime = GetCurrentTime()
     state.encounter.lastEventTime = state.encounter.startTime
 
-    -- Check for boss
+    -- Check for boss using pre-computed tags
     local bossName = nil
-    for i = 1, MAX_BOSSES do
-        local bossUnitTag = "boss" .. i
+    for i = 1, #BOSS_UNIT_TAGS do
+        local bossUnitTag = BOSS_UNIT_TAGS[i]
         if DoesUnitExist(bossUnitTag) then
             bossName = GetUnitName(bossUnitTag)
             state.encounter.bossMaxHealth = GetUnitPower(bossUnitTag, POWERTYPE_HEALTH)
@@ -415,12 +426,9 @@ function CombatTracker:OnUnitDeathStateChanged(unitTag, isDead)
         addon:Debug("Player died")
     end
 
-    -- Check if boss died (success)
-    for i = 1, MAX_BOSSES do
-        if unitTag == ("boss" .. i) and isDead then
-            EndEncounter(true)
-            return
-        end
+    -- Check if boss died (success) using pre-computed lookup
+    if isDead and BOSS_UNIT_TAGS_SET[unitTag] then
+        EndEncounter(true)
     end
 end
 
@@ -428,13 +436,19 @@ function CombatTracker:OnCombatStateChanged(inCombat)
     state.inCombat = inCombat
 
     if not inCombat and state.inEncounter then
+        -- Store encounter ID to validate in callback (race condition prevention)
+        local encounterId = state.encounterCounter
+
         -- Combat ended, give a short delay for final events
         zo_callLater(function()
+            -- Validate this callback is still for the same encounter
+            if encounterId ~= state.encounterCounter then return end
             if not state.inCombat and state.inEncounter then
-                -- Determine success based on boss state
+                -- Determine success based on boss state using pre-computed tags
                 local bossAlive = false
-                for i = 1, MAX_BOSSES do
-                    if DoesUnitExist("boss" .. i) and not IsUnitDead("boss" .. i) then
+                for i = 1, #BOSS_UNIT_TAGS do
+                    local bossTag = BOSS_UNIT_TAGS[i]
+                    if DoesUnitExist(bossTag) and not IsUnitDead(bossTag) then
                         bossAlive = true
                         break
                     end
@@ -447,9 +461,9 @@ end
 
 function CombatTracker:OnBossesChanged()
     if state.inCombat and not state.inEncounter then
-        -- Boss appeared while in combat, start encounter
-        for i = 1, MAX_BOSSES do
-            if DoesUnitExist("boss" .. i) then
+        -- Boss appeared while in combat, start encounter using pre-computed tags
+        for i = 1, #BOSS_UNIT_TAGS do
+            if DoesUnitExist(BOSS_UNIT_TAGS[i]) then
                 StartEncounter()
                 break
             end
@@ -489,14 +503,8 @@ function CombatTracker:OnEffectChanged(changeType, effectSlot, effectName,
         end
     end
 
-    -- Track debuffs on boss targets
-    local isBoss = false
-    for i = 1, MAX_BOSSES do
-        if unitTag == ("boss" .. i) then
-            isBoss = true
-            break
-        end
-    end
+    -- Track debuffs on boss targets using pre-computed lookup
+    local isBoss = BOSS_UNIT_TAGS_SET[unitTag]
 
     if isBoss and debuffLookup[effectName] then
         if changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED then

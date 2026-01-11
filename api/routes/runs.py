@@ -9,7 +9,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlalchemy import and_, func, select
+from sqlalchemy import Integer, and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.core.security import CurrentUser
@@ -375,9 +375,6 @@ async def get_run_statistics(
     )
     char_result = await db.execute(char_query)
     favorite_char = char_result.first()
-
-    # Need to import Integer for the cast
-    from sqlalchemy import Integer
 
     return RunStatistics(
         total=stats.total or 0,
