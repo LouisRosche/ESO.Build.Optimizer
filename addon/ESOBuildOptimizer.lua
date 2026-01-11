@@ -186,6 +186,9 @@ local function OnPlayerActivated(eventCode, initial)
 
     isPlayerActivated = true
 
+    -- Unregister this event after first activation (only need it once)
+    EVENT_MANAGER:UnregisterForEvent(addon.name, EVENT_PLAYER_ACTIVATED)
+
     -- Initialize modules
     if addon.CombatTracker then
         addon.CombatTracker:Initialize()

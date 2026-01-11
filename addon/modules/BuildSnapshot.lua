@@ -125,13 +125,16 @@ local function CaptureEquippedGear()
     for _, slot in ipairs(EQUIPMENT_SLOTS) do
         local itemLink = GetItemLink(BAG_WORN, slot)
 
-        if itemLink and itemLink ~= "" then
+        -- Validate item link format before processing
+        if itemLink and itemLink ~= "" and string.match(itemLink, "^|H") then
             local hasSet, setName, numBonuses, numEquipped, maxEquipped = GetItemLinkSetInfo(itemLink)
             local itemName = GetItemName(BAG_WORN, slot)
             local quality = GetItemQuality(BAG_WORN, slot)
             local level = GetItemLevel(BAG_WORN, slot)
             local trait = GetItemTrait(BAG_WORN, slot)
-            local traitName = GetString("SI_ITEMTRAITTYPE", trait)
+            -- Validate trait before getting string representation
+            local traitName = (trait and trait ~= ITEM_TRAIT_TYPE_NONE)
+                and GetString("SI_ITEMTRAITTYPE", trait) or "None"
 
             gear[SLOT_NAMES[slot]] = {
                 name = itemName,
@@ -210,7 +213,7 @@ local function CaptureChampionPoints()
     -- This is a simplified version showing totals
 
     -- Get slotted stars for each discipline
-    -- Warfare (discipline 1)
+    -- Warfare (discipline 1) - slots 1-4 on champion bar
     for slot = 1, 4 do
         local starId = GetSlotBoundId(slot, HOTBAR_CATEGORY_CHAMPION)
         if starId and starId > 0 then
@@ -222,6 +225,26 @@ local function CaptureChampionPoints()
             })
         end
     end
+
+    -- TODO: Fitness (discipline 2) - slots 5-8 on champion bar
+    -- ESO uses different slot indices for each discipline
+    -- The exact slot mapping needs verification with the ESO API
+    for slot = 5, 8 do
+        local starId = GetSlotBoundId(slot, HOTBAR_CATEGORY_CHAMPION)
+        if starId and starId > 0 then
+            local starName = GetChampionSkillName(starId)
+            table.insert(cp.fitness, {
+                slot = slot - 4,  -- Normalize to 1-4 for discipline-local slot
+                id = starId,
+                name = starName,
+            })
+        end
+    end
+
+    -- TODO: Craft (discipline 3) - slots 9-12 on champion bar
+    -- Craft CP stars are passive and may not appear in hotbar slots
+    -- Full implementation requires GetChampionDisciplineSpentPoints
+    -- and iteration through GetNumChampionDisciplineSkills
 
     return cp
 end
@@ -330,7 +353,10 @@ function BuildSnapshot:OnEquipmentChanged(slotIndex)
         end, 500)
     end
 
-    addon:Debug("Equipment changed: slot %d", slotIndex)
+    -- Only format debug string when verbose logging is enabled
+    if addon.savedVars and addon.savedVars.settings.verboseLogging then
+        addon:Debug("Equipment changed: slot %d", slotIndex)
+    end
 end
 
 function BuildSnapshot:OnSkillChanged()
@@ -351,7 +377,10 @@ function BuildSnapshot:OnActionBarChanged(slotIndex)
         end, 500)
     end
 
-    addon:Debug("Action bar changed: slot %d", slotIndex)
+    -- Only format debug string when verbose logging is enabled
+    if addon.savedVars and addon.savedVars.settings.verboseLogging then
+        addon:Debug("Action bar changed: slot %d", slotIndex)
+    end
 end
 
 ---------------------------------------------------------------------------

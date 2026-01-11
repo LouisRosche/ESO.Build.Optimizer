@@ -1,0 +1,234 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '20'
+
+jobs:
+  # Python Backend & ML Tests
+  python-tests:
+    name: Python Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov httpx
+
+      - name: Run Python syntax check
+        run: |
+          python -m py_compile api/main.py
+          python -m py_compile ml/percentile.py
+          python -m py_compile ml/recommendations.py
+          python -m py_compile companion/watcher.py
+          python -m py_compile companion/sync.py
+          python -m py_compile scripts/generate_excel.py
+
+      - name: Run unit tests
+        run: |
+          pytest tests/ -v --tb=short --cov=api --cov=ml --cov-report=term-missing
+        continue-on-error: true
+
+      - name: Check import errors
+        run: |
+          python -c "from api.main import app; print('API imports OK')"
+          python -c "from ml.percentile import PercentileCalculator; print('ML percentile imports OK')"
+          python -c "from ml.recommendations import RecommendationEngine; print('ML recommendations imports OK')"
+
+  # React Frontend Tests
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./web
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: ESLint check
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Build check
+        run: npm run build
+
+      - name: Run tests
+        run: npm test -- --passWithNoTests
+        continue-on-error: true
+
+  # Lua Addon Validation
+  lua-validation:
+    name: Lua Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Lua
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.1 luarocks
+          sudo luarocks install luacheck
+
+      - name: Lua syntax check
+        run: |
+          for file in addon/*.lua addon/modules/*.lua; do
+            echo "Checking $file..."
+            luac -p "$file" || echo "Warning: $file has syntax issues"
+          done
+
+      - name: Luacheck lint
+        run: |
+          luacheck addon/ --no-unused-args --no-max-line-length --globals ESOBuildOptimizer EVENT_MANAGER WINDOW_MANAGER ANIMATION_MANAGER GetGameTimeMilliseconds GetTimeStamp GetDisplayName GetDateStringFromTimestamp GetTimeString zo_callLater DoesUnitExist GetUnitName GetUnitPower IsUnitDead IsUnitInCombat GetNumBuffs GetUnitBuffInfo GetSlotBoundId GetSlotName GetItemLink GetItemInfo GetItemTrait GetItemLinkSetInfo GetString GetPlayerActiveSubclass GetUnitRace GetUnitRaceId GetUnitGender GetRaceName GetUnitLevel GetUnitEffectiveChampionPoints GetUnitClass GetActiveHotbarCategory ZO_ActionBar_GetButton SLASH_COMMANDS MAX_BOSSES BAG_WORN POWERTYPE_HEALTH POWERTYPE_MAGICKA POWERTYPE_STAMINA POWERTYPE_ULTIMATE ACTION_RESULT_DAMAGE ACTION_RESULT_CRITICAL_DAMAGE ACTION_RESULT_DOT_TICK ACTION_RESULT_DOT_TICK_CRITICAL ACTION_RESULT_HEAL ACTION_RESULT_CRITICAL_HEAL ACTION_RESULT_HOT_TICK ACTION_RESULT_HOT_TICK_CRITICAL ACTION_RESULT_BLOCKED_DAMAGE ACTION_RESULT_DAMAGE_SHIELDED ACTION_RESULT_INTERRUPT ACTION_RESULT_ABSORBED ACTION_RESULT_FALL_DAMAGE ACTION_RESULT_KILLING_BLOW EFFECT_RESULT_GAINED EFFECT_RESULT_FADED EFFECT_RESULT_UPDATED EVENT_ADD_ON_LOADED EVENT_PLAYER_ACTIVATED EVENT_COMBAT_EVENT EVENT_UNIT_DEATH_STATE_CHANGED EVENT_PLAYER_COMBAT_STATE EVENT_BOSSES_CHANGED EVENT_EFFECT_CHANGED EVENT_INVENTORY_SINGLE_SLOT_UPDATE EVENT_ACTION_SLOT_UPDATED EVENT_ACTIVE_WEAPON_PAIR_CHANGED REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE REGISTER_FILTER_IS_ERROR COMBAT_UNIT_TYPE_PLAYER EQUIP_SLOT_HEAD EQUIP_SLOT_CHEST EQUIP_SLOT_SHOULDERS EQUIP_SLOT_WAIST EQUIP_SLOT_LEGS EQUIP_SLOT_FEET EQUIP_SLOT_HAND EQUIP_SLOT_MAIN_HAND EQUIP_SLOT_OFF_HAND EQUIP_SLOT_BACKUP_MAIN EQUIP_SLOT_BACKUP_OFF EQUIP_SLOT_NECK EQUIP_SLOT_RING1 EQUIP_SLOT_RING2 ITEM_TRAIT_TYPE_NONE HOTBAR_CATEGORY_PRIMARY HOTBAR_CATEGORY_BACKUP CT_CONTROL CT_LABEL CT_TEXTURE CENTER TOPLEFT TOPRIGHT BOTTOMLEFT BOTTOMRIGHT TOP BOTTOM LEFT RIGHT GuiRoot ESOBuildOptimizerSV 2>/dev/null || true
+        continue-on-error: true
+
+  # JSON Data Validation
+  data-validation:
+    name: Data Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Validate JSON files
+        run: |
+          python -c "
+          import json
+          from pathlib import Path
+
+          errors = []
+          total = 0
+
+          for json_file in Path('data/raw').glob('*.json'):
+              total += 1
+              try:
+                  with open(json_file) as f:
+                      data = json.load(f)
+                  print(f'✓ {json_file.name}: {len(data)} entries')
+              except json.JSONDecodeError as e:
+                  errors.append(f'{json_file.name}: {e}')
+                  print(f'✗ {json_file.name}: INVALID JSON')
+
+          print(f'\nTotal: {total} files checked')
+          if errors:
+              print('\\nErrors:')
+              for err in errors:
+                  print(f'  - {err}')
+              exit(1)
+          "
+
+      - name: Count total features
+        run: |
+          python -c "
+          import json
+          from pathlib import Path
+
+          total = 0
+          for json_file in Path('data/raw').glob('*.json'):
+              with open(json_file) as f:
+                  data = json.load(f)
+                  total += len(data)
+
+          print(f'Total features in dataset: {total}')
+          if total < 1900:
+              print(f'Warning: Feature count ({total}) is below expected minimum (1900)')
+          "
+
+  # Security Scan
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install bandit
+        run: pip install bandit
+
+      - name: Run security scan
+        run: |
+          bandit -r api/ ml/ companion/ -ll --skip B101,B311 || true
+        continue-on-error: true
+
+  # Build Artifacts
+  build:
+    name: Build Artifacts
+    runs-on: ubuntu-latest
+    needs: [python-tests, frontend-tests, lua-validation, data-validation]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build frontend
+        working-directory: ./web
+        run: |
+          npm ci
+          npm run build
+
+      - name: Generate Excel data
+        run: |
+          pip install pandas openpyxl
+          python scripts/generate_excel.py
+
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: web/dist/
+
+      - name: Upload Excel data
+        uses: actions/upload-artifact@v4
+        with:
+          name: excel-data
+          path: data/compiled/

@@ -3,6 +3,12 @@
  *
  * This module provides a configured fetch wrapper for making API calls
  * to the FastAPI backend.
+ *
+ * TODO: Implement AuthContext for centralized auth state management
+ * - Create AuthProvider with login/logout/user state
+ * - Add useAuth hook for components to access auth state
+ * - Integrate with this client for automatic token management
+ * - Handle token refresh flow
  */
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1';
@@ -71,6 +77,13 @@ async function request<T>(
   }
 
   if (!response.ok) {
+    // Handle 401 Unauthorized - clear auth token and redirect to login
+    if (response.status === 401) {
+      localStorage.removeItem('auth_token');
+      // TODO: Trigger auth context update to redirect to login
+      // When AuthContext is implemented, dispatch a logout action here:
+      // window.dispatchEvent(new CustomEvent('auth:logout'));
+    }
     throw new APIError(response.status, response.statusText, data);
   }
 

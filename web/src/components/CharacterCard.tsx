@@ -2,6 +2,7 @@ import { Swords, Trophy, Calendar, Shield } from 'lucide-react';
 import clsx from 'clsx';
 import type { Character } from '../types';
 import { formatDPS, getRelativeTime } from '../data/mockData';
+import { classColors } from '../utils/classColors';
 import type { KeyboardEvent } from 'react';
 
 interface CharacterCardProps {
@@ -20,15 +21,6 @@ export default function CharacterCard({
       e.preventDefault();
       onClick?.();
     }
-  };
-  const classColors: Record<string, string> = {
-    Dragonknight: 'text-orange-400',
-    Nightblade: 'text-purple-400',
-    Sorcerer: 'text-blue-400',
-    Templar: 'text-yellow-400',
-    Warden: 'text-green-400',
-    Necromancer: 'text-emerald-400',
-    Arcanist: 'text-cyan-400',
   };
 
   return (

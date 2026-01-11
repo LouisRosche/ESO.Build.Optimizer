@@ -69,6 +69,34 @@ async def lifespan(app: FastAPI):
 # FastAPI Application
 # =============================================================================
 
+# OpenAPI tags metadata for documentation organization
+tags_metadata = [
+    {
+        "name": "Health",
+        "description": "Health check endpoints for monitoring and load balancers.",
+    },
+    {
+        "name": "Auth",
+        "description": "Authentication endpoints for user registration, login, and token management.",
+    },
+    {
+        "name": "Runs",
+        "description": "Combat run endpoints for submitting and retrieving encounter data.",
+    },
+    {
+        "name": "Recommendations",
+        "description": "AI-generated recommendations for build improvement based on combat performance.",
+    },
+    {
+        "name": "Features",
+        "description": "Game feature database including skills, gear sets, and passives.",
+    },
+    {
+        "name": "Root",
+        "description": "API information and documentation links.",
+    },
+]
+
 app = FastAPI(
     title=settings.app_name,
     description="""
@@ -90,6 +118,7 @@ Use the `/api/v1/auth/login` endpoint to obtain a token.
     docs_url="/api/docs",
     redoc_url="/api/redoc",
     openapi_url="/api/openapi.json",
+    openapi_tags=tags_metadata,
     lifespan=lifespan,
 )
 
@@ -99,15 +128,21 @@ Use the `/api/v1/auth/login` endpoint to obtain a token.
 # =============================================================================
 
 # GZip Compression Middleware (compress responses > 500 bytes)
+# NOTE: Request body size limits should be configured at the server level (e.g., nginx,
+# uvicorn --limit-request-body, or reverse proxy). GZip helps with response sizes but
+# does not limit incoming request body sizes. For production, configure:
+# - nginx: client_max_body_size 10m;
+# - uvicorn: --limit-request-body 10485760 (10MB)
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # CORS Middleware
+# Explicitly specify allowed methods and headers for security (avoid wildcards in production)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
     expose_headers=["X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"],
 )
 
