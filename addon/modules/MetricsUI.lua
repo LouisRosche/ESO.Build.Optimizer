@@ -143,6 +143,11 @@ end
 ---------------------------------------------------------------------------
 
 local function CreateMainWindow()
+    -- Check if window already exists to prevent duplicates
+    if WINDOW_MANAGER:GetControlByName(UI_NAMESPACE) then
+        return WINDOW_MANAGER:GetControlByName(UI_NAMESPACE)
+    end
+
     local window = WINDOW_MANAGER:CreateTopLevelWindow(UI_NAMESPACE)
 
     local savedPos = addon.savedVars and addon.savedVars.settings.uiPosition or DEFAULT_POSITION
@@ -162,7 +167,7 @@ local function CreateMainWindow()
     -- Register for drag events to save position
     window:SetHandler("OnMoveStop", function()
         if addon.savedVars then
-            local x, y = window:GetScreenRect()
+            local x, y = window:GetLeft(), window:GetTop()
             addon.savedVars.settings.uiPosition = { x = x, y = y }
         end
     end)

@@ -2,6 +2,7 @@ import { Clock, Swords, CheckCircle2, XCircle } from 'lucide-react';
 import clsx from 'clsx';
 import type { CombatRunListItem } from '../types';
 import { formatDuration, formatDPS, getRelativeTime } from '../data/mockData';
+import type { KeyboardEvent } from 'react';
 
 interface RunCardProps {
   run: CombatRunListItem;
@@ -9,6 +10,12 @@ interface RunCardProps {
 }
 
 export default function RunCard({ run, onClick }: RunCardProps) {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
   const difficultyColors = {
     normal: 'badge-info',
     veteran: 'badge-warning',
@@ -25,11 +32,15 @@ export default function RunCard({ run, onClick }: RunCardProps) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${run.content_name} run by ${run.character_name}, ${run.success ? 'successful' : 'failed'}, ${formatDPS(run.dps)} DPS`}
       className={clsx(
         'card-hover cursor-pointer',
         !run.success && 'border-eso-red-500/30'
       )}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       <div className="flex items-start justify-between mb-3">
         <div>

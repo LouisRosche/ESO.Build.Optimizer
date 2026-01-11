@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Swords, Trophy, Clock, Target, TrendingUp } from 'lucide-react';
 import {
   LineChart,
@@ -21,22 +22,22 @@ import {
 } from '../data/mockData';
 
 export default function Dashboard() {
-  const successRate = Math.round(
-    (mockStatistics.successful_runs / mockStatistics.total_runs) * 100
-  );
+  const successRate = mockStatistics.total_runs > 0
+    ? Math.round((mockStatistics.successful_runs / mockStatistics.total_runs) * 100)
+    : 0;
 
   const totalPlayTimeHours = Math.round(mockStatistics.total_play_time_sec / 3600);
 
-  // Format trend data for charts
-  const dpsTrendData = mockDPSTrend.map((point) => ({
+  // Format trend data for charts - memoized to prevent unnecessary recalculations
+  const dpsTrendData = useMemo(() => mockDPSTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  }));
+  })), []);
 
-  const percentileTrendData = mockPercentileTrend.map((point) => ({
+  const percentileTrendData = useMemo(() => mockPercentileTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  }));
+  })), []);
 
   return (
     <div className="space-y-8">

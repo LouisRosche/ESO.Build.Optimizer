@@ -69,6 +69,19 @@ class Settings(BaseSettings):
             return [origin.strip() for origin in v.split(",")]
         return v
 
+    @field_validator("jwt_secret_key", mode="after")
+    @classmethod
+    def validate_jwt_secret(cls, v, info):
+        """Raise an error if the default JWT secret is used in production."""
+        # Access other field values via info.data
+        environment = info.data.get("environment", "development")
+        if environment == "production" and v == "CHANGE_ME_IN_PRODUCTION_USE_SECURE_SECRET_KEY":
+            raise ValueError(
+                "JWT secret key must be changed from the default value in production. "
+                "Set the JWT_SECRET_KEY environment variable to a secure random string."
+            )
+        return v
+
 
 @lru_cache
 def get_settings() -> Settings:

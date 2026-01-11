@@ -2,6 +2,7 @@ import { Swords, Trophy, Calendar, Shield } from 'lucide-react';
 import clsx from 'clsx';
 import type { Character } from '../types';
 import { formatDPS, getRelativeTime } from '../data/mockData';
+import type { KeyboardEvent } from 'react';
 
 interface CharacterCardProps {
   character: Character;
@@ -14,6 +15,12 @@ export default function CharacterCard({
   onClick,
   isSelected = false,
 }: CharacterCardProps) {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
   const classColors: Record<string, string> = {
     Dragonknight: 'text-orange-400',
     Nightblade: 'text-purple-400',
@@ -26,11 +33,15 @@ export default function CharacterCard({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${character.name}, ${character.class}${character.subclass ? ` / ${character.subclass}` : ''}, CP ${character.cp_level}, ${formatDPS(character.average_dps)} average DPS`}
       className={clsx(
         'card-hover cursor-pointer',
         isSelected && 'border-eso-gold-500 ring-1 ring-eso-gold-500/20'
       )}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-4">

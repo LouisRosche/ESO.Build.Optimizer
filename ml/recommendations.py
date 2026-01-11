@@ -21,13 +21,15 @@ Recommendation Types:
 
 from __future__ import annotations
 
+import bisect
 import json
+import re
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 
 class RecommendationCategory(Enum):
@@ -641,7 +643,6 @@ class RecommendationEngine:
         Returns:
             PercentileResults containing percentile for each metric
         """
-        import bisect
 
         if comparison_pool is None:
             comparison_pool = self._get_similar_runs(run)
@@ -1153,8 +1154,8 @@ class RecommendationEngine:
 
         # Get most common class/subclass combo
         if class_counts:
-            top_class = max(class_counts, key=class_counts.get)
-            top_subclass = max(subclass_counts, key=subclass_counts.get) if subclass_counts else None
+            top_class = max(class_counts, key=lambda k: class_counts[k])
+            top_subclass = max(subclass_counts, key=lambda k: subclass_counts[k]) if subclass_counts else None
 
             current_class = run.build_snapshot.player_class
             current_subclass = run.build_snapshot.subclass
@@ -1276,10 +1277,12 @@ class RecommendationEngine:
         all_recommendations.extend(build_recs)
 
         # Sort by confidence * improvement potential
+        # Pre-compile regex pattern for extracting improvement percentage
+        improvement_pattern = re.compile(r'\+(\d+\.?\d*)%')
+
         def recommendation_score(rec: Recommendation) -> float:
             # Extract improvement percentage from string
-            import re
-            match = re.search(r'\+(\d+\.?\d*)%', rec.expected_improvement)
+            match = improvement_pattern.search(rec.expected_improvement)
             improvement = float(match.group(1)) if match else 5.0
             return rec.confidence * improvement
 

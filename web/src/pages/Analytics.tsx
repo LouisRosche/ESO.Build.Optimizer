@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -30,42 +30,42 @@ import {
 export default function Analytics() {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
 
-  // Format data for charts
-  const dpsTrendData = mockDPSTrend.map((point) => ({
+  // Format data for charts - memoized to prevent unnecessary recalculations
+  const dpsTrendData = useMemo(() => mockDPSTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  }));
+  })), []);
 
-  // Crit rate data from mock runs
-  const critRateData = mockRuns.slice(0, 8).map((run, index) => ({
+  // Crit rate data from mock runs - memoized to prevent Math.random() UI flickering
+  const critRateData = useMemo(() => mockRuns.slice(0, 8).map((_, index) => ({
     run: `Run ${index + 1}`,
     critRate: (0.55 + Math.random() * 0.15) * 100, // Mock crit rates 55-70%
-  }));
+  })), []);
 
   // Buff uptime data for radar chart
-  const buffRadarData = mockBuffAnalysis.map((buff) => ({
+  const buffRadarData = useMemo(() => mockBuffAnalysis.map((buff) => ({
     buff: buff.name.replace('Major ', '').replace('Minor ', ''),
     current: buff.average_uptime * 100,
     target: buff.target_uptime * 100,
-  }));
+  })), []);
 
   // Deaths per content type
-  const deathsData = [
+  const deathsData = useMemo(() => [
     { content: 'Trials', deaths: 12 },
     { content: 'Dungeons', deaths: 5 },
     { content: 'Arenas', deaths: 3 },
     { content: 'Overworld', deaths: 1 },
-  ];
+  ], []);
 
   // Contribution breakdown from detailed run
-  const contributionData = mockDetailedRun.contribution_scores
+  const contributionData = useMemo(() => mockDetailedRun.contribution_scores
     ? Object.entries(mockDetailedRun.contribution_scores).map(([key, value]) => ({
         category: key
           .replace(/_/g, ' ')
           .replace(/\b\w/g, (l) => l.toUpperCase()),
         value: Math.round(value * 100),
       }))
-    : [];
+    : [], []);
 
   return (
     <div className="space-y-8">

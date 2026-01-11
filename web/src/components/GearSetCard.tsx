@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import type { GearSet } from '../types';
+import type { KeyboardEvent } from 'react';
 
 interface GearSetCardProps {
   set: GearSet;
@@ -14,6 +15,12 @@ export default function GearSetCard({
   isSelected = false,
   showBonuses = true,
 }: GearSetCardProps) {
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
   const tierColors = {
     S: 'text-eso-gold-400 bg-eso-gold-500/10 border-eso-gold-500/30',
     A: 'text-eso-green-400 bg-eso-green-500/10 border-eso-green-500/30',
@@ -35,11 +42,15 @@ export default function GearSetCard({
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${set.name}, ${set.set_type} set from ${set.location}${set.pve_tier ? `, ${set.pve_tier}-tier` : ''}`}
       className={clsx(
         'card-hover cursor-pointer',
         isSelected && 'border-eso-gold-500 ring-1 ring-eso-gold-500/20'
       )}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
