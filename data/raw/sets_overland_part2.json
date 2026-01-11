@@ -1,0 +1,1416 @@
+[
+  {
+    "set_id": "SET_OVERLAND_QUEENS_ELEGANCE",
+    "name": "Queen's Elegance",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Auridon",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Adds 400 Spell Damage to your Class abilities.",
+        "ability_type": "Class",
+        "spell_damage_bonus": 400
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.30,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|class-abilities|spell-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/queens-elegance"
+  },
+  {
+    "set_id": "SET_OVERLAND_TWIN_SISTERS",
+    "name": "Twin Sisters",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Auridon",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Increases your Critical Damage done by 6%.",
+        "crit_damage_bonus_percent": 6
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|stamina|critical-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/twin-sisters"
+  },
+  {
+    "set_id": "SET_OVERLAND_ARMOR_OF_THE_SEDUCER",
+    "name": "Armor of the Seducer",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Auridon",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Magicka Recovery", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Reduces the Magicka cost of all abilities by 8%.",
+        "magicka_cost_reduction_percent": 8
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "healing_done": 0.60,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "sustain|magicka|cost-reduction|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/armor-of-the-seducer"
+  },
+  {
+    "set_id": "SET_OVERLAND_HIST_BARK",
+    "name": "Hist Bark",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Grahtwood",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "While blocking, you gain Major Evasion, reducing damage from area attacks by 20%.",
+        "condition": "blocking",
+        "buff_granted": "Major Evasion",
+        "aoe_damage_reduction_percent": 20
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|block|evasion|aoe-mitigation|heavy-armor",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/hist-bark"
+  },
+  {
+    "set_id": "SET_OVERLAND_SHADOW_WALKER",
+    "name": "Shadow Walker",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Grahtwood",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "When you use an invisibility effect, you heal for 2000 Health and restore 2000 Stamina.",
+        "proc_condition": "use_invisibility",
+        "heal_value": 2000,
+        "stamina_restore": 2000
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.10,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "stealth|invisibility|nightblade|pvp|ganking|self-heal",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/shadow-walker"
+  },
+  {
+    "set_id": "SET_OVERLAND_RANGERS_GAIT",
+    "name": "Ranger's Gait",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Grahtwood",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "Reduces the effectiveness of snares applied to you by 50%.",
+        "snare_reduction_percent": 50
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.30
+    },
+    "tags": "mobility|snare-resistance|pvp|stamina",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/rangers-gait"
+  },
+  {
+    "set_id": "SET_OVERLAND_GREEN_PACT",
+    "name": "Green Pact",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Greenshade",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "Adds 400 Weapon Damage to your Bow abilities.",
+        "ability_type": "Bow",
+        "weapon_damage_bonus": 400
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|bow|stamina|weapon-damage|ranged",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/green-pact"
+  },
+  {
+    "set_id": "SET_OVERLAND_WILLOWS_PATH",
+    "name": "Willow's Path",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Greenshade",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "While in combat, you gain Major Fortitude, Major Intellect, and Major Endurance, increasing your Health, Magicka, and Stamina Recovery by 30%.",
+        "condition": "in_combat",
+        "buff_granted": "Major Fortitude, Major Intellect, Major Endurance",
+        "recovery_bonus_percent": 30
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.50,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "sustain|recovery|magicka|healer|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/willows-path"
+  },
+  {
+    "set_id": "SET_OVERLAND_BEEKEEPERS_GEAR",
+    "name": "Beekeeper's Gear",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Greenshade",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {"stat": "Health Recovery", "value": 515}
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.65
+    },
+    "tags": "tank|health|recovery|survivability|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/beekeepers-gear"
+  },
+  {
+    "set_id": "SET_OVERLAND_STENDARRS_EMBRACE",
+    "name": "Stendarr's Embrace",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Malabal Tor",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Healing Done", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Adds 400 Spell Damage to your Restoration Staff abilities.",
+        "ability_type": "Restoration Staff",
+        "spell_damage_bonus": 400
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.75,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|restoration-staff|magicka|healing",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stendarrs-embrace"
+  },
+  {
+    "set_id": "SET_OVERLAND_ESSENCE_THIEF",
+    "name": "Essence Thief",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Malabal Tor",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "When you deal damage with a Light Attack, you create an essence at your enemy's location for 5 seconds. Touching the essence heals you for 5000 and restores 2500 Stamina. This effect can occur once every 5 seconds.",
+        "proc_condition": "light_attack_damage",
+        "heal_value": 5000,
+        "stamina_restore": 2500,
+        "duration_sec": 5,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "healing_done": 0.20,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "sustain|self-heal|stamina|light-attack|resource-restore",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/essence-thief"
+  },
+  {
+    "set_id": "SET_OVERLAND_SPELUNKER",
+    "name": "Spelunker",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Malabal Tor",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {"stat": "Health Recovery", "value": 515}
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.30
+    },
+    "tags": "sustain|health-recovery|stamina|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spelunker"
+  },
+  {
+    "set_id": "SET_OVERLAND_SENCHES_BITE",
+    "name": "Senche's Bite",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Reaper's March",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {"stat": "Weapon Critical Damage", "value": 350}
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|stamina|critical-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/senches-bite"
+  },
+  {
+    "set_id": "SET_OVERLAND_DUROKS_BANE",
+    "name": "Durok's Bane",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Reaper's March",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {
+        "effect": "When you take damage, you have a 10% chance to reduce the attacker's Weapon and Spell Damage by 300 for 5 seconds.",
+        "proc_condition": "take_damage",
+        "proc_chance": 0.10,
+        "debuff_granted": "Weapon and Spell Damage Reduction",
+        "debuff_value": 300,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|debuff|damage-reduction|heavy-armor",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/duroks-bane"
+  },
+  {
+    "set_id": "SET_OVERLAND_FIORDS_LEGACY",
+    "name": "Fiord's Legacy",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Eastmarch",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "Reduces the cost of Sprint by 50%. Increases your Movement Speed by 15% while Sprinting.",
+        "sprint_cost_reduction_percent": 50,
+        "sprint_speed_bonus_percent": 15
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "utility|speed|sprint|mobility|farming",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/fiords-legacy"
+  },
+  {
+    "set_id": "SET_OVERLAND_WYRD_TREES_BLESSING",
+    "name": "Wyrd Tree's Blessing",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Glenumbra",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Healing Done", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "When you heal yourself or an ally, gain Major Mending for 2 seconds, increasing your healing done by 16%.",
+        "proc_condition": "heal_ally_or_self",
+        "buff_granted": "Major Mending",
+        "healing_bonus_percent": 16,
+        "duration_sec": 2
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.80,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|mending|healing|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/wyrd-trees-blessing"
+  },
+  {
+    "set_id": "SET_OVERLAND_ASSASSINS_GUILE",
+    "name": "Assassin's Guile",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Glenumbra",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Reduces the cost of Roll Dodge by 20%. Increases your damage by 15% for 3 seconds after Roll Dodging.",
+        "roll_dodge_cost_reduction_percent": 20,
+        "damage_bonus_percent": 15,
+        "duration_sec": 3
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "damage|dodge|stamina|pvp|nightblade|mobility",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/assassins-guile"
+  },
+  {
+    "set_id": "SET_OVERLAND_KNIGHT_SLAYER",
+    "name": "Knight Slayer",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stormhaven",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Physical Penetration", "value": 1487},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "Your Light Attacks reduce the target's Physical Resistance by 2400 for 5 seconds.",
+        "proc_condition": "light_attack",
+        "debuff_granted": "Physical Resistance Reduction",
+        "debuff_value": 2400,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|penetration|stamina|debuff|light-attack",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/knight-slayer"
+  },
+  {
+    "set_id": "SET_OVERLAND_VAMPIRES_KISS",
+    "name": "Vampire's Kiss",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stormhaven",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "When you kill an enemy, you heal for 3890 Health over 10 seconds.",
+        "proc_condition": "kill_enemy",
+        "heal_over_time": 3890,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.10,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.30
+    },
+    "tags": "sustain|self-heal|stamina|solo|on-kill",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vampires-kiss"
+  },
+  {
+    "set_id": "SET_OVERLAND_STORM_MASTER",
+    "name": "Storm Master",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stormhaven",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your damage done with Shock abilities by 600.",
+        "damage_type": "Shock",
+        "damage_bonus": 600
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|shock|lightning|sorcerer|destruction-staff",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/storm-master"
+  },
+  {
+    "set_id": "SET_OVERLAND_VAMPIRE_LORD",
+    "name": "Vampire Lord",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Rivenspire",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Spell Damage", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Spell Damage", "value": 129},
+      "5": {
+        "effect": "While you are below 50% Health, your Spell Damage is increased by 450.",
+        "condition": "below_50_health",
+        "spell_damage_bonus": 450
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|low-health|spell-damage|risky",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vampire-lord"
+  },
+  {
+    "set_id": "SET_OVERLAND_UNDAUNTED_UNWEAVER",
+    "name": "Undaunted Unweaver",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Rivenspire",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Damage", "value": 129},
+      "5": {
+        "effect": "Whenever you deal damage with a Light or Heavy Attack, you deal an additional 1200 Magic Damage to all enemies within 8 meters of your target.",
+        "proc_condition": "light_or_heavy_attack",
+        "damage_type": "Magic",
+        "damage_value": 1200,
+        "radius_m": 8
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|aoe|light-attack|cleave",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/undaunted-unweaver"
+  },
+  {
+    "set_id": "SET_OVERLAND_SWORD_SINGER",
+    "name": "Sword-Singer",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Alik'r Desert",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "Adds 400 Weapon Damage to your One Hand and Shield, Two Handed, and Dual Wield abilities.",
+        "ability_type": "Melee Weapon",
+        "weapon_damage_bonus": 400
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.10
+    },
+    "tags": "damage|stamina|melee|weapon-damage|two-handed|dual-wield",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sword-singer"
+  },
+  {
+    "set_id": "SET_OVERLAND_SYVARRAS_SCALES",
+    "name": "Syvarra's Scales",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Alik'r Desert",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "When you drink a potion, restore 2800 Magicka and gain 5280 Physical and Spell Resistance for 10 seconds.",
+        "proc_condition": "drink_potion",
+        "magicka_restore": 2800,
+        "resistance_bonus": 5280,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.30,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.40
+    },
+    "tags": "sustain|potion|magicka|resistance|hybrid",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/syvarras-scales"
+  },
+  {
+    "set_id": "SET_OVERLAND_WITHERED_HAND",
+    "name": "Withered Hand",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Alik'r Desert",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Magicka Recovery", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "When you kill an enemy, you restore 700 Magicka.",
+        "proc_condition": "kill_enemy",
+        "magicka_restore": 700
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "healing_done": 0.30,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "sustain|magicka|on-kill|farming|solo",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/withered-hand"
+  },
+  {
+    "set_id": "SET_OVERLAND_DRAUGR_HULK",
+    "name": "Draugr Hulk",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stonefalls",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Max Health", "value": 1206},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {"stat": "Max Health", "value": 2974}
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|health|survivability|beginner-friendly|heavy-armor",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/draugr-hulk"
+  },
+  {
+    "set_id": "SET_OVERLAND_SERGEANTS_MAIL",
+    "name": "Sergeant's Mail",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stonefalls",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Adds 3% Damage Reduction to you and your group members within 10 meters.",
+        "aura_range_m": 10,
+        "damage_reduction_percent": 3,
+        "affects_group": true
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.40,
+      "damage_taken": 0.60
+    },
+    "tags": "tank|group-buff|damage-reduction|heavy-armor|support",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sergeants-mail"
+  },
+  {
+    "set_id": "SET_OVERLAND_PLAGUE_SLINGER",
+    "name": "Plague Slinger",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Deshaan",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your damage done with Disease abilities by 600.",
+        "damage_type": "Disease",
+        "damage_bonus": 600
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|disease|necromancer",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/plague-slinger"
+  },
+  {
+    "set_id": "SET_OVERLAND_HATCHLINGS_SHELL",
+    "name": "Hatchling's Shell",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Shadowfen",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {
+        "effect": "When you take damage, you gain a damage shield that absorbs 6500 damage for 6 seconds. This effect can occur once every 15 seconds.",
+        "proc_condition": "take_damage",
+        "shield_value": 6500,
+        "duration_sec": 6,
+        "cooldown_sec": 15
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|shield|survivability|heavy-armor|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/hatchlings-shell"
+  },
+  {
+    "set_id": "SET_OVERLAND_SPIDERS_BITE",
+    "name": "Spider's Bite",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Shadowfen",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Increases your Critical Damage by 12%.",
+        "crit_damage_bonus_percent": 12
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|stamina|critical-damage|burst",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spiders-bite"
+  },
+  {
+    "set_id": "SET_OVERLAND_DRAUGRS_HERITAGE",
+    "name": "Draugr's Heritage",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Eastmarch",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your Max Health, Magicka, and Stamina by 1500 each.",
+        "max_health_bonus": 1500,
+        "max_magicka_bonus": 1500,
+        "max_stamina_bonus": 1500
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "healing_done": 0.30,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.50
+    },
+    "tags": "hybrid|all-resources|versatile|heavy-armor",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/draugrs-heritage"
+  },
+  {
+    "set_id": "SET_OVERLAND_YSGRAMORS_BIRTHRIGHT",
+    "name": "Ysgramor's Birthright",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Eastmarch",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Max Health", "value": 1206},
+      "4": {"stat": "Healing Taken", "value": 129},
+      "5": {"stat": "Max Health", "value": 2974}
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|health|survivability|heavy-armor|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ysgramors-birthright"
+  },
+  {
+    "set_id": "SET_OVERLAND_WARRIOR_POET",
+    "name": "Warrior-Poet",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Vvardenfell",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {"stat": "Max Health", "value": 2974}
+    },
+    "pve_tier": "B",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.20,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.60
+    },
+    "tags": "hybrid|health|spell-damage|pvp|heavy-armor|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/warrior-poet"
+  },
+  {
+    "set_id": "SET_OVERLAND_DEFILER",
+    "name": "Defiler",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Vvardenfell",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "When you deal damage, you summon a Hunger that attacks the nearest enemy for 8 seconds, dealing 500 Physical Damage every 1 second. This effect can occur once every 8 seconds.",
+        "proc_condition": "deal_damage",
+        "summon_name": "Hunger",
+        "damage_per_second": 500,
+        "duration_sec": 8,
+        "cooldown_sec": 8
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|summon|pet|stamina|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/defiler"
+  },
+  {
+    "set_id": "SET_OVERLAND_GRYPHONS_FEROCITY",
+    "name": "Gryphon's Ferocity",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Summerset",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "When you deal Critical Damage with a Class ability, gain Minor Force for 10 seconds, increasing your Critical Damage by 10%.",
+        "proc_condition": "class_ability_crit",
+        "buff_granted": "Minor Force",
+        "crit_damage_bonus_percent": 10,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|stamina|minor-force|class-abilities",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/gryphons-ferocity"
+  },
+  {
+    "set_id": "SET_OVERLAND_SLOADS_SEMBLANCE",
+    "name": "Sload's Semblance",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Summerset",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "When you deal direct damage, you have a 10% chance to summon a glob of Sload slime that deals Oblivion Damage to the target after 2 seconds. This effect can occur once every 2 seconds and scales off the higher of your Weapon or Spell Damage.",
+        "proc_chance": 0.10,
+        "proc_condition": "direct_damage",
+        "damage_type": "Oblivion",
+        "delay_sec": 2,
+        "cooldown_sec": 2
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|oblivion|proc|pvp-meta|unblockable",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sloads-semblance"
+  },
+  {
+    "set_id": "SET_OVERLAND_VESTURE_OF_DARLOC_BRAE",
+    "name": "Vesture of Darloc Brae",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Northern Elsweyr",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "While you are crouching or invisible, you restore 200 Stamina, Magicka, and Health every 1 second.",
+        "condition": "crouching_or_invisible",
+        "restore_per_second": 200,
+        "restore_type": "All Resources"
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "stealth|sustain|stamina|nightblade|pvp|ganking",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vesture-of-darloc-brae"
+  },
+  {
+    "set_id": "SET_OVERLAND_SENCHE_RAHTS_GRIT",
+    "name": "Senche-raht's Grit",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Northern Elsweyr",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "When you take damage, you gain Major Resolve for 10 seconds, increasing your Physical and Spell Resistance by 5948. This effect can occur once every 10 seconds.",
+        "proc_condition": "take_damage",
+        "buff_granted": "Major Resolve",
+        "resistance_bonus": 5948,
+        "duration_sec": 10,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.75
+    },
+    "tags": "tank|resistance|heavy-armor|survivability|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/senche-rahts-grit"
+  },
+  {
+    "set_id": "SET_OVERLAND_VASTARIES_TUTELAGE",
+    "name": "Vastarie's Tutelage",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Northern Elsweyr",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Magicka Recovery", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "When you drink a potion while in combat, you and up to 3 nearby group members gain Major Intellect and Major Endurance for 20 seconds, increasing Magicka and Stamina Recovery by 30%.",
+        "proc_condition": "drink_potion_in_combat",
+        "buff_granted": "Major Intellect, Major Endurance",
+        "recovery_bonus_percent": 30,
+        "duration_sec": 20,
+        "affects_group": true,
+        "group_limit": 3
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "healing_done": 0.60,
+      "buff_uptime": 0.70,
+      "damage_taken": 0.0
+    },
+    "tags": "support|group-buff|magicka|recovery|healer|potion",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vastaries-tutelage"
+  },
+  {
+    "set_id": "SET_OVERLAND_STUHNS_FAVOR",
+    "name": "Stuhn's Favor",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Western Skyrim",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {
+        "effect": "When you apply a crowd control effect to an enemy, they gain Minor Brittle for 10 seconds, increasing their Critical Damage taken by 10%.",
+        "proc_condition": "apply_cc",
+        "debuff_granted": "Minor Brittle",
+        "crit_damage_taken_bonus_percent": 10,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "healing_done": 0.0,
+      "buff_uptime": 0.80,
+      "damage_taken": 0.70
+    },
+    "tags": "tank|debuff|brittle|group-support|crowd-control|trial-tank",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stuhns-favor"
+  },
+  {
+    "set_id": "SET_OVERLAND_ETERNAL_VIGOR",
+    "name": "Eternal Vigor",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Western Skyrim",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Adds 350 Magicka Recovery and 350 Stamina Recovery.",
+        "magicka_recovery_bonus": 350,
+        "stamina_recovery_bonus": 350
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|sustain|recovery|heavy-armor|resource-management",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/eternal-vigor"
+  },
+  {
+    "set_id": "SET_OVERLAND_VENOMOUS_SMITE",
+    "name": "Venomous Smite",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Western Skyrim",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "When you deal damage with a Martial melee attack, you apply Noxious Plague to the enemy for 6 seconds. Each tick deals Poison Damage, scaling higher with each tick. This effect can occur every 6 seconds.",
+        "proc_condition": "martial_melee_attack",
+        "damage_type": "Poison",
+        "dot_scaling": true,
+        "duration_sec": 6,
+        "cooldown_sec": 6
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|poison|melee|stamina|dot|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/venomous-smite"
+  },
+  {
+    "set_id": "SET_OVERLAND_DIAMONDS_VICTORY",
+    "name": "Diamond's Victory",
+    "set_type": "Overland",
+    "weight": "Light|Medium|Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Blackwood",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Casting abilities that cost Magicka grants you Weapon Damage for 10 seconds. Casting abilities that cost Stamina grants you Spell Damage for 10 seconds. Stacking to 3 times. When at maximum stacks, gain Major Force for 10 seconds, increasing your Critical Damage by 20%.",
+        "stack_max": 3,
+        "buff_granted_at_max": "Major Force",
+        "crit_damage_bonus_percent": 20,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "healing_done": 0.0,
+      "buff_uptime": 0.30,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|hybrid|major-force|stacking|versatile|crit",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/diamonds-victory"
+  },
+  {
+    "set_id": "SET_OVERLAND_HIST_WHISPERER",
+    "name": "Hist Whisperer",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Blackwood",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Magicka Recovery", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your Magicka Recovery by 145 for each negative effect on your character, up to 5 times.",
+        "magicka_recovery_per_debuff": 145,
+        "max_stacks": 5
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "healing_done": 0.60,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "sustain|magicka|recovery|debuff-synergy|healer",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/hist-whisperer"
+  },
+  {
+    "set_id": "SET_OVERLAND_IVORY_BRIGADE",
+    "name": "Ivory Brigade",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Blackwood",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {
+        "effect": "Reduces the cost of Block by 8%. When you Block, heal for 1660 Health. This effect can occur once every 1 second.",
+        "block_cost_reduction_percent": 8,
+        "heal_on_block": 1660,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.90
+    },
+    "tags": "tank|block|self-heal|heavy-armor|sustain|trial-tank",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ivory-brigade"
+  }
+]
