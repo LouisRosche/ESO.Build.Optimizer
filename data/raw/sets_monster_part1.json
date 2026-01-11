@@ -1,0 +1,665 @@
+[
+  {
+    "set_id": "SET_MONSTER_BALORGH",
+    "name": "Balorgh",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "March of Sacrifices",
+    "dlc_required": "Wolfhunter",
+    "bonuses": {
+      "1": {"stat": "Weapon and Spell Damage", "value": 129},
+      "2": {
+        "effect": "When you use an Ultimate ability, gain Weapon and Spell Damage and Physical and Spell Penetration equal to the amount of total Ultimate consumed for 12 seconds.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Weapon/Spell Damage + Penetration",
+        "duration_sec": 12,
+        "cooldown_sec": 0,
+        "scaling": "1 damage and 23 penetration per ultimate point"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|burst|ultimate|penetration|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/balorgh"
+  },
+  {
+    "set_id": "SET_MONSTER_KJALNARS_NIGHTMARE",
+    "name": "Kjalnar's Nightmare",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Unhallowed Grave",
+    "dlc_required": "Harrowstorm",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you summon a bone and deal Physical Damage. Enemies under 25% Health take 300% more damage. Max 5 bones every 5 seconds.",
+        "proc_condition": "light_heavy_attack",
+        "buff_granted": null,
+        "base_damage": 1376,
+        "execute_multiplier": 4.0,
+        "duration_sec": null,
+        "cooldown_sec": 5,
+        "max_stacks": 5
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|execute|crit|trial-meta|single-target",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/kjalnars-nightmare"
+  },
+  {
+    "set_id": "SET_MONSTER_ZAAN",
+    "name": "Zaan",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Scalecaller Peak",
+    "dlc_required": "Dragon Bones",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have a 33% chance to create a beam of fire to the enemy that deals Flame Damage over 5 seconds. While the beam holds, you gain 657 Critical Chance. Range 10 meters.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.33,
+        "buff_granted": "Critical Chance",
+        "buff_value": 657,
+        "damage_type": "Flame",
+        "duration_sec": 5,
+        "cooldown_sec": 18,
+        "range_m": 10
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|dot|single-target|crit",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/zaan"
+  },
+  {
+    "set_id": "SET_MONSTER_VALKYN_SKORIA",
+    "name": "Valkyn Skoria",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "City of Ash II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage with a damage over time effect, you have an 8% chance to summon a meteor that deals Flame Damage to target and enemies within 5 meters.",
+        "proc_condition": "dot_damage",
+        "proc_chance": 0.08,
+        "buff_granted": null,
+        "damage_type": "Flame",
+        "base_damage": 11500,
+        "duration_sec": null,
+        "cooldown_sec": 5,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|aoe|dot-proc|crit",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/valkyn-skoria"
+  },
+  {
+    "set_id": "SET_MONSTER_MAW_OF_THE_INFERNAL",
+    "name": "Maw of the Infernal",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Banished Cells II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have a 33% chance to summon a Daedroth for 15 seconds that deals Flame Damage to enemies in front of it.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.33,
+        "buff_granted": null,
+        "summon": "Daedroth",
+        "damage_type": "Flame",
+        "duration_sec": 15,
+        "cooldown_sec": 15
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|summon|pet|magicka",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/maw-of-the-infernal"
+  },
+  {
+    "set_id": "SET_MONSTER_STORMFIST",
+    "name": "Stormfist",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Tempest Island",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have a 33% chance to create a thunderfist that deals Shock Damage over 3 seconds to enemies within 4 meters.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.33,
+        "buff_granted": null,
+        "damage_type": "Shock",
+        "duration_sec": 3,
+        "cooldown_sec": 5,
+        "radius_m": 4
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|shock|aoe|stamina",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stormfist"
+  },
+  {
+    "set_id": "SET_MONSTER_ILAMBRIS",
+    "name": "Ilambris",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Crypt of Hearts I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal Flame or Shock damage, you have an 10% chance to summon a meteor shower that deals Flame Damage and a lightning storm that deals Shock Damage over 5 seconds in a 4 meter radius.",
+        "proc_condition": "flame_or_shock_damage",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "damage_type": "Flame and Shock",
+        "duration_sec": 5,
+        "cooldown_sec": 5,
+        "radius_m": 4
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|shock|aoe|crit",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ilambris"
+  },
+  {
+    "set_id": "SET_MONSTER_GRUNDWULF",
+    "name": "Grundwulf",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Icereach",
+    "dlc_required": "Harrowstorm",
+    "bonuses": {
+      "1": {"stat": "Magicka Recovery", "value": 129},
+      "2": {
+        "effect": "When you deal Critical Damage, you restore 480 Magicka or Stamina, whichever is lowest. This effect can occur once every 1 second.",
+        "proc_condition": "critical_damage",
+        "buff_granted": null,
+        "resource_restore": 480,
+        "resource_type": "Lowest of Magicka/Stamina",
+        "duration_sec": null,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "resource_efficiency": 0.90
+    },
+    "tags": "sustain|resource|crit|hybrid",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/grundwulf"
+  },
+  {
+    "set_id": "SET_MONSTER_SLIMECRAW",
+    "name": "Slimecraw",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Wayrest Sewers I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Minor Berserk", "value": null, "uptime": "always"},
+      "2": {
+        "effect": "Gain 348 Weapon and Spell Damage while using an Ultimate ability or for 20 seconds after activation.",
+        "proc_condition": "ultimate_active_or_cast",
+        "buff_granted": "Weapon and Spell Damage",
+        "buff_value": 348,
+        "duration_sec": 20,
+        "cooldown_sec": 0
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.95,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|berserk|buff|consistent|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/slimecraw"
+  },
+  {
+    "set_id": "SET_MONSTER_SELENE",
+    "name": "Selene",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Selene's Web",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have a 15% chance to summon a primal spirit that deals Physical Damage after a 1.1 second delay.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.15,
+        "buff_granted": null,
+        "summon": "Spirit Bear",
+        "damage_type": "Physical",
+        "base_damage": 17475,
+        "duration_sec": null,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|physical|summon|stamina|single-target",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/selene"
+  },
+  {
+    "set_id": "SET_MONSTER_VELIDRETH",
+    "name": "Velidreth",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Cradle of Shadows",
+    "dlc_required": "Shadows of the Hist",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage, you have a 20% chance to spawn 3 spores that deal Poison Damage after 2 seconds to enemies within 3 meters.",
+        "proc_condition": "any_damage",
+        "proc_chance": 0.20,
+        "buff_granted": null,
+        "damage_type": "Poison",
+        "spore_count": 3,
+        "duration_sec": null,
+        "cooldown_sec": 8,
+        "radius_m": 3
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|poison|aoe|crit",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/velidreth"
+  },
+  {
+    "set_id": "SET_MONSTER_NERIENETH",
+    "name": "Nerieneth",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Crypt of Hearts II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have an 8% chance to create three skulls that deal Magic Damage to nearby enemies.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.08,
+        "buff_granted": null,
+        "damage_type": "Magic",
+        "skull_count": 3,
+        "duration_sec": null,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magic|crit|single-target",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/nerieneth"
+  },
+  {
+    "set_id": "SET_MONSTER_MOLAG_KENA",
+    "name": "Molag Kena",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "White-Gold Tower",
+    "dlc_required": "Imperial City",
+    "bonuses": {
+      "1": {"stat": "Weapon and Spell Damage", "value": 129},
+      "2": {
+        "effect": "When you deal damage with two consecutive Light Attacks, you gain Overkill for 6 seconds, increasing Weapon and Spell Damage by 516 but increasing cost of abilities by 10%.",
+        "proc_condition": "two_consecutive_light_attacks",
+        "buff_granted": "Overkill",
+        "buff_value": 516,
+        "cost_increase": 0.10,
+        "duration_sec": 6,
+        "cooldown_sec": 0
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|overkill|light-attack|burst",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/molag-kena"
+  },
+  {
+    "set_id": "SET_MONSTER_ICEHEART",
+    "name": "Iceheart",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Direfrost Keep",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Critical Chance", "value": 657},
+      "2": {
+        "effect": "When you deal Critical Damage, you have a 20% chance to gain a damage shield that absorbs damage and deals Frost Damage to enemies within 5 meters each second for 6 seconds.",
+        "proc_condition": "critical_damage",
+        "proc_chance": 0.20,
+        "buff_granted": "Damage Shield",
+        "shield_strength": 10000,
+        "damage_type": "Frost",
+        "duration_sec": 6,
+        "cooldown_sec": 6,
+        "radius_m": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.60
+    },
+    "tags": "shield|frost|defensive|crit|aoe",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/iceheart"
+  },
+  {
+    "set_id": "SET_MONSTER_DOMIHAUS",
+    "name": "Domihaus",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Falkreath Hold",
+    "dlc_required": "Horns of the Reach",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you deal damage, you have a 15% chance to create a ring of fire for 10 seconds that deals Flame Damage and a ring of stones that deals Physical Damage to enemies in the rings. Standing in the rings grants you 450 Weapon and Spell Damage or 4500 Physical and Spell Resistance.",
+        "proc_condition": "any_damage",
+        "proc_chance": 0.15,
+        "buff_granted": "Weapon/Spell Damage or Resistances",
+        "buff_value_damage": 450,
+        "buff_value_resistance": 4500,
+        "damage_type": "Flame and Physical",
+        "duration_sec": 10,
+        "cooldown_sec": 15
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.20
+    },
+    "tags": "damage|fire|physical|aoe|buff|stationary",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/domihaus"
+  },
+  {
+    "set_id": "SET_MONSTER_GROTHDARR",
+    "name": "Grothdarr",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vaults of Madness",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Magicka", "value": 1096},
+      "2": {
+        "effect": "When you deal damage, you have a 10% chance to create a flaming pool under your feet that deals Flame Damage to all enemies in the area every second for 5 seconds.",
+        "proc_condition": "any_damage",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "damage_type": "Flame",
+        "duration_sec": 5,
+        "cooldown_sec": 10,
+        "radius_m": 8
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|fire|aoe|magicka|melee",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/grothdarr"
+  },
+  {
+    "set_id": "SET_MONSTER_SHADOWREND",
+    "name": "Shadowrend",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Banished Cells I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you deal damage, you have a 15% chance to summon a clannfear for 15 seconds that follows you and deals Physical Damage to the closest enemy every 2 seconds. Enemies damaged are afflicted with Minor Maim for 4 seconds.",
+        "proc_condition": "any_damage",
+        "proc_chance": 0.15,
+        "buff_granted": null,
+        "debuff_granted": "Minor Maim",
+        "summon": "Clannfear",
+        "damage_type": "Physical",
+        "duration_sec": 15,
+        "cooldown_sec": 15
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.30,
+      "debuff_uptime": 0.40
+    },
+    "tags": "damage|physical|summon|maim|stamina",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/shadowrend"
+  },
+  {
+    "set_id": "SET_MONSTER_MAARSELOK",
+    "name": "Maarselok",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Lair of Maarselok",
+    "dlc_required": "Scalebreaker",
+    "bonuses": {
+      "1": {"stat": "Max Stamina", "value": 1096},
+      "2": {
+        "effect": "When you apply a damage over time effect to an enemy with more than 1 million Max Health, you apply Corruption for 5 seconds. When a corrupted enemy dies, the corruption spreads to nearby enemies dealing Disease Damage.",
+        "proc_condition": "dot_on_high_hp_enemy",
+        "hp_threshold": 1000000,
+        "buff_granted": null,
+        "debuff_granted": "Corruption",
+        "damage_type": "Disease",
+        "duration_sec": 5,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|disease|dot|spread|boss-killer|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/maarselok"
+  },
+  {
+    "set_id": "SET_MONSTER_KRAGH",
+    "name": "Kra'gh",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Fungal Grotto I",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "1": {"stat": "Physical and Spell Penetration", "value": 1487},
+      "2": {
+        "effect": "When you deal damage with a Light or Heavy Attack, you have a 10% chance to summon a shadow of Kra'gh that deals Physical Damage to enemies in front of you.",
+        "proc_condition": "light_heavy_attack",
+        "proc_chance": 0.10,
+        "buff_granted": null,
+        "damage_type": "Physical",
+        "base_damage": 6958,
+        "duration_sec": null,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|penetration|physical|dungeon-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/kragh"
+  },
+  {
+    "set_id": "SET_MONSTER_EARTHGORE",
+    "name": "Earthgore",
+    "set_type": "Monster",
+    "weight": "Heavy/Medium/Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Bloodroot Forge",
+    "dlc_required": "Horns of the Reach",
+    "bonuses": {
+      "1": {"stat": "Healing Done", "value": 129},
+      "2": {
+        "effect": "When you heal an ally below 50% Health, spawn a pool of quenching blood that removes all damaging effects from allies in the area and heals for Health over 3 seconds.",
+        "proc_condition": "heal_ally_below_50_percent",
+        "buff_granted": null,
+        "effect_type": "Purge + Heal",
+        "heal_value": 30000,
+        "duration_sec": 3,
+        "cooldown_sec": 35,
+        "radius_m": 6
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.20,
+      "healing_done": 0.95,
+      "damage_taken": 0.0
+    },
+    "tags": "healing|purge|emergency|healer-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/earthgore"
+  }
+]

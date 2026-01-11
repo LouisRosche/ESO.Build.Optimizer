@@ -1,0 +1,657 @@
+[
+  {
+    "set_id": "SET_TRIAL_RELEQUEN",
+    "name": "Arms of Relequen",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Cloudrest",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Your Light Attacks apply a stack of harmful winds to your target for 5 seconds, dealing Physical Damage per stack. Max 20 stacks.",
+        "proc_condition": "light_attack",
+        "damage_type": "Physical",
+        "max_stacks": 20,
+        "duration_sec": 5
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.98,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dot|stacking|light-attack|physical|stamina-dps|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/arms-of-relequen"
+  },
+  {
+    "set_id": "SET_TRIAL_BAHSEI",
+    "name": "Bahsei's Mania",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Rockgrove",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Increase your damage done to enemies by up to 15% based on your missing Magicka. Maximum bonus at 50% or less Magicka.",
+        "proc_condition": "missing_magicka",
+        "max_damage_bonus_percent": 15,
+        "threshold_percent": 50,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka-dps|resource-management|trial-meta|scaling",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bahseis-mania"
+  },
+  {
+    "set_id": "SET_TRIAL_WHORL_DEPTHS",
+    "name": "Whorl of the Depths",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dreadsail Reef",
+    "dlc_required": "High Isle",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Dealing damage with a single target attack creates a water tornado at the enemy's location for 6 seconds, dealing Frost Damage every 1 second to enemies within 4 meters. 10 second cooldown.",
+        "proc_condition": "single_target_damage",
+        "damage_type": "Frost",
+        "radius_m": 4,
+        "duration_sec": 6,
+        "tick_interval_sec": 1,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|aoe|frost|proc|magicka-dps|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/whorl-of-the-depths"
+  },
+  {
+    "set_id": "SET_TRIAL_CORAL_RIPTIDE",
+    "name": "Coral Riptide",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Dreadsail Reef",
+    "dlc_required": "High Isle",
+    "bonuses": {
+      "2": {"stat": "Stamina Recovery", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Increase your damage done to enemies by up to 15% based on your missing Stamina. Maximum bonus at 50% or less Stamina.",
+        "proc_condition": "missing_stamina",
+        "max_damage_bonus_percent": 15,
+        "threshold_percent": 50,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|stamina-dps|resource-management|trial-meta|scaling",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/coral-riptide"
+  },
+  {
+    "set_id": "SET_TRIAL_ANSUUL",
+    "name": "Ansuul's Torment",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sanity's Edge",
+    "dlc_required": "Necrom",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Dealing damage with a Light or Heavy Attack marks the enemy with Nightmare for 10 seconds. Enemies with Nightmare take Magic Damage when you deal direct damage to them. 0.5 second cooldown.",
+        "proc_condition": "light_or_heavy_attack",
+        "damage_type": "Magic",
+        "mark_duration_sec": 10,
+        "cooldown_sec": 0.5
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|aoe|proc|magicka-dps|trial-meta|direct-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ansuuls-torment"
+  },
+  {
+    "set_id": "SET_TRIAL_PILLAR_NIRN",
+    "name": "Pillar of Nirn",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Halls of Fabrication",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Physical Penetration", "value": 1487},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Dealing direct damage summons a pillar of Nirn beneath your enemy after 1 second, dealing Disease Damage and applying Minor Vulnerability for 10 seconds. 10 second cooldown.",
+        "proc_condition": "direct_damage",
+        "damage_type": "Disease",
+        "debuff_applied": "Minor Vulnerability",
+        "debuff_duration_sec": 10,
+        "delay_sec": 1,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.15,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dot|ground-aoe|disease|debuff|penetration|stamina-dps",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/pillar-of-nirn"
+  },
+  {
+    "set_id": "SET_TRIAL_WAR_MACHINE",
+    "name": "War Machine",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Halls of Fabrication",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Max Stamina", "value": 1096},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Casting an Ultimate ability grants you and up to 11 group members Minor Slayer for 15 seconds, increasing your damage done to Dungeon, Trial, and Arena Monsters by 5%.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Minor Slayer",
+        "buff_effect": "5% damage to dungeon/trial/arena monsters",
+        "group_size": 12,
+        "duration_sec": 15
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.50,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|group-buff|support-dps|ultimate|minor-slayer",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/war-machine"
+  },
+  {
+    "set_id": "SET_TRIAL_VICIOUS_OPHIDIAN",
+    "name": "Vicious Ophidian",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Craglorn Trials (Aetherian Archive, Hel Ra Citadel, Sanctum Ophidia)",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Minor Slayer", "uptime": "always"},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Killing an enemy grants you 2310 Stamina and Major Expedition for 8 seconds, increasing your Movement Speed by 30%.",
+        "proc_condition": "enemy_kill",
+        "resource_restore": 2310,
+        "resource_type": "Stamina",
+        "buff_granted": "Major Expedition",
+        "buff_effect": "30% movement speed",
+        "duration_sec": 8
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.10,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|sustain|stamina-dps|minor-slayer|speed|trash-clear",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vicious-ophidian"
+  },
+  {
+    "set_id": "SET_DUNGEON_BURNING_SPELLWEAVE",
+    "name": "Burning Spellweave",
+    "set_type": "Dungeon",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "City of Ash I & II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Dealing Flame Damage grants you 490 Spell Damage for 8 seconds. 8 second cooldown.",
+        "proc_condition": "flame_damage",
+        "stat_boost": "Spell Damage",
+        "stat_value": 490,
+        "duration_sec": 8,
+        "cooldown_sec": 8
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|flame|spell-damage|magicka-dps|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/burning-spellweave"
+  },
+  {
+    "set_id": "SET_OVERLAND_MOTHERS_SORROW",
+    "name": "Mother's Sorrow",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Deshaan",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Spell Critical", "value": 657},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {"stat": "Spell Critical", "value": 1314}
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|magicka-dps|trial-meta|accessible|farmable",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/mothers-sorrow"
+  },
+  {
+    "set_id": "SET_TRIAL_SIRORIA",
+    "name": "Siroria's Grace",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Cloudrest",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Standing still for 1 second grants you a stack of Siroria's Boon, up to 10 stacks, granting 30 Weapon and Spell Damage per stack. Moving removes 1 stack every 0.5 seconds.",
+        "proc_condition": "stationary",
+        "charge_time_sec": 1,
+        "stat_boost_per_stack": 30,
+        "stat_type": "Weapon and Spell Damage",
+        "max_stacks": 10,
+        "decay_interval_sec": 0.5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|stationary|stacking|magicka-dps|static-fights",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sirorias-grace"
+  },
+  {
+    "set_id": "SET_TRIAL_MANTLE_SIRORIA",
+    "name": "Mantle of Siroria",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Cloudrest (Perfected)",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {
+        "effect": "Standing still for 1 second grants you a stack of Siroria's Boon, up to 10 stacks, granting 34 Weapon and Spell Damage per stack. Moving removes 1 stack every 0.5 seconds.",
+        "proc_condition": "stationary",
+        "charge_time_sec": 1,
+        "stat_boost_per_stack": 34,
+        "stat_type": "Weapon and Spell Damage",
+        "max_stacks": 10,
+        "decay_interval_sec": 0.5,
+        "perfected": true
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.92,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|stationary|stacking|magicka-dps|static-fights|perfected",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/mantle-of-siroria"
+  },
+  {
+    "set_id": "SET_TRIAL_TOOTH_LOKKESTIIZ",
+    "name": "Tooth of Lokkestiiz",
+    "set_type": "Trial",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Sunspire",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "Dealing Critical Damage grants you Minor Slayer for 15 seconds, increasing your damage done to Dungeon, Trial, and Arena Monsters by 5%.",
+        "proc_condition": "critical_damage",
+        "buff_granted": "Minor Slayer",
+        "buff_effect": "5% damage to dungeon/trial/arena monsters",
+        "duration_sec": 15
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.05,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|minor-slayer|stamina-dps|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/tooth-of-lokkestiiz"
+  },
+  {
+    "set_id": "SET_TRIAL_ROARING_OPPORTUNIST",
+    "name": "Roaring Opportunist",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Kyne's Aegis",
+    "dlc_required": "Greymoor",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Completing a fully-charged Heavy Attack grants you and up to 11 group members Major Slayer for 10 seconds, increasing your damage done to Dungeon, Trial, and Arena Monsters by 10%.",
+        "proc_condition": "fully_charged_heavy_attack",
+        "buff_granted": "Major Slayer",
+        "buff_effect": "10% damage to dungeon/trial/arena monsters",
+        "group_size": 12,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.95,
+      "healing_done": 0.0,
+      "damage_taken": 0.30
+    },
+    "tags": "tank|support|group-buff|major-slayer|heavy-attack|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/roaring-opportunist"
+  },
+  {
+    "set_id": "SET_TRIAL_SAXHLEEL_CHAMPION",
+    "name": "Saxhleel Champion",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Rockgrove",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Casting an Ultimate ability grants you and up to 11 group members Minor Force for 30 seconds, increasing your Critical Damage by 10%.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Minor Force",
+        "buff_effect": "10% Critical Damage",
+        "group_size": 12,
+        "duration_sec": 30
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.85,
+      "healing_done": 0.50,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|group-buff|minor-force|ultimate|crit-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/saxhleel-champion"
+  },
+  {
+    "set_id": "SET_TRIAL_SPAULDER_RUIN",
+    "name": "Spaulder of Ruin",
+    "set_type": "Trial",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Rockgrove",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Health Recovery", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Casting an Ultimate ability grants you and up to 11 group members Empower for 15 seconds, increasing the damage of your Light and Heavy Attacks by 80%.",
+        "proc_condition": "ultimate_cast",
+        "buff_granted": "Empower",
+        "buff_effect": "80% Light/Heavy Attack damage",
+        "group_size": 12,
+        "duration_sec": 15
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.10,
+      "buff_uptime": 0.85,
+      "healing_done": 0.0,
+      "damage_taken": 0.40
+    },
+    "tags": "tank|support|group-buff|empower|ultimate|light-attack-builds",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spaulder-of-ruin"
+  },
+  {
+    "set_id": "SET_TRIAL_STONE_TALKER",
+    "name": "Stone-Talker's Oath",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Rockgrove",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Activating a synergy grants you and up to 11 group members 507 Magicka and Stamina Recovery for 10 seconds.",
+        "proc_condition": "synergy_activation",
+        "resource_recovery": 507,
+        "resource_types": ["Magicka", "Stamina"],
+        "group_size": 12,
+        "duration_sec": 10
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.80,
+      "healing_done": 0.60,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|group-sustain|synergy|recovery|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/stone-talkers-oath"
+  },
+  {
+    "set_id": "SET_TRIAL_OLORIME",
+    "name": "Vestment of Olorime",
+    "set_type": "Trial",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Cloudrest",
+    "dlc_required": "Summerset",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Casting an ability that costs resources creates a circle of might for 10 seconds. Standing within grants Major Courage for 20 seconds, increasing Weapon and Spell Damage by 430. 10 second cooldown.",
+        "proc_condition": "ability_cast",
+        "ground_effect": true,
+        "ground_duration_sec": 10,
+        "buff_granted": "Major Courage",
+        "buff_effect": "430 Weapon and Spell Damage",
+        "buff_duration_sec": 20,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.95,
+      "healing_done": 0.70,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|group-buff|major-courage|ground-effect|trial-meta|must-have",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vestment-of-olorime"
+  },
+  {
+    "set_id": "SET_DUNGEON_JORVULD",
+    "name": "Jorvuld's Guidance",
+    "set_type": "Dungeon",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Scalecaller Peak",
+    "dlc_required": "Dragon Bones",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "Increases the duration of all Major and Minor buffs you apply to yourself and group members by 40%.",
+        "proc_condition": "buff_applied",
+        "buff_extension_percent": 40,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.90,
+      "healing_done": 0.60,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|buff-duration|efficiency|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/jorvulds-guidance"
+  },
+  {
+    "set_id": "SET_DUNGEON_WORM_RAIMENT",
+    "name": "Worm's Raiment",
+    "set_type": "Dungeon",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Vaults of Madness",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Magicka Recovery", "value": 129},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Reduces the Magicka cost of abilities by 4% for you and up to 11 group members within 28 meters.",
+        "proc_condition": "passive_aura",
+        "cost_reduction_percent": 4,
+        "resource_type": "Magicka",
+        "group_size": 12,
+        "range_m": 28,
+        "duration_sec": null
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.75,
+      "healing_done": 0.50,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|group-sustain|magicka|cost-reduction|classic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/worms-raiment"
+  }
+]
