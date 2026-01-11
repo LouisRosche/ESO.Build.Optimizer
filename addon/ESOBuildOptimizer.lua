@@ -387,42 +387,82 @@ end
 
 -- Slash commands
 SLASH_COMMANDS["/ebo"] = function(args)
-    if args == "toggle" or args == "" then
+    -- Parse command and arguments
+    local cmd, param = string.match(args or "", "^(%S*)%s*(.*)$")
+    cmd = string.lower(cmd or "")
+
+    if cmd == "" then
+        -- Show help
+        addon:Info("ESO Build Optimizer v" .. addon.version)
+        addon:Info("Commands:")
+        addon:Info("  /ebo ui - Toggle metrics display")
+        addon:Info("  /ebo reset - Reset current encounter")
+        addon:Info("  /ebo link <token> - Link to website account")
+        addon:Info("  /ebo advisor - Toggle skill recommendations")
+        addon:Info("  /ebo status - Show current status")
+    elseif cmd == "ui" or cmd == "toggle" then
         addon:ToggleUI()
-    elseif args == "expand" then
+    elseif cmd == "reset" then
+        if addon.CombatTracker then
+            addon.CombatTracker:ResetEncounter()
+            addon:Info("Encounter reset")
+        end
+    elseif cmd == "link" then
+        if param and param ~= "" then
+            -- Store token for companion app to use
+            if addon.savedVars then
+                addon.savedVars.accountToken = param
+                addon:Info("Account linked! Token saved for sync.")
+            end
+        else
+            addon:Info("Usage: /ebo link <token>")
+            addon:Info("Get your token from the website dashboard.")
+        end
+    elseif cmd == "expand" then
         if addon.MetricsUI then
             addon.MetricsUI:ToggleExpanded()
             addon:Info("UI %s", addon.MetricsUI:IsExpanded() and "expanded" or "collapsed")
         end
-    elseif args == "advisor" then
+    elseif cmd == "advisor" then
         if addon.SkillAdvisor then
             local newState = not addon.SkillAdvisor:IsEnabled()
             addon.SkillAdvisor:SetEnabled(newState)
             addon:Info("Skill Advisor: %s", newState and "ON" or "OFF")
         end
-    elseif args == "highlight" then
+    elseif cmd == "highlight" then
         if addon.SkillAdvisor then
             local newState = not addon.SkillAdvisor:IsHighlightEnabled()
             addon.SkillAdvisor:SetHighlightEnabled(newState)
             addon:Info("Skill Highlights: %s", newState and "ON" or "OFF")
         end
-    elseif args == "auto" then
+    elseif cmd == "auto" then
         if addon.MetricsUI then
             addon.MetricsUI:ToggleAutoDisplay()
             addon:Info("Auto-display: %s", addon.MetricsUI:IsAutoDisplayEnabled() and "ON" or "OFF")
         end
-    elseif args == "debug" then
+    elseif cmd == "debug" then
         addon.savedVars.settings.verboseLogging = not addon.savedVars.settings.verboseLogging
         addon:Info("Debug logging: %s", addon.savedVars.settings.verboseLogging and "ON" or "OFF")
-    elseif args == "snapshot" then
+    elseif cmd == "snapshot" then
         if addon.BuildSnapshot then
             addon.BuildSnapshot:CaptureFullSnapshot()
             addon:Info("Build snapshot captured")
         end
-    elseif args == "status" then
-        addon:Info("Status: %s", addon.CombatTracker and addon.CombatTracker:GetStatus() or "Unknown")
+    elseif cmd == "status" then
+        local status = "Unknown"
+        if addon.CombatTracker then
+            local inCombat = addon.CombatTracker:IsInEncounter()
+            local encounterCount = addon.savedVars and addon.savedVars.encounters and #addon.savedVars.encounters or 0
+            status = string.format("%s | %d encounters stored", inCombat and "In Combat" or "Idle", encounterCount)
+        end
+        addon:Info("Status: %s", status)
+        if addon.savedVars and addon.savedVars.accountToken then
+            addon:Info("Account: Linked")
+        else
+            addon:Info("Account: Not linked (use /ebo link <token>)")
+        end
     else
-        addon:Info("Commands: /ebo [toggle|expand|advisor|highlight|auto|debug|snapshot|status]")
+        addon:Info("Unknown command: %s. Type /ebo for help.", cmd)
     end
 end
 

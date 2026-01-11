@@ -573,3 +573,13 @@ function CombatTracker:ForceEndEncounter(success)
         EndEncounter(success or false)
     end
 end
+
+function CombatTracker:ResetEncounter()
+    -- End current encounter without saving, then reset state
+    if state.inEncounter then
+        state.inEncounter = false
+        state.currentEncounter = nil
+    end
+    ResetEncounter()
+    addon:Debug("CombatTracker: Encounter manually reset")
+end
