@@ -362,10 +362,13 @@ When ESO patches:
 
 | Source | URL | Data Type | Reliability |
 |--------|-----|-----------|-------------|
-| UESP | uesp.net/wiki/Online:* | Skills, sets, mechanics | Very High |
-| ESO-Hub | eso-hub.com | Sets, builds | High |
-| ESO Logs | esologs.com | Combat rankings | High (for percentiles) |
-| Alcast | alcasthq.com | Meta builds | Medium (opinion-based) |
+| UESP | uesp.net/wiki/Online:* | Skills, sets, mechanics, quests | Very High |
+| ESO-Hub | eso-hub.com | Sets, builds, item database | High |
+| ESO Logs | esologs.com | Combat rankings, percentiles | High |
+| ESO Sets | eso-sets.com | Set bonuses, acquisition | High |
+
+**Excluded Sources:**
+- Alcast (opinion-based meta builds, not objective data)
 
 ### 5.4 Coding Standards
 
@@ -585,18 +588,49 @@ python -m json.tool data/raw/phase01_class_skills.json > /dev/null && echo "Vali
 
 ---
 
-## 12. Project Decisions (Resolved)
+## 12. Market Context & Competitive Landscape
+
+### 12.1 Discontinued Addons We Replace
+
+| Addon | Gap Created | Our Solution |
+|-------|-------------|--------------|
+| **Combat Metrics** | Raw data only, no analysis | ML-powered recommendations |
+| **Stoned** | No in-game theorycrafting | Build comparison via feature database |
+| **Leo's Altholic** | No account-wide dashboard | Web interface with cross-character tracking |
+
+### 12.2 Key Market Insights (from research)
+
+1. **Update 33 (March 2022)** broke per-character achievement tracking. 91-page forum debate, ZOS rejected fix. Our addon can shadow-track per-character completion.
+
+2. **Console addon support** launching June 2025 (Update 46) for PS5/Xbox Series X|S. First-mover opportunity for performance-optimized addons.
+
+3. **"Do-everything" addons** achieve highest adoption. Fragmented solutions frustrate players. Our unified approach (addon + companion + web) addresses this.
+
+4. **Lightweight alternatives** consistently requested. Master Merchant causes 2-10 min load times. Our approach: compute-heavy work happens server-side.
+
+### 12.3 Differentiation
+
+What we do that **nothing else does**:
+- Continuous role contribution model (not Tank/Healer/DPS trinary)
+- Percentile comparison against similar runs (same content, difficulty, CP range)
+- Actionable recommendations with expected improvement estimates
+- Historical trend analysis across runs
+
+---
+
+## 13. Project Decisions (Resolved)
 
 | Decision | Resolution |
 |----------|------------|
 | **Privacy** | Anonymous by default. Opt-in for richer data sharing. |
 | **Content scope** | PvE only, all-inclusive: dungeons, trials, arenas. No PvP. |
 | **Historical data** | Starting fresh - addon replaces Combat Metrics entirely. |
-| **Gear sets** | Include full set database (see 4.4 Set Schema). |
+| **Gear sets** | Include full set database (see section 4.4). |
+| **Data sources** | UESP, ESO-Hub, ESO-Log, ESO-Sets. Exclude Alcast. |
 
 ---
 
-## 13. Questions for Human Review
+## 14. Questions for Human Review
 
 When uncertain, ask about:
 1. **Balance priorities** - DPS meta vs. survivability vs. group utility
