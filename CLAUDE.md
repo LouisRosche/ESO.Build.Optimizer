@@ -556,20 +556,26 @@ ESO.Build.Optimizer/
 ## 10. Current State & Next Steps
 
 ### Completed:
-- [x] Feature dataset structure (1,328 entries)
-- [x] Excel generation pipeline
+- [x] Feature dataset (1,981 entries - skills, sets, champion points, companions)
+- [x] Excel generation pipeline with field normalization
 - [x] Research docs on addon gaps
+- [x] Lua addon with combat tracking, build snapshots, metrics UI
+- [x] Lua addon SkillAdvisor module (real-time recommendations, skill highlights)
+- [x] Companion app (watcher.py + sync.py) with cross-platform support
+- [x] FastAPI backend with auth, runs, recommendations endpoints
+- [x] ML pipeline (percentile.py + recommendations.py)
+- [x] React web frontend (dashboard, builds, analytics, recommendations)
+- [x] Deployment configs (Vercel, Render, Neon)
+- [x] Technical documentation system
 
 ### In Progress:
-- [ ] Complete feature dataset (~2,000 target)
-- [ ] Design contribution model
-- [ ] Prototype Lua addon
+- [ ] Integration testing across components
+- [ ] Deploy to free tier hosting
 
 ### Not Started:
-- [ ] Companion app
-- [ ] Web API
-- [ ] ML pipeline
-- [ ] Web interface
+- [ ] Production deployment
+- [ ] User authentication flow testing
+- [ ] Load testing / performance optimization
 
 ---
 
@@ -618,7 +624,81 @@ What we do that **nothing else does**:
 
 ---
 
-## 13. Project Decisions (Resolved)
+## 13. Technical Documentation System
+
+> **CRITICAL FOR AI AGENTS**: Before implementing any component, read the relevant technical documentation in `docs/technical/` to ensure best practices are followed.
+
+### 13.1 Documentation Files
+
+| Document | Path | Covers |
+|----------|------|--------|
+| ESO Addon API | `docs/technical/ESO_ADDON_API.md` | Lua API, combat events, SavedVariables |
+| FastAPI Best Practices | `docs/technical/FASTAPI_BEST_PRACTICES.md` | Project structure, async, Pydantic, security |
+| React/Vite Guide | `docs/technical/REACT_VITE_BEST_PRACTICES.md` | Component patterns, hooks, TypeScript |
+| Deployment Guide | `docs/technical/DEPLOYMENT_FREE_TIER.md` | Vercel, Render, Neon limits and configs |
+| PyInstaller Packaging | `docs/technical/PYINSTALLER_PACKAGING.md` | Cross-platform builds, CI/CD |
+
+### 13.2 Documentation Refresh Workflow
+
+```bash
+# Check documentation freshness
+python scripts/refresh_docs.py
+
+# Generate detailed report
+python scripts/refresh_docs.py --report
+
+# Mark all as reviewed (after manual check)
+python scripts/refresh_docs.py --update
+
+# Fetch and detect changes (requires httpx)
+python scripts/refresh_docs.py --fetch
+```
+
+**Refresh triggers:**
+- ESO quarterly updates → Check ESO Addon API docs
+- Major library releases → Check relevant framework docs
+- Monthly → Check deployment platform limits
+
+### 13.3 Key Best Practices Quick Reference
+
+**Lua Addon:**
+- Use local variables, namespace events
+- Register with `EVENT_MANAGER:RegisterForEvent(ADDON_NAME, ...)`
+- Filter events to reduce callback frequency
+- Data persists on zone change/logout, NOT during loading screens
+
+**FastAPI:**
+- Structure by domain/module, not file type
+- Use `async def` for I/O, offload CPU work to background
+- Leverage Pydantic for all validation
+- Dependencies are cached per request
+
+**React/Vite:**
+- Use React Query for server state, Context for UI state
+- Code-split with `lazy()` and `Suspense`
+- Memoize only after profiling shows need
+- TypeScript strict mode enabled
+
+**Deployment:**
+- Neon: 100 CU-hours/month, auto-suspend saves compute
+- Render: Sleeps after 15min, use keep-alive endpoint
+- Vercel: 10s function timeout, use for static/ISR
+
+### 13.4 Online Documentation Sources
+
+| Source | URL | Reliability |
+|--------|-----|-------------|
+| ESOUI Wiki | https://wiki.esoui.com/Main_Page | Very High |
+| ESOUI API | https://wiki.esoui.com/API | Very High |
+| UESP ESO Data | https://esoapi.uesp.net/ | Very High |
+| FastAPI Docs | https://fastapi.tiangolo.com/ | Official |
+| Vite Guide | https://vite.dev/guide/ | Official |
+| Neon Docs | https://neon.com/docs/ | Official |
+| Render Docs | https://render.com/docs/ | Official |
+
+---
+
+## 14. Project Decisions (Resolved)
 
 | Decision | Resolution |
 |----------|------------|
@@ -627,15 +707,21 @@ What we do that **nothing else does**:
 | **Historical data** | Starting fresh - addon replaces Combat Metrics entirely. |
 | **Gear sets** | Include full set database (see section 4.4). |
 | **Data sources** | UESP, ESO-Hub, ESO-Log, ESO-Sets. Exclude Alcast. |
+| **In-game UI** | Minimal default with opt-in checkbox; "+" expander for full details |
+| **Real-time recs** | Only actionable items (e.g., "use AoE when 2+ enemies nearby") |
+| **Skill highlight** | Glow effect on recommended abilities during combat |
+| **Rec style** | Data-backed nudge with confidence interval: "Switching X to Y would improve DPS by ~8% (85% confidence)" |
+| **Companion platforms** | Windows primary; Mac/Linux supported via cross-platform Python |
+| **Hosting** | Free tier: Vercel (frontend) + Render (backend) + Neon (database) |
 
 ---
 
-## 14. Questions for Human Review
+## 15. Questions for Human Review
 
 When uncertain, ask about:
 1. **Balance priorities** - DPS meta vs. survivability vs. group utility
-2. **UI preferences** - Minimal vs. detailed in-game display
-3. **Recommendation aggressiveness** - How strongly to push meta vs. player preference
+2. **Content priorities** - Which dungeons/trials to prioritize for percentile data
+3. **Feature requests** - New functionality beyond current scope
 
 ---
 

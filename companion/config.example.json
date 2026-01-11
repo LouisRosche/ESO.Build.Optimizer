@@ -1,0 +1,7 @@
+{
+  "api_url": "https://api.esobuildoptimizer.com",
+  "sync_interval_seconds": 30,
+  "eso_path": null,
+  "offline_mode": false,
+  "debug": false
+}

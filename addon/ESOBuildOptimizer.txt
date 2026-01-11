@@ -10,3 +10,4 @@ ESOBuildOptimizer.lua
 modules/CombatTracker.lua
 modules/BuildSnapshot.lua
 modules/MetricsUI.lua
+modules/SkillAdvisor.lua

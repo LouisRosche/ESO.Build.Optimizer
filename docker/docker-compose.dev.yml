@@ -1,0 +1,101 @@
+# Docker Compose for Local Development
+# Usage: docker-compose -f docker/docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  # FastAPI Backend
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: eso-optimizer-api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/eso_optimizer
+      - JWT_SECRET_KEY=dev-secret-key-change-in-production
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000
+      - RATE_LIMIT_REQUESTS_PER_MINUTE=120
+      - RATE_LIMIT_REQUESTS_PER_DAY=50000
+    volumes:
+      # Mount source for hot reload
+      - ../api:/app/api:ro
+      - ../ml:/app/ml:ro
+      - ../data:/app/data:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - eso-network
+    restart: unless-stopped
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: eso-optimizer-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=eso_optimizer
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Optional: init scripts
+      # - ./init-db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d eso_optimizer"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - eso-network
+    restart: unless-stopped
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: eso-optimizer-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@local.dev
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - eso-network
+    profiles:
+      - tools  # Only start with: docker-compose --profile tools up
+
+  # Optional: Redis for caching/rate limiting (future use)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: eso-optimizer-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - eso-network
+  #   profiles:
+  #     - cache
+
+networks:
+  eso-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: eso-optimizer-postgres-data
+  pgadmin_data:
+    name: eso-optimizer-pgadmin-data
+  # redis_data:
+  #   name: eso-optimizer-redis-data

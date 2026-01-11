@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply min-h-screen;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-eso-dark-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-eso-dark-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-eso-dark-500;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-eso-dark-900 border border-eso-dark-700 rounded-lg p-4;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-200 hover:border-eso-gold-500/50 hover:shadow-lg hover:shadow-eso-gold-500/10;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 inline-flex items-center justify-center gap-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-eso-gold-500 text-eso-dark-950 hover:bg-eso-gold-400;
+  }
+
+  .btn-secondary {
+    @apply btn bg-eso-dark-700 text-gray-100 hover:bg-eso-dark-600;
+  }
+
+  .btn-ghost {
+    @apply btn text-gray-400 hover:text-gray-100 hover:bg-eso-dark-800;
+  }
+
+  .input {
+    @apply w-full bg-eso-dark-800 border border-eso-dark-600 rounded-lg px-4 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:border-eso-gold-500 focus:ring-1 focus:ring-eso-gold-500 transition-colors;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-400 mb-1;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold text-gray-100;
+  }
+
+  .stat-label {
+    @apply text-sm text-gray-400;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-eso-green-500/20 text-eso-green-400;
+  }
+
+  .badge-warning {
+    @apply badge bg-eso-gold-500/20 text-eso-gold-400;
+  }
+
+  .badge-danger {
+    @apply badge bg-eso-red-500/20 text-eso-red-400;
+  }
+
+  .badge-info {
+    @apply badge bg-eso-blue-500/20 text-eso-blue-400;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-eso-gold-400 to-eso-gold-600 bg-clip-text text-transparent;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
