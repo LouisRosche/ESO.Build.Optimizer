@@ -42,6 +42,11 @@ def normalize_feature(feature: dict) -> dict:
         'unlock_requirements': 'unlock_method',
         'morph_of': 'parent_feature',
         'class': 'class_restriction',
+        # Set-specific mappings
+        'set_id': 'feature_id',
+        'set_type': 'category',
+        'location': 'subcategory',
+        'pve_tier': 'feature_type',
     }
 
     normalized = {}
@@ -57,15 +62,19 @@ def normalize_feature(feature: dict) -> dict:
         elif ft in ['ULT', 'ULTIMATE']:
             normalized['feature_type'] = 'ULTIMATE'
 
+    # Auto-set system for sets
+    if normalized.get('feature_id', '').startswith('SET_'):
+        normalized['system'] = 'SET'
+
     return normalized
 
 
 def load_phase_data(raw_dir: Path) -> list[dict]:
-    """Load all phase JSON files and combine into single list."""
+    """Load all phase and set JSON files and combine into single list."""
     all_features = []
 
-    # Find all JSON files matching phase patterns
-    json_files = sorted(raw_dir.glob('phase*.json'))
+    # Find all JSON files matching phase and sets patterns
+    json_files = sorted(raw_dir.glob('phase*.json')) + sorted(raw_dir.glob('sets*.json'))
 
     for file_path in json_files:
         print(f"Loading {file_path.name}...")

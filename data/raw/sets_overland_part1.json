@@ -1,0 +1,760 @@
+[
+  {
+    "set_id": "SET_OVERLAND_BRIARHEART",
+    "name": "Briarheart",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Wrothgar",
+    "dlc_required": "Orsinium",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "When you deal critical damage, you heal for 1000 Health and gain 450 Weapon Damage for 10 seconds. This effect can occur once every 10 seconds.",
+        "proc_condition": "critical_damage",
+        "heal_value": 1000,
+        "buff_granted": "Weapon Damage",
+        "buff_value": 450,
+        "duration_sec": 10,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "healing_done": 0.15,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|self-heal|stamina|weapon-damage|proc",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/briarheart"
+  },
+  {
+    "set_id": "SET_OVERLAND_SPRIGGANS_THORNS",
+    "name": "Spriggan's Thorns",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Bangkorai",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Physical Penetration", "value": 1487},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {"stat": "Physical Penetration", "value": 4973}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|penetration|stamina|physical|solo|pvp-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spriggans-thorns"
+  },
+  {
+    "set_id": "SET_OVERLAND_SPINNERS_GARMENTS",
+    "name": "Spinner's Garments",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Malabal Tor",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Spell Damage", "value": 129},
+      "3": {"stat": "Spell Penetration", "value": 1487},
+      "4": {"stat": "Spell Damage", "value": 129},
+      "5": {"stat": "Spell Penetration", "value": 4973}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|penetration|magicka|spell|solo|pvp-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/spinners-garments"
+  },
+  {
+    "set_id": "SET_CRAFTABLE_HUNDINGS_RAGE",
+    "name": "Hunding's Rage",
+    "set_type": "Craftable",
+    "weight": "Medium",
+    "bind_type": "Craftable",
+    "tradeable": true,
+    "location": "Multiple crafting stations (6 traits required)",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {"stat": "Weapon Damage", "value": 300}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|weapon-damage|stamina|beginner-friendly|craftable",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/hundings-rage"
+  },
+  {
+    "set_id": "SET_OVERLAND_MOTHERS_SORROW",
+    "name": "Mother's Sorrow",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Deshaan",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Spell Critical", "value": 657},
+      "3": {"stat": "Spell Critical", "value": 657},
+      "4": {"stat": "Spell Critical", "value": 657},
+      "5": {"stat": "Spell Critical", "value": 1314}
+    },
+    "pve_tier": "S",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "healing_done": 0.20,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|magicka|spell|trial-meta|pve-staple",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/mothers-sorrow"
+  },
+  {
+    "set_id": "SET_OVERLAND_MECHANICAL_ACUITY",
+    "name": "Mechanical Acuity",
+    "set_type": "Craftable",
+    "weight": "Light|Medium|Heavy",
+    "bind_type": "Craftable",
+    "tradeable": true,
+    "location": "Clockwork City (9 traits required)",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon and Spell Critical", "value": 657},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "When you deal direct damage, you have a 15% chance to grant you 100% Critical Strike for 5 seconds. This effect can occur once every 18 seconds.",
+        "proc_condition": "direct_damage",
+        "proc_chance": 0.15,
+        "buff_granted": "Guaranteed Critical",
+        "crit_chance": 100,
+        "duration_sec": 5,
+        "cooldown_sec": 18
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|burst|proc|craftable|pvp|bomb-build",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/mechanical-acuity"
+  },
+  {
+    "set_id": "SET_OVERLAND_WAR_MAIDEN",
+    "name": "War Maiden",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Vvardenfell",
+    "dlc_required": "Morrowind",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your damage done with Magic Damage abilities by 600.",
+        "damage_type": "Magic",
+        "damage_bonus": 600
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|magic-damage|templar|arcanist|sorcerer",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/war-maiden"
+  },
+  {
+    "set_id": "SET_OVERLAND_NEW_MOON_ACOLYTE",
+    "name": "New Moon Acolyte",
+    "set_type": "Craftable",
+    "weight": "Light|Medium|Heavy",
+    "bind_type": "Craftable",
+    "tradeable": true,
+    "location": "Southern Elsweyr (9 traits required)",
+    "dlc_required": "Dragonhold",
+    "bonuses": {
+      "2": {"stat": "Weapon and Spell Damage", "value": 129},
+      "3": {"stat": "Weapon and Spell Damage", "value": 129},
+      "4": {"stat": "Weapon and Spell Damage", "value": 129},
+      "5": {
+        "effect": "Adds 482 Weapon and Spell Damage. Increases the cost of your active abilities by 5%.",
+        "stat": "Weapon and Spell Damage",
+        "value": 482,
+        "cost_increase_percent": 5
+      }
+    },
+    "pve_tier": "S",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|weapon-damage|spell-damage|trial-meta|sustain-cost|craftable",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/new-moon-acolyte"
+  },
+  {
+    "set_id": "SET_PVP_DEADLY_STRIKE",
+    "name": "Deadly Strike",
+    "set_type": "PvP",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Cyrodiil Reward Boxes",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "Increases your damage done with damage over time effects and channeled abilities by 15%.",
+        "damage_bonus_dot": 0.15,
+        "damage_bonus_channel": 0.15
+      }
+    },
+    "pve_tier": "S",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|dot|channel|stamina|trial-meta|nightblade|dragonknight",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/deadly-strike"
+  },
+  {
+    "set_id": "SET_DUNGEON_LEVIATHAN",
+    "name": "Leviathan",
+    "set_type": "Dungeon",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Crypt of Hearts I & II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {"stat": "Weapon Critical", "value": 1314}
+    },
+    "pve_tier": "S",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit|stamina|pve-staple|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/leviathan"
+  },
+  {
+    "set_id": "SET_OVERLAND_HEARTLAND_CONQUEROR",
+    "name": "Heartland Conqueror",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Blackwood",
+    "dlc_required": "Blackwood",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Healing Taken", "value": 129},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {
+        "effect": "Increases the effectiveness of your armor's traits by 100%.",
+        "trait_bonus_percent": 100
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|trait-bonus|heavy-armor|versatile|health",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/heartland-conqueror"
+  },
+  {
+    "set_id": "SET_OVERLAND_CRAFTY_ALFIQ",
+    "name": "Crafty Alfiq",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Northern Elsweyr",
+    "dlc_required": "Elsweyr",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {"stat": "Max Magicka", "value": 2550}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.50,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "magicka|sustain|resource|healer|damage|versatile",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/crafty-alfiq"
+  },
+  {
+    "set_id": "SET_OVERLAND_BRIGHT_THROATS_BOAST",
+    "name": "Bright-Throat's Boast",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Murkmire",
+    "dlc_required": "Murkmire",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Magicka Recovery", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "While you have a drink buff active, your Max Magicka is increased by 2000 and Magicka Recovery by 133.",
+        "condition": "drink_buff_active",
+        "max_magicka_bonus": 2000,
+        "magicka_recovery_bonus": 133
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "healing_done": 0.70,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "magicka|sustain|recovery|healer|drink-synergy",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bright-throats-boast"
+  },
+  {
+    "set_id": "SET_OVERLAND_PLAGUE_DOCTOR",
+    "name": "Plague Doctor",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Deshaan",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Max Health", "value": 1206},
+      "4": {"stat": "Max Health", "value": 1206},
+      "5": {"stat": "Max Health", "value": 2974}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.90
+    },
+    "tags": "tank|health|survivability|beginner-friendly|pvp",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/plague-doctor"
+  },
+  {
+    "set_id": "SET_OVERLAND_FORTIFIED_BRASS",
+    "name": "Fortified Brass",
+    "set_type": "Craftable",
+    "weight": "Heavy",
+    "bind_type": "Craftable",
+    "tradeable": true,
+    "location": "Clockwork City (4 traits required)",
+    "dlc_required": "Clockwork City",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {"stat": "Physical and Spell Resistance", "value": 5948}
+    },
+    "pve_tier": "A",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.90
+    },
+    "tags": "tank|resistances|survivability|craftable|beginner-friendly",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/fortified-brass"
+  },
+  {
+    "set_id": "SET_OVERLAND_PARIAH",
+    "name": "Pariah",
+    "set_type": "Overland",
+    "weight": "Heavy",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Wrothgar",
+    "dlc_required": "Orsinium",
+    "bonuses": {
+      "2": {"stat": "Max Health", "value": 1206},
+      "3": {"stat": "Physical Resistance", "value": 1487},
+      "4": {"stat": "Spell Resistance", "value": 1487},
+      "5": {
+        "effect": "Gain up to 19702 Physical and Spell Resistance, based on your missing Health. You gain the maximum value when you are at 25% Health.",
+        "max_resistance_bonus": 19702,
+        "threshold_health_percent": 25
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.95
+    },
+    "tags": "tank|resistances|low-health|survivability|pvp-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/pariah"
+  },
+  {
+    "set_id": "SET_OVERLAND_BAHRAHAS_CURSE",
+    "name": "Bahraha's Curse",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Hew's Bane",
+    "dlc_required": "Thieves Guild",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Max Health", "value": 1206},
+      "4": {"stat": "Magicka Recovery", "value": 129},
+      "5": {
+        "effect": "When you deal damage, you have a 25% chance to create desecrated ground for 5 seconds. Enemies in the area take 325 Magic Damage every 1 second and are snared by 60%. Standing in the desecrated ground heals you for 650 Health every 1 second. This effect can occur once every 5 seconds.",
+        "proc_chance": 0.25,
+        "proc_condition": "deal_damage",
+        "damage_per_second": 325,
+        "heal_per_second": 650,
+        "snare_percent": 60,
+        "duration_sec": 5,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "healing_done": 0.30,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.40
+    },
+    "tags": "proc|aoe|snare|self-heal|hybrid|thief-theme",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bahrahas-curse"
+  },
+  {
+    "set_id": "SET_OVERLAND_SWAMP_RAIDER",
+    "name": "Swamp Raider",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Shadowfen",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Damage", "value": 129},
+      "3": {"stat": "Weapon Critical", "value": 657},
+      "4": {"stat": "Weapon Damage", "value": 129},
+      "5": {
+        "effect": "Increases your damage done with Poison and Disease abilities by 600.",
+        "damage_type": "Poison and Disease",
+        "damage_bonus": 600
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|poison|disease|stamina|dragonknight|nightblade|warden",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/swamp-raider"
+  },
+  {
+    "set_id": "SET_OVERLAND_SOULSHINE",
+    "name": "Soulshine",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Reaper's March",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your damage done with channeled abilities by 15%.",
+        "damage_bonus_channel": 0.15
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|channel|templar|arcanist|jabs",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/soulshine"
+  },
+  {
+    "set_id": "SET_OVERLAND_SILKS_OF_THE_SUN",
+    "name": "Silks of the Sun",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Stonefalls",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Spell Damage", "value": 129},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "Increases your damage done with Flame Damage abilities by 600.",
+        "damage_type": "Flame",
+        "damage_bonus": 600
+      }
+    },
+    "pve_tier": "B",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|magicka|flame|fire|dragonknight|burning",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/silks-of-the-sun"
+  },
+  {
+    "set_id": "SET_OVERLAND_TREASURE_HUNTER",
+    "name": "Treasure Hunter",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Various Chests",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "Increases the quality of items you find in treasure chests.",
+        "utility": "chest_quality_boost"
+      }
+    },
+    "pve_tier": "F",
+    "pvp_tier": "F",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "utility|farming|treasure|non-combat",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/treasure-hunter"
+  },
+  {
+    "set_id": "SET_OVERLAND_NIGHT_MOTHERS_EMBRACE",
+    "name": "Night Mother's Embrace",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Deshaan",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "Reduces the radius you can be detected while Sneaking by 2 meters. Reduces the cost of Sneak by 25%.",
+        "stealth_radius_reduction": 2,
+        "sneak_cost_reduction_percent": 25
+      }
+    },
+    "pve_tier": "F",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "stealth|sneak|utility|nightblade|thief|ganking",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/night-mothers-embrace"
+  },
+  {
+    "set_id": "SET_OVERLAND_DARKSTRIDE",
+    "name": "Darkstride",
+    "set_type": "Overland",
+    "weight": "Medium",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Rivenspire",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Stamina", "value": 1096},
+      "3": {"stat": "Stamina Recovery", "value": 129},
+      "4": {"stat": "Max Stamina", "value": 1096},
+      "5": {
+        "effect": "Reduces the cost of Sprint by 50%. Increases your Movement Speed while Sprinting by 10%.",
+        "sprint_cost_reduction_percent": 50,
+        "sprint_speed_bonus_percent": 10
+      }
+    },
+    "pve_tier": "F",
+    "pvp_tier": "C",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "utility|speed|sprint|mobility|non-combat",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/darkstride"
+  },
+  {
+    "set_id": "SET_DUNGEON_VIPERS_STING",
+    "name": "Viper's Sting",
+    "set_type": "Dungeon",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Fungal Grotto I & II",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Weapon Critical", "value": 657},
+      "3": {"stat": "Weapon Damage", "value": 129},
+      "4": {"stat": "Weapon Critical", "value": 657},
+      "5": {
+        "effect": "When you deal melee damage, you inject venom into your enemy, dealing 2760 Poison Damage over 5 seconds. This effect can occur once every 5 seconds.",
+        "proc_condition": "melee_damage",
+        "damage_type": "Poison",
+        "total_damage": 2760,
+        "duration_sec": 5,
+        "cooldown_sec": 5
+      }
+    },
+    "pve_tier": "C",
+    "pvp_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|poison|proc|melee|pvp|dot",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/vipers-sting"
+  },
+  {
+    "set_id": "SET_OVERLAND_NECROPOTENCE",
+    "name": "Necropotence",
+    "set_type": "Overland",
+    "weight": "Light",
+    "bind_type": "Bind on Equip",
+    "tradeable": true,
+    "location": "Rivenspire",
+    "dlc_required": "Base Game",
+    "bonuses": {
+      "2": {"stat": "Max Magicka", "value": 1096},
+      "3": {"stat": "Max Magicka", "value": 1096},
+      "4": {"stat": "Max Magicka", "value": 1096},
+      "5": {
+        "effect": "While you have a pet active, your Max Magicka is increased by 3150.",
+        "condition": "pet_active",
+        "max_magicka_bonus": 3150
+      }
+    },
+    "pve_tier": "A",
+    "pvp_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "healing_done": 0.0,
+      "buff_uptime": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "magicka|pet|sorcerer|warden|resource|damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/necropotence"
+  }
+]

@@ -1,0 +1,1137 @@
+[
+  {
+    "set_id": "SET_MYTHIC_PALE_ORDER",
+    "name": "Ring of the Pale Order",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Markarth",
+    "lead_locations": {
+      "Aurmine Ancestral Signet": "Nighthollow Keep (Blackreach: Arkthzand Cavern)",
+      "Pale Order's Golden Band": "Alik'r Desert World Bosses",
+      "Direnni Elegy Loop": "Bad Man's Hallows (Glenumbra Public Dungeon)",
+      "Order-Etched Gallery Rail": "Wrothgar Delves",
+      "Pale Order's Argent Band": "The Reach World Bosses"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Restore 20% of the damage you deal as Health. This value is decreased by 4% per ally in your group. You cannot be healed by anyone but yourself.",
+        "heal_percent": 20,
+        "penalty_per_ally": 4,
+        "restriction": "Cannot be healed by others"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.90,
+      "solo_content": 1.0
+    },
+    "tags": "solo|self-healing|lifesteal|survivability|arena|maelstrom|vateshran",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ring-of-the-pale-order"
+  },
+  {
+    "set_id": "SET_MYTHIC_MARKYN_RING",
+    "name": "Markyn Ring of Majesty",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Deadlands",
+    "lead_locations": {
+      "Gilded Claw Setting": "The Cauldron Dungeon",
+      "Auridon Ornamental Inlay": "Auridon Treasure Maps",
+      "Dagon Cult Inscribed Band": "Deadlands Delves",
+      "Mehrunes Eye Cabochon": "Oblivion Portals (Deadlands/Blackwood)",
+      "Veiled Heritance Burnished Scepter": "Heritance-themed bosses in Auridon"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Increase your Weapon and Spell Damage by 100 for every 2 piece set bonus you have equipped.",
+        "damage_per_set_bonus": 100,
+        "scaling": "Per 2-piece set bonus"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|weapon-damage|spell-damage|set-synergy|flexible",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/markyn-ring-of-majesty"
+  },
+  {
+    "set_id": "SET_MYTHIC_OAKENSOUL",
+    "name": "Oakensoul Ring",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "High Isle",
+    "lead_locations": {
+      "Larimar Gem": "High Isle Volcanic Vents",
+      "Igneous Inlay": "Firesong Mountains in Galen",
+      "Sacred Resin": "Stonelore Circle Dailies (High Isle)",
+      "Aureate Fastening": "High Isle World Bosses",
+      "Petrified Oak Loop": "Tales of Tribute Reward Boxes"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "While equipped, you are unable to swap between your Primary and Backup Weapon Sets. Gain Major Berserk, Major Courage, Major Brutality, Major Sorcery, Major Prophecy, Major Savagery, Major Force, Major Fortitude, Major Intellect, Major Endurance, Major Heroism, Major Resolve, and Minor Protection at all times.",
+        "buffs_granted": [
+          "Major Berserk",
+          "Major Courage",
+          "Major Brutality",
+          "Major Sorcery",
+          "Major Prophecy",
+          "Major Savagery",
+          "Major Force",
+          "Major Fortitude",
+          "Major Intellect",
+          "Major Endurance",
+          "Major Heroism",
+          "Major Resolve",
+          "Minor Protection"
+        ],
+        "restriction": "Cannot swap weapon bars"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 1.0,
+      "healing_done": 0.30,
+      "damage_taken": 0.60,
+      "one_bar_builds": 1.0
+    },
+    "tags": "one-bar|all-buffs|beginner-friendly|werewolf|simple-rotation|meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/oakensoul-ring"
+  },
+  {
+    "set_id": "SET_MYTHIC_PEARLS_EHLNOFEY",
+    "name": "Pearls of Ehlnofey",
+    "set_type": "Mythic",
+    "slot": "Necklace",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Summerset",
+    "lead_locations": {
+      "Coral Clasp": "Summerset Geysers",
+      "Nilumin River Pearls": "Summerset Fishing",
+      "Charmed Pearlescent Beads": "Karnwasten (Summerset Public Dungeon)",
+      "Aldmer Prayer Beads": "Summerset World Bosses",
+      "Direnni Transformation Crystal": "Psijic Portals (Summerset)"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Increase your Healing Received by 20% and Healing Taken from abilities that heal you or an ally by an additional 12%.",
+        "healing_received_boost": 20,
+        "additional_ally_heal_boost": 12
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.80,
+      "healing_received": 0.95
+    },
+    "tags": "tank|survivability|healing-received|group-content|progression",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/pearls-of-ehlnofey"
+  },
+  {
+    "set_id": "SET_MYTHIC_MALACATH_BAND",
+    "name": "Malacath's Band of Brutality",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Orsinium",
+    "lead_locations": {
+      "Malacath's Brutal Scourge Hoop": "Wrothgar Public Dungeon Bosses",
+      "Malacath's Brutal Ruin Loop": "Maelstrom Arena",
+      "Malacath's Brutal Might Loop": "Wrothgar Delves",
+      "Malacath's Brutal Vengeance Band": "World Bosses in Wrothgar",
+      "Malacath's Brutal Ritual Oil": "Harpy Heritance/Cultists"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Increase your damage done by 16%. You cannot deal Critical Damage.",
+        "damage_increase_percent": 16,
+        "restriction": "Cannot deal Critical Damage"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.75,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|no-crit|flat-damage|pvp|niche|consistent-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/malacaths-band-of-brutality"
+  },
+  {
+    "set_id": "SET_MYTHIC_GAZE_SITHIS",
+    "name": "Gaze of Sithis",
+    "set_type": "Mythic",
+    "slot": "Head",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Blackwood",
+    "lead_locations": {
+      "Preserved Wraxu Feathers": "Murkmire Delves",
+      "Stone Carving of the Outsider": "Blackwood Delves",
+      "Reman War Mask Jaw Hinges": "Imperial City Sewers",
+      "Stygian Obsidian Sockets": "Coldharbour World Bosses",
+      "Shadowhide Face Straps": "Niben River (Blackwood)"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Adds 4956 Maximum Health. Adds 2134 Health Recovery. Adds 5940 Physical and Spell Resistance. You cannot Block, but Bash stuns enemies for 3 seconds.",
+        "max_health": 4956,
+        "health_recovery": 2134,
+        "resistances": 5940,
+        "restriction": "Cannot Block",
+        "bash_stun_duration_sec": 3
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|health|resistances|no-block|bash-build|offtank",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/gaze-of-sithis"
+  },
+  {
+    "set_id": "SET_MYTHIC_THRASSIAN_STRANGLERS",
+    "name": "Thrassian Stranglers",
+    "set_type": "Mythic",
+    "slot": "Hands",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Greymoor",
+    "lead_locations": {
+      "Sea Sload Tentacle Leather": "Cloudrest Trial",
+      "Inert Anemone Inlay": "Summerset Fishing",
+      "Void Alloy Rivets": "Kyne's Aegis Trial",
+      "Coral Plating": "Maormer Invasion Events",
+      "Thrassian Stranglers Cage": "Western Skyrim World Bosses"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Killing an enemy grants you a stack of Sload's Call for 1 minute, up to 50 stacks. Each stack increases your damage by 1% and decreases your damage mitigation by 2%. Dying removes all stacks.",
+        "damage_per_stack_percent": 1,
+        "mitigation_loss_per_stack_percent": 2,
+        "max_stacks": 50,
+        "stack_duration_sec": 60,
+        "death_penalty": "All stacks removed"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "trash_clear": 0.95
+    },
+    "tags": "damage|stacking|glass-cannon|trash-clear|risky|high-reward",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/thrassian-stranglers"
+  },
+  {
+    "set_id": "SET_MYTHIC_TORC_TONAL_CONSTANCY",
+    "name": "Torc of Tonal Constancy",
+    "set_type": "Mythic",
+    "slot": "Necklace",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Morrowind",
+    "lead_locations": {
+      "Numinous Grimoire": "Nchuleftingth (Vvardenfell Public Dungeon)",
+      "Dwarven Tonal Forks": "Vvardenfell Dwemer Delves",
+      "Hlaalu Signet Ring": "Forgotten Wastes (Vvardenfell Public Dungeon)",
+      "Sixth House Amulet": "Red Mountain (Vvardenfell)",
+      "Sotha Sil's Tuning Fork": "Clockwork City Delves"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "While your Stamina is less than 50%, increase your Magicka Recovery by 450. While your Magicka is less than 50%, increase your Stamina Recovery by 450.",
+        "recovery_bonus": 450,
+        "threshold_percent": 50,
+        "scaling": "Cross-resource recovery"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.40,
+      "damage_taken": 0.50,
+      "resource_efficiency": 0.90
+    },
+    "tags": "sustain|hybrid|resource-management|tank|healer|flex",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/torc-of-tonal-constancy"
+  },
+  {
+    "set_id": "SET_MYTHIC_SNOW_TREADERS",
+    "name": "Snow Treaders",
+    "set_type": "Mythic",
+    "slot": "Feet",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Greymoor",
+    "lead_locations": {
+      "Snowy Sabre Cat Fur Lining": "Western Skyrim Public Dungeons",
+      "Petrified Snow-Cedar": "Frozen Coast (Western Skyrim)",
+      "Magicka-Imbued Metal Plates": "Labyrinthian (Western Skyrim Public Dungeon)",
+      "Chilling Inlay": "Blackreach: Greymoor Caverns Delves",
+      "Pristine Bands": "Kyne's Aegis Trial"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "While in combat, you are immune to Snares and Immobilizations that can be possibly be cleansed. Reduces your damage done by 5%.",
+        "immunity": "Snares and cleansable Immobilizations",
+        "damage_reduction_percent": 5,
+        "condition": "While in combat"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.40,
+      "mobility": 1.0
+    },
+    "tags": "mobility|snare-immune|pvp|battlegrounds|niche|movement",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/snow-treaders"
+  },
+  {
+    "set_id": "SET_MYTHIC_DEATH_DEALERS_FETE",
+    "name": "Death Dealer's Fete",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Deadlands",
+    "lead_locations": {
+      "Petrified Daedric Husk": "The Cauldron Dungeon (Final Boss)",
+      "Blazing Ruby Gem": "Oblivion Portals (Blackwood/Deadlands)",
+      "Order of the Waking Flame Medallion": "Waking Flame Cultists in Deadlands",
+      "Etched Silver Band": "Deadlands Delves",
+      "Welkynar Silver Ring Molding": "Cloudrest Trial"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Killing an enemy grants you a persistent stack of Fete, up to 30 stacks. Each stack increases your Max Stamina, Health, and Magicka by 88. Stacks are removed on death or changing zones.",
+        "max_stat_per_stack": 88,
+        "max_stacks": 30,
+        "max_total_stats": 2640,
+        "stack_loss": "Death or zone change"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.30,
+      "damage_taken": 0.50,
+      "overworld": 0.90
+    },
+    "tags": "stats|stacking|overworld|grinding|sustained-play|all-stats",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/death-dealers-fete"
+  },
+  {
+    "set_id": "SET_MYTHIC_SHAPESHIFTERS_CHAIN",
+    "name": "Shapeshifter's Chain",
+    "set_type": "Mythic",
+    "slot": "Necklace",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Markarth",
+    "lead_locations": {
+      "Silver Clasp and Chain": "The Reach Public Dungeon",
+      "Anuic Lantern Amulet": "The Reach Delves",
+      "Welkynar Eagle Charm": "The Reach World Bosses",
+      "Dremora Claw Setting": "Deadlands Portals",
+      "Blessed Daedric Rune": "Darkshade Caverns (both)"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Increase the duration of the Werewolf Transformation by 50% and Vampire abilities cost 12% less.",
+        "werewolf_duration_increase_percent": 50,
+        "vampire_cost_reduction_percent": 12
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.30,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "werewolf": 0.95,
+      "vampire": 0.75
+    },
+    "tags": "werewolf|vampire|transformation|niche|roleplay|thematic",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/shapeshifters-chain"
+  },
+  {
+    "set_id": "SET_MYTHIC_KILT_RUMARE",
+    "name": "Kilt of the Rumare",
+    "set_type": "Mythic",
+    "slot": "Legs",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Blackwood",
+    "lead_locations": {
+      "Imperial Weave": "Imperial City (Imperial Sewer Bosses)",
+      "Nibenese Runic Stitching": "Cyrodiil Delves",
+      "Cyrodilic Wool": "Bruma Sacrament (Dark Brotherhood)",
+      "Gilded Rumare Belt Buckle": "Blackwood World Bosses",
+      "Waterlogged Rumare Leather": "Blackwood Fishing"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Dealing damage grants a stack of Rumare's Insight, up to 10 stacks. Each stack increases your Critical Damage by 1%. Taking non-blocked direct damage removes 5 stacks.",
+        "crit_damage_per_stack_percent": 1,
+        "max_stacks": 10,
+        "stack_loss_on_hit": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit-damage|stacking|ranged-friendly|squishy",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/kilt-of-the-rumare"
+  },
+  {
+    "set_id": "SET_MYTHIC_BELHARZAS_BAND",
+    "name": "Belharza's Band",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Dark Brotherhood",
+    "lead_locations": {
+      "Belharza's Alexandrite Setting": "Gold Coast Delves",
+      "Imperial Filigree Framework": "Kvatch Arena (Gold Coast)",
+      "Consecrated Minotaur Blood": "Minotaur-themed enemies",
+      "Reman Dragonhide Saddle Fragment": "Gold Coast World Bosses",
+      "Zenithar Blessing Jewels": "Anvil (Gold Coast)"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you deal direct damage, you summon a minotaur that charges through enemies, dealing Physical Damage and stunning enemies for 2 seconds. 10 second cooldown.",
+        "proc_condition": "Direct damage",
+        "damage_type": "Physical",
+        "stun_duration_sec": 2,
+        "cooldown_sec": 10
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.70,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "crowd_control": 0.80
+    },
+    "tags": "damage|stampede|stun|crowd-control|proc|physical",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/belharzas-band"
+  },
+  {
+    "set_id": "SET_MYTHIC_MORAS_WHISPERS",
+    "name": "Mora's Whispers",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Necrom",
+    "lead_locations": {
+      "Eye of Mora Setting": "Apocrypha Public Dungeons",
+      "Apocryphal Rune Bedding": "Telvanni Peninsula Delves",
+      "Forbidden Tome Bindings": "Infinite Archive",
+      "Tentacle Tendril Clasp": "Bastion Nymic (Apocrypha Trial)",
+      "Mind Trapping Gem": "Apocrypha World Bosses"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Grants you 10% increased Inspiration, Alliance Rank, Alliance Point, and gold gain. Gain up to 1528 Critical Chance based on how many books of Shalidor's Library have been collected.",
+        "inspiration_bonus_percent": 10,
+        "alliance_rank_bonus_percent": 10,
+        "alliance_point_bonus_percent": 10,
+        "gold_bonus_percent": 10,
+        "max_crit_chance": 1528,
+        "scaling": "Shalidor's Library books collected"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "leveling": 0.95
+    },
+    "tags": "crit|leveling|gold|alliance-points|achievement-scaling|grind",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/moras-whispers"
+  },
+  {
+    "set_id": "SET_MYTHIC_HARPOONERS_KILT",
+    "name": "Harpooner's Wading Kilt",
+    "set_type": "Mythic",
+    "slot": "Legs",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "High Isle",
+    "lead_locations": {
+      "Hadolid Shell Clasp": "Dreadsail Reef Trial",
+      "Dreadsail Leather Strap": "High Isle Delves",
+      "Sea Serpent Fang Buckle": "High Isle World Bosses",
+      "Salt-Stained Hakama Stays": "High Isle Public Dungeon",
+      "Volcanic Veins Wading Boots": "High Isle Volcanic Vents"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Dealing direct damage grants you a stack of Hunter's Focus for 20 seconds, up to 10 stacks. You can only gain 1 stack every 0.5 seconds. Each stack increases your Critical Damage done by 1%. Taking direct damage removes 3 stacks of Hunter's Focus. You cannot gain stacks while you have a damage shield.",
+        "crit_damage_per_stack_percent": 1,
+        "max_stacks": 10,
+        "stack_duration_sec": 20,
+        "stack_cooldown_sec": 0.5,
+        "stack_loss_on_hit": 3,
+        "restriction": "Cannot gain stacks with damage shield active"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.95,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|crit-damage|stacking|trial-meta|ranged|melee|high-skill",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/harpooners-wading-kilt"
+  },
+  {
+    "set_id": "SET_MYTHIC_SEA_SERPENTS_COIL",
+    "name": "Sea-Serpent's Coil",
+    "set_type": "Mythic",
+    "slot": "Necklace",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "High Isle",
+    "lead_locations": {
+      "Sea Serpent Coil Scale Mesh": "Dreadsail Reef Trial",
+      "Serpentine Gemstone Inlay": "High Isle Volcanic Vents",
+      "Wave Crest Trim": "High Isle World Bosses",
+      "Dreadsail Winch Mechanism": "High Isle Delves",
+      "Nautical Clasp Rings": "Tales of Tribute Reward Boxes"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "After Roll Dodging, you gain Serpent's Rebuke for 10 seconds, snaring yourself by 40% but gaining Major Berserk and Major Courage. Serpent's Rebuke ends early if you Roll Dodge while affected.",
+        "buff_granted": ["Major Berserk", "Major Courage"],
+        "duration_sec": 10,
+        "self_snare_percent": 40,
+        "trigger": "Roll Dodge",
+        "early_end": "Roll Dodge again"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.75,
+      "healing_done": 0.0,
+      "damage_taken": 0.0
+    },
+    "tags": "damage|berserk|courage|dodge-roll|snare|burst-window",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/sea-serpents-coil"
+  },
+  {
+    "set_id": "SET_MYTHIC_FAUNS_LARK_CLADDING",
+    "name": "Faun's Lark Cladding",
+    "set_type": "Mythic",
+    "slot": "Chest",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Firesong",
+    "lead_locations": {
+      "Faun Hide Chest Wrap": "Galen Delves",
+      "Stonelore Druid Stitching": "Galen Public Dungeon",
+      "Bramble-Woven Shoulder Clasps": "Galen World Bosses",
+      "Whimsical Nature Buttons": "Firesong Circle Dailies",
+      "Druidic Embroidery Samples": "Galen Volcanic Vents"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "While in combat, your Sneak is improved by 5 meters. While Sneaking in combat, you walk 35% faster and your Magicka and Stamina Recovery is increased by 350.",
+        "sneak_detection_range_bonus_m": 5,
+        "sneak_speed_increase_percent": 35,
+        "recovery_bonus": 350,
+        "condition": "In combat and Sneaking"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.60,
+      "stealth": 0.95
+    },
+    "tags": "stealth|sneak|mobility|nightblade|pvp|niche|sustain",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/fauns-lark-cladding"
+  },
+  {
+    "set_id": "SET_MYTHIC_LEFTHANDERS_AEGIS",
+    "name": "Lefthander's Aegis",
+    "set_type": "Mythic",
+    "slot": "Shoulder",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Thieves Guild",
+    "lead_locations": {
+      "Ansei Rune Stamp": "Hew's Bane Delves",
+      "Yokeda Burial Band": "Craglorn Trials",
+      "Orichalcum Pauldron Stone": "Hew's Bane World Bosses",
+      "Tall Papa Prayer Parchment": "Alik'r Desert",
+      "Ancient Redguard Binding": "Hew's Bane Public Dungeon"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you Block a Projectile, you absorb it and heal for 2910 Health. When you Block a melee attack, you return 75% of the damage dealt as Physical Damage. This effect can occur every 1 second.",
+        "projectile_heal": 2910,
+        "melee_reflect_percent": 75,
+        "cooldown_sec": 1
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.85
+    },
+    "tags": "tank|block|projectile|reflect|defensive|niche",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/lefthanders-aegis"
+  },
+  {
+    "set_id": "SET_MYTHIC_ESOTERIC_ENVIRONMENT_GREAVES",
+    "name": "Esoteric Environment Greaves",
+    "set_type": "Mythic",
+    "slot": "Legs",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Necrom",
+    "lead_locations": {
+      "Hermetic Containment Seals": "Apocrypha Delves",
+      "Tentacle Straps": "Telvanni Peninsula World Bosses",
+      "Apocryphal Book Plates": "Infinite Archive",
+      "Daedric Etching Substance": "Apocrypha Public Dungeon",
+      "Esoteric Compartment Lining": "Bastion Nymic"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Ignore all Ground-based Effects that deal damage. Increase your damage taken by 5%.",
+        "immunity": "Ground-based damage effects",
+        "damage_taken_increase_percent": 5
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.70,
+      "mechanic_immunity": 1.0
+    },
+    "tags": "tank|ground-aoe|mechanic-cheese|progression|survivability|utility",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/esoteric-environment-greaves"
+  },
+  {
+    "set_id": "SET_MYTHIC_SYRABANES_WARD",
+    "name": "Syrabane's Ward",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Summerset",
+    "lead_locations": {
+      "Syrabane's Holy Sapphire": "Summerset World Bosses",
+      "Aldmer Defensive Focus Stone": "Karnwasten Public Dungeon",
+      "High Elf Warding Rune": "Summerset Delves",
+      "Alinor Holy Ward Pivot": "Cloudrest Trial",
+      "Psijic Sage's Gemstone": "Psijic Portals"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Adds 4728 Spell Resistance. When you take damage, you gain a damage shield that absorbs damage equal to 30% of the damage you took for 6 seconds. This effect can occur once every 7 seconds.",
+        "spell_resistance": 4728,
+        "shield_percent_of_damage": 30,
+        "shield_duration_sec": 6,
+        "cooldown_sec": 7
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.80
+    },
+    "tags": "tank|spell-resistance|shield|reactive|magic-damage|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/syrabanes-ward"
+  },
+  {
+    "set_id": "SET_MYTHIC_DOV_RHA_SABATONS",
+    "name": "Dov-Rha Sabatons",
+    "set_type": "Mythic",
+    "slot": "Feet",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Elsweyr",
+    "lead_locations": {
+      "Dov-Rha Scale Set": "Northern Elsweyr Dragons",
+      "Moon-Sugar Steel Plating": "Northern Elsweyr Delves",
+      "Rimmen Masterwork Leather Lining": "Rimmen (Northern Elsweyr)",
+      "Dragon Bone Spur": "Sunspire Trial",
+      "Fashioned Khajiit Eyelets": "Northern Elsweyr World Bosses"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you use a Charge, Leap, Teleport, or Pull ability, you release a shout, knocking back enemies and dealing Physical Damage. 3 second cooldown.",
+        "proc_condition": "Charge/Leap/Teleport/Pull ability",
+        "damage_type": "Physical",
+        "effect_type": "Knockback",
+        "cooldown_sec": 3
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.50,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.40,
+      "crowd_control": 0.85
+    },
+    "tags": "tank|knockback|mobility|crowd-control|gap-closer|utility",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/dov-rha-sabatons"
+  },
+  {
+    "set_id": "SET_MYTHIC_VELOTHI_AMULET",
+    "name": "Velothi Ur-Mage's Amulet",
+    "set_type": "Mythic",
+    "slot": "Necklace",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Necrom",
+    "lead_locations": {
+      "Velothi Ur-Mage Chain Links": "Telvanni Peninsula Delves",
+      "Chimer Godstone Fragment": "Bal Sunnar Dungeon",
+      "Ancestral Velothi Gemstone": "Telvanni Peninsula World Bosses",
+      "Chimer Prayer Amulet Frame": "Apocrypha Public Dungeon",
+      "Velothi Pilgrim Medallion": "Apocrypha Delves"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Reduce your Armor by 3541. Your Light and Heavy attacks deal 8% more damage and reduce the target's Armor by 1000 for 5 seconds.",
+        "armor_reduction_self": 3541,
+        "light_heavy_damage_increase_percent": 8,
+        "armor_debuff_on_target": 1000,
+        "debuff_duration_sec": 5
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.90,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "debuff_uptime": 0.70
+    },
+    "tags": "damage|penetration|light-attack|debuff|trial-meta|glass-cannon",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/velothi-ur-mages-amulet"
+  },
+  {
+    "set_id": "SET_MYTHIC_RING_WILD_HUNT",
+    "name": "Ring of the Wild Hunt",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Greymoor",
+    "lead_locations": {
+      "Claw of Hircine": "March of Sacrifices Dungeon",
+      "Antler Clasp": "Grahtwood World Bosses",
+      "Face of the Serpent": "Malabal Tor Public Dungeon",
+      "Band of Water": "Greenshade Fishing",
+      "Face of the Wolf Beast": "Selene's Web Dungeon"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Increases your Movement Speed by 15% while in combat and 45% while out of combat.",
+        "combat_speed_percent": 15,
+        "out_of_combat_speed_percent": 45
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.40,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "mobility": 0.95,
+      "overworld": 1.0
+    },
+    "tags": "speed|mobility|overworld|farming|travel|quality-of-life",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/ring-of-the-wild-hunt"
+  },
+  {
+    "set_id": "SET_MYTHIC_BLOODLORDS_EMBRACE",
+    "name": "Bloodlord's Embrace",
+    "set_type": "Mythic",
+    "slot": "Chest",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Greymoor",
+    "lead_locations": {
+      "Bloodlord's Sanguine Garnet": "Rivenspire World Bosses",
+      "Voidcaller Ritual Beads": "Shroud Hearth Barrow (The Rift)",
+      "Thirsting Leather Straps": "Darkshade Caverns I",
+      "Vampiric Sheen Pigment": "Castle Thorn Dungeon",
+      "Sable Crypt Lining": "Greymoor Caverns Delves"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Using abilities that cost Health will now cost Stamina instead. This effect does not apply to abilities that already cost Stamina.",
+        "resource_conversion": "Health costs become Stamina costs"
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.60,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.70,
+      "vampire": 0.95
+    },
+    "tags": "vampire|resource|health-conversion|niche|stamina-vampire|roleplay",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/bloodlords-embrace"
+  },
+  {
+    "set_id": "SET_MYTHIC_TURNING_TIDE",
+    "name": "Turning Tide",
+    "set_type": "Mythic",
+    "slot": "Waist",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Gold Road",
+    "lead_locations": {
+      "Welkynd Belt Clip": "West Weald Delves",
+      "Ayleid Runestone Fastening": "Lucent Citadel Trial",
+      "Welkynd Glowing Core": "West Weald World Bosses",
+      "Ayleid Woven Belt Material": "West Weald Public Dungeon",
+      "Colovian Embroidered Trim": "West Weald Mirrormoor Incursions"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you activate a synergy, you and up to 11 group members within 28 meters gain 10 Ultimate over 10 seconds. This effect can occur every 18 seconds.",
+        "ultimate_gain": 10,
+        "ultimate_duration_sec": 10,
+        "group_size": 12,
+        "range_m": 28,
+        "cooldown_sec": 18,
+        "trigger": "Synergy activation"
+      }
+    },
+    "pve_tier": "S",
+    "role_affinity": {
+      "damage_dealt": 0.20,
+      "buff_uptime": 0.90,
+      "healing_done": 0.50,
+      "damage_taken": 0.0
+    },
+    "tags": "healer|support|ultimate|group-buff|synergy|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/turning-tide"
+  },
+  {
+    "set_id": "SET_MYTHIC_NIRNS_AFFLICTION",
+    "name": "Nirn's Affliction",
+    "set_type": "Mythic",
+    "slot": "Ring",
+    "weight": "Jewelry",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Gold Road",
+    "lead_locations": {
+      "Daedric Containment Gem": "West Weald Delves",
+      "Afflicted Nirn Essence": "Lucent Citadel Trial",
+      "Daedric Binding Band": "West Weald World Bosses",
+      "Colovian Goldwork Setting": "West Weald Public Dungeon",
+      "Carved Daedric Rune": "West Weald Mirrormoor Incursions"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Dealing direct damage applies Afflicted to enemies for 10 seconds, dealing Disease Damage over time and reducing their healing received and Health Recovery by 12%.",
+        "damage_type": "Disease",
+        "duration_sec": 10,
+        "healing_reduction_percent": 12,
+        "health_recovery_reduction_percent": 12,
+        "proc_condition": "Direct damage"
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.85,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "debuff_uptime": 0.80
+    },
+    "tags": "damage|disease|dot|debuff|healing-reduction|pvp|utility",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/nirns-affliction"
+  },
+  {
+    "set_id": "SET_MYTHIC_DAGONIC_QUASIGRIFF",
+    "name": "Dagonic Quasigriff",
+    "set_type": "Mythic",
+    "slot": "Shoulder",
+    "weight": "Medium",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Blackwood",
+    "lead_locations": {
+      "Daedric Wing Membrane": "Oblivion Portals (Blackwood/Deadlands)",
+      "Quasigriff Talon Clasp": "The Cauldron Dungeon",
+      "Dagon Cult Pauldron Plate": "Deadlands World Bosses",
+      "Mehrunes-Infused Leather": "Deadlands Delves",
+      "Spiked Daedric Adornment": "Deadlands Public Dungeon"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "While you have a pet active, reduce the damage you take from area attacks by 10%. Reduce the damage enemies deal with their Light and Heavy Attacks by 5%.",
+        "pet_required": true,
+        "area_damage_reduction_percent": 10,
+        "enemy_light_heavy_reduction_percent": 5
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.75,
+      "pet_builds": 0.90
+    },
+    "tags": "pet|damage-reduction|sorcerer|warden|necromancer|survivability",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/dagonic-quasigriff"
+  },
+  {
+    "set_id": "SET_MYTHIC_VOIDMARROW_SABATONS",
+    "name": "Voidmarrow Sabatons",
+    "set_type": "Mythic",
+    "slot": "Feet",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Scribes of Fate",
+    "lead_locations": {
+      "Voidmarrow Bone Fragments": "Bal Sunnar Dungeon",
+      "Necromantic Binding Thread": "Scrivener's Hall Dungeon",
+      "Void Essence Container": "Telvanni Peninsula Delves",
+      "Dunmer Ritualist Glyphs": "Deshaan World Bosses",
+      "Soul-Charged Leg Plates": "Telvanni Peninsula Public Dungeon"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "Your Light and Heavy Attacks deal 2200 additional Magic Damage and restore 660 Magicka to you. Reduces your Weapon and Spell Damage by 100.",
+        "bonus_damage": 2200,
+        "damage_type": "Magic",
+        "magicka_restore": 660,
+        "weapon_spell_damage_reduction": 100
+      }
+    },
+    "pve_tier": "A",
+    "role_affinity": {
+      "damage_dealt": 0.80,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.0,
+      "sustain": 0.75
+    },
+    "tags": "damage|light-attack|sustain|magicka|weaving",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/voidmarrow-sabatons"
+  },
+  {
+    "set_id": "SET_MYTHIC_MORA_GRASP",
+    "name": "Mora's Grasp",
+    "set_type": "Mythic",
+    "slot": "Hands",
+    "weight": "Heavy",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Necrom",
+    "lead_locations": {
+      "Apocryphal Chitin Plating": "Infinite Archive",
+      "Hermaeus Mora Eye Gemstone": "Apocrypha World Bosses",
+      "Lurker Tentacle Straps": "Apocrypha Delves",
+      "Seeker Hide Padding": "Apocrypha Public Dungeon",
+      "Forbidden Knowledge Etchings": "Bastion Nymic Trial"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you taunt an enemy, you pull them to you and heal for 3870 Health. This effect can occur every 4 seconds per target.",
+        "trigger": "Taunt",
+        "effect_type": "Pull + Heal",
+        "heal_amount": 3870,
+        "cooldown_per_target_sec": 4
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.0,
+      "buff_uptime": 0.0,
+      "healing_done": 0.30,
+      "damage_taken": 0.80,
+      "crowd_control": 0.90
+    },
+    "tags": "tank|taunt|pull|positioning|add-control|healing",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/moras-grasp"
+  },
+  {
+    "set_id": "SET_MYTHIC_HROTHGAR_CHILL",
+    "name": "Hrothgar's Chill",
+    "set_type": "Mythic",
+    "slot": "Chest",
+    "weight": "Light",
+    "bind_type": "Bind on Pickup",
+    "tradeable": false,
+    "location": "Antiquities",
+    "dlc_required": "Greymoor",
+    "lead_locations": {
+      "Hrothgar's Frozen Essence": "Frozen Coast (Western Skyrim)",
+      "Coldsnap Goblin Tribal Fetish": "Frostvault Dungeon",
+      "Atmoran Whale Bone Clasps": "Blackreach: Greymoor Caverns",
+      "Ancient Nord Rune Tablet": "Labyrinthian (Western Skyrim)",
+      "Glacial Ice Crystal Heart": "Western Skyrim World Bosses"
+    },
+    "bonuses": {
+      "1": {
+        "effect": "When you Block an attack, you release an icy blast around you, dealing Frost Damage and reducing enemy Movement Speed by 50% for 4 seconds. 4 second cooldown.",
+        "trigger": "Block",
+        "damage_type": "Frost",
+        "snare_percent": 50,
+        "snare_duration_sec": 4,
+        "cooldown_sec": 4
+      }
+    },
+    "pve_tier": "B",
+    "role_affinity": {
+      "damage_dealt": 0.30,
+      "buff_uptime": 0.0,
+      "healing_done": 0.0,
+      "damage_taken": 0.70,
+      "crowd_control": 0.80
+    },
+    "tags": "tank|block|frost|snare|aoe|reactive-damage",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/hrothgars-chill"
+  }
+]
