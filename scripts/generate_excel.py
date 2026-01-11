@@ -25,38 +25,65 @@ COLUMNS = [
     'synergy', 'tags', 'dlc_required', 'patch_updated', 'source_url'
 ]
 
-# Phase files
-PHASE_FILES = [
-    'phase01_class_skills.json',
-    'phase02_weapon_skills.json',
-    'phase03_armor_skills.json',
-    'phase04_guild_skills.json',
-    'phase05_world_skills.json',
-    'phase06_alliance_war.json',
-    'phase07_racial_passives.json',
-    'phase08_crafting_skills.json',
-    'phase09_scribing_system.json',
-    'phase10_champion_points.json',
-    'phase11_companion_skills.json'
-]
+def normalize_feature(feature: dict) -> dict:
+    """Normalize field names to match expected schema."""
+    # Field name mappings
+    mappings = {
+        'feature_name': 'name',
+        'skill_name': 'name',
+        'description': 'base_effect',
+        'effect': 'base_effect',
+        'cost': 'resource_cost',
+        'target': 'target_type',
+        'range': 'range_m',
+        'radius': 'radius_m',
+        'duration': 'duration_sec',
+        'cooldown': 'cooldown_sec',
+        'unlock_requirements': 'unlock_method',
+        'morph_of': 'parent_feature',
+        'class': 'class_restriction',
+    }
+
+    normalized = {}
+    for key, value in feature.items():
+        new_key = mappings.get(key, key)
+        normalized[new_key] = value
+
+    # Normalize feature_type values
+    if 'feature_type' in normalized:
+        ft = str(normalized['feature_type']).upper()
+        if ft in ['ACTIVE', 'SKILL']:
+            normalized['feature_type'] = 'ACTIVE'
+        elif ft in ['ULT', 'ULTIMATE']:
+            normalized['feature_type'] = 'ULTIMATE'
+
+    return normalized
+
 
 def load_phase_data(raw_dir: Path) -> list[dict]:
     """Load all phase JSON files and combine into single list."""
     all_features = []
 
-    for phase_file in PHASE_FILES:
-        file_path = raw_dir / phase_file
-        if file_path.exists():
-            print(f"Loading {phase_file}...")
+    # Find all JSON files matching phase patterns
+    json_files = sorted(raw_dir.glob('phase*.json'))
+
+    for file_path in json_files:
+        print(f"Loading {file_path.name}...")
+        try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                features = []
                 if isinstance(data, list):
-                    all_features.extend(data)
+                    features = data
                 elif isinstance(data, dict) and 'features' in data:
-                    all_features.extend(data['features'])
-            print(f"  -> {len(data if isinstance(data, list) else data.get('features', []))} features")
-        else:
-            print(f"Warning: {phase_file} not found")
+                    features = data['features']
+
+                # Normalize each feature
+                normalized = [normalize_feature(f) for f in features]
+                all_features.extend(normalized)
+                print(f"  -> {len(features)} features")
+        except json.JSONDecodeError as e:
+            print(f"  ERROR: Invalid JSON in {file_path.name}: {e}")
 
     return all_features
 
@@ -142,13 +169,15 @@ def create_excel(features: list[dict], output_path: Path):
     for row_idx, row in enumerate(df.itertuples(index=False), 2):
         for col_idx, value in enumerate(row, 1):
             cell = ws.cell(row=row_idx, column=col_idx)
-            # Handle None/NaN
-            if pd.isna(value) or value is None:
+            # Handle None/NaN/lists
+            if value is None:
                 cell.value = None
-            elif isinstance(value, dict):
+            elif isinstance(value, (list, dict)):
                 cell.value = json.dumps(value)
+            elif isinstance(value, float) and pd.isna(value):
+                cell.value = None
             else:
-                cell.value = value
+                cell.value = str(value) if not isinstance(value, (int, float, str, bool)) else value
             cell.alignment = cell_align
             cell.border = thin_border
 
