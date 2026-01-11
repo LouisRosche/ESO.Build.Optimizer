@@ -7,7 +7,8 @@
     by the companion app and cloud ML pipeline.
 
     Author: ESO Build Optimizer Team
-    Version: 0.1.0
+    Version: 1.0.0
+    APIVersion: 101046 101047
 ]]--
 
 ---------------------------------------------------------------------------
@@ -19,7 +20,7 @@ local addon = ESOBuildOptimizer
 
 addon.name = "ESOBuildOptimizer"
 addon.displayName = "ESO Build Optimizer"
-addon.version = "0.1.0"
+addon.version = "1.0.0"
 addon.author = "ESO Build Optimizer Team"
 
 -- Module references (populated when modules load)
@@ -233,14 +234,12 @@ local function OnUnitDeathStateChanged(eventCode, unitTag, isDead)
 end
 
 -- Inventory slot update (gear changes)
+-- Note: Filtered at registration to BAG_WORN only
 local function OnInventorySlotUpdate(eventCode, bagId, slotIndex, isNewItem,
     itemSoundCategory, inventoryUpdateReason, stackCountChange)
 
     if addon.BuildSnapshot and isPlayerActivated then
-        -- Only track equipment changes
-        if bagId == BAG_WORN then
-            addon.BuildSnapshot:OnEquipmentChanged(slotIndex)
-        end
+        addon.BuildSnapshot:OnEquipmentChanged(slotIndex)
     end
 end
 
@@ -324,10 +323,25 @@ local function RegisterEvents()
     em:RegisterForEvent(name, EVENT_UNIT_DEATH_STATE_CHANGED, OnUnitDeathStateChanged)
     em:RegisterForEvent(name, EVENT_PLAYER_COMBAT_STATE, OnPlayerCombatState)
     em:RegisterForEvent(name, EVENT_BOSSES_CHANGED, OnBossesChanged)
-    em:RegisterForEvent(name, EVENT_EFFECT_CHANGED, OnEffectChanged)
 
-    -- Build state events
-    em:RegisterForEvent(name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, OnInventorySlotUpdate)
+    -- Effect changed events - HIGH FREQUENCY, requires filtering
+    -- Register separately for player buffs and boss debuffs with unique namespaces
+    local effectPlayerName = name .. "_effect_player"
+    em:RegisterForEvent(effectPlayerName, EVENT_EFFECT_CHANGED, OnEffectChanged)
+    em:AddFilterForEvent(effectPlayerName, EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
+
+    -- Register for boss unit effects (boss1 through boss6)
+    for i = 1, MAX_BOSSES do
+        local effectBossName = name .. "_effect_boss" .. i
+        em:RegisterForEvent(effectBossName, EVENT_EFFECT_CHANGED, OnEffectChanged)
+        em:AddFilterForEvent(effectBossName, EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG, "boss" .. i)
+    end
+
+    -- Build state events with filtering
+    local inventoryEventName = name .. "_inventory"
+    em:RegisterForEvent(inventoryEventName, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, OnInventorySlotUpdate)
+    em:AddFilterForEvent(inventoryEventName, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, REGISTER_FILTER_BAG_ID, BAG_WORN)
+
     em:RegisterForEvent(name, EVENT_SKILL_RANK_UPDATE, OnSkillRankUpdate)
     em:RegisterForEvent(name, EVENT_ACTION_SLOT_UPDATED, OnActionSlotUpdated)
 end
