@@ -285,6 +285,51 @@ ESO releases quarterly updates:
 }
 ```
 
+### 4.4 Gear Set Schema
+
+```json
+{
+    "set_id": "SET_DUNGEON_KINRAS_WRATH",
+    "name": "Kinras's Wrath",
+    "set_type": "Dungeon|Trial|Overland|Monster|Craftable|Mythic|Arena",
+    "weight": "Light|Medium|Heavy|Jewelry|Weapon",
+    "bind_type": "Bind on Pickup|Bind on Equip|Craftable",
+    "tradeable": false,
+    "location": "Black Drake Villa",
+    "dlc_required": "Flames of Ambition",
+    "bonuses": {
+        "2": {"stat": "Weapon and Spell Damage", "value": 129},
+        "3": {"stat": "Minor Force", "uptime": "always"},
+        "4": {"stat": "Weapon and Spell Damage", "value": 129},
+        "5": {
+            "effect": "Dealing direct damage grants Kinras's Wrath stack. At 5 stacks, gain Major Berserk for 5 seconds.",
+            "proc_condition": "direct_damage",
+            "buff_granted": "Major Berserk",
+            "duration_sec": 5,
+            "cooldown_sec": 0
+        }
+    },
+    "pve_tier": "S|A|B|C|F",
+    "role_affinity": {
+        "damage_dealt": 0.95,
+        "buff_uptime": 0.7,
+        "healing_done": 0.0
+    },
+    "tags": "damage|crit|berserk|stacking|trial-meta",
+    "patch_updated": "U48",
+    "source_url": "https://eso-hub.com/en/sets/kinrass-wrath"
+}
+```
+
+**Set Categories to Document:**
+- Monster Sets (~80 sets)
+- Dungeon Sets (~150 sets)
+- Trial Sets (~50 sets)
+- Overland Sets (~100 sets)
+- Craftable Sets (~80 sets)
+- Mythic Items (~30 items)
+- Arena Weapons (~20 sets)
+
 ---
 
 ## 5. Development Workflows
@@ -540,13 +585,23 @@ python -m json.tool data/raw/phase01_class_skills.json > /dev/null && echo "Vali
 
 ---
 
-## 12. Questions for Human Review
+## 12. Project Decisions (Resolved)
+
+| Decision | Resolution |
+|----------|------------|
+| **Privacy** | Anonymous by default. Opt-in for richer data sharing. |
+| **Content scope** | PvE only, all-inclusive: dungeons, trials, arenas. No PvP. |
+| **Historical data** | Starting fresh - addon replaces Combat Metrics entirely. |
+| **Gear sets** | Include full set database (see 4.4 Set Schema). |
+
+---
+
+## 13. Questions for Human Review
 
 When uncertain, ask about:
 1. **Balance priorities** - DPS meta vs. survivability vs. group utility
-2. **Content scope** - Focus on dungeons first? Trials? PvP?
-3. **UI preferences** - Minimal vs. detailed in-game display
-4. **Privacy** - What player data is okay to aggregate?
+2. **UI preferences** - Minimal vs. detailed in-game display
+3. **Recommendation aggressiveness** - How strongly to push meta vs. player preference
 
 ---
 
