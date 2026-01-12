@@ -1,330 +1,172 @@
 # ESO Build Optimizer
 
-An intelligent ESO performance analytics system that tracks combat metrics, analyzes builds, and generates actionable recommendations for Elder Scrolls Online players.
+Combat metrics with ML-powered recommendations for Elder Scrolls Online.
 
-## Project Overview
+**"You performed at X percentile. To improve your contribution, do Y."**
+
+---
+
+## For Players
+
+### Quick Start
+
+1. **Install the Addon**
+   - Use [Minion](https://minion.mmoui.com/) (recommended): Search "ESO Build Optimizer" → Install
+   - Or download from [ESOUI.com](https://www.esoui.com/) → Extract to `Documents/Elder Scrolls Online/live/AddOns/`
+
+2. **Create an Account**
+   - Visit the website and register with email/password
+   - In-game, type: `/ebo link <token>` (token shown on website)
+
+3. **Play Normally**
+   - The addon tracks your combat automatically
+   - Optional: Small UI shows real-time DPS/HPS (toggle with `/ebo ui`)
+
+4. **View Your Analytics**
+   - Log into the website to see your dashboard
+   - Compare your performance against similar players
+   - Get gear and skill recommendations
+
+### In-Game Commands
+
+| Command | Description |
+|---------|-------------|
+| `/ebo` | Show help |
+| `/ebo ui` | Toggle metrics display |
+| `/ebo link <token>` | Link account to website |
+| `/ebo reset` | Reset current encounter |
+
+### What Gets Tracked
+
+- **DPS/HPS** - Damage and healing per second
+- **Buff Uptime** - How well you maintain buffs
+- **Crit Rate** - Critical hit percentage
+- **Deaths** - Time spent dead
+- **Build Snapshot** - Your gear, skills, and CP at time of combat
+
+---
+
+## For Developers
+
+### Project Structure
 
 ```
 ESO.Build.Optimizer/
+├── addon/                  # Lua addon (ESOUI distribution)
+├── companion/              # Desktop sync app (Python)
 ├── api/                    # FastAPI backend
 ├── web/                    # React frontend (Vite)
-├── addon/                  # Lua addon for ESO
-├── companion/              # Desktop companion app
-├── ml/                     # Machine learning pipeline
-├── data/                   # Feature database (JSON)
-├── scripts/                # Utility scripts
-├── docker/                 # Docker configurations
-├── render.yaml             # Render.com deployment blueprint
-└── requirements.txt        # Python dependencies
+├── ml/                     # ML pipeline
+├── data/                   # Feature database (1,981 entries)
+├── docs/technical/         # Technical documentation
+├── tests/                  # Test suite
+└── .github/workflows/      # CI/CD pipeline
 ```
 
-## Quick Start (Local Development)
-
-### Prerequisites
-
-- Python 3.11+
-- Node.js 18+
-- Docker and Docker Compose (optional)
-- PostgreSQL 15+ (or use Docker)
-
-### Option 1: Using Docker Compose (Recommended)
+### Local Development
 
 ```bash
-# Clone the repository
+# Clone
 git clone https://github.com/your-username/ESO.Build.Optimizer.git
 cd ESO.Build.Optimizer
 
-# Start all services
-docker-compose -f docker/docker-compose.dev.yml up
-
-# API available at: http://localhost:8000
-# API docs at: http://localhost:8000/api/docs
-# Database at: localhost:5432
-```
-
-### Option 2: Manual Setup
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
-
-# Install dependencies
+# Backend
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env  # Edit with your settings
+uvicorn api.main:app --reload
 
-# Copy environment template
-cp .env.example .env
-# Edit .env with your settings
+# Frontend
+cd web && npm install && npm run dev
 
-# Start PostgreSQL (if not using Docker)
-# Then run database setup
-python scripts/setup_neon.py
-
-# Start the API
-uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+# Tests
+python scripts/run_tests.py
 ```
+
+### Technical Documentation
+
+| Document | Description |
+|----------|-------------|
+| [ESO Addon API](docs/technical/ESO_ADDON_API.md) | Lua API, events, SavedVariables |
+| [FastAPI Best Practices](docs/technical/FASTAPI_BEST_PRACTICES.md) | Backend patterns |
+| [React/Vite Guide](docs/technical/REACT_VITE_BEST_PRACTICES.md) | Frontend patterns |
+| [Deployment Guide](docs/technical/DEPLOYMENT_FREE_TIER.md) | Vercel, Render, Neon |
+| [PyInstaller Packaging](docs/technical/PYINSTALLER_PACKAGING.md) | Companion app builds |
+
+### CI/CD Pipeline
+
+GitHub Actions runs on every push:
+- Python tests (pytest)
+- Frontend tests (vitest, TypeScript, ESLint)
+- Lua validation (syntax, luacheck)
+- Data validation (JSON integrity)
+- Security scan (Bandit)
 
 ---
 
-## Deployment Guide (Free Tier)
+## Deployment (Owner Reference)
 
-This project is configured for deployment on free tiers:
-- **Frontend**: Vercel (Hobby plan)
-- **Backend**: Render.com (Free tier)
-- **Database**: Neon (Free tier)
+### Infrastructure (Free Tier)
 
-### Step 1: Set Up Neon PostgreSQL
+| Service | Purpose | Limitations |
+|---------|---------|-------------|
+| **Vercel** | Frontend hosting | 100GB bandwidth |
+| **Render** | Backend API | 750hrs/mo, 15min sleep |
+| **Neon** | PostgreSQL | 0.5GB, auto-suspend |
 
-1. Create an account at [neon.tech](https://neon.tech)
-2. Create a new project (e.g., "eso-build-optimizer")
-3. Copy your connection string from the dashboard
-4. Note: Free tier includes:
-   - 0.5 GB storage
-   - 1 compute branch
-   - Unlimited projects
+### Quick Deploy
 
-```bash
-# Test your connection locally
-export DATABASE_URL="postgresql+asyncpg://user:pass@ep-xxx.region.aws.neon.tech/eso_optimizer?sslmode=require"
-python scripts/setup_neon.py --dry-run
-python scripts/setup_neon.py  # Run for real
-```
+1. **Database**: Create project at [neon.tech](https://neon.tech), copy connection string
+2. **Backend**: Connect repo at [render.com](https://render.com), set env vars
+3. **Frontend**: Import repo at [vercel.com](https://vercel.com), set `VITE_API_URL`
 
-### Step 2: Deploy Backend to Render
+### Environment Variables
 
-1. Create an account at [render.com](https://render.com)
-2. Connect your GitHub repository
-3. Create a new "Blueprint" deployment:
-   - Select your repo
-   - Render will auto-detect `render.yaml`
-4. Or create a "Web Service" manually:
-   - Environment: Python 3
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
-   - Set environment variables in dashboard:
-
-| Variable | Value |
-|----------|-------|
-| `DATABASE_URL` | Your Neon connection string |
-| `JWT_SECRET_KEY` | Auto-generate in Render |
-| `ALLOWED_ORIGINS` | Your Vercel frontend URL |
-| `ENVIRONMENT` | production |
-| `DEBUG` | false |
-
-**Free tier notes:**
-- 750 hours/month (enough for one service)
-- Spins down after 15 minutes of inactivity
-- First request after sleep takes ~30 seconds
-
-### Step 3: Deploy Frontend to Vercel
-
-1. Create an account at [vercel.com](https://vercel.com)
-2. Import your GitHub repository
-3. Configure:
-   - Framework Preset: Vite
-   - Root Directory: `web`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-4. Set environment variables:
-
-| Variable | Value |
-|----------|-------|
-| `VITE_API_URL` | Your Render backend URL |
-| `VITE_APP_NAME` | ESO Build Optimizer |
-
-5. Deploy!
-
-**Hobby plan notes:**
-- Unlimited deployments
-- Automatic HTTPS
-- Preview deployments for PRs
-
-### Step 4: Configure CORS
-
-After deployment, update your Render environment:
-
-```
-ALLOWED_ORIGINS=https://your-app.vercel.app,https://your-custom-domain.com
-```
-
-### Step 5: Verify Deployment
-
-```bash
-# Check API health
-curl https://your-app.onrender.com/health
-
-# Check API docs
-open https://your-app.onrender.com/api/docs
-```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DATABASE_URL` | Yes | Neon PostgreSQL connection |
+| `JWT_SECRET_KEY` | Yes | JWT signing secret |
+| `ALLOWED_ORIGINS` | Yes | CORS (your Vercel URL) |
 
 ---
 
-## Environment Variables Reference
+## ESOUI Submission
 
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `DATABASE_URL` | Yes | - | PostgreSQL connection string |
-| `JWT_SECRET_KEY` | Yes | - | Secret for JWT tokens |
-| `ALLOWED_ORIGINS` | Yes | localhost | CORS allowed origins |
-| `ENVIRONMENT` | No | development | development/staging/production |
-| `DEBUG` | No | false | Enable debug mode |
-| `RATE_LIMIT_REQUESTS_PER_MINUTE` | No | 60 | Rate limit per user |
-| `RATE_LIMIT_REQUESTS_PER_DAY` | No | 10000 | Daily rate limit |
+The addon is packaged for ESOUI.com/Minion distribution:
 
-See `.env.example` for full list.
+```
+ESOBuildOptimizer/
+├── ESOBuildOptimizer.txt     # Manifest (CRLF, UTF-8 no BOM)
+├── ESOBuildOptimizer.lua     # Main addon
+└── modules/                  # Combat, build, UI, advisor
+```
+
+**Manifest Compliance:**
+- APIVersion: 101046 101047 (Update 46-48)
+- AddOnVersion: 1 (integer)
+- Event filtering on high-frequency events
+- Single namespaced global table
 
 ---
 
-## API Documentation
+## What Makes This Different
 
-Once deployed, access the interactive API docs:
-- Swagger UI: `/api/docs`
-- ReDoc: `/api/redoc`
-- OpenAPI JSON: `/api/openapi.json`
-
-### Key Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/health` | GET | Health check |
-| `/api/v1/auth/register` | POST | User registration |
-| `/api/v1/auth/login` | POST | User login |
-| `/api/v1/runs` | GET/POST | Combat runs |
-| `/api/v1/features` | GET | Feature database |
-| `/api/v1/recommendations/{run_id}` | GET | Get recommendations |
-
----
-
-## Database Setup
-
-### Create Tables
-
-```bash
-# Using the setup script
-export DATABASE_URL="your-connection-string"
-python scripts/setup_neon.py
-```
-
-### Seed Data
-
-The setup script automatically seeds:
-- Features from `data/raw/phase*.json`
-- Gear Sets from `data/raw/sets_*.json`
-
-```bash
-# Seed only (tables already exist)
-python scripts/setup_neon.py --seed-only
-
-# Drop and recreate everything
-python scripts/setup_neon.py --drop-all
-
-# Preview changes
-python scripts/setup_neon.py --dry-run
-```
-
----
-
-## Docker Commands
-
-```bash
-# Start all services
-docker-compose -f docker/docker-compose.dev.yml up
-
-# Start with pgAdmin (database UI)
-docker-compose -f docker/docker-compose.dev.yml --profile tools up
-
-# Rebuild after code changes
-docker-compose -f docker/docker-compose.dev.yml up --build
-
-# Stop all services
-docker-compose -f docker/docker-compose.dev.yml down
-
-# Stop and remove volumes (WARNING: deletes data)
-docker-compose -f docker/docker-compose.dev.yml down -v
-```
-
----
-
-## Data Management
-
-### Generate Excel from JSON
-
-```bash
-python scripts/generate_excel.py
-```
-
-### Count Features
-
-```bash
-for f in data/raw/*.json; do
-  echo "$f: $(python3 -c "import json; print(len(json.load(open('$f'))))")"
-done
-```
-
-### Validate JSON
-
-```bash
-python -m json.tool data/raw/phase01_class_skills.json > /dev/null && echo "Valid"
-```
-
----
-
-## Monitoring & Troubleshooting
-
-### Check Render Logs
-
-```bash
-# Via Render dashboard or CLI
-render logs --service eso-build-optimizer-api
-```
-
-### Common Issues
-
-1. **Database connection fails**
-   - Check Neon is not sleeping (free tier)
-   - Verify `?sslmode=require` in connection string
-   - Check IP allowlist if configured
-
-2. **Render service sleeps**
-   - Free tier spins down after 15min inactivity
-   - Consider external ping service (e.g., UptimeRobot)
-
-3. **CORS errors**
-   - Verify `ALLOWED_ORIGINS` includes your frontend URL
-   - Include both www and non-www versions
-
-4. **JWT authentication fails**
-   - Ensure `JWT_SECRET_KEY` is consistent across restarts
-   - Check token expiration settings
-
----
-
-## Cost Breakdown (Free Tier)
-
-| Service | Tier | Limitations |
-|---------|------|-------------|
-| Neon | Free | 0.5GB storage, auto-suspend |
-| Render | Free | 750hrs/month, 15min sleep |
-| Vercel | Hobby | 100GB bandwidth, 100 deployments |
-
-**Estimated monthly cost: $0**
-
-For production, consider:
-- Neon Pro ($19/mo) - 10GB, no suspend
-- Render Starter ($7/mo) - no sleep, custom domains
-- Vercel Pro ($20/mo) - team features, analytics
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+| Feature | Combat Metrics | ESO Build Optimizer |
+|---------|----------------|---------------------|
+| Raw DPS numbers | ✓ | ✓ |
+| Percentile ranking | ✗ | ✓ |
+| "You're better than X% of similar players" | ✗ | ✓ |
+| Actionable recommendations | ✗ | ✓ |
+| "Switch X set to Y for +8% DPS" | ✗ | ✓ |
+| Cross-character analytics | ✗ | ✓ |
+| Historical trends | ✗ | ✓ |
 
 ---
 
 ## License
 
 Data compiled from publicly available ESO game information for educational and optimization purposes.
+
+---
+
+*Version 1.0.0 | ESO Update 48 | January 2026*
