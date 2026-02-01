@@ -190,20 +190,27 @@ export class LuaTransformer {
       const baseName = this.getNodeName(callNode.base);
       if (baseName === 'LibStub' && callNode.arguments.length > 0) {
         const firstArg = callNode.arguments[0];
-        if (firstArg?.type === 'StringLiteral' && firstArg.value) {
-          const libName = firstArg.value;
+        if (firstArg?.type === 'StringLiteral') {
+          // luaparse may return null for value, so extract from raw (which includes quotes)
+          const libName = firstArg.value ?? firstArg.raw?.slice(1, -1);
+          if (!libName) return;
+          // Normalize library name: case-insensitive, strip version suffix (e.g., "-2.0")
+          const normalizedLibName = libName.toLowerCase().replace(/-\d+(\.\d+)?$/, '');
           const libMigration = ctx.migrations.libraryMigrations.find(
-            (m) => m.name === libName
+            (m) => m.name.toLowerCase().replace(/-\d+(\.\d+)?$/, '') === normalizedLibName ||
+                   m.name.toLowerCase() === libName.toLowerCase()
           );
 
-          if (libMigration && callNode.range) {
+          // Use migration global variable, or generate one from library name
+          const globalVar = libMigration?.globalVariable ?? libName.replace(/-[\d.]+$/, '').replace(/-/g, '');
+          if (callNode.range) {
             this.collectChange(ctx, {
               start: callNode.range[0],
               end: callNode.range[1],
               oldCode: ctx.content.substring(callNode.range[0], callNode.range[1]),
-              newCode: libMigration.globalVariable,
-              reason: `Replace LibStub("${libName}") with ${libMigration.globalVariable}`,
-              confidence: 0.95,
+              newCode: globalVar,
+              reason: `Replace LibStub("${libName}") with ${globalVar}`,
+              confidence: libMigration ? 0.95 : 0.85,
             });
           }
         }

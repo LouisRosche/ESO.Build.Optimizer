@@ -177,6 +177,82 @@
       "confidence": 0.85,
       "autoFixable": true,
       "notes": "Sound constant renamed"
+    },
+    {
+      "id": "func-001",
+      "oldName": "InventoryContainsEmptySoulGem",
+      "type": "renamed",
+      "newName": "DoesInventoryContainEmptySoulGem",
+      "versionDeprecated": 100003,
+      "category": "inventory",
+      "confidence": 1.0,
+      "autoFixable": true,
+      "notes": "Renamed for naming consistency"
+    },
+    {
+      "id": "func-002",
+      "oldName": "LogChatText",
+      "type": "removed",
+      "versionRemoved": 100003,
+      "category": "chat",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Removed entirely. Use /chatlog command instead."
+    },
+    {
+      "id": "func-003",
+      "oldName": "ActivateBuff",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-004",
+      "oldName": "UseSynergyEffect",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-005",
+      "oldName": "UseMostRecentSynergyEffect",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-006",
+      "oldName": "TOOLTIP_GAME_DATA_SOCKET",
+      "type": "removed",
+      "versionRemoved": 100003,
+      "category": "tooltips",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Item socketing API removed"
+    },
+    {
+      "id": "console-001",
+      "oldName": "GetUnitBuffInfo",
+      "type": "signature_changed",
+      "versionDeprecated": 101046,
+      "category": "console_restriction",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Console: Now only returns long-term buffs for local player. isLongTermBuff return value removed.",
+      "oldSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ..., isLongTermBuff",
+      "newSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ... (console only returns long-term player buffs)"
     }
   ],
 
@@ -288,6 +364,48 @@
       "globalVariable": "LibPromises",
       "patterns": ["LibStub(\"LibPromises\")"],
       "notes": "Promise/async library"
+    },
+    {
+      "id": "lib-013",
+      "name": "LibTextFilter",
+      "globalVariable": "LibTextFilter",
+      "patterns": ["LibStub(\"LibTextFilter\")"],
+      "notes": "Text filtering library"
+    },
+    {
+      "id": "lib-014",
+      "name": "LibGetText",
+      "globalVariable": "LibGetText",
+      "patterns": ["LibStub(\"LibGetText\")"],
+      "notes": "Internationalization/localization library"
+    },
+    {
+      "id": "lib-015",
+      "name": "LibDateTime",
+      "globalVariable": "LibDateTime",
+      "patterns": ["LibStub(\"LibDateTime\")"],
+      "notes": "Date and time utilities"
+    },
+    {
+      "id": "lib-016",
+      "name": "LibHarvensAddonSettings",
+      "globalVariable": "LibHarvensAddonSettings",
+      "patterns": ["LibStub(\"LibHarvensAddonSettings\")"],
+      "notes": "Console-compatible settings menu (use instead of LAM on console)"
+    },
+    {
+      "id": "lib-017",
+      "name": "LibMediaProvider",
+      "globalVariable": "LibMediaProvider",
+      "patterns": ["LibStub(\"LibMediaProvider\")"],
+      "notes": "Shared media provider"
+    },
+    {
+      "id": "lib-018",
+      "name": "LibSavedVars",
+      "globalVariable": "LibSavedVars",
+      "patterns": ["LibStub(\"LibSavedVars\")"],
+      "notes": "Enhanced saved variables handling"
     }
   ],
 
@@ -420,5 +538,36 @@
         "Recipe data updates required after major patches."
       ]
     }
-  ]
+  ],
+
+  "consoleCompatibility": {
+    "manifestExtension": {
+      "deprecated": ".txt",
+      "required": ".addon",
+      "deadline": "2025-06-04",
+      "notes": "Starting June 4, 2025, .txt files will be ignored on console and in ForceConsoleFlow"
+    },
+    "fileSystemCaseSensitivity": {
+      "platform": "PlayStation",
+      "caseSensitive": true,
+      "notes": "PlayStation is based on Linux with case-sensitive filesystem. All file paths in manifest must match exact casing."
+    },
+    "fileLimits": {
+      "maxFilesPerVersion": 500,
+      "notes": "Console addons limited to 500 files per version (Bethesda.net limit)"
+    },
+    "compatibilityLayer": {
+      "available": false,
+      "notes": "PC compatibility layer for deprecated functions is NOT available on console. Use current APIs only."
+    },
+    "settingsLibrary": {
+      "pc": "LibAddonMenu-2.0",
+      "console": "LibHarvensAddonSettings",
+      "notes": "Console requires gamepad UI. Use LibHarvensAddonSettings instead of LibAddonMenu."
+    },
+    "uiRequirements": {
+      "gamepadUI": true,
+      "notes": "Console addons must support gamepad UI for all UI elements"
+    }
+  }
 }

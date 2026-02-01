@@ -273,15 +273,22 @@ export class LuaAnalyzer {
     const firstArg = args[0] as LuaNode;
     if (firstArg?.type !== 'StringLiteral') return;
 
-    const libName = (firstArg as LuaStringLiteral).value;
+    const stringNode = firstArg as LuaStringLiteral;
+    // luaparse may return null for value, so extract from raw (which includes quotes)
+    const libName = stringNode.value ?? stringNode.raw?.slice(1, -1);
     if (!libName) return; // Skip if library name is null/empty
 
-    const libMigration = LIBRARY_MIGRATIONS.find((m) => m.libraryName === libName);
+    // Normalize library name: case-insensitive, strip version suffix (e.g., "-2.0")
+    const normalizedLibName = libName.toLowerCase().replace(/-\d+(\.\d+)?$/, '');
+    const libMigration = LIBRARY_MIGRATIONS.find(
+      (m) => m.libraryName.toLowerCase().replace(/-\d+(\.\d+)?$/, '') === normalizedLibName ||
+             m.libraryName.toLowerCase() === libName.toLowerCase()
+    );
 
     const location = this.nodeToSourceRange(node);
     const oldCode = this.extractSourceCode(state.content, location);
 
-    const suggestedGlobal = libMigration?.globalVariable ?? libName.replace(/-/g, '');
+    const suggestedGlobal = libMigration?.globalVariable ?? libName.replace(/-[\d.]+$/, '').replace(/-/g, '');
     state.issues.push(this.createIssue(state, {
       category: 'libstub',
       severity: 'warning',
@@ -300,7 +307,8 @@ export class LuaAnalyzer {
   // ============================================================================
 
   private analyzeStringLiteral(state: AnalyzerState, node: LuaStringLiteral): void {
-    const value = node.value;
+    // luaparse may return null for value, so extract from raw (which includes quotes)
+    const value = node.value ?? node.raw?.slice(1, -1);
     if (!value) return; // Skip null/empty string literals
 
     // Check for old font paths

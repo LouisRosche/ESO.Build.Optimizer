@@ -77,17 +77,54 @@ export class AddonFixer {
       }
     }
 
-    // Find manifest
-    const manifestPath = join(addonPath, `${addonName}.txt`);
+    // Find manifest - prefer .addon over .txt (console requirement)
+    const addonManifestPath = join(addonPath, `${addonName}.addon`);
+    const txtManifestPath = join(addonPath, `${addonName}.txt`);
+    let manifestPath: string | null = null;
     let manifestData;
+    let usesDeprecatedTxt = false;
 
     try {
-      await stat(manifestPath);
-      const manifestResult = await analyzeManifest(manifestPath);
-      fileResults.push(manifestResult);
-      manifestData = await parseManifest(manifestPath);
+      await stat(addonManifestPath);
+      manifestPath = addonManifestPath;
     } catch {
-      warnings.push(`Missing manifest file: ${addonName}.txt`);
+      try {
+        await stat(txtManifestPath);
+        manifestPath = txtManifestPath;
+        usesDeprecatedTxt = true;
+      } catch {
+        warnings.push(`Missing manifest file: ${addonName}.addon or ${addonName}.txt`);
+      }
+    }
+
+    if (manifestPath) {
+      const manifestResult = await analyzeManifest(manifestPath);
+
+      // Add deprecation warning for .txt extension
+      if (usesDeprecatedTxt) {
+        const txtIssue: Issue = {
+          id: 'manifest-ext-001',
+          filePath: manifestPath,
+          category: 'api_version',
+          severity: 'warning',
+          message: '.txt manifest extension is deprecated (use .addon for console support)',
+          details: 'Starting June 4, 2025, .txt files will be ignored on console. Create a .addon file.',
+          location: { start: { line: 1, column: 0, offset: 0 }, end: { line: 1, column: 0, offset: 0 } },
+          oldCode: `${addonName}.txt`,
+          suggestedFix: `${addonName}.addon`,
+          autoFixable: true,
+          confidence: 1.0,
+        };
+        const enhancedManifestResult: FileAnalysisResult = {
+          ...manifestResult,
+          issues: [txtIssue, ...manifestResult.issues],
+        };
+        fileResults.push(enhancedManifestResult);
+      } else {
+        fileResults.push(manifestResult);
+      }
+
+      manifestData = await parseManifest(manifestPath);
     }
 
     // Find all Lua and XML files
@@ -113,6 +150,20 @@ export class AddonFixer {
     for (const file of files.xml) {
       const result = await this.analyzeXmlFile(file);
       fileResults.push(result);
+    }
+
+    // Check case sensitivity (console compatibility)
+    if (manifestData?.files && manifestData.files.length > 0) {
+      const caseIssues = await this.checkCaseSensitivity(addonPath, manifestData.files as string[]);
+      if (caseIssues.length > 0) {
+        fileResults.push({
+          filePath: addonPath,
+          fileType: 'manifest',
+          issues: caseIssues,
+          metrics: { lineCount: 0, functionCount: 0, eventRegistrations: 0, libStubUsages: 0, deprecatedCalls: 0 },
+          parseErrors: [],
+        });
+      }
     }
 
     // Calculate summary
@@ -159,15 +210,54 @@ export class AddonFixer {
     }
 
     try {
-      // Fix manifest
-      const manifestPath = join(addonPath, `${addonName}.txt`);
+      // Fix manifest - prefer .addon over .txt
+      const addonManifestPath = join(addonPath, `${addonName}.addon`);
+      const txtManifestPath = join(addonPath, `${addonName}.txt`);
+      let manifestPath: string | null = null;
+      let usesDeprecatedTxt = false;
+
       try {
-        await stat(manifestPath);
+        await stat(addonManifestPath);
+        manifestPath = addonManifestPath;
+      } catch {
+        try {
+          await stat(txtManifestPath);
+          manifestPath = txtManifestPath;
+          usesDeprecatedTxt = true;
+        } catch {
+          warnings.push('Manifest file not found');
+        }
+      }
+
+      if (manifestPath) {
         const manifestResult = await fixManifest(manifestPath, this.config.dryRun);
         fileResults.push(manifestResult);
         totalChanges += manifestResult.changes.length;
-      } catch {
-        warnings.push('Manifest file not found');
+
+        // Create .addon file from .txt if needed (for console compatibility)
+        if (usesDeprecatedTxt && !this.config.dryRun) {
+          try {
+            const content = await fsReadFile(txtManifestPath, 'utf-8');
+            await fsWriteFile(addonManifestPath, content, 'utf-8');
+            const addonCopyResult: FileFixResult = {
+              filePath: addonManifestPath,
+              fileType: 'manifest',
+              changes: [{
+                location: { start: { line: 1, column: 0, offset: 0 }, end: { line: 1, column: 0, offset: 0 } },
+                oldCode: '',
+                newCode: `${addonName}.addon`,
+                reason: 'Create .addon file for console compatibility (June 2025 requirement)',
+                confidence: 1.0,
+              }],
+              errors: [],
+              wasModified: true,
+            };
+            fileResults.push(addonCopyResult);
+            totalChanges += 1;
+          } catch (e) {
+            warnings.push(`Failed to create .addon file: ${e}`);
+          }
+        }
       }
 
       // Find all files
@@ -356,8 +446,84 @@ export class AddonFixer {
             });
           }
         }
+      } catch (e) {
+          // Report invalid patterns instead of silent skip
+          issues.push({
+            id: `pattern-error-${++issueId}`,
+            filePath,
+            category: 'deprecated_function',
+            severity: 'info',
+            message: `Invalid pattern migration "${pattern.name}": ${e instanceof Error ? e.message : 'unknown error'}`,
+            location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+            oldCode: pattern.pattern,
+            suggestedFix: undefined,
+            autoFixable: false,
+            confidence: 0,
+          });
+        }
+      }
+
+    return issues;
+  }
+
+  // ============================================================================
+  // Case Sensitivity Check (Console Compatibility)
+  // ============================================================================
+
+  private async checkCaseSensitivity(addonPath: string, manifestFiles: string[]): Promise<Issue[]> {
+    const issues: Issue[] = [];
+    let issueId = 0;
+
+    // Get actual files on disk
+    const actualFiles = new Map<string, string>(); // lowercase -> actual path
+    const collectFiles = async (dir: string, prefix: string = ''): Promise<void> => {
+      try {
+        const entries = await readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+          if (entry.isDirectory() && !entry.name.includes('_backup_')) {
+            await collectFiles(join(dir, entry.name), relativePath);
+          } else if (entry.isFile()) {
+            actualFiles.set(relativePath.toLowerCase(), relativePath);
+          }
+        }
       } catch {
-        // Skip invalid patterns
+        // Skip unreadable directories
+      }
+    };
+    await collectFiles(addonPath);
+
+    // Check each manifest file reference
+    for (const manifestFile of manifestFiles) {
+      const lowerPath = manifestFile.toLowerCase();
+      const actualPath = actualFiles.get(lowerPath);
+
+      if (actualPath && actualPath !== manifestFile) {
+        issues.push({
+          id: `case-${++issueId}`,
+          filePath: addonPath,
+          category: 'dependency',
+          severity: 'warning',
+          message: `Case mismatch: manifest references "${manifestFile}" but file is "${actualPath}"`,
+          details: 'PlayStation uses case-sensitive filesystem. This will fail on console.',
+          location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+          oldCode: manifestFile,
+          suggestedFix: actualPath,
+          autoFixable: true,
+          confidence: 1.0,
+        });
+      } else if (!actualPath && !actualFiles.has(lowerPath)) {
+        issues.push({
+          id: `missing-${++issueId}`,
+          filePath: addonPath,
+          category: 'dependency',
+          severity: 'error',
+          message: `Missing file: manifest references "${manifestFile}" but file not found`,
+          location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+          oldCode: manifestFile,
+          autoFixable: false,
+          confidence: 1.0,
+        });
       }
     }
 
