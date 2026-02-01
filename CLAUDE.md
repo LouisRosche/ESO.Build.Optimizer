@@ -569,6 +569,14 @@ ESO.Build.Optimizer/
 │
 ├── scripts/
 │   ├── generate_excel.py     # Compile JSON → Excel
+│   ├── fix_addon.py          # ESO addon fixer CLI
+│   ├── addon_fixer/          # Addon fixer package
+│   │   ├── fixer.py          # Main orchestrator
+│   │   ├── manifest.py       # Manifest parser/fixer
+│   │   ├── lua_analyzer.py   # Lua code analysis
+│   │   ├── xml_fixer.py      # XML virtual control fixes
+│   │   ├── migrations.py     # API migration database
+│   │   └── validator.py      # Dependency validation
 │   └── scrapers/             # Web scraping scripts
 │
 ├── addon/                    # Lua addon source
@@ -616,6 +624,7 @@ ESO.Build.Optimizer/
 - [x] CI/CD pipeline (GitHub Actions with 6 parallel jobs)
 - [x] Comprehensive test suite (pytest + vitest)
 - [x] 122-issue codebase audit completed and fixed
+- [x] ESO Addon Fixer tool (API migrations, LibStub removal, font paths, packaging)
 
 ### Ready for Release:
 - [ ] ESOUI.com addon submission (see Section 10.1)
@@ -674,6 +683,88 @@ for f in data/raw/*.json; do echo "$f: $(python3 -c "import json; print(len(json
 
 # Validate JSON
 python -m json.tool data/raw/phase01_class_skills.json > /dev/null && echo "Valid"
+
+# ESO Addon Fixer commands
+python scripts/fix_addon.py analyze /path/to/addon    # Analyze addon for issues
+python scripts/fix_addon.py fix /path/to/addon        # Fix addon (creates backup)
+python scripts/fix_addon.py fix /path/to/addon -o .   # Fix and package as .zip
+python scripts/fix_addon.py migrations                # List known API migrations
+python scripts/fix_addon.py info                      # Show ESO API version info
+```
+
+---
+
+## 11.1 ESO Addon Fixer
+
+The addon fixer is an automated tool for repairing broken ESO addons. It updates addons to work with **APIVersion 101048** (Update 48).
+
+### What It Fixes
+
+| Category | Fixes Applied |
+|----------|---------------|
+| **Manifest** | Updates APIVersion, removes LibStub dependency, fixes encoding |
+| **Lua Code** | Replaces LibStub patterns, renames deprecated functions, updates font paths |
+| **XML Files** | Updates font paths, fixes virtual control inheritance |
+| **Dependencies** | Validates library versions, suggests updates |
+
+### Key Migrations
+
+**LibStub Replacement** (deprecated since Summerset):
+```lua
+-- Old (deprecated):
+local LAM = LibStub("LibAddonMenu-2.0")
+
+-- New (modern):
+local LAM = LibAddonMenu2
+```
+
+**Champion Points Migration** (API 100015):
+```lua
+-- Old: GetUnitVeteranRank(unitTag)
+-- New: GetUnitChampionPoints(unitTag)
+```
+
+**Font Path Migration** (API 101041):
+```lua
+-- Old: "MyAddon/fonts/myfont.ttf|16"
+-- New: "MyAddon/fonts/myfont.slug|16"
+```
+
+### Library Global Variables
+
+| Library | Global Variable |
+|---------|-----------------|
+| LibAddonMenu-2.0 | `LibAddonMenu2` |
+| LibFilters-3.0 | `LibFilters3` |
+| LibCustomMenu | `LibCustomMenu` |
+| LibGPS3 | `LibGPS3` |
+| LibAsync | `LibAsync` |
+
+### Addon Complexity Guide
+
+| Complexity | Examples | Notes |
+|------------|----------|-------|
+| Low | Dustman, Set Tracker | Simple fixes, usually work immediately |
+| Medium | FTC, PersonalAssistant | May need manual review |
+| High | AwesomeGuildStore | Complex dependency chains |
+| Very High | Wykkyd Framework | Recommend replacement addons |
+
+### Programmatic Usage
+
+```python
+from addon_fixer import AddonFixer, FixerConfig
+
+config = FixerConfig(
+    update_api_version=True,
+    fix_libstub=True,
+    fix_font_paths=True,
+    create_backup=True,
+)
+
+fixer = AddonFixer(config)
+result = fixer.fix("/path/to/addon")
+
+print(f"Changes: {result.total_changes}")
 ```
 
 ---
