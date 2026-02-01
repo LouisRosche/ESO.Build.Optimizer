@@ -385,27 +385,58 @@ function addon:ToggleUI()
     end
 end
 
--- Slash commands
+-- Slash commands (comprehensive for gamepad/console accessibility)
 SLASH_COMMANDS["/ebo"] = function(args)
     -- Parse command and arguments
     local cmd, param = string.match(args or "", "^(%S*)%s*(.*)$")
     cmd = string.lower(cmd or "")
 
-    if cmd == "" then
+    if cmd == "" or cmd == "help" then
         -- Show help
         addon:Info("ESO Build Optimizer v" .. addon.version)
         addon:Info("Commands:")
-        addon:Info("  /ebo ui - Toggle metrics display")
-        addon:Info("  /ebo reset - Reset current encounter")
-        addon:Info("  /ebo link <token> - Link to website account")
-        addon:Info("  /ebo advisor - Toggle skill recommendations")
-        addon:Info("  /ebo status - Show current status")
+        addon:Info("  /ebo toggle   - Show/hide metrics display")
+        addon:Info("  /ebo expand   - Expand to detailed view")
+        addon:Info("  /ebo collapse - Collapse to minimal view")
+        addon:Info("  /ebo lock     - Lock UI position")
+        addon:Info("  /ebo unlock   - Unlock for repositioning")
+        addon:Info("  /ebo reset    - Reset current encounter")
+        addon:Info("  /ebo resetui  - Reset UI to default position")
+        addon:Info("  /ebo advisor  - Toggle skill recommendations")
+        addon:Info("  /ebo scale <n> - Set UI scale (0.5-2.0)")
+        addon:Info("  /ebo link <token> - Link website account")
+        addon:Info("  /ebo status   - Show current status")
     elseif cmd == "ui" or cmd == "toggle" then
         addon:ToggleUI()
+    elseif cmd == "expand" then
+        if addon.MetricsUI then
+            addon.MetricsUI:SetExpanded(true)
+            addon:Info("UI expanded")
+        end
+    elseif cmd == "collapse" then
+        if addon.MetricsUI then
+            addon.MetricsUI:SetExpanded(false)
+            addon:Info("UI collapsed")
+        end
+    elseif cmd == "lock" then
+        if addon.MetricsUI then
+            addon.MetricsUI:Lock()
+            addon:Info("UI position locked")
+        end
+    elseif cmd == "unlock" then
+        if addon.MetricsUI then
+            addon.MetricsUI:Unlock()
+            addon:Info("UI unlocked - drag to reposition")
+        end
     elseif cmd == "reset" then
         if addon.CombatTracker then
             addon.CombatTracker:ResetEncounter()
             addon:Info("Encounter reset")
+        end
+    elseif cmd == "resetui" then
+        if addon.MetricsUI then
+            addon.MetricsUI:ResetPosition()
+            addon:Info("UI position reset to default")
         end
     elseif cmd == "link" then
         if param and param ~= "" then
@@ -417,11 +448,6 @@ SLASH_COMMANDS["/ebo"] = function(args)
         else
             addon:Info("Usage: /ebo link <token>")
             addon:Info("Get your token from the website dashboard.")
-        end
-    elseif cmd == "expand" then
-        if addon.MetricsUI then
-            addon.MetricsUI:ToggleExpanded()
-            addon:Info("UI %s", addon.MetricsUI:IsExpanded() and "expanded" or "collapsed")
         end
     elseif cmd == "advisor" then
         if addon.SkillAdvisor then
@@ -440,6 +466,16 @@ SLASH_COMMANDS["/ebo"] = function(args)
             addon.MetricsUI:ToggleAutoDisplay()
             addon:Info("Auto-display: %s", addon.MetricsUI:IsAutoDisplayEnabled() and "ON" or "OFF")
         end
+    elseif cmd == "scale" then
+        local scale = tonumber(param)
+        if scale and scale >= 0.5 and scale <= 2.0 then
+            if addon.MetricsUI then
+                addon.MetricsUI:SetScale(scale)
+                addon:Info("UI scale: %.1f", scale)
+            end
+        else
+            addon:Info("Usage: /ebo scale <0.5-2.0>")
+        end
     elseif cmd == "debug" then
         addon.savedVars.settings.verboseLogging = not addon.savedVars.settings.verboseLogging
         addon:Info("Debug logging: %s", addon.savedVars.settings.verboseLogging and "ON" or "OFF")
@@ -452,17 +488,17 @@ SLASH_COMMANDS["/ebo"] = function(args)
         local status = "Unknown"
         if addon.CombatTracker then
             local inCombat = addon.CombatTracker:IsInEncounter()
-            local encounterCount = addon.savedVars and addon.savedVars.encounters and #addon.savedVars.encounters or 0
-            status = string.format("%s | %d encounters stored", inCombat and "In Combat" or "Idle", encounterCount)
+            local runsCount = addon.savedVars and addon.savedVars.stats and addon.savedVars.stats.totalRunsRecorded or 0
+            status = string.format("%s | %d runs recorded", inCombat and "In Combat" or "Idle", runsCount)
         end
         addon:Info("Status: %s", status)
         if addon.savedVars and addon.savedVars.accountToken then
             addon:Info("Account: Linked")
         else
-            addon:Info("Account: Not linked (use /ebo link <token>)")
+            addon:Info("Account: Not linked (/ebo link <token>)")
         end
     else
-        addon:Info("Unknown command: %s. Type /ebo for help.", cmd)
+        addon:Info("Unknown command: %s. Type /ebo help for commands.", cmd)
     end
 end
 
