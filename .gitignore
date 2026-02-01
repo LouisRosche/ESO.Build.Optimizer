@@ -59,3 +59,9 @@ logs/
 
 # ESO SavedVariables (for testing)
 SavedVariables/
+
+# Node.js
+node_modules/
+
+# Test addons (cloned for testing)
+test-addons/
