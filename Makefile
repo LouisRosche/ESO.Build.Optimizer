@@ -111,6 +111,18 @@ endif
 	cd tools/addon-fixer && node dist/cli.js analyze "$(ADDON)"
 
 # =============================================================================
+# Library Sync
+# =============================================================================
+
+lib-sync:
+	@echo "Syncing library versions from ESOUI..."
+	cd tools/addon-fixer && npx ts-node scripts/sync-library-versions.ts
+
+lib-check:
+	@echo "Checking library versions..."
+	cd tools/addon-fixer && npx ts-node scripts/sync-library-versions.ts --check
+
+# =============================================================================
 # Cleanup
 # =============================================================================
 
