@@ -333,12 +333,32 @@
     {
       "id": "pat-003",
       "name": "windowManagerCreateControl",
-      "pattern": "WINDOW_MANAGER:CreateControl",
-      "replacement": "CreateControl",
+      "pattern": "WINDOW_MANAGER:CreateControl(",
+      "replacement": "CreateControl(",
       "category": "patterns",
-      "confidence": 0.8,
+      "confidence": 0.9,
       "autoFixable": true,
       "notes": "CreateControl is now a global function"
+    },
+    {
+      "id": "pat-004",
+      "name": "windowManagerCreateControlFromVirtual",
+      "pattern": "WINDOW_MANAGER:CreateControlFromVirtual(",
+      "replacement": "CreateControlFromVirtual(",
+      "category": "patterns",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "CreateControlFromVirtual is now a global function"
+    },
+    {
+      "id": "pat-005",
+      "name": "windowManagerCreateTopLevelWindow",
+      "pattern": "WINDOW_MANAGER:CreateTopLevelWindow(",
+      "replacement": "CreateTopLevelWindow(",
+      "category": "patterns",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "CreateTopLevelWindow is now a global function"
     }
   ],
 

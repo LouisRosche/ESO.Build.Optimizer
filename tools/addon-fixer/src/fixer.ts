@@ -96,7 +96,17 @@ export class AddonFixer {
     // Analyze Lua files
     for (const file of files.lua) {
       const result = await this.luaAnalyzer!.analyzeFile(file);
-      fileResults.push(result);
+      // Add pattern migration issues
+      const patternIssues = await this.checkPatternMigrations(file);
+      if (patternIssues.length > 0) {
+        const enhancedResult: FileAnalysisResult = {
+          ...result,
+          issues: [...result.issues, ...patternIssues],
+        };
+        fileResults.push(enhancedResult);
+      } else {
+        fileResults.push(result);
+      }
     }
 
     // Analyze XML files
@@ -258,6 +268,100 @@ export class AddonFixer {
 
     await processDir(dirPath);
     return { lua, xml };
+  }
+
+  // ============================================================================
+  // Pattern Migration Check
+  // ============================================================================
+
+  private async checkPatternMigrations(filePath: string): Promise<Issue[]> {
+    const issues: Issue[] = [];
+
+    if (!this.migrations?.patternMigrations) {
+      return issues;
+    }
+
+    let content: string;
+    try {
+      content = await fsReadFile(filePath, 'utf-8');
+    } catch {
+      return issues;
+    }
+
+    let issueId = 0;
+    for (const pattern of this.migrations.patternMigrations) {
+      try {
+        // Check if pattern looks like a regex (contains unescaped regex metacharacters)
+        // Parentheses in a literal like "WINDOW_MANAGER:CreateControl(" should use string search
+        const regexMetaChars = /[|[\]+*?^${}]|\\[dDwWsSbB]/;
+        const isRegexPattern = regexMetaChars.test(pattern.pattern);
+
+        if (!isRegexPattern) {
+          // Simple string search (literal matching)
+          let pos = 0;
+          while ((pos = content.indexOf(pattern.pattern, pos)) !== -1) {
+            // Skip if in comment
+            const lineStart = content.lastIndexOf('\n', pos) + 1;
+            const lineContent = content.substring(lineStart, pos);
+            if (lineContent.includes('--')) {
+              pos++;
+              continue;
+            }
+
+            const lineNum = content.substring(0, pos).split('\n').length;
+            issues.push({
+              id: `pattern-${++issueId}`,
+              filePath,
+              category: 'deprecated_function',
+              severity: 'warning',
+              message: pattern.notes,
+              location: {
+                start: { line: lineNum, column: 0, offset: pos },
+                end: { line: lineNum, column: pattern.pattern.length, offset: pos + pattern.pattern.length },
+              },
+              oldCode: pattern.pattern,
+              suggestedFix: pattern.replacement,
+              autoFixable: pattern.autoFixable,
+              confidence: pattern.confidence,
+            });
+            pos++;
+          }
+        } else {
+          // Regex-based search
+          const regex = new RegExp(pattern.pattern, 'g');
+          let match;
+          while ((match = regex.exec(content)) !== null) {
+            // Skip if in comment
+            const lineStart = content.lastIndexOf('\n', match.index) + 1;
+            const lineContent = content.substring(lineStart, match.index);
+            if (lineContent.includes('--')) {
+              continue;
+            }
+
+            const lineNum = content.substring(0, match.index).split('\n').length;
+            issues.push({
+              id: `pattern-${++issueId}`,
+              filePath,
+              category: 'deprecated_function',
+              severity: 'warning',
+              message: pattern.notes,
+              location: {
+                start: { line: lineNum, column: 0, offset: match.index },
+                end: { line: lineNum, column: match[0].length, offset: match.index + match[0].length },
+              },
+              oldCode: match[0],
+              suggestedFix: pattern.replacement,
+              autoFixable: pattern.autoFixable,
+              confidence: pattern.confidence,
+            });
+          }
+        }
+      } catch {
+        // Skip invalid patterns
+      }
+    }
+
+    return issues;
   }
 
   // ============================================================================

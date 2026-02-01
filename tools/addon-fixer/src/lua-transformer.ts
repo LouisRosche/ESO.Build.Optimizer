@@ -352,24 +352,60 @@ export class LuaTransformer {
         pattern.confidence >= ctx.config.confidenceThreshold
       ) {
         try {
-          const regex = new RegExp(pattern.pattern, 'g');
-          let match;
+          // Check if pattern looks like a regex (contains unescaped regex metacharacters)
+          const regexMetaChars = /[|[\]+*?^${}]|\\[dDwWsSbB]/;
+          const isRegexPattern = regexMetaChars.test(pattern.pattern);
 
-          while ((match = regex.exec(ctx.content)) !== null) {
-            const newCode = match[0].replace(
-              new RegExp(pattern.pattern),
-              pattern.replacement
-            );
+          if (!isRegexPattern) {
+            // Simple string replacement
+            let pos = 0;
+            while ((pos = ctx.content.indexOf(pattern.pattern, pos)) !== -1) {
+              // Skip if in comment
+              const lineStart = ctx.content.lastIndexOf('\n', pos) + 1;
+              const lineContent = ctx.content.substring(lineStart, pos);
+              if (lineContent.includes('--')) {
+                pos++;
+                continue;
+              }
 
-            if (match[0] !== newCode) {
               this.collectChange(ctx, {
-                start: match.index,
-                end: match.index + match[0].length,
-                oldCode: match[0],
-                newCode,
+                start: pos,
+                end: pos + pattern.pattern.length,
+                oldCode: pattern.pattern,
+                newCode: pattern.replacement,
                 reason: pattern.notes,
                 confidence: pattern.confidence,
               });
+              pos++;
+            }
+          } else {
+            // Regex-based replacement
+            const regex = new RegExp(pattern.pattern, 'g');
+            let match;
+
+            while ((match = regex.exec(ctx.content)) !== null) {
+              // Skip if in comment
+              const lineStart = ctx.content.lastIndexOf('\n', match.index) + 1;
+              const lineContent = ctx.content.substring(lineStart, match.index);
+              if (lineContent.includes('--')) {
+                continue;
+              }
+
+              const newCode = match[0].replace(
+                new RegExp(pattern.pattern),
+                pattern.replacement
+              );
+
+              if (match[0] !== newCode) {
+                this.collectChange(ctx, {
+                  start: match.index,
+                  end: match.index + match[0].length,
+                  oldCode: match[0],
+                  newCode,
+                  reason: pattern.notes,
+                  confidence: pattern.confidence,
+                });
+              }
             }
           }
         } catch {
