@@ -7,12 +7,10 @@
  * - XML UI files (.xml)
  */
 
-import { readdir, stat, mkdir, copyFile, rm } from 'node:fs/promises';
+import { readdir, stat, mkdir, copyFile, rm, writeFile as fsWriteFile, readFile as fsReadFile } from 'node:fs/promises';
 import { join, basename, dirname, extname } from 'node:path';
 import { createWriteStream } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
-import { createGzip } from 'node:zlib';
-import * as tar from 'tar';
+import * as archiver from 'archiver';
 
 import type {
   FixerConfig,
@@ -26,8 +24,9 @@ import type {
 } from './types.js';
 import { DEFAULT_CONFIG } from './types.js';
 import { LuaAnalyzer } from './lua-analyzer.js';
+import { LuaTransformer } from './lua-transformer.js';
 import { parseManifest, analyzeManifest, fixManifest } from './manifest-parser.js';
-import { getAddonRecommendation } from './migrations.js';
+import { loadMigrations, getAddonRecommendation, type MigrationDatabase } from './migration-loader.js';
 
 // ============================================================================
 // Addon Fixer
@@ -35,11 +34,25 @@ import { getAddonRecommendation } from './migrations.js';
 
 export class AddonFixer {
   private readonly config: FixerConfig;
-  private readonly luaAnalyzer: LuaAnalyzer;
+  private luaAnalyzer: LuaAnalyzer | null = null;
+  private luaTransformer: LuaTransformer | null = null;
+  private migrations: MigrationDatabase | null = null;
 
   constructor(config: Partial<FixerConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
-    this.luaAnalyzer = new LuaAnalyzer(this.config.confidenceThreshold);
+  }
+
+  private async initialize(): Promise<void> {
+    if (!this.migrations) {
+      this.migrations = await loadMigrations();
+    }
+    if (!this.luaAnalyzer) {
+      this.luaAnalyzer = new LuaAnalyzer(this.config.confidenceThreshold);
+    }
+    if (!this.luaTransformer) {
+      this.luaTransformer = new LuaTransformer();
+      await this.luaTransformer.initialize();
+    }
   }
 
   // ============================================================================
@@ -47,13 +60,14 @@ export class AddonFixer {
   // ============================================================================
 
   async analyze(addonPath: string): Promise<AddonAnalysisResult> {
+    await this.initialize();
+
     const addonName = basename(addonPath);
     const fileResults: FileAnalysisResult[] = [];
     const warnings: string[] = [];
-    const errors: string[] = [];
 
     // Check for replacement recommendations
-    const recommendation = getAddonRecommendation(addonName);
+    const recommendation = getAddonRecommendation(this.migrations!, addonName);
     if (recommendation) {
       warnings.push(...recommendation.recommendations);
       if (!recommendation.shouldAttemptFix) {
@@ -79,11 +93,11 @@ export class AddonFixer {
 
     // Analyze Lua files
     for (const file of files.lua) {
-      const result = await this.luaAnalyzer.analyzeFile(file);
+      const result = await this.luaAnalyzer!.analyzeFile(file);
       fileResults.push(result);
     }
 
-    // Analyze XML files (simplified for now)
+    // Analyze XML files
     for (const file of files.xml) {
       const result = await this.analyzeXmlFile(file);
       fileResults.push(result);
@@ -106,6 +120,8 @@ export class AddonFixer {
   // ============================================================================
 
   async fix(addonPath: string, outputPath?: string): Promise<AddonFixResult> {
+    await this.initialize();
+
     const addonName = basename(addonPath);
     const fileResults: FileFixResult[] = [];
     const errors: string[] = [];
@@ -116,7 +132,7 @@ export class AddonFixer {
     let totalChanges = 0;
 
     // Check for replacement recommendations
-    const recommendation = getAddonRecommendation(addonName);
+    const recommendation = getAddonRecommendation(this.migrations!, addonName);
     if (recommendation) {
       recommendations.push(...recommendation.recommendations);
     }
@@ -147,18 +163,30 @@ export class AddonFixer {
 
       // Fix Lua files
       for (const file of files.lua) {
-        const result = await this.fixLuaFile(file);
+        const result = await this.luaTransformer!.transformFile(
+          file,
+          {
+            fixLibStub: this.config.fixLibStub,
+            fixDeprecatedFunctions: this.config.fixDeprecatedFunctions,
+            fixFontPaths: this.config.fixFontPaths,
+            fixPatterns: true,
+            confidenceThreshold: this.config.confidenceThreshold,
+          },
+          this.config.dryRun
+        );
         fileResults.push(result);
         totalChanges += result.changes.length;
         errors.push(...result.errors);
       }
 
       // Fix XML files
-      for (const file of files.xml) {
-        const result = await this.fixXmlFile(file);
-        fileResults.push(result);
-        totalChanges += result.changes.length;
-        errors.push(...result.errors);
+      if (this.config.fixXmlIssues) {
+        for (const file of files.xml) {
+          const result = await this.fixXmlFile(file);
+          fileResults.push(result);
+          totalChanges += result.changes.length;
+          errors.push(...result.errors);
+        }
       }
 
       // Package if output path specified
@@ -169,7 +197,6 @@ export class AddonFixer {
           errors.push(`Failed to package addon: ${e}`);
         }
       }
-
     } catch (e) {
       errors.push(`Error during fixing: ${e}`);
 
@@ -232,48 +259,14 @@ export class AddonFixer {
   }
 
   // ============================================================================
-  // Lua File Fixing
-  // ============================================================================
-
-  private async fixLuaFile(filePath: string): Promise<FileFixResult> {
-    // For now, use the analyzer to detect issues
-    // Full transformation requires luaparse code generation
-    const analysis = await this.luaAnalyzer.analyzeFile(filePath);
-
-    const changes = analysis.issues
-      .filter((issue) => issue.autoFixable && issue.confidence >= this.config.confidenceThreshold)
-      .map((issue) => ({
-        location: issue.location,
-        oldCode: issue.oldCode,
-        newCode: issue.suggestedFix ?? '',
-        reason: issue.message,
-        confidence: issue.confidence,
-      }));
-
-    // Apply fixes if not dry run
-    // TODO: Implement actual code transformation
-    const wasModified = changes.length > 0 && !this.config.dryRun;
-
-    return {
-      filePath,
-      fileType: 'lua',
-      changes,
-      errors: analysis.parseErrors.map((e) => e.message),
-      wasModified,
-    };
-  }
-
-  // ============================================================================
   // XML File Analysis/Fixing
   // ============================================================================
 
   private async analyzeXmlFile(filePath: string): Promise<FileAnalysisResult> {
-    // Simplified XML analysis - just check for font paths
-    const { readFile } = await import('node:fs/promises');
     let content: string;
 
     try {
-      content = await readFile(filePath, 'utf-8');
+      content = await fsReadFile(filePath, 'utf-8');
     } catch {
       return {
         filePath,
@@ -311,6 +304,32 @@ export class AddonFixer {
       });
     }
 
+    // Check for deprecated event handlers
+    for (const evt of this.migrations?.eventMigrations ?? []) {
+      const eventPattern = new RegExp(`On${evt.oldName.replace('EVENT_', '')}`, 'gi');
+      let evtMatch;
+
+      while ((evtMatch = eventPattern.exec(content)) !== null) {
+        const lineNum = content.substring(0, evtMatch.index).split('\n').length;
+
+        issues.push({
+          id: `xml-${++issueId}`,
+          filePath,
+          category: 'event_constant',
+          severity: 'warning',
+          message: `Deprecated event handler: ${evtMatch[0]}`,
+          location: {
+            start: { line: lineNum, column: 0, offset: evtMatch.index },
+            end: { line: lineNum, column: evtMatch[0].length, offset: evtMatch.index + evtMatch[0].length },
+          },
+          oldCode: evtMatch[0],
+          suggestedFix: evt.replacementEvent ? `On${evt.replacementEvent.replace('EVENT_', '')}` : undefined,
+          autoFixable: !!evt.replacementEvent,
+          confidence: 0.8,
+        });
+      }
+    }
+
     return {
       filePath,
       fileType: 'xml',
@@ -327,24 +346,59 @@ export class AddonFixer {
   }
 
   private async fixXmlFile(filePath: string): Promise<FileFixResult> {
-    const analysis = await this.analyzeXmlFile(filePath);
+    const changes: FileFixResult['changes'] = [];
+    const errors: string[] = [];
 
-    const changes = analysis.issues
-      .filter((issue) => issue.autoFixable)
-      .map((issue) => ({
-        location: issue.location,
-        oldCode: issue.oldCode,
-        newCode: issue.suggestedFix ?? '',
-        reason: issue.message,
-        confidence: issue.confidence,
-      }));
+    let content: string;
+    try {
+      content = await fsReadFile(filePath, 'utf-8');
+    } catch (e) {
+      return {
+        filePath,
+        fileType: 'xml',
+        changes: [],
+        errors: [`Failed to read file: ${e}`],
+        wasModified: false,
+      };
+    }
+
+    let modified = false;
+    let newContent = content;
+
+    // Fix font paths
+    if (this.config.fixFontPaths) {
+      const fontPattern = /(font\s*=\s*["'])([^"']+)\.(ttf|otf)(\|[^"']*)?((["']))/gi;
+      newContent = newContent.replace(fontPattern, (match, prefix, path, ext, options, quote) => {
+        const newPath = `${prefix}${path}.slug${options ?? ''}${quote}`;
+        if (match !== newPath) {
+          changes.push({
+            location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+            oldCode: match,
+            newCode: newPath,
+            reason: 'Convert font path to Slug format',
+            confidence: 0.95,
+          });
+          modified = true;
+        }
+        return newPath;
+      });
+    }
+
+    // Write if modified and not dry run
+    if (modified && !this.config.dryRun) {
+      try {
+        await fsWriteFile(filePath, newContent, 'utf-8');
+      } catch (e) {
+        errors.push(`Failed to write file: ${e}`);
+      }
+    }
 
     return {
       filePath,
       fileType: 'xml',
       changes,
-      errors: [],
-      wasModified: changes.length > 0 && !this.config.dryRun,
+      errors,
+      wasModified: modified && !this.config.dryRun,
     };
   }
 
@@ -386,11 +440,23 @@ export class AddonFixer {
     const addonName = basename(addonPath);
     const zipPath = join(outputPath, `${addonName}.zip`);
 
-    // Use archiver or similar - for now just create the path
-    // TODO: Implement actual zip creation
     await mkdir(outputPath, { recursive: true });
 
-    return zipPath;
+    return new Promise((resolve, reject) => {
+      const output = createWriteStream(zipPath);
+      // @ts-ignore - archiver types issue
+      const archive = archiver.default('zip', { zlib: { level: 9 } });
+
+      output.on('close', () => resolve(zipPath));
+      archive.on('error', reject);
+
+      archive.pipe(output);
+
+      // Add files with correct structure (AddonName/file.lua)
+      archive.directory(addonPath, addonName);
+
+      archive.finalize();
+    });
   }
 
   // ============================================================================
@@ -420,8 +486,8 @@ export class AddonFixer {
     const totalIssues = issuesBySeverity.error + issuesBySeverity.warning + issuesBySeverity.info;
 
     // Estimate fix time based on complexity
-    let estimatedMinutes = autoFixableCount * 0.1; // Auto-fixes are quick
-    estimatedMinutes += (totalIssues - autoFixableCount) * 2; // Manual fixes take longer
+    let estimatedMinutes = autoFixableCount * 0.1;
+    estimatedMinutes += (totalIssues - autoFixableCount) * 2;
 
     const estimatedFixTime =
       estimatedMinutes < 1

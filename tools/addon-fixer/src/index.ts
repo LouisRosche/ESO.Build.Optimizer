@@ -37,26 +37,22 @@ export {
   DEFAULT_CONFIG,
 } from './types.js';
 
-// Migrations
+// Migration Database
 export {
-  API_VERSION_HISTORY,
-  FUNCTION_MIGRATIONS,
-  LIBRARY_MIGRATIONS,
-  EVENT_MIGRATIONS,
-  VALID_CURRENT_FUNCTIONS,
-  ADDON_RECOMMENDATIONS,
-  getMigrationByName,
+  loadMigrations,
+  getFunctionMigration,
   getLibraryMigration,
-  getLibraryByPattern,
-  getMigrationsByCategory,
-  getMigrationsByVersion,
-  getAutoFixableMigrations,
+  getEventMigration,
   isValidCurrentFunction,
+  getAutoFixableMigrations,
+  getMigrationsByCategory,
   getAddonRecommendation,
-} from './migrations.js';
+  type MigrationDatabase,
+} from './migration-loader.js';
 
 // Analyzers
 export { LuaAnalyzer, analyzeLuaFile } from './lua-analyzer.js';
+export { LuaTransformer, transformLuaFile } from './lua-transformer.js';
 export { parseManifest, analyzeManifest, fixManifest } from './manifest-parser.js';
 
 // Main Fixer
