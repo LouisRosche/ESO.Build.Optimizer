@@ -68,5 +68,21 @@ export {
   type LibraryRecommendation,
 } from './library-db.js';
 
+// Addon Compatibility Database
+export {
+  ADDON_COMPATIBILITY_DB,
+  getAddonsByCategory,
+  getAddonsByStatus,
+  getAddonSuite,
+  getAddonInfo,
+  getAddonsNeedingFixes,
+  getAlternatives,
+  getCategories,
+  getCompatibilityStats,
+  type AddonCompatibility,
+  type AddonStatus,
+  type FixComplexity,
+} from './addon-compat-db.js';
+
 // Main Fixer
 export { AddonFixer, analyzeAddon, fixAddon } from './fixer.js';

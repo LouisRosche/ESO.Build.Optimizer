@@ -28,6 +28,16 @@ import {
   checkLibraryHealth,
   getLibraryRecommendations,
 } from './library-db.js';
+import {
+  ADDON_COMPATIBILITY_DB,
+  getAddonsByCategory,
+  getAddonsByStatus,
+  getAddonSuite,
+  getAddonInfo,
+  getCategories,
+  getCompatibilityStats,
+  type AddonStatus,
+} from './addon-compat-db.js';
 import { CURRENT_LIVE_API, CURRENT_PTS_API } from './types.js';
 import type { FixerConfig, IssueSeverity } from './types.js';
 
@@ -670,6 +680,194 @@ program
       console.log('  Check addon: eso-addon-fixer libraries -a /path/to/addon');
       console.log('  Show all:    eso-addon-fixer libraries --all\n');
     }
+  });
+
+// ============================================================================
+// Addons Command (Compatibility Database)
+// ============================================================================
+
+program
+  .command('addons')
+  .description('Browse addon compatibility database')
+  .option('-c, --category <category>', 'Filter by category (combat, ui, inventory, trading, maps, etc.)')
+  .option('-s, --status <status>', 'Filter by status (working, needs_update, broken, deprecated)')
+  .option('--suite <name>', 'Show all addons in a suite (e.g., "Personal Assistant")')
+  .option('-n, --name <name>', 'Get info for a specific addon')
+  .option('--stats', 'Show compatibility statistics')
+  .option('--json', 'Output as JSON')
+  .action((options: {
+    category?: string;
+    status?: string;
+    suite?: string;
+    name?: string;
+    stats?: boolean;
+    json?: boolean;
+  }) => {
+    // Get specific addon info
+    if (options.name) {
+      const addon = getAddonInfo(options.name);
+      if (!addon) {
+        console.log(chalk.red(`Addon not found: ${options.name}`));
+        console.log(chalk.gray('Use "eso-addon-fixer addons" to see all tracked addons'));
+        process.exit(1);
+      }
+
+      if (options.json) {
+        console.log(JSON.stringify(addon, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(` ${addon.name}`));
+      console.log('='.repeat(60) + '\n');
+
+      const statusColor = addon.status === 'working' ? chalk.green :
+        addon.status === 'needs_update' ? chalk.yellow :
+        addon.status === 'broken' ? chalk.red :
+        addon.status === 'deprecated' ? chalk.gray : chalk.white;
+
+      console.log(`Status: ${statusColor(addon.status.toUpperCase())}`);
+      console.log(`Category: ${addon.category}`);
+      console.log(`Author: ${addon.author}`);
+      console.log(`Description: ${addon.description}`);
+      if (addon.esouiId) {
+        console.log(`ESOUI: https://www.esoui.com/downloads/info${addon.esouiId}`);
+      }
+      if (addon.suite) {
+        console.log(`Suite: ${addon.suite}`);
+      }
+      if (addon.dependencies?.length) {
+        console.log(`Dependencies: ${addon.dependencies.join(', ')}`);
+      }
+      if (addon.issues?.length) {
+        console.log(chalk.yellow('\nKnown Issues:'));
+        for (const issue of addon.issues) {
+          console.log(chalk.yellow(`  - ${issue}`));
+        }
+      }
+      if (addon.fixInstructions?.length) {
+        console.log(chalk.cyan('\nFix Instructions:'));
+        for (const instruction of addon.fixInstructions) {
+          console.log(chalk.cyan(`  - ${instruction}`));
+        }
+      }
+      if (addon.alternative) {
+        console.log(chalk.green(`\nAlternative: ${addon.alternative}`));
+      }
+      if (addon.notes) {
+        console.log(chalk.gray(`\nNotes: ${addon.notes}`));
+      }
+      console.log(chalk.gray(`\nLast verified: ${addon.lastVerified}`));
+      return;
+    }
+
+    // Show statistics
+    if (options.stats) {
+      const stats = getCompatibilityStats();
+
+      if (options.json) {
+        console.log(JSON.stringify(stats, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' Addon Compatibility Statistics'));
+      console.log('='.repeat(60) + '\n');
+
+      console.log(`Total tracked: ${chalk.bold(stats.total)}`);
+      console.log(`${chalk.green('✓')} Working: ${stats.working} (${Math.round(stats.working / stats.total * 100)}%)`);
+      console.log(`${chalk.yellow('!')} Needs Update: ${stats.needsUpdate}`);
+      console.log(`${chalk.red('✗')} Broken: ${stats.broken}`);
+      console.log(`${chalk.gray('○')} Deprecated: ${stats.deprecated}`);
+
+      console.log(chalk.bold('\n\nCategories:\n'));
+      for (const cat of getCategories()) {
+        const count = getAddonsByCategory(cat).length;
+        console.log(`  ${cat}: ${count} addons`);
+      }
+      return;
+    }
+
+    // Filter addons
+    let addons = [...ADDON_COMPATIBILITY_DB];
+
+    if (options.category) {
+      addons = getAddonsByCategory(options.category);
+      if (addons.length === 0) {
+        console.log(chalk.yellow(`No addons found in category: ${options.category}`));
+        console.log(chalk.gray(`Available categories: ${getCategories().join(', ')}`));
+        return;
+      }
+    }
+
+    if (options.status) {
+      addons = getAddonsByStatus(options.status as AddonStatus);
+      if (addons.length === 0) {
+        console.log(chalk.yellow(`No addons found with status: ${options.status}`));
+        return;
+      }
+    }
+
+    if (options.suite) {
+      addons = getAddonSuite(options.suite);
+      if (addons.length === 0) {
+        console.log(chalk.yellow(`No addons found in suite: ${options.suite}`));
+        return;
+      }
+    }
+
+    if (options.json) {
+      console.log(JSON.stringify(addons, null, 2));
+      return;
+    }
+
+    // Display addons
+    console.log(chalk.bold('\n' + '='.repeat(60)));
+    console.log(chalk.bold(' ESO Addon Compatibility Database'));
+    console.log('='.repeat(60) + '\n');
+
+    const stats = getCompatibilityStats();
+    console.log(`Tracked: ${stats.total} addons | ` +
+      `${chalk.green(stats.working + ' working')} | ` +
+      `${chalk.yellow(stats.needsUpdate + ' need update')} | ` +
+      `${chalk.gray(stats.deprecated + ' deprecated')}\n`);
+
+    // Group by category
+    const byCategory = new Map<string, typeof addons>();
+    for (const addon of addons) {
+      if (!byCategory.has(addon.category)) {
+        byCategory.set(addon.category, []);
+      }
+      byCategory.get(addon.category)!.push(addon);
+    }
+
+    for (const [category, categoryAddons] of byCategory) {
+      console.log(chalk.bold(`\n${category}:`));
+      console.log('-'.repeat(40));
+
+      for (const addon of categoryAddons) {
+        const statusIcon = addon.status === 'working' ? chalk.green('✓') :
+          addon.status === 'needs_update' ? chalk.yellow('!') :
+          addon.status === 'broken' ? chalk.red('✗') :
+          addon.status === 'deprecated' ? chalk.gray('○') : chalk.gray('?');
+
+        const suiteTag = addon.suite ? chalk.cyan(` [${addon.suite}]`) : '';
+
+        console.log(`  ${statusIcon} ${addon.name}${suiteTag}`);
+        console.log(chalk.gray(`      ${addon.description}`));
+        if (addon.status === 'deprecated' && addon.alternative) {
+          console.log(chalk.gray(`      Alternative: ${addon.alternative}`));
+        }
+      }
+    }
+
+    console.log(chalk.bold('\n\nQuick Reference:'));
+    console.log('-'.repeat(40));
+    console.log('  Get addon info:    eso-addon-fixer addons -n "Combat Metrics"');
+    console.log('  Filter by status:  eso-addon-fixer addons -s needs_update');
+    console.log('  Filter by category: eso-addon-fixer addons -c trading');
+    console.log('  Show suite:        eso-addon-fixer addons --suite "Personal Assistant"');
+    console.log('  Show stats:        eso-addon-fixer addons --stats\n');
   });
 
 // ============================================================================
