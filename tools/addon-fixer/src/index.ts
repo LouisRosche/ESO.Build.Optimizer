@@ -55,5 +55,18 @@ export { LuaAnalyzer, analyzeLuaFile } from './lua-analyzer.js';
 export { LuaTransformer, transformLuaFile, transformLuaCode } from './lua-transformer.js';
 export { parseManifest, analyzeManifest, fixManifest } from './manifest-parser.js';
 
+// Library Database
+export {
+  LIBRARY_DATABASE,
+  LIBRARY_RECOMMENDATIONS,
+  checkLibraryHealth,
+  getLibraryInfo,
+  getLibraryRecommendations,
+  parseVersion,
+  type LibraryVersionInfo,
+  type LibraryHealthResult,
+  type LibraryRecommendation,
+} from './library-db.js';
+
 // Main Fixer
 export { AddonFixer, analyzeAddon, fixAddon } from './fixer.js';

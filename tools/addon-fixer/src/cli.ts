@@ -22,6 +22,12 @@ import {
   getMigrationsByCategory,
   getMigrationsByVersion,
 } from './migrations.js';
+import {
+  LIBRARY_DATABASE,
+  LIBRARY_RECOMMENDATIONS,
+  checkLibraryHealth,
+  getLibraryRecommendations,
+} from './library-db.js';
 import { CURRENT_LIVE_API, CURRENT_PTS_API } from './types.js';
 import type { FixerConfig, IssueSeverity } from './types.js';
 
@@ -495,6 +501,175 @@ program
     }
 
     console.log(`\n\nTotal: ${FUNCTION_MIGRATIONS.length} function migrations, ${LIBRARY_MIGRATIONS.length} library migrations`);
+  });
+
+// ============================================================================
+// Libraries Command
+// ============================================================================
+
+program
+  .command('libraries')
+  .alias('libs')
+  .description('Show known ESO libraries and check addon dependencies')
+  .option('-a, --addon <path>', 'Check library health for a specific addon')
+  .option('--all', 'Show all libraries including deprecated')
+  .option('--json', 'Output as JSON')
+  .action(async (options: { addon?: string; all?: boolean; json?: boolean }) => {
+    if (options.addon) {
+      // Check library health for an addon
+      const spinner = ora('Checking library health...').start();
+
+      try {
+        // Read manifest to find dependencies
+        const manifestPath = join(options.addon, basename(options.addon) + '.txt');
+        let manifestContent: string;
+        try {
+          manifestContent = await readFile(manifestPath, 'utf-8');
+        } catch {
+          const addonManifest = join(options.addon, basename(options.addon) + '.addon');
+          manifestContent = await readFile(addonManifest, 'utf-8');
+        }
+
+        // Parse dependencies
+        const depLines = manifestContent.split('\n')
+          .filter(l => l.startsWith('## DependsOn:') || l.startsWith('## OptionalDependsOn:'));
+
+        const dependencies: { name: string; version?: string }[] = [];
+        for (const line of depLines) {
+          const deps = line.split(':')[1]?.trim().split(/\s+/) || [];
+          for (const dep of deps) {
+            const match = dep.match(/^([^>=<]+)(?:>=(\d+))?/);
+            if (match) {
+              dependencies.push({
+                name: match[1],
+                version: match[2],
+              });
+            }
+          }
+        }
+
+        // Also scan Lua files for library usage
+        const luaFiles = await findLuaFiles(options.addon);
+        let allCode = '';
+        for (const file of luaFiles.slice(0, 20)) { // Limit for performance
+          try {
+            allCode += await readFile(file, 'utf-8') + '\n';
+          } catch { /* skip */ }
+        }
+
+        // Get recommendations
+        const recommendations = getLibraryRecommendations(allCode);
+
+        spinner.stop();
+
+        if (options.json) {
+          const healthResults = dependencies.map(d => checkLibraryHealth(d.name, d.version));
+          console.log(JSON.stringify({ dependencies, healthResults, recommendations }, null, 2));
+          return;
+        }
+
+        // Print results
+        console.log(chalk.bold('\n' + '='.repeat(60)));
+        console.log(chalk.bold(` Library Health Check: ${basename(options.addon)}`));
+        console.log('='.repeat(60) + '\n');
+
+        if (dependencies.length === 0) {
+          console.log(chalk.gray('No dependencies declared in manifest.\n'));
+        } else {
+          console.log(chalk.bold('Declared Dependencies:\n'));
+          for (const dep of dependencies) {
+            const health = checkLibraryHealth(dep.name, dep.version);
+            if (!health) {
+              console.log(`  ${chalk.yellow('?')} ${dep.name} - Unknown library`);
+              continue;
+            }
+
+            if (health.isDeprecated) {
+              console.log(`  ${chalk.red('✗')} ${dep.name} - ${chalk.red('DEPRECATED')}`);
+              if (health.replacement) {
+                console.log(chalk.gray(`      Replace with: ${health.replacement}`));
+              }
+            } else if (health.isOutdated) {
+              console.log(`  ${chalk.yellow('!')} ${dep.name} ${dep.version || '?'} → ${chalk.green(health.latestVersion)}`);
+              if (health.esouiUrl) {
+                console.log(chalk.gray(`      Update: ${health.esouiUrl}`));
+              }
+            } else {
+              console.log(`  ${chalk.green('✓')} ${dep.name} ${dep.version || ''} - Up to date`);
+            }
+          }
+        }
+
+        if (recommendations.length > 0) {
+          console.log(chalk.bold('\n\nLibrary Recommendations:\n'));
+          for (const rec of recommendations) {
+            console.log(`  ${chalk.cyan('→')} ${rec.description}`);
+            console.log(chalk.gray(`      Consider: ${rec.library}`));
+            console.log(chalk.gray(`      Benefit: ${rec.benefit}\n`));
+          }
+        }
+
+      } catch (err) {
+        spinner.stop();
+        console.error(chalk.red(`Error: ${err}`));
+        process.exit(1);
+      }
+    } else {
+      // Show all known libraries
+      const libraries = options.all
+        ? LIBRARY_DATABASE
+        : LIBRARY_DATABASE.filter(l => l.maintained);
+
+      if (options.json) {
+        console.log(JSON.stringify(libraries, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' ESO Addon Library Database'));
+      console.log('='.repeat(60) + '\n');
+
+      console.log(`Known libraries: ${chalk.green(libraries.length)}`);
+      if (!options.all) {
+        console.log(chalk.gray('(Use --all to include deprecated libraries)\n'));
+      }
+
+      // Group by category
+      type LibInfo = typeof libraries[number];
+      const categories = new Map<string, LibInfo[]>();
+      for (const lib of libraries) {
+        const cat = lib.purpose.includes('DEPRECATED') ? 'Deprecated' :
+          lib.purpose.includes('UI') || lib.purpose.includes('menu') || lib.purpose.includes('Settings') ? 'UI & Settings' :
+          lib.purpose.includes('Inventory') || lib.purpose.includes('Trading') || lib.purpose.includes('filter') ? 'Inventory & Trading' :
+          lib.purpose.includes('Map') || lib.purpose.includes('coordinate') ? 'Map & Location' :
+          lib.purpose.includes('Combat') || lib.purpose.includes('Group') ? 'Combat & Group' :
+          'Utilities';
+
+        if (!categories.has(cat)) {
+          categories.set(cat, []);
+        }
+        categories.get(cat)!.push(lib);
+      }
+
+      for (const [category, libs] of categories) {
+        console.log(chalk.bold(`\n${category}:`));
+        console.log('-'.repeat(40));
+        for (const lib of libs) {
+          const status = lib.maintained ? chalk.green('✓') : chalk.red('✗');
+          const version = chalk.gray(`v${lib.latestVersion}`);
+          console.log(`  ${status} ${lib.name} ${version}`);
+          console.log(chalk.gray(`      Global: ${lib.globalVariable} | ${lib.purpose}`));
+          if (lib.esouiId) {
+            console.log(chalk.gray(`      ESOUI: https://www.esoui.com/downloads/info${lib.esouiId}`));
+          }
+        }
+      }
+
+      console.log(chalk.bold('\n\nQuick Reference:'));
+      console.log('-'.repeat(40));
+      console.log('  Check addon: eso-addon-fixer libraries -a /path/to/addon');
+      console.log('  Show all:    eso-addon-fixer libraries --all\n');
+    }
   });
 
 // ============================================================================
