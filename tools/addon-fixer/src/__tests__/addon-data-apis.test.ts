@@ -149,14 +149,31 @@ describe('findDataSynergies', () => {
     expect(buildPerf!.synergyType).toBe('correlation');
   });
 
-  it('includes price aggregation', () => {
+  it('includes set value aggregation', () => {
     const synergies = findDataSynergies();
-    const priceAgg = synergies.find(s =>
-      s.sourceAddon === 'Master Merchant' && s.targetAddon === 'Tamriel Trade Centre'
+    const valueAgg = synergies.find(s =>
+      s.sourceAddon === 'IIfA' && s.targetAddon === 'Master Merchant'
     );
 
-    expect(priceAgg).toBeDefined();
-    expect(priceAgg!.synergyType).toBe('aggregation');
+    expect(valueAgg).toBeDefined();
+    expect(valueAgg!.synergyType).toBe('aggregation');
+  });
+
+  it('excludes synergies that are already native to addons', () => {
+    const synergies = findDataSynergies();
+
+    // MM + TTC already integrate natively - should not be listed
+    const mmTtc = synergies.find(s =>
+      s.sourceAddon === 'Master Merchant' && s.targetAddon === 'Tamriel Trade Centre'
+    );
+    expect(mmTtc).toBeUndefined();
+
+    // FTC buff uptime is already tracked by Combat Metrics natively
+    const ftcCmx = synergies.find(s =>
+      s.sourceAddon === 'FTC' && s.targetAddon === 'Combat Metrics' &&
+      s.dataPoint.includes('buff')
+    );
+    expect(ftcCmx).toBeUndefined();
   });
 
   it('has various synergy types', () => {
