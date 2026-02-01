@@ -1,0 +1,573 @@
+{
+  "$schema": "./migrations.schema.json",
+  "version": "1.0.0",
+  "lastUpdated": "2026-02-01",
+  "currentLiveAPI": 101048,
+  "currentPTSAPI": 101049,
+
+  "apiVersionHistory": [
+    {
+      "version": 100003,
+      "update": "Launch",
+      "releaseDate": "2014-04-04",
+      "changes": ["Major API restrictions", "Combat event limitations"]
+    },
+    {
+      "version": 100015,
+      "update": "Update 10 - Orsinium",
+      "releaseDate": "2015-11-02",
+      "changes": ["Veteran Ranks → Champion Points", "VR functions removed"]
+    },
+    {
+      "version": 100023,
+      "update": "Update 18 - Summerset Prep",
+      "releaseDate": "2018-05-21",
+      "changes": ["64-bit Lua support", "GetItemType returns 2 values"]
+    },
+    {
+      "version": 100027,
+      "update": "Update 21 - Wrathstone",
+      "releaseDate": "2019-02-25",
+      "changes": ["Guild store API overhaul", "SetTradingHouseFilter signature change"]
+    },
+    {
+      "version": 100030,
+      "update": "Update 30 - Blackwood",
+      "releaseDate": "2021-06-01",
+      "changes": ["Removed 'Allow out of date addons' checkbox"]
+    },
+    {
+      "version": 101033,
+      "update": "Update 33 - High Isle",
+      "releaseDate": "2022-03-14",
+      "changes": ["Per-character achievements removed", "Sound constant renames"]
+    },
+    {
+      "version": 101041,
+      "update": "Update 41 - Necrom",
+      "releaseDate": "2023-06-05",
+      "changes": ["Slug font format (.ttf → .slug)"]
+    },
+    {
+      "version": 101046,
+      "update": "Update 46 - Gold Road",
+      "releaseDate": "2024-06-03",
+      "changes": ["Subclassing system", "Console addon support"]
+    },
+    {
+      "version": 101048,
+      "update": "Update 48 - Seasons of the Worm Cult",
+      "releaseDate": "2026-01-13",
+      "changes": ["Current live version"]
+    }
+  ],
+
+  "functionMigrations": [
+    {
+      "id": "cp-001",
+      "oldName": "GetUnitVeteranRank",
+      "type": "renamed",
+      "newName": "GetUnitChampionPoints",
+      "versionDeprecated": 100015,
+      "versionRemoved": 100015,
+      "category": "champion_points",
+      "confidence": 1.0,
+      "autoFixable": true,
+      "notes": "Veteran Ranks replaced with Champion Points in Update 10"
+    },
+    {
+      "id": "cp-002",
+      "oldName": "GetUnitVeteranPoints",
+      "type": "removed",
+      "versionRemoved": 100015,
+      "category": "champion_points",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Veteran Points system removed entirely",
+      "replacementCode": "-- GetUnitVeteranPoints removed (no replacement)"
+    },
+    {
+      "id": "cp-003",
+      "oldName": "IsUnitVeteran",
+      "type": "replaced",
+      "versionDeprecated": 100015,
+      "versionRemoved": 100015,
+      "category": "champion_points",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Check CP > 0 instead of veteran status",
+      "replacementCode": "GetUnitChampionPoints(unitTag) > 0"
+    },
+    {
+      "id": "cp-004",
+      "oldName": "GetPlayerVeteranRank",
+      "type": "renamed",
+      "newName": "GetPlayerChampionPointsEarned",
+      "versionDeprecated": 100015,
+      "versionRemoved": 100015,
+      "category": "champion_points",
+      "confidence": 1.0,
+      "autoFixable": true,
+      "notes": "Returns total CP earned by player"
+    },
+    {
+      "id": "cp-005",
+      "oldName": "GetMaxVeteranRank",
+      "type": "removed",
+      "versionRemoved": 100015,
+      "category": "champion_points",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "replacementCode": "GetMaxChampionPoints()",
+      "notes": "Use GetMaxChampionPoints() instead"
+    },
+    {
+      "id": "gs-001",
+      "oldName": "SearchTradingHouse",
+      "type": "renamed",
+      "newName": "ExecuteTradingHouseSearch",
+      "versionDeprecated": 100027,
+      "category": "guild_store",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "Renamed for clarity"
+    },
+    {
+      "id": "gs-002",
+      "oldName": "SetTradingHouseFilter",
+      "type": "signature_changed",
+      "versionDeprecated": 100027,
+      "category": "guild_store",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Changed from fixed parameters to variable arguments",
+      "oldSignature": "SetTradingHouseFilter(filterType, ...)",
+      "newSignature": "SetTradingHouseFilter(filterType, minValue, maxValue)"
+    },
+    {
+      "id": "inv-001",
+      "oldName": "GetItemType",
+      "type": "return_changed",
+      "versionDeprecated": 100023,
+      "category": "inventory",
+      "confidence": 0.6,
+      "autoFixable": false,
+      "notes": "Now returns two values: itemType, specializedItemType",
+      "oldSignature": "GetItemType(bagId, slotIndex) -> itemType",
+      "newSignature": "GetItemType(bagId, slotIndex) -> itemType, specializedItemType"
+    },
+    {
+      "id": "const-001",
+      "oldName": "VETERAN_RANK_MAX",
+      "type": "removed",
+      "versionRemoved": 100015,
+      "category": "constants",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "replacementCode": "GetMaxChampionPoints()",
+      "notes": "Constant removed with Veteran Rank system"
+    },
+    {
+      "id": "const-002",
+      "oldName": "SOUNDS.POSITIVE_CLICK",
+      "type": "renamed",
+      "newName": "SOUNDS.DEFAULT_CLICK",
+      "versionDeprecated": 100027,
+      "category": "sounds",
+      "confidence": 0.85,
+      "autoFixable": true,
+      "notes": "Sound constant renamed"
+    },
+    {
+      "id": "func-001",
+      "oldName": "InventoryContainsEmptySoulGem",
+      "type": "renamed",
+      "newName": "DoesInventoryContainEmptySoulGem",
+      "versionDeprecated": 100003,
+      "category": "inventory",
+      "confidence": 1.0,
+      "autoFixable": true,
+      "notes": "Renamed for naming consistency"
+    },
+    {
+      "id": "func-002",
+      "oldName": "LogChatText",
+      "type": "removed",
+      "versionRemoved": 100003,
+      "category": "chat",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Removed entirely. Use /chatlog command instead."
+    },
+    {
+      "id": "func-003",
+      "oldName": "ActivateBuff",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-004",
+      "oldName": "UseSynergyEffect",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-005",
+      "oldName": "UseMostRecentSynergyEffect",
+      "type": "replaced",
+      "newName": "ActivateSynergy",
+      "versionDeprecated": 100003,
+      "category": "combat",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Synergy API changed. Use ActivateSynergy instead."
+    },
+    {
+      "id": "func-006",
+      "oldName": "TOOLTIP_GAME_DATA_SOCKET",
+      "type": "removed",
+      "versionRemoved": 100003,
+      "category": "tooltips",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Item socketing API removed"
+    },
+    {
+      "id": "console-001",
+      "oldName": "GetUnitBuffInfo",
+      "type": "signature_changed",
+      "versionDeprecated": 101046,
+      "category": "console_restriction",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Console: Now only returns long-term buffs for local player. isLongTermBuff return value removed.",
+      "oldSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ..., isLongTermBuff",
+      "newSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ... (console only returns long-term player buffs)"
+    }
+  ],
+
+  "eventMigrations": [
+    {
+      "id": "evt-001",
+      "oldName": "EVENT_VETERAN_RANK_UPDATE",
+      "type": "removed",
+      "versionRemoved": 100015,
+      "replacementEvent": "EVENT_CHAMPION_POINT_UPDATE",
+      "notes": "Veteran system removed. Use EVENT_CHAMPION_POINT_UPDATE instead."
+    },
+    {
+      "id": "evt-002",
+      "oldName": "EVENT_VETERAN_POINTS_UPDATE",
+      "type": "removed",
+      "versionRemoved": 100015,
+      "notes": "Veteran system removed."
+    }
+  ],
+
+  "libraryMigrations": [
+    {
+      "id": "lib-001",
+      "name": "LibAddonMenu-2.0",
+      "globalVariable": "LibAddonMenu2",
+      "patterns": [
+        "LibStub(\"LibAddonMenu-2.0\")",
+        "LibStub(\"LibAddonMenu-2.0\", true)",
+        "LibStub:GetLibrary(\"LibAddonMenu-2.0\")"
+      ],
+      "minVersion": 28,
+      "notes": "LibStub deprecated since Summerset. Use global variable."
+    },
+    {
+      "id": "lib-002",
+      "name": "LibAddonMenu",
+      "globalVariable": "LibAddonMenu2",
+      "patterns": ["LibStub(\"LibAddonMenu\")"],
+      "notes": "Old library name, use LibAddonMenu2 global"
+    },
+    {
+      "id": "lib-003",
+      "name": "LibCustomMenu",
+      "globalVariable": "LibCustomMenu",
+      "patterns": ["LibStub(\"LibCustomMenu\")", "LibStub:GetLibrary(\"LibCustomMenu\")"],
+      "minVersion": 7,
+      "notes": "Context menu library"
+    },
+    {
+      "id": "lib-004",
+      "name": "LibFilters-3.0",
+      "globalVariable": "LibFilters3",
+      "patterns": ["LibStub(\"LibFilters-3.0\")"],
+      "notes": "Inventory filtering library"
+    },
+    {
+      "id": "lib-005",
+      "name": "LibGPS3",
+      "globalVariable": "LibGPS3",
+      "patterns": ["LibStub(\"LibGPS3\")", "LibStub(\"LibGPS\")"],
+      "notes": "Map coordinate library"
+    },
+    {
+      "id": "lib-006",
+      "name": "LibAsync",
+      "globalVariable": "LibAsync",
+      "patterns": ["LibStub(\"LibAsync\")"],
+      "notes": "Async task scheduling"
+    },
+    {
+      "id": "lib-007",
+      "name": "LibHistoire",
+      "globalVariable": "LibHistoire",
+      "patterns": ["LibStub(\"LibHistoire\")"],
+      "notes": "Guild history coordination"
+    },
+    {
+      "id": "lib-008",
+      "name": "LibDebugLogger",
+      "globalVariable": "LibDebugLogger",
+      "patterns": ["LibStub(\"LibDebugLogger\")"],
+      "notes": "Debug logging library"
+    },
+    {
+      "id": "lib-009",
+      "name": "LibChatMessage",
+      "globalVariable": "LibChatMessage",
+      "patterns": ["LibStub(\"LibChatMessage\")"],
+      "notes": "Chat message formatting"
+    },
+    {
+      "id": "lib-010",
+      "name": "LibMapPing",
+      "globalVariable": "LibMapPing",
+      "patterns": ["LibStub(\"LibMapPing\")"],
+      "notes": "Map ping utilities"
+    },
+    {
+      "id": "lib-011",
+      "name": "LibSlashCommander",
+      "globalVariable": "LibSlashCommander",
+      "patterns": ["LibStub(\"LibSlashCommander\")"],
+      "notes": "Slash command management"
+    },
+    {
+      "id": "lib-012",
+      "name": "LibPromises",
+      "globalVariable": "LibPromises",
+      "patterns": ["LibStub(\"LibPromises\")"],
+      "notes": "Promise/async library"
+    },
+    {
+      "id": "lib-013",
+      "name": "LibTextFilter",
+      "globalVariable": "LibTextFilter",
+      "patterns": ["LibStub(\"LibTextFilter\")"],
+      "notes": "Text filtering library"
+    },
+    {
+      "id": "lib-014",
+      "name": "LibGetText",
+      "globalVariable": "LibGetText",
+      "patterns": ["LibStub(\"LibGetText\")"],
+      "notes": "Internationalization/localization library"
+    },
+    {
+      "id": "lib-015",
+      "name": "LibDateTime",
+      "globalVariable": "LibDateTime",
+      "patterns": ["LibStub(\"LibDateTime\")"],
+      "notes": "Date and time utilities"
+    },
+    {
+      "id": "lib-016",
+      "name": "LibHarvensAddonSettings",
+      "globalVariable": "LibHarvensAddonSettings",
+      "patterns": ["LibStub(\"LibHarvensAddonSettings\")"],
+      "notes": "Console-compatible settings menu (use instead of LAM on console)"
+    },
+    {
+      "id": "lib-017",
+      "name": "LibMediaProvider",
+      "globalVariable": "LibMediaProvider",
+      "patterns": ["LibStub(\"LibMediaProvider\")"],
+      "notes": "Shared media provider"
+    },
+    {
+      "id": "lib-018",
+      "name": "LibSavedVars",
+      "globalVariable": "LibSavedVars",
+      "patterns": ["LibStub(\"LibSavedVars\")"],
+      "notes": "Enhanced saved variables handling"
+    }
+  ],
+
+  "validCurrentFunctions": [
+    "GetPlayerStat",
+    "GetUnitPower",
+    "GetItemType",
+    "GetItemInfo",
+    "GetSlotBoundId",
+    "GetAbilityUpgradeLines",
+    "GetZoneId",
+    "GetMapPlayerPosition",
+    "GetAchievementProgress",
+    "ZO_Object",
+    "ZO_InitializingObject",
+    "ZO_CallbackObject",
+    "ZO_SavedVars",
+    "ZO_DeepTableCopy",
+    "ZO_ShallowTableCopy"
+  ],
+
+  "patternMigrations": [
+    {
+      "id": "pat-001",
+      "name": "fontPaths",
+      "pattern": "\\.(ttf|otf)(\\||\")",
+      "replacement": ".slug$2",
+      "category": "fonts",
+      "confidence": 0.95,
+      "autoFixable": true,
+      "notes": "Convert TTF/OTF fonts to Slug format (Update 41+)"
+    },
+    {
+      "id": "pat-002",
+      "name": "zoObjectSubclass",
+      "pattern": "ZO_Object\\.Subclass\\(\\)",
+      "replacement": "ZO_InitializingObject:Subclass()",
+      "category": "patterns",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "ZO_InitializingObject is preferred for automatic initialization"
+    },
+    {
+      "id": "pat-003",
+      "name": "windowManagerCreateControl",
+      "pattern": "WINDOW_MANAGER:CreateControl(",
+      "replacement": "CreateControl(",
+      "category": "patterns",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "CreateControl is now a global function"
+    },
+    {
+      "id": "pat-004",
+      "name": "windowManagerCreateControlFromVirtual",
+      "pattern": "WINDOW_MANAGER:CreateControlFromVirtual(",
+      "replacement": "CreateControlFromVirtual(",
+      "category": "patterns",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "CreateControlFromVirtual is now a global function"
+    },
+    {
+      "id": "pat-005",
+      "name": "windowManagerCreateTopLevelWindow",
+      "pattern": "WINDOW_MANAGER:CreateTopLevelWindow(",
+      "replacement": "CreateTopLevelWindow(",
+      "category": "patterns",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "CreateTopLevelWindow is now a global function"
+    }
+  ],
+
+  "addonRecommendations": [
+    {
+      "name": "Wykkyd Framework",
+      "complexity": "very_high",
+      "shouldAttemptFix": false,
+      "recommendations": [
+        "This addon is too complex for automated repair.",
+        "Consider using alternatives:",
+        "  - Bandits UI for unit frames",
+        "  - Port to Inventory for inventory management",
+        "  - Skyshards for achievement tracking"
+      ]
+    },
+    {
+      "name": "AwesomeGuildStore",
+      "complexity": "high",
+      "shouldAttemptFix": true,
+      "recommendations": [
+        "Complex dependency chain requires careful validation.",
+        "Dependencies: LibMapPing, LibGPS, LibPromises, LibTextFilter, LibGetText, LibChatMessage, LibHistoire",
+        "Recommend testing thoroughly after fixes."
+      ]
+    },
+    {
+      "name": "Foundry Tactical Combat",
+      "complexity": "medium",
+      "shouldAttemptFix": true,
+      "recommendations": [
+        "Active fork available at github.com/Rhyono/Foundry-Tactical-Combat",
+        "Main issues: nil value checks, texture string updates"
+      ]
+    },
+    {
+      "name": "PersonalAssistant",
+      "complexity": "medium",
+      "shouldAttemptFix": true,
+      "recommendations": [
+        "Multi-module architecture (PAG, PAB, PAJ, PAL, PAR)",
+        "Active maintenance at github.com/klingo/ESO-PersonalAssistant"
+      ]
+    },
+    {
+      "name": "Dustman",
+      "complexity": "low",
+      "shouldAttemptFix": true,
+      "recommendations": [
+        "Simple addon, usually just needs version bump and nil checks."
+      ]
+    },
+    {
+      "name": "CraftStore",
+      "complexity": "medium",
+      "shouldAttemptFix": true,
+      "recommendations": [
+        "Zone ID migrations may be needed.",
+        "Recipe data updates required after major patches."
+      ]
+    }
+  ],
+
+  "consoleCompatibility": {
+    "manifestExtension": {
+      "deprecated": ".txt",
+      "required": ".addon",
+      "deadline": "2025-06-04",
+      "notes": "Starting June 4, 2025, .txt files will be ignored on console and in ForceConsoleFlow"
+    },
+    "fileSystemCaseSensitivity": {
+      "platform": "PlayStation",
+      "caseSensitive": true,
+      "notes": "PlayStation is based on Linux with case-sensitive filesystem. All file paths in manifest must match exact casing."
+    },
+    "fileLimits": {
+      "maxFilesPerVersion": 500,
+      "notes": "Console addons limited to 500 files per version (Bethesda.net limit)"
+    },
+    "compatibilityLayer": {
+      "available": false,
+      "notes": "PC compatibility layer for deprecated functions is NOT available on console. Use current APIs only."
+    },
+    "settingsLibrary": {
+      "pc": "LibAddonMenu-2.0",
+      "console": "LibHarvensAddonSettings",
+      "notes": "Console requires gamepad UI. Use LibHarvensAddonSettings instead of LibAddonMenu."
+    },
+    "uiRequirements": {
+      "gamepadUI": true,
+      "notes": "Console addons must support gamepad UI for all UI elements"
+    }
+  }
+}
