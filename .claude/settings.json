@@ -1,0 +1,65 @@
+{
+  "$schema": "https://claude.ai/schemas/claude-code-settings.json",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd tools/addon-fixer && npm run lint --silent 2>/dev/null || true",
+            "description": "Lint TypeScript files after edit"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd tools/addon-fixer && npm run build --silent 2>/dev/null && npm test --silent 2>/dev/null && echo 'Build & Tests: OK' || echo 'Build or Tests: FAILED'",
+            "description": "Verify build and tests on stop"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add *)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(luacheck *)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(sudo *)",
+      "Bash(chmod 777 *)"
+    ]
+  },
+  "model": "opus",
+  "thinking": true,
+  "agents": {
+    "directory": ".claude/agents"
+  },
+  "commands": {
+    "directory": ".claude/commands"
+  }
+}
