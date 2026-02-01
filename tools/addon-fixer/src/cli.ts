@@ -249,7 +249,7 @@ program
     const spinner = ora('Verifying addon...').start();
     const results: {
       syntax: { status: 'pass' | 'fail' | 'skipped'; errors: string[] };
-      manifest: { status: 'pass' | 'fail'; issues: string[] };
+      manifest: { status: 'pass' | 'warn' | 'fail'; issues: string[] };
       caseCheck: { status: 'pass' | 'warn' | 'fail'; issues: string[] };
       remaining: { status: 'pass' | 'warn' | 'fail'; count: number; issues: string[] };
       overall: 'pass' | 'warn' | 'fail';
@@ -326,8 +326,12 @@ program
         // Already handled above
       }
 
+      // Only fail if critical issues, warn for deprecation/outdated
       if (results.manifest.issues.length > 0 && results.manifest.status !== 'fail') {
-        results.manifest.status = 'fail';
+        const hasCriticalIssue = results.manifest.issues.some(i =>
+          i.includes('No manifest file found') || i.includes('No APIVersion found')
+        );
+        results.manifest.status = hasCriticalIssue ? 'fail' : 'warn';
       }
 
       // 3. Case Sensitivity Check
@@ -361,7 +365,8 @@ program
       if (results.syntax.status === 'fail' || results.manifest.status === 'fail' ||
           results.caseCheck.status === 'fail' || results.remaining.status === 'fail') {
         results.overall = 'fail';
-      } else if (results.caseCheck.status === 'warn' || results.remaining.status === 'warn') {
+      } else if (results.manifest.status === 'warn' || results.caseCheck.status === 'warn' ||
+                 results.remaining.status === 'warn') {
         results.overall = 'warn';
       }
 
@@ -388,7 +393,8 @@ program
       }
 
       // Manifest
-      const manifestIcon = results.manifest.status === 'pass' ? chalk.green('✓') : chalk.red('✗');
+      const manifestIcon = results.manifest.status === 'pass' ? chalk.green('✓') :
+        results.manifest.status === 'warn' ? chalk.yellow('!') : chalk.red('✗');
       console.log(`${manifestIcon} Manifest: ${results.manifest.status.toUpperCase()}`);
       for (const issue of results.manifest.issues) {
         console.log(chalk.gray(`    ${issue}`));
