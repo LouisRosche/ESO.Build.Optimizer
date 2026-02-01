@@ -684,12 +684,17 @@ for f in data/raw/*.json; do echo "$f: $(python3 -c "import json; print(len(json
 # Validate JSON
 python -m json.tool data/raw/phase01_class_skills.json > /dev/null && echo "Valid"
 
-# ESO Addon Fixer commands
-python scripts/fix_addon.py analyze /path/to/addon    # Analyze addon for issues
-python scripts/fix_addon.py fix /path/to/addon        # Fix addon (creates backup)
-python scripts/fix_addon.py fix /path/to/addon -o .   # Fix and package as .zip
-python scripts/fix_addon.py migrations                # List known API migrations
-python scripts/fix_addon.py info                      # Show ESO API version info
+# ESO Addon Fixer commands (TypeScript CLI)
+cd tools/addon-fixer
+node dist/cli.js analyze /path/to/addon    # Analyze addon for issues
+node dist/cli.js fix /path/to/addon        # Fix addon (creates backup)
+node dist/cli.js verify /path/to/addon     # Verify addon is fixed
+node dist/cli.js libraries                 # Browse known ESO libraries
+node dist/cli.js libraries -a /path/addon  # Check addon library health
+node dist/cli.js sync                      # Sync library versions from ESOUI
+node dist/cli.js sync --check              # CI mode: fail if outdated
+node dist/cli.js migrations                # List known API migrations
+node dist/cli.js info                      # Show ESO API version info
 ```
 
 ---

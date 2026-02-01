@@ -673,6 +673,122 @@ program
   });
 
 // ============================================================================
+// Sync Command
+// ============================================================================
+
+program
+  .command('sync')
+  .description('Sync library versions from ESOUI.com')
+  .option('--dry-run', 'Show what would be updated without making changes')
+  .option('--check', 'Check if versions are outdated (for CI)')
+  .option('--json', 'Output results as JSON')
+  .action(async (options: { dryRun?: boolean; check?: boolean; json?: boolean }) => {
+    const spinner = ora('Fetching library versions from ESOUI...').start();
+
+    const librariesWithIds = LIBRARY_DATABASE.filter(l => l.esouiId);
+    const results: Array<{
+      library: string;
+      current: string;
+      fetched: string;
+      isOutdated: boolean;
+      error?: string;
+    }> = [];
+
+    spinner.text = `Checking ${librariesWithIds.length} libraries...`;
+
+    for (const lib of librariesWithIds) {
+      spinner.text = `Fetching ${lib.name}...`;
+
+      try {
+        const response = await fetch(
+          `https://www.esoui.com/downloads/info${lib.esouiId}.html`,
+          { headers: { 'User-Agent': 'ESO-Addon-Fixer/1.0' } }
+        );
+
+        if (response.ok) {
+          const html = await response.text();
+          const versionMatch = html.match(/Version:\s*([^\s<]+)/i);
+          const fetched = versionMatch?.[1] || 'unknown';
+
+          results.push({
+            library: lib.name,
+            current: lib.latestVersion,
+            fetched,
+            isOutdated: fetched !== 'unknown' && fetched !== lib.latestVersion,
+          });
+        } else {
+          results.push({
+            library: lib.name,
+            current: lib.latestVersion,
+            fetched: 'unknown',
+            isOutdated: false,
+            error: `HTTP ${response.status}`,
+          });
+        }
+      } catch (err) {
+        results.push({
+          library: lib.name,
+          current: lib.latestVersion,
+          fetched: 'unknown',
+          isOutdated: false,
+          error: String(err),
+        });
+      }
+
+      // Rate limiting
+      await new Promise(resolve => setTimeout(resolve, 300));
+    }
+
+    spinner.stop();
+
+    if (options.json) {
+      console.log(JSON.stringify(results, null, 2));
+      return;
+    }
+
+    const outdated = results.filter(r => r.isOutdated);
+    const errors = results.filter(r => r.error);
+
+    console.log(chalk.bold('\n' + '='.repeat(60)));
+    console.log(chalk.bold(' Library Version Sync'));
+    console.log('='.repeat(60) + '\n');
+
+    console.log(`Checked: ${results.length} libraries`);
+    console.log(`Outdated: ${outdated.length}`);
+    console.log(`Errors: ${errors.length}\n`);
+
+    if (outdated.length > 0) {
+      console.log(chalk.bold('Outdated Libraries:\n'));
+      for (const r of outdated) {
+        console.log(`  ${chalk.yellow('!')} ${r.library}`);
+        console.log(chalk.gray(`      ${r.current} → ${chalk.green(r.fetched)}`));
+      }
+
+      if (!options.dryRun) {
+        console.log(chalk.bold('\n\nUpdate library-db.ts with:\n'));
+        for (const r of outdated) {
+          console.log(`  ${r.library}:`);
+          console.log(chalk.gray(`    latestVersion: '${r.fetched}'`));
+          console.log(chalk.gray(`    lastUpdated: '${new Date().toISOString().split('T')[0]}'`));
+        }
+      }
+    } else {
+      console.log(chalk.green('✓ All library versions are up to date!'));
+    }
+
+    if (errors.length > 0) {
+      console.log(chalk.bold('\n\nFetch Errors:\n'));
+      for (const r of errors) {
+        console.log(`  ${chalk.red('✗')} ${r.library}: ${r.error}`);
+      }
+    }
+
+    if (options.check && outdated.length > 0) {
+      process.exit(1);
+    }
+  });
+
+// ============================================================================
 // Info Command
 // ============================================================================
 
