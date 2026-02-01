@@ -86,3 +86,40 @@ export {
 
 // Main Fixer
 export { AddonFixer, analyzeAddon, fixAddon } from './fixer.js';
+
+// ESOUI Scraper
+export {
+  scrapeAddonInfo,
+  scrapeMultipleAddons,
+  checkForUpdates,
+  analyzeChangelog,
+  generateUpdateReport,
+  type ScrapedAddonInfo,
+  type AddonVersionHistory,
+  type ChangelogAnalysis,
+  type UpdateCheck,
+} from './esoui-scraper.js';
+
+// Addon Data APIs (for synergy analysis)
+export {
+  ADDON_DATA_APIS,
+  findDataSynergies,
+  getAddonsByDataType,
+  getIntegrationSuggestions,
+  getAddonDataAPI,
+  findConsumers,
+  getDataDependencyGraph,
+  type AddonDataAPI,
+  type ExposedDataPoint,
+  type DataSynergyOpportunity,
+  type DataAccessMethod,
+} from './addon-data-apis.js';
+
+// Addon Collaborator Framework
+export {
+  AddonCollaborator,
+  LUA_REFERENCE,
+  type DataSource,
+  type CorrelatedInsight,
+  type CollaboratorEvent,
+} from './addon-collaborator.js';

@@ -38,6 +38,22 @@ import {
   getCompatibilityStats,
   type AddonStatus,
 } from './addon-compat-db.js';
+import {
+  scrapeAddonInfo,
+  scrapeMultipleAddons,
+  checkForUpdates,
+  analyzeChangelog,
+  generateUpdateReport,
+  type ScrapedAddonInfo,
+} from './esoui-scraper.js';
+import {
+  ADDON_DATA_APIS,
+  findDataSynergies,
+  getAddonsByDataType,
+  getIntegrationSuggestions,
+  getAddonDataAPI,
+  getDataDependencyGraph,
+} from './addon-data-apis.js';
 import { CURRENT_LIVE_API, CURRENT_PTS_API } from './types.js';
 import type { FixerConfig, IssueSeverity } from './types.js';
 
@@ -984,6 +1000,475 @@ program
     if (options.check && outdated.length > 0) {
       process.exit(1);
     }
+  });
+
+// ============================================================================
+// Scrape Command
+// ============================================================================
+
+program
+  .command('scrape')
+  .description('Scrape addon info and changelogs from ESOUI.com')
+  .option('-i, --id <id>', 'Scrape a single addon by ESOUI ID')
+  .option('--check-updates', 'Check tracked addons for updates')
+  .option('--report', 'Generate an update report')
+  .option('--category <category>', 'Check addons in a specific category')
+  .option('--json', 'Output as JSON')
+  .action(async (options: {
+    id?: string;
+    checkUpdates?: boolean;
+    report?: boolean;
+    category?: string;
+    json?: boolean;
+  }) => {
+    const spinner = ora('Scraping ESOUI...').start();
+
+    try {
+      // Scrape single addon
+      if (options.id) {
+        const esouiId = parseInt(options.id, 10);
+        spinner.text = `Fetching addon ${esouiId}...`;
+        const info = await scrapeAddonInfo(esouiId);
+
+        spinner.stop();
+
+        if (!info) {
+          console.log(chalk.red(`Failed to fetch addon ${esouiId}`));
+          process.exit(1);
+        }
+
+        if (options.json) {
+          console.log(JSON.stringify(info, null, 2));
+          return;
+        }
+
+        console.log(chalk.bold('\n' + '='.repeat(60)));
+        console.log(chalk.bold(` ${info.name}`));
+        console.log('='.repeat(60) + '\n');
+
+        console.log(`ESOUI ID: ${info.esouiId}`);
+        console.log(`Author: ${info.author}`);
+        console.log(`Version: ${chalk.green(info.currentVersion)}`);
+        console.log(`Last Updated: ${info.lastUpdated}`);
+        console.log(`Downloads: ${info.downloads.toLocaleString()}`);
+        console.log(`Favorites: ${info.favorites.toLocaleString()}`);
+        if (info.apiVersion) {
+          console.log(`API Version: ${info.apiVersion}`);
+        }
+        if (info.categories.length > 0) {
+          console.log(`Categories: ${info.categories.join(', ')}`);
+        }
+        if (info.dependencies.length > 0) {
+          console.log(`Dependencies: ${info.dependencies.join(', ')}`);
+        }
+        if (info.optionalDeps.length > 0) {
+          console.log(`Optional: ${info.optionalDeps.join(', ')}`);
+        }
+
+        if (info.description) {
+          console.log(chalk.bold('\nDescription:'));
+          console.log(chalk.gray(info.description));
+        }
+
+        if (info.changelog) {
+          console.log(chalk.bold('\nChangelog Analysis:'));
+          const analysis = analyzeChangelog(info.changelog);
+          if (analysis.mentionsBreakingChange) {
+            console.log(chalk.red('  ⚠️  Breaking changes mentioned'));
+          }
+          if (analysis.mentionsApiChange) {
+            console.log(chalk.yellow('  🔄 API-related changes'));
+          }
+          if (analysis.mentionsBugFix) {
+            console.log(chalk.green('  🐛 Bug fixes'));
+          }
+          if (analysis.mentionsNewFeature) {
+            console.log(chalk.cyan('  ✨ New features'));
+          }
+          if (analysis.mentionsLibrary.length > 0) {
+            console.log(chalk.blue(`  📚 Libraries: ${analysis.mentionsLibrary.join(', ')}`));
+          }
+          if (analysis.keywords.length > 0) {
+            console.log(chalk.gray(`  Keywords: ${analysis.keywords.join(', ')}`));
+          }
+        }
+
+        if (info.versionHistory.length > 0) {
+          console.log(chalk.bold('\nRecent Version History:'));
+          for (const v of info.versionHistory.slice(0, 5)) {
+            console.log(`  ${chalk.cyan(v.version)} (${v.date})`);
+            for (const line of v.changelog.slice(0, 3)) {
+              console.log(chalk.gray(`    - ${line}`));
+            }
+            if (v.changelog.length > 3) {
+              console.log(chalk.gray(`    ... and ${v.changelog.length - 3} more`));
+            }
+          }
+        }
+
+        return;
+      }
+
+      // Check tracked addons for updates
+      if (options.checkUpdates || options.report) {
+        let addonsToCheck = ADDON_COMPATIBILITY_DB.filter(a => a.esouiId);
+
+        if (options.category) {
+          addonsToCheck = addonsToCheck.filter(a =>
+            a.category.toLowerCase() === options.category!.toLowerCase()
+          );
+        }
+
+        spinner.text = `Checking ${addonsToCheck.length} addons for updates...`;
+
+        const checksToPerform = addonsToCheck.map(a => ({
+          esouiId: a.esouiId,
+          name: a.name,
+          knownVersion: 'unknown', // We don't track versions yet
+        }));
+
+        const results: ScrapedAddonInfo[] = [];
+        let checked = 0;
+
+        for (const addon of addonsToCheck) {
+          spinner.text = `Checking ${addon.name} (${++checked}/${addonsToCheck.length})...`;
+          const info = await scrapeAddonInfo(addon.esouiId);
+          if (info) {
+            results.push(info);
+          }
+          // Rate limiting
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
+        spinner.stop();
+
+        if (options.json) {
+          console.log(JSON.stringify(results, null, 2));
+          return;
+        }
+
+        if (options.report) {
+          // Generate markdown report
+          console.log(chalk.bold('# ESO Addon Status Report'));
+          console.log(`Generated: ${new Date().toISOString()}\n`);
+          console.log(`Total scraped: ${results.length} addons\n`);
+
+          // Group by update recency
+          const now = new Date();
+          const recentlyUpdated = results.filter(r => {
+            const date = new Date(r.lastUpdated);
+            return (now.getTime() - date.getTime()) < 30 * 24 * 60 * 60 * 1000;
+          });
+          const notRecentlyUpdated = results.filter(r => {
+            const date = new Date(r.lastUpdated);
+            return (now.getTime() - date.getTime()) >= 30 * 24 * 60 * 60 * 1000;
+          });
+
+          console.log(chalk.bold('## Recently Updated (last 30 days):\n'));
+          for (const r of recentlyUpdated) {
+            const analysis = analyzeChangelog(r.changelog);
+            console.log(`### ${r.name}`);
+            console.log(`- Version: ${r.currentVersion}`);
+            console.log(`- Updated: ${r.lastUpdated}`);
+            if (analysis.mentionsBreakingChange) {
+              console.log(chalk.red('- ⚠️ Breaking changes!'));
+            }
+            console.log();
+          }
+
+          if (notRecentlyUpdated.length > 0) {
+            console.log(chalk.bold('\n## Not Updated Recently:\n'));
+            for (const r of notRecentlyUpdated.slice(0, 20)) {
+              console.log(`- ${r.name}: ${r.currentVersion} (${r.lastUpdated})`);
+            }
+          }
+          return;
+        }
+
+        // Normal output
+        console.log(chalk.bold('\n' + '='.repeat(60)));
+        console.log(chalk.bold(' ESOUI Addon Status'));
+        console.log('='.repeat(60) + '\n');
+
+        console.log(`Scraped: ${results.length} addons\n`);
+
+        // Sort by last updated
+        results.sort((a, b) => {
+          const dateA = new Date(a.lastUpdated).getTime() || 0;
+          const dateB = new Date(b.lastUpdated).getTime() || 0;
+          return dateB - dateA;
+        });
+
+        for (const info of results.slice(0, 20)) {
+          const analysis = analyzeChangelog(info.changelog);
+          const flags: string[] = [];
+
+          if (analysis.mentionsBreakingChange) flags.push(chalk.red('⚠️'));
+          if (analysis.mentionsApiChange) flags.push(chalk.yellow('🔄'));
+
+          console.log(`${chalk.cyan(info.name)} v${info.currentVersion} ${flags.join(' ')}`);
+          console.log(chalk.gray(`  Updated: ${info.lastUpdated} | Downloads: ${info.downloads.toLocaleString()}`));
+        }
+
+        if (results.length > 20) {
+          console.log(chalk.gray(`\n... and ${results.length - 20} more`));
+        }
+
+        return;
+      }
+
+      // Default: show help
+      spinner.stop();
+      console.log(chalk.bold('\nESO Addon Scraper'));
+      console.log('-'.repeat(40));
+      console.log('  Scrape single addon:  eso-addon-fixer scrape -i 1245');
+      console.log('  Check for updates:    eso-addon-fixer scrape --check-updates');
+      console.log('  Generate report:      eso-addon-fixer scrape --report');
+      console.log('  Filter by category:   eso-addon-fixer scrape --check-updates --category combat');
+
+    } catch (error) {
+      spinner.fail('Scraping failed');
+      console.error(chalk.red(`Error: ${error}`));
+      process.exit(1);
+    }
+  });
+
+// ============================================================================
+// Synergy Command (Addon Collaborator)
+// ============================================================================
+
+program
+  .command('synergy')
+  .description('Explore addon data sharing and synergy opportunities')
+  .option('-a, --addon <name>', 'Show data API for a specific addon')
+  .option('-t, --type <type>', 'Show addons by data type (combat, price, inventory, location, crafting, ui)')
+  .option('--synergies', 'Show all identified synergy opportunities')
+  .option('--graph', 'Show data dependency graph')
+  .option('--json', 'Output as JSON')
+  .action((options: {
+    addon?: string;
+    type?: string;
+    synergies?: boolean;
+    graph?: boolean;
+    json?: boolean;
+  }) => {
+    // Show specific addon's data API
+    if (options.addon) {
+      const api = getAddonDataAPI(options.addon);
+      if (!api) {
+        console.log(chalk.red(`Addon not found: ${options.addon}`));
+        console.log(chalk.gray('Use "eso-addon-fixer synergy" to see all tracked addons'));
+        process.exit(1);
+      }
+
+      if (options.json) {
+        console.log(JSON.stringify(api, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(` ${api.name} - Data API`));
+      console.log('='.repeat(60) + '\n');
+
+      console.log(`Primary Function: ${api.primaryFunction}`);
+      console.log(`ESOUI: https://www.esoui.com/downloads/info${api.esouiId}`);
+      if (api.globalNamespace) {
+        console.log(`Global Namespace: ${chalk.cyan(api.globalNamespace)}`);
+      }
+
+      console.log(chalk.bold('\nExposed Data:'));
+      for (const data of api.exposedData) {
+        console.log(`\n  ${chalk.green(data.name)}`);
+        console.log(chalk.gray(`    Access: ${data.accessMethod} via ${data.accessPath}`));
+        console.log(chalk.gray(`    Type: ${data.dataType}`));
+        console.log(chalk.gray(`    ${data.description}`));
+        if (data.exampleCode) {
+          console.log(chalk.cyan(`    Example: ${data.exampleCode}`));
+        }
+        console.log(chalk.gray(`    Realtime: ${data.realtime} | Update: ${data.updateFrequency || 'n/a'}`));
+      }
+
+      console.log(chalk.bold('\nConsumes From:'));
+      console.log(`  ${api.consumesFrom.join(', ') || 'None'}`);
+
+      console.log(chalk.bold('\nKnown Integrations:'));
+      console.log(`  ${api.knownIntegrations.join(', ') || 'None'}`);
+
+      if (api.notes) {
+        console.log(chalk.bold('\nNotes:'));
+        console.log(chalk.gray(`  ${api.notes}`));
+      }
+
+      // Show synergy suggestions
+      const synergies = getIntegrationSuggestions(api.name);
+      if (synergies.length > 0) {
+        console.log(chalk.bold('\nSynergy Opportunities:'));
+        for (const s of synergies) {
+          const partner = s.sourceAddon === api.name ? s.targetAddon : s.sourceAddon;
+          console.log(`  ${chalk.yellow('→')} ${partner} (${s.synergyType})`);
+          console.log(chalk.gray(`    ${s.description}`));
+        }
+      }
+
+      return;
+    }
+
+    // Show addons by data type
+    if (options.type) {
+      const validTypes = ['combat', 'price', 'inventory', 'location', 'crafting', 'ui'];
+      if (!validTypes.includes(options.type)) {
+        console.log(chalk.red(`Invalid type: ${options.type}`));
+        console.log(chalk.gray(`Valid types: ${validTypes.join(', ')}`));
+        process.exit(1);
+      }
+
+      const addons = getAddonsByDataType(options.type as 'combat' | 'price' | 'inventory' | 'location' | 'crafting' | 'ui');
+
+      if (options.json) {
+        console.log(JSON.stringify(addons, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold(`\nAddons providing ${options.type} data:\n`));
+      for (const addon of addons) {
+        console.log(`  ${chalk.cyan(addon.name)}`);
+        console.log(chalk.gray(`    ${addon.primaryFunction}`));
+        console.log(chalk.gray(`    Data points: ${addon.exposedData.length}`));
+      }
+      return;
+    }
+
+    // Show all synergies
+    if (options.synergies) {
+      const synergies = findDataSynergies();
+
+      if (options.json) {
+        console.log(JSON.stringify(synergies, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' Addon Data Synergy Opportunities'));
+      console.log('='.repeat(60) + '\n');
+
+      // Group by synergy type
+      const byType = new Map<string, typeof synergies>();
+      for (const s of synergies) {
+        if (!byType.has(s.synergyType)) {
+          byType.set(s.synergyType, []);
+        }
+        byType.get(s.synergyType)!.push(s);
+      }
+
+      for (const [type, typeSynergies] of byType) {
+        const typeLabel = type === 'correlation' ? '📊 Correlation' :
+          type === 'enhancement' ? '✨ Enhancement' :
+          type === 'automation' ? '⚙️  Automation' :
+          type === 'aggregation' ? '📦 Aggregation' : type;
+
+        console.log(chalk.bold(`\n${typeLabel}:`));
+        console.log('-'.repeat(40));
+
+        for (const s of typeSynergies) {
+          const complexity = s.implementationComplexity === 'low' ? chalk.green('●') :
+            s.implementationComplexity === 'medium' ? chalk.yellow('●') :
+            chalk.red('●');
+
+          console.log(`  ${complexity} ${s.sourceAddon} + ${s.targetAddon}`);
+          console.log(chalk.gray(`    ${s.description}`));
+          console.log(chalk.gray(`    Data: ${s.dataPoint}`));
+        }
+      }
+
+      console.log(chalk.bold('\n\nComplexity Legend:'));
+      console.log(`  ${chalk.green('●')} Low | ${chalk.yellow('●')} Medium | ${chalk.red('●')} High`);
+      return;
+    }
+
+    // Show dependency graph
+    if (options.graph) {
+      const graph = getDataDependencyGraph();
+
+      if (options.json) {
+        const obj: Record<string, string[]> = {};
+        for (const [key, value] of graph) {
+          obj[key] = Array.from(value);
+        }
+        console.log(JSON.stringify(obj, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' Addon Data Dependency Graph'));
+      console.log('='.repeat(60) + '\n');
+
+      for (const [addon, deps] of graph) {
+        if (deps.size > 0) {
+          console.log(`${chalk.cyan(addon)}`);
+          for (const dep of deps) {
+            console.log(chalk.gray(`  └─ ${dep}`));
+          }
+        }
+      }
+      return;
+    }
+
+    // Default: show all tracked addons
+    if (options.json) {
+      console.log(JSON.stringify(ADDON_DATA_APIS, null, 2));
+      return;
+    }
+
+    console.log(chalk.bold('\n' + '='.repeat(60)));
+    console.log(chalk.bold(' Addon Data API Registry'));
+    console.log('='.repeat(60) + '\n');
+
+    console.log(`Tracked addons: ${chalk.green(ADDON_DATA_APIS.length)}`);
+    console.log(`Total data points: ${chalk.green(ADDON_DATA_APIS.reduce((sum, a) => sum + a.exposedData.length, 0))}`);
+    console.log(`Synergy opportunities: ${chalk.green(findDataSynergies().length)}\n`);
+
+    // Group by category
+    const categories: Record<string, typeof ADDON_DATA_APIS[number][]> = {
+      'Combat & DPS': [],
+      'Inventory & Trading': [],
+      'Map & Location': [],
+      'Crafting': [],
+      'Group & Raiding': [],
+      'UI & Quality of Life': [],
+      'Builds & Sets': [],
+    };
+
+    for (const addon of ADDON_DATA_APIS) {
+      const cat =
+        addon.name.includes('Combat') || addon.name.includes('FTC') || addon.name.includes('Notifier') || addon.name.includes('Hodor') ? 'Combat & DPS' :
+        addon.name.includes('Merchant') || addon.name.includes('Trade') || addon.name.includes('Inventory') || addon.name.includes('Arkadius') ? 'Inventory & Trading' :
+        addon.name.includes('Harvest') || addon.name.includes('Destination') ? 'Map & Location' :
+        addon.name.includes('Writ') || addon.name.includes('Potion') ? 'Crafting' :
+        addon.name.includes('Raid') || addon.name.includes('Hodor') ? 'Group & Raiding' :
+        addon.name.includes('Dressing') || addon.name.includes('IIfA') ? 'Builds & Sets' :
+        'UI & Quality of Life';
+
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(addon);
+    }
+
+    for (const [category, addons] of Object.entries(categories)) {
+      if (addons.length === 0) continue;
+      console.log(chalk.bold(`\n${category}:`));
+      console.log('-'.repeat(40));
+      for (const addon of addons) {
+        const dataCount = addon.exposedData.length;
+        console.log(`  ${chalk.cyan(addon.name)} (${dataCount} data points)`);
+        console.log(chalk.gray(`    ${addon.primaryFunction}`));
+      }
+    }
+
+    console.log(chalk.bold('\n\nQuick Reference:'));
+    console.log('-'.repeat(40));
+    console.log('  View addon API:       eso-addon-fixer synergy -a "Combat Metrics"');
+    console.log('  Find by data type:    eso-addon-fixer synergy -t combat');
+    console.log('  Show all synergies:   eso-addon-fixer synergy --synergies');
+    console.log('  Show dependency graph: eso-addon-fixer synergy --graph\n');
   });
 
 // ============================================================================
