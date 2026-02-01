@@ -87,6 +87,44 @@ jobs:
         run: npm test -- --passWithNoTests
         continue-on-error: true
 
+  # ESO Addon Fixer Tests
+  addon-fixer-tests:
+    name: Addon Fixer Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./tools/addon-fixer
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: tools/addon-fixer/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: ESLint check
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+        continue-on-error: true
+
   # Lua Addon Validation
   lua-validation:
     name: Lua Validation
@@ -195,7 +233,7 @@ jobs:
   build:
     name: Build Artifacts
     runs-on: ubuntu-latest
-    needs: [python-tests, frontend-tests, lua-validation, data-validation]
+    needs: [python-tests, frontend-tests, addon-fixer-tests, lua-validation, data-validation]
 
     steps:
       - uses: actions/checkout@v4

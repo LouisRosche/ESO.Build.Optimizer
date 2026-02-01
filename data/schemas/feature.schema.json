@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://eso-build-optimizer.example/schemas/feature.json",
+  "title": "ESO Feature",
+  "description": "Schema for ESO features (skills, sets, champion points, etc.)",
+  "type": "object",
+  "required": ["feature_id", "system", "category", "name"],
+  "properties": {
+    "feature_id": {
+      "type": "string",
+      "description": "Unique identifier for the feature",
+      "pattern": "^[A-Z][A-Z0-9_]+$"
+    },
+    "system": {
+      "type": "string",
+      "enum": ["PLAYER", "COMPANION", "CHAMPION"],
+      "description": "Which game system this feature belongs to"
+    },
+    "category": {
+      "type": "string",
+      "description": "Feature category (Class, Weapon, Armor, etc.)"
+    },
+    "subcategory": {
+      "type": ["string", "null"],
+      "description": "Skill line or set type"
+    },
+    "feature_type": {
+      "type": "string",
+      "enum": ["ULTIMATE", "ACTIVE", "PASSIVE", "MORPH_A", "MORPH_B", "SET_BONUS"],
+      "description": "Type of feature"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name",
+      "minLength": 1
+    },
+    "parent_feature": {
+      "type": ["string", "null"],
+      "description": "For morphs, the base skill ID"
+    },
+    "class_restriction": {
+      "type": ["string", "null"],
+      "description": "Class restriction if any"
+    },
+    "unlock_method": {
+      "type": ["string", "null"],
+      "description": "How to obtain this feature"
+    },
+    "resource_type": {
+      "type": ["string", "null"],
+      "enum": ["Magicka", "Stamina", "Ultimate", "Health", "None", null],
+      "description": "Resource consumed"
+    },
+    "resource_cost": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Resource cost"
+    },
+    "cast_time": {
+      "type": ["string", "null"],
+      "description": "Cast time (Instant, 0.8s, Channeled, etc.)"
+    },
+    "target_type": {
+      "type": ["string", "null"],
+      "description": "Target type (Self, Enemy, Ally, Area, Ground)"
+    },
+    "range_m": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Range in meters"
+    },
+    "radius_m": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "AoE radius in meters"
+    },
+    "duration_sec": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Duration in seconds"
+    },
+    "cooldown_sec": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "description": "Cooldown in seconds"
+    },
+    "base_effect": {
+      "type": ["string", "null"],
+      "description": "Description of what it does"
+    },
+    "scaling_stat": {
+      "type": ["string", "null"],
+      "description": "What stat it scales with"
+    },
+    "max_ranks": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Maximum skill ranks"
+    },
+    "rank_progression": {
+      "type": ["string", "null"],
+      "description": "How it scales per rank"
+    },
+    "buff_debuff_granted": {
+      "type": ["string", "null"],
+      "description": "Buffs or debuffs granted"
+    },
+    "synergy": {
+      "type": ["string", "null"],
+      "description": "Synergy name if applicable"
+    },
+    "tags": {
+      "type": ["string", "null"],
+      "description": "Comma-separated tags"
+    },
+    "dlc_required": {
+      "type": ["string", "null"],
+      "description": "DLC required for this feature"
+    },
+    "patch_updated": {
+      "type": ["string", "null"],
+      "description": "Last patch this was updated"
+    },
+    "source_url": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Source URL for this data"
+    }
+  },
+  "additionalProperties": true
+}

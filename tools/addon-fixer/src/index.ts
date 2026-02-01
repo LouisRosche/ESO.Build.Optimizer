@@ -52,7 +52,7 @@ export {
 
 // Analyzers
 export { LuaAnalyzer, analyzeLuaFile } from './lua-analyzer.js';
-export { LuaTransformer, transformLuaFile } from './lua-transformer.js';
+export { LuaTransformer, transformLuaFile, transformLuaCode } from './lua-transformer.js';
 export { parseManifest, analyzeManifest, fixManifest } from './manifest-parser.js';
 
 // Main Fixer

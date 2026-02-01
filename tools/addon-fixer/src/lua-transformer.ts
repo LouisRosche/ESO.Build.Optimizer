@@ -67,15 +67,6 @@ export class LuaTransformer {
       await this.initialize();
     }
 
-    const fullConfig: TransformConfig = {
-      fixLibStub: true,
-      fixDeprecatedFunctions: true,
-      fixFontPaths: true,
-      fixPatterns: true,
-      confidenceThreshold: 0.8,
-      ...config,
-    };
-
     let content: string;
     try {
       content = await readFile(filePath, 'utf-8');
@@ -92,6 +83,45 @@ export class LuaTransformer {
         };
       }
     }
+
+    const result = this.transformCode(content, filePath, config);
+
+    // Write if not dry run and changes were made
+    const wasModified = result.changes.length > 0 && !dryRun;
+    if (wasModified) {
+      try {
+        await writeFile(filePath, result.code, 'utf-8');
+      } catch (e) {
+        result.errors.push(`Failed to write file: ${e}`);
+      }
+    }
+
+    return {
+      filePath,
+      fileType: 'lua',
+      changes: result.changes,
+      errors: result.errors,
+      wasModified,
+    };
+  }
+
+  /**
+   * Transform Lua code from a string.
+   * Public method for testing and programmatic use.
+   */
+  transformCode(
+    content: string,
+    filePath: string = 'input.lua',
+    config: Partial<TransformConfig> = {}
+  ): { code: string; changes: FixChange[]; errors: string[] } {
+    const fullConfig: TransformConfig = {
+      fixLibStub: true,
+      fixDeprecatedFunctions: true,
+      fixFontPaths: true,
+      fixPatterns: true,
+      confidenceThreshold: 0.8,
+      ...config,
+    };
 
     const ctx: TransformContext = {
       content,
@@ -131,22 +161,10 @@ export class LuaTransformer {
       this.transformPatterns(ctx);
     }
 
-    // Write if not dry run and changes were made
-    const wasModified = ctx.changes.length > 0 && !dryRun;
-    if (wasModified) {
-      try {
-        await writeFile(filePath, ctx.content, 'utf-8');
-      } catch (e) {
-        errors.push(`Failed to write file: ${e}`);
-      }
-    }
-
     return {
-      filePath,
-      fileType: 'lua',
+      code: ctx.content,
       changes: ctx.changes,
       errors,
-      wasModified,
     };
   }
 
@@ -180,15 +198,37 @@ export class LuaTransformer {
 
   private transformCallExpression(ctx: TransformContext, node: luaparse.Node): void {
     const callNode = node as unknown as {
-      base: { type: string; name?: string; identifier?: { name: string }; range?: [number, number] };
+      base: {
+        type: string;
+        name?: string;
+        identifier?: { name: string };
+        base?: { type: string; name?: string };
+        range?: [number, number];
+      };
       arguments: Array<{ type: string; value?: string; raw?: string }>;
       range?: [number, number];
     };
 
-    // Check for LibStub calls
+    // Check for LibStub calls - both LibStub("...") and LibStub:GetLibrary("...")
     if (ctx.config.fixLibStub) {
+      let isLibStubCall = false;
       const baseName = this.getNodeName(callNode.base);
-      if (baseName === 'LibStub' && callNode.arguments.length > 0) {
+
+      // Pattern 1: LibStub("LibName")
+      if (baseName === 'LibStub') {
+        isLibStubCall = true;
+      }
+      // Pattern 2: LibStub:GetLibrary("LibName") - MemberExpression
+      else if (
+        callNode.base.type === 'MemberExpression' &&
+        callNode.base.base?.type === 'Identifier' &&
+        callNode.base.base.name === 'LibStub' &&
+        callNode.base.identifier?.name === 'GetLibrary'
+      ) {
+        isLibStubCall = true;
+      }
+
+      if (isLibStubCall && callNode.arguments.length > 0) {
         const firstArg = callNode.arguments[0];
         if (firstArg?.type === 'StringLiteral') {
           // luaparse may return null for value, so extract from raw (which includes quotes)
@@ -264,26 +304,33 @@ export class LuaTransformer {
   // ============================================================================
 
   private transformWithRegex(ctx: TransformContext): void {
-    // LibStub patterns
+    // LibStub patterns - both LibStub("...") and LibStub:GetLibrary("...")
     if (ctx.config.fixLibStub) {
-      const libStubPattern = /LibStub\s*\(\s*["']([^"']+)["']\s*(?:,\s*\w+)?\s*\)/g;
-      let match;
+      // Pattern 1: LibStub("LibName") or LibStub("LibName", silent)
+      const libStubCallPattern = /LibStub\s*\(\s*["']([^"']+)["']\s*(?:,\s*\w+)?\s*\)/g;
+      // Pattern 2: LibStub:GetLibrary("LibName") or LibStub:GetLibrary("LibName", silent)
+      const libStubGetLibraryPattern = /LibStub\s*:\s*GetLibrary\s*\(\s*["']([^"']+)["']\s*(?:,\s*\w+)?\s*\)/g;
 
-      while ((match = libStubPattern.exec(ctx.content)) !== null) {
-        const libName = match[1];
-        const libMigration = ctx.migrations.libraryMigrations.find(
-          (m) => m.name === libName
-        );
+      const patterns = [libStubCallPattern, libStubGetLibraryPattern];
 
-        if (libMigration) {
-          this.collectChange(ctx, {
-            start: match.index,
-            end: match.index + match[0].length,
-            oldCode: match[0],
-            newCode: libMigration.globalVariable,
-            reason: `Replace LibStub("${libName}") with ${libMigration.globalVariable}`,
-            confidence: 0.9,
-          });
+      for (const pattern of patterns) {
+        let match;
+        while ((match = pattern.exec(ctx.content)) !== null) {
+          const libName = match[1];
+          const libMigration = ctx.migrations.libraryMigrations.find(
+            (m) => m.name === libName
+          );
+
+          if (libMigration) {
+            this.collectChange(ctx, {
+              start: match.index,
+              end: match.index + match[0].length,
+              oldCode: match[0],
+              newCode: libMigration.globalVariable,
+              reason: `Replace LibStub("${libName}") with ${libMigration.globalVariable}`,
+              confidence: 0.9,
+            });
+          }
         }
       }
     }
@@ -541,7 +588,7 @@ export class LuaTransformer {
 }
 
 // ============================================================================
-// Convenience Function
+// Convenience Functions
 // ============================================================================
 
 export async function transformLuaFile(
@@ -552,4 +599,18 @@ export async function transformLuaFile(
   const transformer = new LuaTransformer();
   await transformer.initialize();
   return transformer.transformFile(filePath, config, dryRun);
+}
+
+/**
+ * Transform Lua code directly from a string.
+ * Useful for testing and programmatic use.
+ */
+export async function transformLuaCode(
+  code: string,
+  filename: string = 'input.lua',
+  config?: Partial<TransformConfig>
+): Promise<{ code: string; changes: FixChange[]; errors: string[] }> {
+  const transformer = new LuaTransformer();
+  await transformer.initialize();
+  return transformer.transformCode(code, filename, config);
 }

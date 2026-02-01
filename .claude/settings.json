@@ -13,6 +13,18 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd tools/addon-fixer && npm run build --silent 2>/dev/null && npm test --silent 2>/dev/null && echo 'Pre-commit check: OK' || (echo 'Pre-commit check: FAILED - fix before committing' && exit 1)",
+            "description": "Verify build and tests before commit"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "*",
