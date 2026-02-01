@@ -21,10 +21,19 @@ import { loadMigrations, type MigrationDatabase } from './migration-loader.js';
 // Types
 // ============================================================================
 
+interface PendingChange {
+  start: number;
+  end: number;
+  oldCode: string;
+  newCode: string;
+  reason: string;
+  confidence: number;
+}
+
 interface TransformContext {
   content: string;
   changes: FixChange[];
-  offset: number; // Accumulated offset from previous changes
+  pendingChanges: PendingChange[]; // Collect changes before applying
   filePath: string;
   config: TransformConfig;
   migrations: MigrationDatabase;
@@ -87,7 +96,7 @@ export class LuaTransformer {
     const ctx: TransformContext = {
       content,
       changes: [],
-      offset: 0,
+      pendingChanges: [],
       filePath,
       config: fullConfig,
       migrations: this.migrations!,
@@ -105,6 +114,8 @@ export class LuaTransformer {
       });
 
       this.transformAST(ctx, ast);
+      // Apply collected changes in reverse order (from end to start)
+      this.applyPendingChanges(ctx);
     } catch (e) {
       // Fall back to regex-based transformation
       errors.push(`AST parsing failed, using regex fallback: ${e}`);
@@ -168,8 +179,8 @@ export class LuaTransformer {
   }
 
   private transformCallExpression(ctx: TransformContext, node: luaparse.Node): void {
-    const callNode = node as {
-      base: { type: string; name?: string; identifier?: { name: string } };
+    const callNode = node as unknown as {
+      base: { type: string; name?: string; identifier?: { name: string }; range?: [number, number] };
       arguments: Array<{ type: string; value?: string; raw?: string }>;
       range?: [number, number];
     };
@@ -186,13 +197,10 @@ export class LuaTransformer {
           );
 
           if (libMigration && callNode.range) {
-            this.applyChange(ctx, {
+            this.collectChange(ctx, {
               start: callNode.range[0],
               end: callNode.range[1],
-              oldCode: ctx.content.substring(
-                callNode.range[0] + ctx.offset,
-                callNode.range[1] + ctx.offset
-              ),
+              oldCode: ctx.content.substring(callNode.range[0], callNode.range[1]),
               newCode: libMigration.globalVariable,
               reason: `Replace LibStub("${libName}") with ${libMigration.globalVariable}`,
               confidence: 0.95,
@@ -220,10 +228,10 @@ export class LuaTransformer {
           // Get the range of just the function name, not the whole call
           const baseNode = callNode.base as { range?: [number, number] };
           if (baseNode.range) {
-            this.applyChange(ctx, {
+            this.collectChange(ctx, {
               start: baseNode.range[0],
               end: baseNode.range[1],
-              oldCode: funcName,
+              oldCode: ctx.content.substring(baseNode.range[0], baseNode.range[1]),
               newCode: migration.newName,
               reason: `Rename ${funcName} to ${migration.newName}`,
               confidence: migration.confidence,
@@ -261,7 +269,7 @@ export class LuaTransformer {
         );
 
         if (libMigration) {
-          this.applyChange(ctx, {
+          this.collectChange(ctx, {
             start: match.index,
             end: match.index + match[0].length,
             oldCode: match[0],
@@ -291,7 +299,7 @@ export class LuaTransformer {
               continue;
             }
 
-            this.applyChange(ctx, {
+            this.collectChange(ctx, {
               start: match.index,
               end: match.index + match[0].length,
               oldCode: migration.oldName,
@@ -303,6 +311,9 @@ export class LuaTransformer {
         }
       }
     }
+
+    // Apply all collected changes
+    this.applyPendingChanges(ctx);
   }
 
   // ============================================================================
@@ -310,6 +321,7 @@ export class LuaTransformer {
   // ============================================================================
 
   private transformFontPaths(ctx: TransformContext): void {
+    ctx.pendingChanges = []; // Clear for this phase
     const fontPattern = /(["'])([^"']+)\.(ttf|otf)(\|[^"']*)?(\1)/gi;
     let match;
 
@@ -318,7 +330,7 @@ export class LuaTransformer {
       const newPath = oldPath.replace(/\.(ttf|otf)/gi, '.slug');
 
       if (oldPath !== newPath) {
-        this.applyChange(ctx, {
+        this.collectChange(ctx, {
           start: match.index,
           end: match.index + match[0].length,
           oldCode: oldPath,
@@ -328,9 +340,12 @@ export class LuaTransformer {
         });
       }
     }
+
+    this.applyPendingChanges(ctx);
   }
 
   private transformPatterns(ctx: TransformContext): void {
+    ctx.pendingChanges = []; // Clear for this phase
     for (const pattern of ctx.migrations.patternMigrations) {
       if (
         pattern.autoFixable &&
@@ -347,7 +362,7 @@ export class LuaTransformer {
             );
 
             if (match[0] !== newCode) {
-              this.applyChange(ctx, {
+              this.collectChange(ctx, {
                 start: match.index,
                 end: match.index + match[0].length,
                 oldCode: match[0],
@@ -362,37 +377,67 @@ export class LuaTransformer {
         }
       }
     }
+
+    this.applyPendingChanges(ctx);
   }
 
   // ============================================================================
-  // Change Application
+  // Change Collection and Application
   // ============================================================================
 
-  private applyChange(
-    ctx: TransformContext,
-    change: {
-      start: number;
-      end: number;
-      oldCode: string;
-      newCode: string;
-      reason: string;
-      confidence: number;
-    }
-  ): void {
-    // Adjust for accumulated offset
-    const adjustedStart = change.start + ctx.offset;
-    const adjustedEnd = change.end + ctx.offset;
+  /**
+   * Collect a change for later application (used with AST traversal)
+   */
+  private collectChange(ctx: TransformContext, change: PendingChange): void {
+    ctx.pendingChanges.push(change);
+  }
 
-    // Apply the change to content
+  /**
+   * Apply all pending changes in reverse order (from end to start).
+   * This avoids offset tracking issues.
+   */
+  private applyPendingChanges(ctx: TransformContext): void {
+    // Sort by start position descending (apply from end to start)
+    const sorted = [...ctx.pendingChanges].sort((a, b) => b.start - a.start);
+
+    for (const change of sorted) {
+      // Apply the change directly (no offset needed since we go from end to start)
+      ctx.content =
+        ctx.content.substring(0, change.start) +
+        change.newCode +
+        ctx.content.substring(change.end);
+
+      // Record the change
+      ctx.changes.push({
+        location: {
+          start: { line: 0, column: 0, offset: change.start },
+          end: { line: 0, column: 0, offset: change.end },
+        },
+        oldCode: change.oldCode,
+        newCode: change.newCode,
+        reason: change.reason,
+        confidence: change.confidence,
+      });
+    }
+  }
+
+  /**
+   * Apply a single change immediately (used with regex fallback).
+   * Uses offset tracking for sequential application.
+   */
+  private applyChangeImmediate(
+    ctx: TransformContext,
+    change: PendingChange,
+    offset: number
+  ): number {
+    const adjustedStart = change.start + offset;
+    const adjustedEnd = change.end + offset;
+
     ctx.content =
       ctx.content.substring(0, adjustedStart) +
       change.newCode +
       ctx.content.substring(adjustedEnd);
 
-    // Update offset for future changes
-    ctx.offset += change.newCode.length - (change.end - change.start);
-
-    // Record the change
     ctx.changes.push({
       location: {
         start: { line: 0, column: 0, offset: change.start },
@@ -403,6 +448,8 @@ export class LuaTransformer {
       reason: change.reason,
       confidence: change.confidence,
     });
+
+    return offset + change.newCode.length - (change.end - change.start);
   }
 
   // ============================================================================

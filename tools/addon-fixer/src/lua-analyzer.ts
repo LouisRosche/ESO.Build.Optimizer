@@ -274,19 +274,22 @@ export class LuaAnalyzer {
     if (firstArg?.type !== 'StringLiteral') return;
 
     const libName = (firstArg as LuaStringLiteral).value;
+    if (!libName) return; // Skip if library name is null/empty
+
     const libMigration = LIBRARY_MIGRATIONS.find((m) => m.libraryName === libName);
 
     const location = this.nodeToSourceRange(node);
     const oldCode = this.extractSourceCode(state.content, location);
 
+    const suggestedGlobal = libMigration?.globalVariable ?? libName.replace(/-/g, '');
     state.issues.push(this.createIssue(state, {
       category: 'libstub',
       severity: 'warning',
       message: `LibStub is deprecated, use global variable instead`,
-      details: `Replace with ${libMigration?.globalVariable ?? libName.replace(/-/g, '')}`,
+      details: `Replace with ${suggestedGlobal}`,
       location,
       oldCode,
-      suggestedFix: libMigration?.globalVariable ?? libName.replace(/-/g, ''),
+      suggestedFix: suggestedGlobal,
       autoFixable: true,
       confidence: 0.95,
     }));
@@ -298,6 +301,7 @@ export class LuaAnalyzer {
 
   private analyzeStringLiteral(state: AnalyzerState, node: LuaStringLiteral): void {
     const value = node.value;
+    if (!value) return; // Skip null/empty string literals
 
     // Check for old font paths
     if (/\.(ttf|otf)(\||"|$)/i.test(value)) {

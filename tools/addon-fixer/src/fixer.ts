@@ -21,6 +21,8 @@ import type {
   AnalysisSummary,
   IssueSeverity,
   IssueCategory,
+  Issue,
+  FixChange,
 } from './types.js';
 import { DEFAULT_CONFIG } from './types.js';
 import { LuaAnalyzer } from './lua-analyzer.js';
@@ -277,7 +279,7 @@ export class AddonFixer {
       };
     }
 
-    const issues: FileAnalysisResult['issues'] = [];
+    const issues: Issue[] = [];
     let issueId = 0;
 
     // Check for font paths
@@ -346,7 +348,7 @@ export class AddonFixer {
   }
 
   private async fixXmlFile(filePath: string): Promise<FileFixResult> {
-    const changes: FileFixResult['changes'] = [];
+    const changes: FixChange[] = [];
     const errors: string[] = [];
 
     let content: string;
