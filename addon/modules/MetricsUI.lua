@@ -42,18 +42,19 @@ local UI_DIMENSIONS = {
     },
 }
 
+-- DarkUI-compatible color palette (softer, less jarring)
 local COLORS = {
-    background = { 0.1, 0.1, 0.1, 0.8 },
-    border = { 0.4, 0.4, 0.4, 1.0 },
-    title = { 1.0, 0.82, 0.0, 1.0 },    -- Gold
-    dps = { 1.0, 0.3, 0.3, 1.0 },       -- Red
-    hps = { 0.3, 1.0, 0.3, 1.0 },       -- Green
-    text = { 1.0, 1.0, 1.0, 1.0 },      -- White
-    dim = { 0.6, 0.6, 0.6, 1.0 },       -- Gray
-    button = { 0.3, 0.3, 0.3, 1.0 },    -- Button background
-    buttonHover = { 0.5, 0.5, 0.5, 1.0 },
-    recommendation = { 0.6, 0.2, 1.0, 1.0 },  -- Purple for skill recs
-    warning = { 1.0, 0.6, 0.2, 1.0 },   -- Orange for warnings
+    background = { 0.05, 0.05, 0.05, 0.85 },   -- Darker, more opaque
+    border = { 0.35, 0.35, 0.35, 1.0 },        -- Subtle border
+    title = { 0.85, 0.70, 0.0, 1.0 },          -- Muted gold (ESO style)
+    dps = { 0.9, 0.35, 0.35, 1.0 },            -- Softer red
+    hps = { 0.35, 0.85, 0.35, 1.0 },           -- Softer green
+    text = { 0.9, 0.9, 0.9, 1.0 },             -- Off-white (not pure white)
+    dim = { 0.55, 0.55, 0.55, 1.0 },           -- Subtle gray
+    button = { 0.2, 0.2, 0.2, 1.0 },           -- Darker button
+    buttonHover = { 0.35, 0.35, 0.35, 1.0 },   -- Subtle hover
+    recommendation = { 0.55, 0.3, 0.85, 1.0 }, -- Softer purple
+    warning = { 0.9, 0.55, 0.2, 1.0 },         -- Softer orange
 }
 
 ---------------------------------------------------------------------------
@@ -746,6 +747,20 @@ end
 
 function MetricsUI:GetLastEncounter()
     return state.lastEncounter
+end
+
+function MetricsUI:IsLocked()
+    return state.locked
+end
+
+function MetricsUI:ResetPosition()
+    if state.window then
+        state.window:ClearAnchors()
+        state.window:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, DEFAULT_POSITION.x, DEFAULT_POSITION.y)
+        if addon.savedVars then
+            addon.savedVars.settings.uiPosition = { x = DEFAULT_POSITION.x, y = DEFAULT_POSITION.y }
+        end
+    end
 end
 
 function MetricsUI:Reset()
