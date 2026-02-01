@@ -8,9 +8,10 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { dirname, join, basename, extname } from 'node:path';
+import { execSync } from 'node:child_process';
 
 import { AddonFixer, analyzeAddon, fixAddon } from './fixer.js';
 import {
@@ -237,6 +238,200 @@ program
   });
 
 // ============================================================================
+// Verify Command
+// ============================================================================
+
+program
+  .command('verify <addon-path>')
+  .description('Verify addon after fixing (syntax check, manifest validation)')
+  .option('--json', 'Output results as JSON')
+  .action(async (addonPath: string, options: { json?: boolean }) => {
+    const spinner = ora('Verifying addon...').start();
+    const results: {
+      syntax: { status: 'pass' | 'fail' | 'skipped'; errors: string[] };
+      manifest: { status: 'pass' | 'warn' | 'fail'; issues: string[] };
+      caseCheck: { status: 'pass' | 'warn' | 'fail'; issues: string[] };
+      remaining: { status: 'pass' | 'warn' | 'fail'; count: number; issues: string[] };
+      overall: 'pass' | 'warn' | 'fail';
+    } = {
+      syntax: { status: 'skipped', errors: [] },
+      manifest: { status: 'pass', issues: [] },
+      caseCheck: { status: 'pass', issues: [] },
+      remaining: { status: 'pass', count: 0, issues: [] },
+      overall: 'pass',
+    };
+
+    try {
+      const addonName = basename(addonPath);
+
+      // 1. Syntax Check with luacheck
+      spinner.text = 'Checking Lua syntax...';
+      try {
+        execSync('which luacheck', { stdio: 'pipe' });
+        // luacheck is available
+        try {
+          const luaFiles = await findLuaFiles(addonPath);
+          if (luaFiles.length > 0) {
+            execSync(`luacheck ${luaFiles.map(f => `"${f}"`).join(' ')} --no-config --codes`, {
+              stdio: 'pipe',
+              encoding: 'utf-8',
+            });
+            results.syntax.status = 'pass';
+          } else {
+            results.syntax.status = 'skipped';
+            results.syntax.errors.push('No Lua files found');
+          }
+        } catch (e: unknown) {
+          results.syntax.status = 'fail';
+          const error = e as { stdout?: string; stderr?: string };
+          results.syntax.errors.push(error.stdout || error.stderr || 'Syntax check failed');
+        }
+      } catch {
+        results.syntax.status = 'skipped';
+        results.syntax.errors.push('luacheck not installed');
+      }
+
+      // 2. Manifest Check
+      spinner.text = 'Checking manifest...';
+      const addonManifest = join(addonPath, `${addonName}.addon`);
+      const txtManifest = join(addonPath, `${addonName}.txt`);
+
+      try {
+        await stat(addonManifest);
+      } catch {
+        results.manifest.issues.push('Missing .addon file (required for console)');
+        try {
+          await stat(txtManifest);
+          results.manifest.issues.push('Using deprecated .txt manifest');
+        } catch {
+          results.manifest.status = 'fail';
+          results.manifest.issues.push('No manifest file found');
+        }
+      }
+
+      // Check API version in manifest
+      try {
+        const manifestPath = await stat(addonManifest).then(() => addonManifest).catch(() => txtManifest);
+        const manifestContent = await readFile(manifestPath, 'utf-8');
+        const apiMatch = manifestContent.match(/##\s*APIVersion:\s*(\d+)/);
+        if (apiMatch) {
+          const apiVersion = parseInt(apiMatch[1], 10);
+          if (apiVersion < CURRENT_LIVE_API) {
+            results.manifest.issues.push(`API version ${apiVersion} is outdated (current: ${CURRENT_LIVE_API})`);
+          }
+        } else {
+          results.manifest.issues.push('No APIVersion found in manifest');
+        }
+      } catch {
+        // Already handled above
+      }
+
+      // Only fail if critical issues, warn for deprecation/outdated
+      if (results.manifest.issues.length > 0 && results.manifest.status !== 'fail') {
+        const hasCriticalIssue = results.manifest.issues.some(i =>
+          i.includes('No manifest file found') || i.includes('No APIVersion found')
+        );
+        results.manifest.status = hasCriticalIssue ? 'fail' : 'warn';
+      }
+
+      // 3. Case Sensitivity Check
+      spinner.text = 'Checking case sensitivity...';
+      const analysisResult = await analyzeAddon(addonPath);
+      const caseIssues = analysisResult.fileResults
+        .flatMap(f => f.issues)
+        .filter(i => i.message?.includes('Case mismatch') || i.message?.includes('Missing file'));
+
+      if (caseIssues.length > 0) {
+        results.caseCheck.status = caseIssues.some(i => i.severity === 'error') ? 'fail' : 'warn';
+        results.caseCheck.issues = caseIssues.map(i => i.message ?? '');
+      }
+
+      // 4. Remaining Issues
+      spinner.text = 'Checking for remaining issues...';
+      const remainingIssues = analysisResult.fileResults
+        .flatMap(f => f.issues)
+        .filter(i => i.category !== 'dependency' && i.severity !== 'info');
+
+      results.remaining.count = remainingIssues.length;
+      if (remainingIssues.length > 0) {
+        results.remaining.status = remainingIssues.some(i => i.severity === 'error') ? 'fail' : 'warn';
+        results.remaining.issues = remainingIssues.slice(0, 10).map(i => `${i.category}: ${i.message}`);
+        if (remainingIssues.length > 10) {
+          results.remaining.issues.push(`... and ${remainingIssues.length - 10} more`);
+        }
+      }
+
+      // Calculate overall status
+      if (results.syntax.status === 'fail' || results.manifest.status === 'fail' ||
+          results.caseCheck.status === 'fail' || results.remaining.status === 'fail') {
+        results.overall = 'fail';
+      } else if (results.manifest.status === 'warn' || results.caseCheck.status === 'warn' ||
+                 results.remaining.status === 'warn') {
+        results.overall = 'warn';
+      }
+
+      spinner.stop();
+
+      if (options.json) {
+        console.log(JSON.stringify(results, null, 2));
+        return;
+      }
+
+      // Print results
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(` Verification Report: ${addonName}`));
+      console.log('='.repeat(60) + '\n');
+
+      // Syntax
+      const syntaxIcon = results.syntax.status === 'pass' ? chalk.green('✓') :
+        results.syntax.status === 'fail' ? chalk.red('✗') : chalk.gray('○');
+      console.log(`${syntaxIcon} Syntax Check: ${results.syntax.status.toUpperCase()}`);
+      if (results.syntax.errors.length > 0) {
+        for (const err of results.syntax.errors) {
+          console.log(chalk.gray(`    ${err.split('\n')[0]}`));
+        }
+      }
+
+      // Manifest
+      const manifestIcon = results.manifest.status === 'pass' ? chalk.green('✓') :
+        results.manifest.status === 'warn' ? chalk.yellow('!') : chalk.red('✗');
+      console.log(`${manifestIcon} Manifest: ${results.manifest.status.toUpperCase()}`);
+      for (const issue of results.manifest.issues) {
+        console.log(chalk.gray(`    ${issue}`));
+      }
+
+      // Case
+      const caseIcon = results.caseCheck.status === 'pass' ? chalk.green('✓') :
+        results.caseCheck.status === 'warn' ? chalk.yellow('!') : chalk.red('✗');
+      console.log(`${caseIcon} Case Sensitivity: ${results.caseCheck.status.toUpperCase()}`);
+      for (const issue of results.caseCheck.issues) {
+        console.log(chalk.gray(`    ${issue}`));
+      }
+
+      // Remaining
+      const remainIcon = results.remaining.status === 'pass' ? chalk.green('✓') :
+        results.remaining.status === 'warn' ? chalk.yellow('!') : chalk.red('✗');
+      console.log(`${remainIcon} Remaining Issues: ${results.remaining.count}`);
+      for (const issue of results.remaining.issues) {
+        console.log(chalk.gray(`    ${issue}`));
+      }
+
+      // Overall
+      console.log(chalk.bold('\n--- Overall ---'));
+      const overallColor = results.overall === 'pass' ? chalk.green :
+        results.overall === 'warn' ? chalk.yellow : chalk.red;
+      console.log(overallColor(`\n  ${results.overall.toUpperCase()}\n`));
+
+      process.exit(results.overall === 'fail' ? 1 : 0);
+
+    } catch (error) {
+      spinner.fail('Verification failed');
+      console.error(chalk.red(`Error: ${error}`));
+      process.exit(1);
+    }
+  });
+
+// ============================================================================
 // Migrations Command
 // ============================================================================
 
@@ -367,6 +562,25 @@ function getSeverityColor(severity: IssueSeverity): (text: string) => string {
     default:
       return chalk.white;
   }
+}
+
+async function findLuaFiles(dirPath: string): Promise<string[]> {
+  const files: string[] = [];
+
+  const processDir = async (dir: string): Promise<void> => {
+    const entries = await readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      if (entry.isDirectory() && !entry.name.includes('_backup_')) {
+        await processDir(fullPath);
+      } else if (entry.isFile() && extname(entry.name).toLowerCase() === '.lua') {
+        files.push(fullPath);
+      }
+    }
+  };
+
+  await processDir(dirPath);
+  return files;
 }
 
 // ============================================================================

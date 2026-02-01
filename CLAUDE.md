@@ -900,4 +900,71 @@ When uncertain, ask about:
 
 ---
 
-*Last updated: January 2026 | ESO Update 48*
+## 16. Lessons Learned & Development Patterns
+
+### 16.1 Lua Parser Quirks (luaparse)
+
+When using `luaparse` for AST analysis:
+
+```typescript
+// WRONG: luaparse often returns null for StringLiteral.value
+const value = stringNode.value; // null!
+
+// CORRECT: Fall back to extracting from raw (which includes quotes)
+const value = stringNode.value ?? stringNode.raw?.slice(1, -1);
+```
+
+This affects:
+- LibStub detection (library name extraction)
+- Font path analysis (path extraction)
+- Any string literal processing
+
+### 16.2 Pattern Matching Precision
+
+When matching API patterns like `WINDOW_MANAGER:CreateControl`:
+
+```typescript
+// WRONG: Will match CreateControlFromVirtual too
+pattern.includes("WINDOW_MANAGER:CreateControl")
+
+// CORRECT: Include the opening paren for exact match
+pattern === "WINDOW_MANAGER:CreateControl("
+```
+
+### 16.3 Console Compatibility (June 2025+)
+
+Critical requirements for PlayStation/Xbox:
+- **File extension**: Must use `.addon` (not just `.txt`)
+- **Case sensitivity**: PlayStation uses case-sensitive filesystem
+- **File limits**: Maximum 500 files per addon
+- **No compatibility layer**: Deprecated functions will not work
+
+### 16.4 Development Workflow Commands
+
+```bash
+# ESO Addon Fixer commands
+cd tools/addon-fixer
+node dist/cli.js analyze /path/to/addon    # Analyze for issues
+node dist/cli.js fix /path/to/addon        # Fix issues (creates backup)
+node dist/cli.js verify /path/to/addon     # Verify after fixing
+node dist/cli.js migrations                 # List known migrations
+node dist/cli.js info                       # Show API version info
+```
+
+### 16.5 Custom Slash Commands
+
+Available in `.claude/commands/`:
+- `/fix-addon <path>` - Analyze and fix an addon
+- `/test-addon <path>` - Run verification suite
+- `/check-migrations` - Show migration details
+
+### 16.6 Specialized Agents
+
+Available in `.claude/agents/`:
+- `addon-analyzer` - Deep addon complexity analysis
+- `fix-verifier` - Post-fix verification
+- `migration-researcher` - Research new API changes
+
+---
+
+*Last updated: February 2026 | ESO Update 48*
