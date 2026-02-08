@@ -669,108 +669,123 @@ export interface DataSynergyOpportunity {
 /**
  * Identify potential data synergies between addons.
  * This is the foundation for the "Addon Collaborator" concept.
+ *
+ * NOTE: These are NOVEL synergies that don't exist natively.
+ * We exclude:
+ * - Synergies already implemented by the addons themselves
+ * - Features made irrelevant by ESO+ (craft bag, etc.)
  */
 export function findDataSynergies(): DataSynergyOpportunity[] {
   const synergies: DataSynergyOpportunity[] = [];
 
   // Combat Metrics + Dressing Room = Build Performance Correlation
+  // CMX doesn't know which Dressing Room build was active during a fight
   synergies.push({
     sourceAddon: 'Combat Metrics',
     targetAddon: 'Dressing Room',
-    dataPoint: 'dps + gearSet',
+    dataPoint: 'fightDps + activeBuildName',
     synergyType: 'correlation',
-    description: 'Correlate DPS performance with equipped gear sets to identify best builds',
+    description: 'Track which gear set was active during each fight to compare build performance over time',
     implementationComplexity: 'medium',
   });
 
   // Combat Metrics + Raid Notifier = Phase-specific Performance
+  // Neither addon segments DPS by boss phase natively
   synergies.push({
     sourceAddon: 'Combat Metrics',
     targetAddon: 'Raid Notifier',
     dataPoint: 'fightData + bossPhase',
     synergyType: 'enhancement',
-    description: 'Track DPS/HPS performance per boss phase for detailed analysis',
-    implementationComplexity: 'medium',
-  });
-
-  // Master Merchant + TTC = Price Aggregation
-  synergies.push({
-    sourceAddon: 'Master Merchant',
-    targetAddon: 'Tamriel Trade Centre',
-    dataPoint: 'priceData',
-    synergyType: 'aggregation',
-    description: 'Combine local guild prices with global TTC data for better pricing',
-    implementationComplexity: 'low',
-  });
-
-  // Inventory Insight + Lazy Writ Crafter = Material Optimization
-  synergies.push({
-    sourceAddon: 'Inventory Insight',
-    targetAddon: "Dolgubon's Lazy Writ Crafter",
-    dataPoint: 'itemCounts + materialsNeeded',
-    synergyType: 'automation',
-    description: 'Auto-bank materials needed for pending writs across characters',
-    implementationComplexity: 'medium',
-  });
-
-  // Harvest Map + Inventory Insight = Farming Efficiency
-  synergies.push({
-    sourceAddon: 'Harvest Map',
-    targetAddon: 'Inventory Insight',
-    dataPoint: 'nodeLocations + itemCounts',
-    synergyType: 'enhancement',
-    description: 'Highlight nodes for materials you actually need across characters',
-    implementationComplexity: 'medium',
-  });
-
-  // FTC Buffs + Combat Metrics = Buff Uptime Analysis
-  synergies.push({
-    sourceAddon: 'FTC',
-    targetAddon: 'Combat Metrics',
-    dataPoint: 'activeBuffs + fightData',
-    synergyType: 'correlation',
-    description: 'Correlate buff uptime with DPS performance for rotation optimization',
-    implementationComplexity: 'high',
-  });
-
-  // Dressing Room + Personal Assistant Banking = Smart Banking
-  synergies.push({
-    sourceAddon: 'Dressing Room',
-    targetAddon: 'Personal Assistant',
-    dataPoint: 'savedSets + bankingRules',
-    synergyType: 'automation',
-    description: 'Auto-bank gear not used in any saved build',
+    description: 'Segment DPS/HPS by boss phase to identify weak execution phases',
     implementationComplexity: 'medium',
   });
 
   // Hodor Reflexes + Combat Metrics = Group Contribution
+  // CMX tracks damage, but not synergies activated or interrupts landed
   synergies.push({
     sourceAddon: 'Hodor Reflexes',
     targetAddon: 'Combat Metrics',
     dataPoint: 'synergiesUsed + interruptsLanded',
     synergyType: 'enhancement',
-    description: 'Track synergies and interrupts as part of group contribution metrics',
+    description: 'Add synergy activations and interrupts to combat logs for full contribution picture',
     implementationComplexity: 'medium',
   });
 
   // IIfA + Master Merchant = Set Value Tracking
+  // Neither addon calculates total portfolio value
   synergies.push({
     sourceAddon: 'IIfA',
     targetAddon: 'Master Merchant',
     dataPoint: 'setCompletion + priceData',
     synergyType: 'aggregation',
-    description: 'Calculate total value of owned set pieces',
+    description: 'Calculate total gold value of your set piece collection across all characters',
     implementationComplexity: 'low',
   });
 
   // pChat Name Cache + Combat Metrics = Named Performance Logs
+  // CMX shows @UserIDs, not character names which are more memorable
   synergies.push({
     sourceAddon: 'pChat',
     targetAddon: 'Combat Metrics',
     dataPoint: 'nameCache + groupDps',
     synergyType: 'enhancement',
-    description: 'Show character names instead of @handles in group DPS',
+    description: 'Display character names instead of @handles in group DPS meters',
     implementationComplexity: 'low',
+  });
+
+  // Dressing Room + Personal Assistant = Smart Banking (non-ESO+ players)
+  // Useful for players without unlimited bank space
+  synergies.push({
+    sourceAddon: 'Dressing Room',
+    targetAddon: 'Personal Assistant',
+    dataPoint: 'savedSets + bankingRules',
+    synergyType: 'automation',
+    description: 'Auto-bank gear not used in any saved build (useful for non-ESO+ players)',
+    implementationComplexity: 'medium',
+  });
+
+  // IIfA + LibSets = Missing Set Pieces
+  // Know exactly what pieces you still need to complete sets
+  synergies.push({
+    sourceAddon: 'IIfA',
+    targetAddon: 'LibSets',
+    dataPoint: 'ownedPieces + setDefinitions',
+    synergyType: 'aggregation',
+    description: 'Show which specific set pieces (traits/weights) you still need to collect',
+    implementationComplexity: 'medium',
+  });
+
+  // Combat Metrics + ESO Logs Integration
+  // Export fight data in a format for external analysis
+  synergies.push({
+    sourceAddon: 'Combat Metrics',
+    targetAddon: 'ESO Logs',
+    dataPoint: 'fightHistory + exportFormat',
+    synergyType: 'enhancement',
+    description: 'Export combat data to esologs.com for cross-server percentile comparison',
+    implementationComplexity: 'high',
+  });
+
+  // Group Finder + Raid Notifier = Role Coverage Analysis
+  // Know if your group has all important buffs/debuffs covered
+  synergies.push({
+    sourceAddon: 'Group Composition',
+    targetAddon: 'Raid Notifier',
+    dataPoint: 'groupClasses + requiredBuffs',
+    synergyType: 'enhancement',
+    description: 'Analyze group composition to show which major/minor buffs are missing',
+    implementationComplexity: 'high',
+  });
+
+  // ATT + MM = Flip Profit Validation
+  // Compare predicted vs actual profit on flips
+  synergies.push({
+    sourceAddon: 'Arkadius Trade Tools',
+    targetAddon: 'Master Merchant',
+    dataPoint: 'purchaseHistory + salesHistory',
+    synergyType: 'correlation',
+    description: 'Track actual flip profit vs predicted profit to improve trading strategy',
+    implementationComplexity: 'medium',
   });
 
   return synergies;

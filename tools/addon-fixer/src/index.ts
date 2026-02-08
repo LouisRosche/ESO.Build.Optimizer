@@ -123,3 +123,21 @@ export {
   type CorrelatedInsight,
   type CollaboratorEvent,
 } from './addon-collaborator.js';
+
+// ESO Addon Development Guide
+export {
+  COMMON_BUGS,
+  BEST_PRACTICES,
+  OPTIMIZATION_PATTERNS,
+  API_DEPRECATION_TIMELINE,
+  getBugsByCategory,
+  getBugsBySeverity,
+  getPracticesByCategory,
+  getApiChangesInRange,
+  findPotentialBugs,
+  getDocStats,
+  type CommonBug,
+  type BestPractice,
+  type OptimizationPattern,
+  type ApiChange,
+} from './eso-addon-guide.js';

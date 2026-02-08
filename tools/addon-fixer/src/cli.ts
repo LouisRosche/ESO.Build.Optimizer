@@ -54,6 +54,16 @@ import {
   getAddonDataAPI,
   getDataDependencyGraph,
 } from './addon-data-apis.js';
+import {
+  COMMON_BUGS,
+  BEST_PRACTICES,
+  OPTIMIZATION_PATTERNS,
+  API_DEPRECATION_TIMELINE,
+  getBugsByCategory,
+  getBugsBySeverity,
+  getPracticesByCategory,
+  getDocStats,
+} from './eso-addon-guide.js';
 import { CURRENT_LIVE_API, CURRENT_PTS_API } from './types.js';
 import type { FixerConfig, IssueSeverity } from './types.js';
 
@@ -1469,6 +1479,256 @@ program
     console.log('  Find by data type:    eso-addon-fixer synergy -t combat');
     console.log('  Show all synergies:   eso-addon-fixer synergy --synergies');
     console.log('  Show dependency graph: eso-addon-fixer synergy --graph\n');
+  });
+
+// ============================================================================
+// Guide Command (ESO Addon Development Guide)
+// ============================================================================
+
+program
+  .command('guide')
+  .description('ESO addon development guide - bugs, best practices, optimizations')
+  .option('-b, --bugs [category]', 'Show common bugs (memory, events, api, ui, savedvars, threading)')
+  .option('-p, --practices [category]', 'Show best practices (performance, maintainability, compatibility, ux, security)')
+  .option('-o, --optimizations', 'Show performance optimization patterns')
+  .option('-a, --api', 'Show API deprecation timeline')
+  .option('-s, --severity <level>', 'Filter bugs by severity (critical, major, minor)')
+  .option('--stats', 'Show documentation statistics')
+  .option('--json', 'Output as JSON')
+  .action((options: {
+    bugs?: boolean | string;
+    practices?: boolean | string;
+    optimizations?: boolean;
+    api?: boolean;
+    severity?: string;
+    stats?: boolean;
+    json?: boolean;
+  }) => {
+    // Show stats
+    if (options.stats) {
+      const stats = getDocStats();
+
+      if (options.json) {
+        console.log(JSON.stringify(stats, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' ESO Addon Development Guide - Statistics'));
+      console.log('='.repeat(60) + '\n');
+
+      console.log(`Total documented bugs: ${chalk.red(stats.totalBugs)} (${chalk.red(stats.criticalBugs)} critical)`);
+      console.log(`Best practices: ${chalk.green(stats.totalPractices)}`);
+      console.log(`Optimization patterns: ${chalk.cyan(stats.totalOptimizations)}`);
+      console.log(`API changes documented: ${chalk.yellow(stats.apiChanges)}`);
+      return;
+    }
+
+    // Show bugs
+    if (options.bugs !== undefined) {
+      let bugs = [...COMMON_BUGS];
+
+      if (typeof options.bugs === 'string') {
+        bugs = getBugsByCategory(options.bugs as 'memory' | 'events' | 'api' | 'ui' | 'savedvars' | 'threading');
+        if (bugs.length === 0) {
+          console.log(chalk.red(`Unknown category: ${options.bugs}`));
+          console.log(chalk.gray('Valid categories: memory, events, api, ui, savedvars, threading'));
+          return;
+        }
+      }
+
+      if (options.severity) {
+        bugs = getBugsBySeverity(options.severity as 'critical' | 'major' | 'minor');
+      }
+
+      if (options.json) {
+        console.log(JSON.stringify(bugs, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' Common ESO Addon Bugs'));
+      console.log('='.repeat(60) + '\n');
+
+      for (const bug of bugs) {
+        const severityColor = bug.severity === 'critical' ? chalk.red :
+          bug.severity === 'major' ? chalk.yellow : chalk.blue;
+
+        console.log(`${severityColor(`[${bug.severity.toUpperCase()}]`)} ${chalk.bold(bug.id)}: ${bug.title}`);
+        console.log(chalk.gray(`  Category: ${bug.category}`));
+        console.log(`  ${bug.description}\n`);
+        console.log(chalk.yellow('  Symptoms:'));
+        for (const symptom of bug.symptoms) {
+          console.log(`    - ${symptom}`);
+        }
+        console.log(chalk.red(`\n  Cause: ${bug.cause}`));
+        console.log(chalk.green(`  Fix: ${bug.fix}`));
+
+        if (bug.codeExample) {
+          console.log(chalk.bold('\n  Example:'));
+          console.log(chalk.red('  // Bad:'));
+          for (const line of bug.codeExample.bad.split('\n').slice(0, 5)) {
+            console.log(chalk.gray(`    ${line}`));
+          }
+          console.log(chalk.green('\n  // Good:'));
+          for (const line of bug.codeExample.good.split('\n').slice(0, 5)) {
+            console.log(chalk.gray(`    ${line}`));
+          }
+        }
+        console.log('\n' + '-'.repeat(60) + '\n');
+      }
+      return;
+    }
+
+    // Show best practices
+    if (options.practices !== undefined) {
+      let practices = [...BEST_PRACTICES];
+
+      if (typeof options.practices === 'string') {
+        practices = getPracticesByCategory(options.practices as 'performance' | 'maintainability' | 'compatibility' | 'ux' | 'security');
+        if (practices.length === 0) {
+          console.log(chalk.red(`Unknown category: ${options.practices}`));
+          console.log(chalk.gray('Valid categories: performance, maintainability, compatibility, ux, security'));
+          return;
+        }
+      }
+
+      if (options.json) {
+        console.log(JSON.stringify(practices, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' ESO Addon Best Practices'));
+      console.log('='.repeat(60) + '\n');
+
+      // Group by category
+      const byCategory = new Map<string, typeof practices>();
+      for (const p of practices) {
+        if (!byCategory.has(p.category)) {
+          byCategory.set(p.category, []);
+        }
+        byCategory.get(p.category)!.push(p);
+      }
+
+      for (const [category, catPractices] of byCategory) {
+        console.log(chalk.bold(`\n${category.toUpperCase()}:`));
+        console.log('-'.repeat(40));
+
+        for (const p of catPractices) {
+          console.log(`\n  ${chalk.cyan(p.id)}: ${chalk.bold(p.title)}`);
+          console.log(`  ${p.description}`);
+          console.log(chalk.gray(`  Why: ${p.rationale}`));
+          if (p.codeExample) {
+            console.log(chalk.green('\n  Example:'));
+            for (const line of p.codeExample.split('\n').slice(0, 6)) {
+              console.log(chalk.gray(`    ${line}`));
+            }
+          }
+        }
+      }
+      return;
+    }
+
+    // Show optimizations
+    if (options.optimizations) {
+      if (options.json) {
+        console.log(JSON.stringify(OPTIMIZATION_PATTERNS, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' Performance Optimization Patterns'));
+      console.log('='.repeat(60) + '\n');
+
+      for (const opt of OPTIMIZATION_PATTERNS) {
+        const impactColor = opt.impact === 'high' ? chalk.red :
+          opt.impact === 'medium' ? chalk.yellow : chalk.blue;
+
+        console.log(`${impactColor(`[${opt.impact.toUpperCase()} IMPACT]`)} ${chalk.bold(opt.id)}: ${opt.title}`);
+        console.log(`  ${opt.description}\n`);
+
+        console.log(chalk.red('  Before:'));
+        for (const line of opt.before.split('\n').slice(0, 4)) {
+          console.log(chalk.gray(`    ${line}`));
+        }
+
+        console.log(chalk.green('\n  After:'));
+        for (const line of opt.after.split('\n').slice(0, 6)) {
+          console.log(chalk.gray(`    ${line}`));
+        }
+
+        console.log(chalk.cyan(`\n  Explanation: ${opt.explanation}`));
+        console.log('\n' + '-'.repeat(60) + '\n');
+      }
+      return;
+    }
+
+    // Show API timeline
+    if (options.api) {
+      if (options.json) {
+        console.log(JSON.stringify(API_DEPRECATION_TIMELINE, null, 2));
+        return;
+      }
+
+      console.log(chalk.bold('\n' + '='.repeat(60)));
+      console.log(chalk.bold(' API Deprecation Timeline'));
+      console.log('='.repeat(60) + '\n');
+
+      for (const version of API_DEPRECATION_TIMELINE) {
+        console.log(chalk.bold(`\nAPI ${version.apiVersion} - ${version.update} (${version.date})`));
+        console.log('-'.repeat(50));
+
+        for (const change of version.changes) {
+          const typeColor = change.type === 'removed' ? chalk.red :
+            change.type === 'deprecated' ? chalk.yellow :
+            change.type === 'renamed' ? chalk.cyan : chalk.blue;
+
+          console.log(`  ${typeColor(`[${change.type.toUpperCase()}]`)} ${change.item}`);
+          if (change.replacement) {
+            console.log(chalk.green(`    → ${change.replacement}`));
+          }
+          if (change.notes) {
+            console.log(chalk.gray(`    Note: ${change.notes}`));
+          }
+        }
+      }
+      return;
+    }
+
+    // Default: show overview
+    const stats = getDocStats();
+
+    console.log(chalk.bold('\n' + '='.repeat(60)));
+    console.log(chalk.bold(' ESO Addon Development Guide'));
+    console.log('='.repeat(60) + '\n');
+
+    console.log('A comprehensive guide to ESO addon development best practices,');
+    console.log('common bugs and their solutions, and performance optimizations.\n');
+
+    console.log(`Documented: ${chalk.red(stats.totalBugs + ' bugs')} | ` +
+      `${chalk.green(stats.totalPractices + ' practices')} | ` +
+      `${chalk.cyan(stats.totalOptimizations + ' optimizations')} | ` +
+      `${chalk.yellow(stats.apiChanges + ' API changes')}\n`);
+
+    console.log(chalk.bold('Quick Reference:'));
+    console.log('-'.repeat(40));
+    console.log('  Show all bugs:        eso-addon-fixer guide --bugs');
+    console.log('  Memory bugs only:     eso-addon-fixer guide --bugs memory');
+    console.log('  Critical bugs:        eso-addon-fixer guide --bugs --severity critical');
+    console.log('  Best practices:       eso-addon-fixer guide --practices');
+    console.log('  Performance tips:     eso-addon-fixer guide --practices performance');
+    console.log('  Optimizations:        eso-addon-fixer guide --optimizations');
+    console.log('  API timeline:         eso-addon-fixer guide --api');
+    console.log('  Statistics:           eso-addon-fixer guide --stats\n');
+
+    console.log(chalk.bold('Bug Categories:'));
+    console.log(`  ${chalk.red('memory')}     - Memory leaks, unbounded growth, GC issues`);
+    console.log(`  ${chalk.yellow('events')}    - Event handling, filtering, registration`);
+    console.log(`  ${chalk.blue('api')}        - Deprecated functions, API changes`);
+    console.log(`  ${chalk.cyan('ui')}         - UI creation, handlers, fonts`);
+    console.log(`  ${chalk.green('savedvars')} - SavedVariables persistence issues`);
+    console.log(`  ${chalk.magenta('threading')} - Async operations, blocking\n`);
   });
 
 // ============================================================================
