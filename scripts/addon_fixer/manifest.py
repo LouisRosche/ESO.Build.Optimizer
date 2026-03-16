@@ -49,7 +49,7 @@ class ManifestParser:
     # Regex patterns for manifest directives
     DIRECTIVE_PATTERN = re.compile(r"^##\s*(\w+):\s*(.*)$")
     FILE_PATTERN = re.compile(r"^([^#\s].*\.(lua|xml))$", re.IGNORECASE)
-    DEPENDENCY_PATTERN = re.compile(r"(\w[\w-]*(?:>=\d+)?)")
+    DEPENDENCY_PATTERN = re.compile(r"(\w[\w.\-]*(?:>=\d+)?)")
 
     def __init__(self, manifest_path: Path):
         """Initialize parser with manifest file path."""
