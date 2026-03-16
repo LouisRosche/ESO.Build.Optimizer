@@ -146,14 +146,16 @@ function PriceEngine:GetTTCPrice(itemIdOrLink)
 
     local price = nil
 
-    -- Try TamrielTradeCentre:GetPriceInfo
+    -- Try TamrielTradeCentrePrice:GetPriceInfo
     local success, result = pcall(function()
-        return TamrielTradeCentre:GetPriceInfo(itemLink)
+        return TamrielTradeCentrePrice:GetPriceInfo(itemLink)
     end)
 
     if success and result then
-        -- TTC returns { Avg, Min, Max, SuggestedPrice, AmountCount }
-        price = result.SuggestedPrice or result.Avg
+        -- TTC returns { Avg, Min, Max, EntryCount, AmountCount, SuggestedPrice,
+        --               SaleAvg, SaleEntryCount, SaleAmountCount }
+        -- Prefer SaleAvg (actual sales) over Avg (listing averages) when available
+        price = result.SaleAvg or result.SuggestedPrice or result.Avg
     end
 
     -- Cache result
@@ -176,7 +178,7 @@ function PriceEngine:GetTTCListingCount(itemIdOrLink)
     local count = 0
 
     local success, result = pcall(function()
-        return TamrielTradeCentre:GetPriceInfo(itemLink)
+        return TamrielTradeCentrePrice:GetPriceInfo(itemLink)
     end)
 
     if success and result then

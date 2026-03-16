@@ -263,7 +263,7 @@ end
 
 -- Check for TTC availability
 function FPT:HasTTC()
-    return TamrielTradeCentre ~= nil
+    return TamrielTradeCentrePrice ~= nil
 end
 
 -- Get current day of week (0=Sunday through 6=Saturday)
