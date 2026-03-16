@@ -188,16 +188,22 @@ class CMXParser:
                 for char_name, fights in characters.items():
                     fight_list = self._normalize_fight_list(fights)
                     for fight in fight_list:
-                        run = self._convert_fight(fight, char_name, account_name)
-                        if run is not None:
-                            results.append(run)
+                        try:
+                            run = self._convert_fight(fight, char_name, account_name)
+                            if run is not None:
+                                results.append(run)
+                        except Exception as e:
+                            logger.warning(f"Failed to parse CMX fight: {e}")
 
         # Also extract lastfight if present and not already captured
         lastfight = cmx_data.get("lastfight", {})
         if isinstance(lastfight, dict) and lastfight:
-            run = self._convert_fight(lastfight)
-            if run is not None:
-                results.append(run)
+            try:
+                run = self._convert_fight(lastfight)
+                if run is not None:
+                    results.append(run)
+            except Exception as e:
+                logger.warning(f"Failed to parse CMX fight: {e}")
 
         logger.info(
             "Extracted %d new CMX fight(s) from CombatMetrics.lua", len(results)

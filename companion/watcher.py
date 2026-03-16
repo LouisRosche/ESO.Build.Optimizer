@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import os
 import platform
@@ -33,6 +34,7 @@ import re
 import sys
 import threading
 import time
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -677,7 +679,7 @@ class SavedVariablesWatcher:
         # State tracking
         self._last_file_hash: Optional[str] = None
         self._last_cmx_hash: Optional[str] = None
-        self._last_combat_runs: set[str] = set()
+        self._last_combat_runs: OrderedDict[str, float] = OrderedDict()  # run_id -> timestamp
         self._last_build_hash: Optional[str] = None
         self._observer: Optional[Observer] = None
         self._running = False
@@ -882,15 +884,11 @@ class SavedVariablesWatcher:
             if not run_id or run_id in self._last_combat_runs:
                 continue
 
-            self._last_combat_runs.add(run_id)
+            self._last_combat_runs[run_id] = time.time()
 
-            # Prevent unbounded memory growth by limiting cache size
-            if len(self._last_combat_runs) > MAX_CACHED_RUNS:
-                # Convert to list, sort would require timestamps - just keep arbitrary subset
-                # Since run_ids are UUIDs/timestamps, we keep the set but trim it
-                excess = len(self._last_combat_runs) - MAX_CACHED_RUNS
-                runs_list = list(self._last_combat_runs)
-                self._last_combat_runs = set(runs_list[excess:])
+            # Prevent unbounded memory growth by evicting oldest entries
+            while len(self._last_combat_runs) > MAX_CACHED_RUNS:
+                self._last_combat_runs.popitem(last=False)  # Remove oldest (FIFO)
 
             try:
                 combat_run = self._create_combat_run(run_data)
@@ -918,7 +916,7 @@ class SavedVariablesWatcher:
             return
 
         # Check if build changed
-        build_hash = hashlib.sha256(str(current_build).encode()).hexdigest()
+        build_hash = hashlib.sha256(json.dumps(current_build, sort_keys=True).encode()).hexdigest()
         if build_hash == self._last_build_hash:
             return
 
@@ -1081,7 +1079,7 @@ class SavedVariablesWatcher:
 
     def get_known_run_ids(self) -> set[str]:
         """Get the set of known combat run IDs."""
-        return self._last_combat_runs.copy()
+        return set(self._last_combat_runs.keys())
 
     def clear_run_cache(self) -> None:
         """Clear the cache of known run IDs."""

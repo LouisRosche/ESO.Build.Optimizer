@@ -1227,7 +1227,7 @@ class RecommendationEngine:
 
             # Only recommend if significantly different
             if top_class != current_class or top_subclass != current_subclass:
-                class_usage = class_counts.get(top_class, 0) / len(top_performers)
+                class_usage = class_counts.get(top_class, 0) / len(top_performers) if top_performers else 0.0
 
                 if class_usage > TOP_PERFORMER_CLASS_USAGE_THRESHOLD:  # Minimum % of top performers
                     improvement_str, confidence = self.estimate_improvement(
