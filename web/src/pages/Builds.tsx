@@ -1,26 +1,33 @@
 import { useState, useMemo, useCallback } from 'react';
-import { ArrowLeftRight, TrendingUp, AlertCircle, Search } from 'lucide-react';
+import { ArrowLeftRight, TrendingUp, AlertCircle, Search, Loader2 } from 'lucide-react';
 import clsx from 'clsx';
 import GearSetCard from '../components/GearSetCard';
+import { useGearSets, useCharacters } from '../hooks/useApi';
 import { mockGearSets, mockCharacters, formatDPS } from '../data/mockData';
 import type { GearSet, Character } from '../types';
 
-// TODO: Replace mock data with API hooks when backend is connected
-// Use: import { useGearSets, useCharacters } from '../api/hooks';
-// Example: const { data: gearSets, isLoading } = useGearSets({ search: searchQuery });
-// Example: const { data: characters } = useCharacters();
-
 export default function Builds() {
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    mockCharacters[0]
-  );
+  const { data: apiGearSets, isLoading: setsLoading } = useGearSets();
+  const { data: apiCharacters, isLoading: charsLoading } = useCharacters();
+
+  // Fall back to mock data when API is unreachable
+  const gearSets = apiGearSets ?? mockGearSets;
+  const characters = apiCharacters ?? mockCharacters;
+
+  const isLoading = setsLoading && charsLoading;
+  const usingMockData = !apiGearSets && !setsLoading;
+
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
   const [selectedSets, setSelectedSets] = useState<GearSet[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredSets = useMemo(() => mockGearSets.filter((set) =>
+  // Auto-select first character when data loads
+  const activeCharacter = selectedCharacter ?? characters[0] ?? null;
+
+  const filteredSets = useMemo(() => gearSets.filter((set) =>
     set.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     set.set_type.toLowerCase().includes(searchQuery.toLowerCase())
-  ), [searchQuery]);
+  ), [searchQuery, gearSets]);
 
   // Memoized toggle function to prevent unnecessary re-renders in child components
   const toggleSetSelection = useCallback((set: GearSet) => {
@@ -35,7 +42,7 @@ export default function Builds() {
 
   // Calculate expected DPS difference
   const calculateExpectedDPS = () => {
-    if (!selectedCharacter || selectedSets.length === 0) return null;
+    if (!activeCharacter || selectedSets.length === 0) return null;
 
     // Mock calculation based on set tiers
     const tierMultipliers: Record<string, number> = { S: 1.12, A: 1.08, B: 1.04, C: 1.0, F: 0.95 };
@@ -48,7 +55,7 @@ export default function Builds() {
 
     const currentMultiplier = tierMultipliers[currentAvgTier] ?? 1.0;
     const newMultiplier = tierMultipliers[newAvgTier] ?? 1.0;
-    const baseDPS = selectedCharacter.average_dps;
+    const baseDPS = activeCharacter.average_dps;
     const expectedDPS = Math.round((baseDPS / currentMultiplier) * newMultiplier);
     const difference = expectedDPS - baseDPS;
     const percentChange = ((difference / baseDPS) * 100).toFixed(1);
@@ -64,6 +71,17 @@ export default function Builds() {
 
   const dpsCalculation = calculateExpectedDPS();
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-eso-gold-400 animate-spin" />
+          <p className="text-gray-400">Loading builds...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -72,6 +90,12 @@ export default function Builds() {
         <p className="text-gray-500 mt-1">
           Compare your build against top performers and optimize gear selection.
         </p>
+        {usingMockData && (
+          <div className="flex items-center gap-2 mt-2 text-sm text-eso-gold-400">
+            <AlertCircle className="w-4 h-4" />
+            <span>API unavailable - showing sample data</span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -79,46 +103,52 @@ export default function Builds() {
         <div className="space-y-6">
           <div className="card">
             <h2 className="text-lg font-semibold text-gray-100 mb-4">Select Character</h2>
-            <div className="space-y-2">
-              {mockCharacters.map((char) => (
-                <button
-                  key={char.id}
-                  onClick={() => setSelectedCharacter(char)}
-                  className={clsx(
-                    'w-full text-left p-3 rounded-lg transition-colors',
-                    selectedCharacter?.id === char.id
-                      ? 'bg-eso-gold-500/10 border border-eso-gold-500/30'
-                      : 'bg-eso-dark-800 hover:bg-eso-dark-700'
-                  )}
-                >
-                  <p className="font-medium text-gray-100">{char.name}</p>
-                  <p className="text-sm text-gray-500">
-                    {char.class} - {formatDPS(char.average_dps)} avg DPS
-                  </p>
-                </button>
-              ))}
-            </div>
+            {charsLoading ? (
+              <div className="flex justify-center py-4">
+                <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {characters.map((char) => (
+                  <button
+                    key={char.id}
+                    onClick={() => setSelectedCharacter(char)}
+                    className={clsx(
+                      'w-full text-left p-3 rounded-lg transition-colors',
+                      activeCharacter?.id === char.id
+                        ? 'bg-eso-gold-500/10 border border-eso-gold-500/30'
+                        : 'bg-eso-dark-800 hover:bg-eso-dark-700'
+                    )}
+                  >
+                    <p className="font-medium text-gray-100">{char.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {char.class} - {formatDPS(char.average_dps)} avg DPS
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {selectedCharacter && (
+          {activeCharacter && (
             <div className="card">
               <h2 className="text-lg font-semibold text-gray-100 mb-4">Current Build</h2>
               <div className="space-y-3">
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Class</p>
                   <p className="text-gray-100">
-                    {selectedCharacter.class}
-                    {selectedCharacter.subclass && ` / ${selectedCharacter.subclass}`}
+                    {activeCharacter.class}
+                    {activeCharacter.subclass && ` / ${activeCharacter.subclass}`}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Race</p>
-                  <p className="text-gray-100">{selectedCharacter.race}</p>
+                  <p className="text-gray-100">{activeCharacter.race}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Current Sets</p>
                   <div className="flex flex-wrap gap-1">
-                    {selectedCharacter.current_sets.map((set) => (
+                    {activeCharacter.current_sets.map((set) => (
                       <span
                         key={set}
                         className="text-xs px-2 py-1 bg-eso-dark-800 rounded text-gray-300"
@@ -132,13 +162,13 @@ export default function Builds() {
                   <div className="flex justify-between">
                     <span className="text-gray-500">Average DPS</span>
                     <span className="font-medium text-gray-100">
-                      {formatDPS(selectedCharacter.average_dps)}
+                      {formatDPS(activeCharacter.average_dps)}
                     </span>
                   </div>
                   <div className="flex justify-between mt-1">
                     <span className="text-gray-500">Best DPS</span>
                     <span className="font-medium text-eso-gold-400">
-                      {formatDPS(selectedCharacter.best_dps)}
+                      {formatDPS(activeCharacter.best_dps)}
                     </span>
                   </div>
                 </div>
@@ -260,17 +290,23 @@ export default function Builds() {
                 className="input pl-10"
               />
             </div>
-            <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
-              {filteredSets.map((set) => (
-                <GearSetCard
-                  key={set.set_id}
-                  set={set}
-                  onClick={() => toggleSetSelection(set)}
-                  isSelected={selectedSets.some((s) => s.set_id === set.set_id)}
-                  showBonuses={false}
-                />
-              ))}
-            </div>
+            {setsLoading ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+                {filteredSets.map((set) => (
+                  <GearSetCard
+                    key={set.set_id}
+                    set={set}
+                    onClick={() => toggleSetSelection(set)}
+                    isSelected={selectedSets.some((s) => s.set_id === set.set_id)}
+                    showBonuses={false}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -4,12 +4,12 @@ Constants for ESO Addon Fixer.
 Contains API versions, library mappings, and other fixed values.
 """
 
-# Current ESO API versions (February 2026)
-CURRENT_API_VERSION = 101048  # Update 48 - Live
-PTS_API_VERSION = 101049  # Update 49 - PTS
+# Current ESO API versions (March 2026)
+CURRENT_API_VERSION = 101049  # Update 49 - Live
+PTS_API_VERSION = 101050  # Update 50 - PTS
 
-# Dual version string for manifests (supports both Live and PTS)
-DUAL_API_VERSION = "101047 101048"
+# Dual version string for manifests (supports both previous and current Live)
+DUAL_API_VERSION = "101048 101049"
 
 # Minimum supported API version for fixes
 MIN_SUPPORTED_API = 100015  # Update 10 (Champion Points migration)
