@@ -8,7 +8,7 @@ from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import Field
+from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -134,6 +134,8 @@ async def login(
     user = result.scalar_one_or_none()
 
     if not user:
+        # Constant-time: always run bcrypt to prevent timing attacks
+        verify_password(credentials.password, "$2b$12$LJ3m4ys3Lez3RkBOajAqWu")  # dummy hash
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",
@@ -271,25 +273,38 @@ async def change_password(
 # Account Deletion
 # =============================================================================
 
+class DeleteAccountRequest(BaseModel):
+    """Schema for account deletion request requiring password confirmation."""
+    password: str = Field(..., min_length=1)
+
+
 @router.delete(
     "/me",
     status_code=status.HTTP_204_NO_CONTENT,
     responses={
         204: {"description": "Account deleted successfully"},
         401: {"description": "Not authenticated", "model": ErrorResponse},
+        403: {"description": "Incorrect password", "model": ErrorResponse},
     },
     summary="Delete account",
-    description="Permanently delete the current user's account and all associated data.",
+    description="Permanently delete the current user's account and all associated data. Requires password confirmation.",
 )
 async def delete_account(
+    body: DeleteAccountRequest,
     current_user: CurrentUser,
     db: Annotated[AsyncSession, Depends(get_db)],
 ) -> None:
     """
     Delete the current user's account.
 
-    This action is irreversible and will delete all associated data
-    including combat runs and recommendations.
+    Requires password confirmation. This action is irreversible and will
+    delete all associated data including combat runs and recommendations.
     """
+    if not verify_password(body.password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Incorrect password",
+        )
+
     await db.delete(current_user)
     await db.commit()
