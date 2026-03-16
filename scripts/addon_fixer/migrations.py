@@ -41,6 +41,16 @@ class Migration:
 
 
 @dataclass
+class EventMigration:
+    """Event constant migration entry."""
+    old_name: str
+    removed: bool
+    version_changed: int
+    new_name: Optional[str] = None
+    notes: str = ""
+
+
+@dataclass
 class LibraryMigration:
     """Library access pattern migration."""
     old_pattern: str
@@ -56,12 +66,14 @@ class MigrationDatabase:
     def __init__(self):
         """Initialize the migration database."""
         self.function_migrations: dict[str, Migration] = {}
+        self.event_migrations: dict[str, EventMigration] = {}
         self.library_migrations: dict[str, LibraryMigration] = {}
         self._load_migrations()
 
     def _load_migrations(self) -> None:
         """Load all migration data."""
         self._load_function_migrations()
+        self._load_event_migrations()
         self._load_library_migrations()
 
     def _load_function_migrations(self) -> None:
@@ -483,6 +495,84 @@ class MigrationDatabase:
         for migration in all_migrations:
             self.function_migrations[migration.old_name] = migration
 
+    def _load_event_migrations(self) -> None:
+        """Load event constant migration mappings."""
+        # Veteran system events (Update 10 / API 100015)
+        veteran_event_migrations = [
+            EventMigration(
+                old_name="EVENT_VETERAN_RANK_UPDATE",
+                removed=True,
+                version_changed=100015,
+                notes="Veteran system removed. Use EVENT_CHAMPION_POINT_UPDATE instead.",
+            ),
+            EventMigration(
+                old_name="EVENT_VETERAN_POINTS_UPDATE",
+                removed=True,
+                version_changed=100015,
+                notes="Veteran system removed.",
+            ),
+        ]
+
+        # Endeavors events removed (Update 49 / API 101049)
+        endeavor_event_migrations = [
+            EventMigration(
+                old_name="EVENT_ENDEAVOR_PROGRESS_UPDATE",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_ENDEAVOR_COMPLETED",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_ENDEAVORS_RESET",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+        ]
+
+        # Daily Login Rewards events removed (Update 49 / API 101049)
+        daily_login_event_migrations = [
+            EventMigration(
+                old_name="EVENT_DAILY_LOGIN_REWARDS_UPDATED",
+                removed=True,
+                version_changed=101049,
+                notes="Daily Login Rewards system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_DAILY_LOGIN_REWARDS_CLAIMED",
+                removed=True,
+                version_changed=101049,
+                notes="Daily Login Rewards system removed in Update 49.",
+            ),
+        ]
+
+        # Outfit events changed (Update 49 / API 101049)
+        outfit_event_migrations = [
+            EventMigration(
+                old_name="EVENT_OUTFIT_CHANGE_RESPONSE",
+                removed=False,
+                version_changed=101049,
+                new_name="EVENT_OUTFIT_CHANGE_RESPONSE",
+                notes="Outfit events now account-wide in U49. Character parameter removed from callback.",
+            ),
+        ]
+
+        # Compile all event migrations
+        all_event_migrations = (
+            veteran_event_migrations +
+            endeavor_event_migrations +
+            daily_login_event_migrations +
+            outfit_event_migrations
+        )
+
+        for migration in all_event_migrations:
+            self.event_migrations[migration.old_name] = migration
+
     def _load_library_migrations(self) -> None:
         """Load library access pattern migrations."""
         # LibStub patterns that need replacement
@@ -577,6 +667,21 @@ class MigrationDatabase:
         return [
             m for m in self.function_migrations.values()
             if m.version_deprecated == api_version or m.version_removed == api_version
+        ]
+
+    def get_event_migration(self, event_name: str) -> Optional[EventMigration]:
+        """Look up migration for an event constant."""
+        return self.event_migrations.get(event_name)
+
+    def get_all_deprecated_events(self) -> list[str]:
+        """Get list of all deprecated event constant names."""
+        return list(self.event_migrations.keys())
+
+    def get_event_migrations_by_version(self, api_version: int) -> list[EventMigration]:
+        """Get event migrations that became relevant at a specific API version."""
+        return [
+            m for m in self.event_migrations.values()
+            if m.version_changed == api_version
         ]
 
     def export_to_json(self, output_path: Path) -> None:
