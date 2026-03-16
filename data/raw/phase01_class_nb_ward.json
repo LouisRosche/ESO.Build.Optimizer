@@ -5,7 +5,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Assassin's Blade",
     "feature_type": "Active",
     "description": "Thrust a blade at an enemy, dealing Magic Damage. Deals up to 300% more damage to enemies below 25% Health.",
     "unlock_requirements": "Assassination Rank 1",
@@ -13,7 +12,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "5m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Assassin's Blade"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_002",
@@ -21,7 +21,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Killer's Blade",
     "feature_type": "Active",
     "description": "Thrust a blade at an enemy, dealing Magic Damage. Deals up to 300% more damage to enemies below 25% Health. Heals you if the enemy dies within 2 seconds.",
     "unlock_requirements": "Assassin's Blade Rank IV",
@@ -29,7 +28,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "5m",
-    "morph_of": "Assassin's Blade"
+    "morph_of": "Assassin's Blade",
+    "name": "Killer's Blade"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_003",
@@ -37,7 +37,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Impale",
     "feature_type": "Active",
     "description": "Thrust a blade at an enemy, dealing Magic Damage. Deals up to 300% more damage to enemies below 25% Health. Increased range.",
     "unlock_requirements": "Assassin's Blade Rank IV",
@@ -45,7 +44,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Assassin's Blade"
+    "morph_of": "Assassin's Blade",
+    "name": "Impale"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_004",
@@ -53,7 +53,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Teleport Strike",
     "feature_type": "Active",
     "description": "Flash through the shadows to appear at an enemy's location and strike them, dealing Magic Damage and stunning them for 1 second.",
     "unlock_requirements": "Assassination Rank 4",
@@ -61,7 +60,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "22m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Teleport Strike"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_005",
@@ -69,7 +69,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Lotus Fan",
     "feature_type": "Active",
     "description": "Flash through the shadows and deal Magic Damage to the target and nearby enemies. Afflicts enemies with Minor Vulnerability, increasing damage taken by 5% for 10 seconds.",
     "unlock_requirements": "Teleport Strike Rank IV",
@@ -77,7 +76,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "22m",
-    "morph_of": "Teleport Strike"
+    "morph_of": "Teleport Strike",
+    "name": "Lotus Fan"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_006",
@@ -85,7 +85,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Ambush",
     "feature_type": "Active",
     "description": "Flash through the shadows to appear at an enemy's location and strike them, dealing Magic Damage. Grants Empower, increasing damage of your next Heavy Attack by 80%.",
     "unlock_requirements": "Teleport Strike Rank IV",
@@ -93,7 +92,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "22m",
-    "morph_of": "Teleport Strike"
+    "morph_of": "Teleport Strike",
+    "name": "Ambush"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_007",
@@ -101,7 +101,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Blur",
     "feature_type": "Active",
     "description": "Surround yourself in a phantasmic aura, granting Major Evasion for 26 seconds, reducing damage from area attacks by 20%.",
     "unlock_requirements": "Assassination Rank 14",
@@ -109,7 +108,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Blur"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_008",
@@ -117,7 +117,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Mirage",
     "feature_type": "Active",
     "description": "Surround yourself in a phantasmic aura, granting Major Evasion and Minor Resolve for 26 seconds, reducing damage from area attacks by 20% and increasing Physical and Spell Resistance.",
     "unlock_requirements": "Blur Rank IV",
@@ -125,7 +124,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Blur"
+    "morph_of": "Blur",
+    "name": "Mirage"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_009",
@@ -133,7 +133,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Double Take",
     "feature_type": "Active",
     "description": "Surround yourself in a phantasmic aura, granting Major Evasion and Major Expedition for 26 seconds, reducing damage from area attacks by 20% and increasing movement speed by 30%.",
     "unlock_requirements": "Blur Rank IV",
@@ -141,7 +140,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Blur"
+    "morph_of": "Blur",
+    "name": "Double Take"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_010",
@@ -149,7 +149,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Mark Target",
     "feature_type": "Active",
     "description": "Mark an enemy, exposing them to attacks for 30 seconds. Marked enemy takes 10% increased damage from you. You heal when the marked enemy dies.",
     "unlock_requirements": "Assassination Rank 20",
@@ -157,7 +156,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Mark Target"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_011",
@@ -165,7 +165,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Piercing Mark",
     "feature_type": "Active",
     "description": "Mark an enemy, exposing them to attacks for 30 seconds. Marked enemy takes 10% increased damage from you. Prevents the enemy from going invisible and heals you when they die.",
     "unlock_requirements": "Mark Target Rank IV",
@@ -173,7 +172,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Mark Target"
+    "morph_of": "Mark Target",
+    "name": "Piercing Mark"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_012",
@@ -181,7 +181,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Reaper's Mark",
     "feature_type": "Active",
     "description": "Mark an enemy, exposing them to attacks for 30 seconds. Marked enemy takes 10% increased damage from you. Grants Major Berserk when the marked enemy dies, increasing damage done by 10%.",
     "unlock_requirements": "Mark Target Rank IV",
@@ -189,7 +188,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Mark Target"
+    "morph_of": "Mark Target",
+    "name": "Reaper's Mark"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_013",
@@ -197,7 +197,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Grim Focus",
     "feature_type": "Active",
     "description": "Gain Minor Berserk for 20 seconds, increasing damage done by 5%. While active, hitting with 5 Light or Heavy Attacks converts this ability to Spectral Bow.",
     "unlock_requirements": "Assassination Rank 30",
@@ -205,7 +204,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Grim Focus"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_014",
@@ -213,7 +213,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Merciless Resolve",
     "feature_type": "Active",
     "description": "Gain Minor Berserk for 20 seconds. While active, hitting with 5 Light or Heavy Attacks converts this to Assassin's Will, dealing increased damage and restoring Magicka.",
     "unlock_requirements": "Grim Focus Rank IV",
@@ -221,7 +220,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Grim Focus"
+    "morph_of": "Grim Focus",
+    "name": "Merciless Resolve"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_015",
@@ -229,7 +229,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Relentless Focus",
     "feature_type": "Active",
     "description": "Gain Minor Berserk and Minor Endurance for 20 seconds. While active, hitting with 5 Light or Heavy Attacks converts this to Assassin's Scourge, which heals you on hit.",
     "unlock_requirements": "Grim Focus Rank IV",
@@ -237,7 +236,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Grim Focus"
+    "morph_of": "Grim Focus",
+    "name": "Relentless Focus"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_016",
@@ -245,7 +245,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Death Stroke",
     "feature_type": "Ultimate",
     "description": "Ravage an enemy with a swift strike, dealing Magic Damage and afflicting them with Trauma for 6 seconds, reducing their healing received by 30%.",
     "unlock_requirements": "Assassination Rank 12",
@@ -253,7 +252,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "7m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Death Stroke"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_017",
@@ -261,7 +261,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Incapacitating Strike",
     "feature_type": "Ultimate",
     "description": "Ravage an enemy with a swift strike, dealing Magic Damage and applying Trauma for 6 seconds. Stuns the target for 3 seconds if they are below 25% Health. Reduced cost.",
     "unlock_requirements": "Death Stroke Rank IV",
@@ -269,7 +268,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "7m",
-    "morph_of": "Death Stroke"
+    "morph_of": "Death Stroke",
+    "name": "Incapacitating Strike"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_018",
@@ -277,7 +277,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Soul Harvest",
     "feature_type": "Ultimate",
     "description": "Ravage an enemy with a swift strike, dealing Magic Damage and applying Trauma for 6 seconds. Grants 10 Ultimate when you kill an enemy while slotted.",
     "unlock_requirements": "Death Stroke Rank IV",
@@ -285,7 +284,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "7m",
-    "morph_of": "Death Stroke"
+    "morph_of": "Death Stroke",
+    "name": "Soul Harvest"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_019",
@@ -293,7 +293,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Master Assassin",
     "feature_type": "Passive",
     "description": "Increases Weapon and Spell Damage while invisible or in stealth. Increases duration of stuns against enemies by 20%.",
     "unlock_requirements": "Assassination Rank 8",
@@ -301,7 +300,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Master Assassin"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_020",
@@ -309,7 +309,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Executioner",
     "feature_type": "Passive",
     "description": "Restores Magicka and Stamina when you kill an enemy with an Assassination ability.",
     "unlock_requirements": "Assassination Rank 14",
@@ -317,7 +316,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Executioner"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_021",
@@ -325,7 +325,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Pressure Points",
     "feature_type": "Passive",
     "description": "Increases Critical Strike Chance for each Assassination ability slotted.",
     "unlock_requirements": "Assassination Rank 22",
@@ -333,7 +332,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Pressure Points"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_ASSN_022",
@@ -341,7 +341,6 @@
     "category": "Class",
     "subcategory": "Assassination",
     "class_restriction": "Nightblade",
-    "feature_name": "Hemorrhage",
     "feature_type": "Passive",
     "description": "Increases Critical Damage done for each Assassination ability slotted.",
     "unlock_requirements": "Assassination Rank 39",
@@ -349,7 +348,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Hemorrhage"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_001",
@@ -357,7 +357,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Shadow Cloak",
     "feature_type": "Active",
     "description": "Cloak yourself in shadow, becoming invisible for 3 seconds. Breaks on taking damage or using an ability.",
     "unlock_requirements": "Shadow Rank 1",
@@ -365,7 +364,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Shadow Cloak"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_002",
@@ -373,7 +373,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Shadowy Disguise",
     "feature_type": "Active",
     "description": "Cloak yourself in shadow, becoming invisible for 3 seconds. Your next direct damage attack made from stealth is a guaranteed Critical Strike.",
     "unlock_requirements": "Shadow Cloak Rank IV",
@@ -381,7 +380,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Shadow Cloak"
+    "morph_of": "Shadow Cloak",
+    "name": "Shadowy Disguise"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_003",
@@ -389,7 +389,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Dark Cloak",
     "feature_type": "Active",
     "description": "Cloak yourself in shadow for 3 seconds. While cloaked, heal yourself and remove up to 3 negative effects.",
     "unlock_requirements": "Shadow Cloak Rank IV",
@@ -397,7 +396,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Shadow Cloak"
+    "morph_of": "Shadow Cloak",
+    "name": "Dark Cloak"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_004",
@@ -405,7 +405,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Veiled Strike",
     "feature_type": "Active",
     "description": "Thrust a blade through the shadows at an enemy, dealing Magic Damage and setting them Off Balance. Stuns for 4 seconds if used from stealth or invisibility.",
     "unlock_requirements": "Shadow Rank 4",
@@ -413,7 +412,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "5m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Veiled Strike"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_005",
@@ -421,7 +421,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Concealed Weapon",
     "feature_type": "Active",
     "description": "Thrust a blade through the shadows at an enemy, dealing Magic Damage and setting them Off Balance. Increases movement speed while invisible. Deals increased damage from stealth.",
     "unlock_requirements": "Veiled Strike Rank IV",
@@ -429,7 +428,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "5m",
-    "morph_of": "Veiled Strike"
+    "morph_of": "Veiled Strike",
+    "name": "Concealed Weapon"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_006",
@@ -437,7 +437,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Surprise Attack",
     "feature_type": "Active",
     "description": "Thrust a blade through the shadows at an enemy, dealing Physical Damage and setting them Off Balance. Applies Major Breach, reducing armor. Stuns from stealth.",
     "unlock_requirements": "Veiled Strike Rank IV",
@@ -445,7 +444,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "5m",
-    "morph_of": "Veiled Strike"
+    "morph_of": "Veiled Strike",
+    "name": "Surprise Attack"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_007",
@@ -453,7 +453,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Path of Darkness",
     "feature_type": "Active",
     "description": "Create a corridor of shadows for 10 seconds. You and allies walking on the path gain Major Expedition, increasing movement speed by 30%.",
     "unlock_requirements": "Shadow Rank 14",
@@ -461,7 +460,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "15m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Path of Darkness"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_008",
@@ -469,7 +469,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Twisting Path",
     "feature_type": "Active",
     "description": "Create a corridor of shadows for 10 seconds. You and allies walking on the path gain Major Expedition. The path also deals Magic Damage over time to enemies.",
     "unlock_requirements": "Path of Darkness Rank IV",
@@ -477,7 +476,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "15m",
-    "morph_of": "Path of Darkness"
+    "morph_of": "Path of Darkness",
+    "name": "Twisting Path"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_009",
@@ -485,7 +485,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Refreshing Path",
     "feature_type": "Active",
     "description": "Create a corridor of shadows for 10 seconds. You and allies walking on the path gain Major Expedition and are healed over time while on the path.",
     "unlock_requirements": "Path of Darkness Rank IV",
@@ -493,7 +492,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "15m",
-    "morph_of": "Path of Darkness"
+    "morph_of": "Path of Darkness",
+    "name": "Refreshing Path"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_010",
@@ -501,7 +501,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Aspect of Terror",
     "feature_type": "Active",
     "description": "Unleash a dark specter to terrify up to 2 nearby enemies, causing them to cower in fear for 4 seconds.",
     "unlock_requirements": "Shadow Rank 20",
@@ -509,7 +508,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "6m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Aspect of Terror"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_011",
@@ -517,7 +517,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Mass Hysteria",
     "feature_type": "Active",
     "description": "Unleash a dark specter to terrify up to 6 nearby enemies, causing them to cower in fear for 4 seconds. Reduced cost.",
     "unlock_requirements": "Aspect of Terror Rank IV",
@@ -525,7 +524,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "6m radius",
-    "morph_of": "Aspect of Terror"
+    "morph_of": "Aspect of Terror",
+    "name": "Mass Hysteria"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_012",
@@ -533,7 +533,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Manifestation of Terror",
     "feature_type": "Active",
     "description": "Place 2 traps at your location. Enemies who trigger a trap are feared for 4 seconds. Traps last 1 minute.",
     "unlock_requirements": "Aspect of Terror Rank IV",
@@ -541,7 +540,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": null,
-    "morph_of": "Aspect of Terror"
+    "morph_of": "Aspect of Terror",
+    "name": "Manifestation of Terror"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_013",
@@ -549,7 +549,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Summon Shade",
     "feature_type": "Active",
     "description": "Summon a shade at target location for 20 seconds. The shade attacks nearby enemies and applies Minor Maim, reducing their damage done by 5%.",
     "unlock_requirements": "Shadow Rank 30",
@@ -557,7 +556,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Summon Shade"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_014",
@@ -565,7 +565,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Dark Shade",
     "feature_type": "Active",
     "description": "Summon a shade at target location for 20 seconds. The shade attacks nearby enemies, dealing increased damage and applying Minor Maim.",
     "unlock_requirements": "Summon Shade Rank IV",
@@ -573,7 +572,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Summon Shade"
+    "morph_of": "Summon Shade",
+    "name": "Dark Shade"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_015",
@@ -581,7 +581,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Shadow Image",
     "feature_type": "Active",
     "description": "Summon a shade at target location for 20 seconds. The shade applies Minor Maim. Activating again teleports you to the shade's location.",
     "unlock_requirements": "Summon Shade Rank IV",
@@ -589,7 +588,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Summon Shade"
+    "morph_of": "Summon Shade",
+    "name": "Shadow Image"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_016",
@@ -597,7 +597,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Consuming Darkness",
     "feature_type": "Ultimate",
     "description": "Create an area of darkness for 12 seconds that applies Major Protection to you and allies, reducing damage taken by 10%. You are invisible while in the area.",
     "unlock_requirements": "Shadow Rank 12",
@@ -605,7 +604,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Consuming Darkness"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_017",
@@ -613,7 +613,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Bolstering Darkness",
     "feature_type": "Ultimate",
     "description": "Create an area of darkness for 12 seconds that applies Major Protection to you and allies. You are invisible while in the area. Allies also receive Minor Protection.",
     "unlock_requirements": "Consuming Darkness Rank IV",
@@ -621,7 +620,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": "Consuming Darkness"
+    "morph_of": "Consuming Darkness",
+    "name": "Bolstering Darkness"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_018",
@@ -629,7 +629,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Veil of Blades",
     "feature_type": "Ultimate",
     "description": "Create an area of darkness for 12 seconds that applies Major Protection and deals Magic Damage to enemies inside every second. You are invisible while in the area.",
     "unlock_requirements": "Consuming Darkness Rank IV",
@@ -637,7 +636,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": "Consuming Darkness"
+    "morph_of": "Consuming Darkness",
+    "name": "Veil of Blades"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_019",
@@ -645,7 +645,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Refreshing Shadows",
     "feature_type": "Passive",
     "description": "Increases Stamina Recovery for each Shadow ability slotted.",
     "unlock_requirements": "Shadow Rank 8",
@@ -653,7 +652,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Refreshing Shadows"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_020",
@@ -661,7 +661,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Shadow Barrier",
     "feature_type": "Passive",
     "description": "Gain Major Resolve when exiting stealth or invisibility, increasing Physical and Spell Resistance.",
     "unlock_requirements": "Shadow Rank 14",
@@ -669,7 +668,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Shadow Barrier"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_021",
@@ -677,7 +677,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Dark Vigor",
     "feature_type": "Passive",
     "description": "Increases Max Health for each Shadow ability slotted.",
     "unlock_requirements": "Shadow Rank 22",
@@ -685,7 +684,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Dark Vigor"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SHAD_022",
@@ -693,7 +693,6 @@
     "category": "Class",
     "subcategory": "Shadow",
     "class_restriction": "Nightblade",
-    "feature_name": "Dark Veil",
     "feature_type": "Passive",
     "description": "Increases duration of Shadow abilities by 2 seconds.",
     "unlock_requirements": "Shadow Rank 39",
@@ -701,7 +700,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Dark Veil"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_001",
@@ -709,7 +709,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Strife",
     "feature_type": "Active",
     "description": "Steal an enemy's life force, dealing Magic Damage over 10 seconds and healing you every 2 seconds.",
     "unlock_requirements": "Siphoning Rank 1",
@@ -717,7 +716,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Strife"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_002",
@@ -725,7 +725,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Funnel Health",
     "feature_type": "Active",
     "description": "Steal an enemy's life force, dealing Magic Damage over 10 seconds. Heals you and a nearby ally every 2 seconds.",
     "unlock_requirements": "Strife Rank IV",
@@ -733,7 +732,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Strife"
+    "morph_of": "Strife",
+    "name": "Funnel Health"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_003",
@@ -741,7 +741,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Swallow Soul",
     "feature_type": "Active",
     "description": "Steal an enemy's life force, dealing Magic Damage over 10 seconds. Heals you every 2 seconds. Initial hit deals additional damage.",
     "unlock_requirements": "Strife Rank IV",
@@ -749,7 +748,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Strife"
+    "morph_of": "Strife",
+    "name": "Swallow Soul"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_004",
@@ -757,7 +757,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Agony",
     "feature_type": "Active",
     "description": "Cause an enemy to writhe in agony, stunning them for 1.5 seconds and dealing Magic Damage over 20 seconds.",
     "unlock_requirements": "Siphoning Rank 4",
@@ -765,7 +764,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Agony"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_005",
@@ -773,7 +773,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Malefic Wreath",
     "feature_type": "Active",
     "description": "Cause an enemy to writhe in agony, stunning them for 1.5 seconds and dealing Magic Damage over 20 seconds. Spreads to nearby enemies when target dies.",
     "unlock_requirements": "Agony Rank IV",
@@ -781,7 +780,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Agony"
+    "morph_of": "Agony",
+    "name": "Malefic Wreath"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_006",
@@ -789,7 +789,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Prolonged Suffering",
     "feature_type": "Active",
     "description": "Cause an enemy to writhe in agony, stunning them for 1.5 seconds and dealing Magic Damage over 20 seconds. Applies Major Cowardice, reducing Weapon and Spell Damage.",
     "unlock_requirements": "Agony Rank IV",
@@ -797,7 +796,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Agony"
+    "morph_of": "Agony",
+    "name": "Prolonged Suffering"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_007",
@@ -805,7 +805,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Cripple",
     "feature_type": "Active",
     "description": "Sap an enemy's agility, dealing Magic Damage over 10 seconds and applying Major Expedition to you while slowing the enemy by 30%.",
     "unlock_requirements": "Siphoning Rank 14",
@@ -813,7 +812,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Cripple"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_008",
@@ -821,7 +821,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Debilitate",
     "feature_type": "Active",
     "description": "Sap an enemy's agility, dealing Magic Damage over 10 seconds and applying Major Expedition to you while slowing the enemy by 30%. Restores Magicka each tick.",
     "unlock_requirements": "Cripple Rank IV",
@@ -829,7 +828,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Cripple"
+    "morph_of": "Cripple",
+    "name": "Debilitate"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_009",
@@ -837,7 +837,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Crippling Grasp",
     "feature_type": "Active",
     "description": "Sap an enemy's agility, dealing Magic Damage over 10 seconds, applying Major Expedition to you, and rooting the enemy in place for 1.5 seconds.",
     "unlock_requirements": "Cripple Rank IV",
@@ -845,7 +844,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Cripple"
+    "morph_of": "Cripple",
+    "name": "Crippling Grasp"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_010",
@@ -853,7 +853,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Siphoning Strikes",
     "feature_type": "Active",
     "description": "Embrace the powers of darkness, gaining a portion of your Max Health, Magicka, and Stamina back each time you deal damage with a Light or Heavy Attack for 20 seconds.",
     "unlock_requirements": "Siphoning Rank 20",
@@ -861,7 +860,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Siphoning Strikes"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_011",
@@ -869,7 +869,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Siphoning Attacks",
     "feature_type": "Active",
     "description": "Embrace the powers of darkness for 20 seconds, restoring Magicka and Stamina with each Light or Heavy Attack. Restore additional resources when the effect ends.",
     "unlock_requirements": "Siphoning Strikes Rank IV",
@@ -877,7 +876,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Siphoning Strikes"
+    "morph_of": "Siphoning Strikes",
+    "name": "Siphoning Attacks"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_012",
@@ -885,7 +885,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Leeching Strikes",
     "feature_type": "Active",
     "description": "Embrace the powers of darkness for 20 seconds, restoring Health and Stamina with each Light or Heavy Attack. Restore additional resources when the effect ends.",
     "unlock_requirements": "Siphoning Strikes Rank IV",
@@ -893,7 +892,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Siphoning Strikes"
+    "morph_of": "Siphoning Strikes",
+    "name": "Leeching Strikes"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_013",
@@ -901,7 +901,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Drain Power",
     "feature_type": "Active",
     "description": "Steal the life force from nearby enemies, dealing Magic Damage. Gain Major Brutality and Sorcery for each enemy hit, increasing Weapon and Spell Damage by 20% for 20 seconds.",
     "unlock_requirements": "Siphoning Rank 30",
@@ -909,7 +908,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Drain Power"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_014",
@@ -917,7 +917,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Power Extraction",
     "feature_type": "Active",
     "description": "Steal the life force from nearby enemies, dealing Physical Damage. Gain Major Brutality and Sorcery for each enemy hit. Enemies are afflicted with Minor Cowardice.",
     "unlock_requirements": "Drain Power Rank IV",
@@ -925,7 +924,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Drain Power"
+    "morph_of": "Drain Power",
+    "name": "Power Extraction"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_015",
@@ -933,7 +933,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Sap Essence",
     "feature_type": "Active",
     "description": "Steal the life force from nearby enemies, dealing Magic Damage and healing you for each enemy hit. Gain Major Brutality and Sorcery for each enemy hit.",
     "unlock_requirements": "Drain Power Rank IV",
@@ -941,7 +940,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Drain Power"
+    "morph_of": "Drain Power",
+    "name": "Sap Essence"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_016",
@@ -949,7 +949,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Soul Shred",
     "feature_type": "Ultimate",
     "description": "Rend the souls of nearby enemies, dealing Magic Damage and stunning them for 4 seconds. Allies can activate Soul Leech synergy to deal damage and heal.",
     "unlock_requirements": "Siphoning Rank 12",
@@ -957,7 +956,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Soul Shred"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_017",
@@ -965,7 +965,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Soul Siphon",
     "feature_type": "Ultimate",
     "description": "Rend the souls of nearby enemies, dealing Magic Damage and stunning them for 4 seconds. Heals you and nearby allies. Allies can activate Soul Leech synergy.",
     "unlock_requirements": "Soul Shred Rank IV",
@@ -973,7 +972,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Soul Shred"
+    "morph_of": "Soul Shred",
+    "name": "Soul Siphon"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_018",
@@ -981,7 +981,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Soul Tether",
     "feature_type": "Ultimate",
     "description": "Rend the souls of nearby enemies, dealing Magic Damage and stunning them for 4 seconds. Tethered enemies take additional damage over time and you heal for each enemy tethered.",
     "unlock_requirements": "Soul Shred Rank IV",
@@ -989,7 +988,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Soul Shred"
+    "morph_of": "Soul Shred",
+    "name": "Soul Tether"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_019",
@@ -997,7 +997,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Catalyst",
     "feature_type": "Passive",
     "description": "Increases effectiveness of potions by 10%. Grants Ultimate when drinking a potion.",
     "unlock_requirements": "Siphoning Rank 8",
@@ -1005,7 +1004,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Catalyst"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_020",
@@ -1013,7 +1013,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Magicka Flood",
     "feature_type": "Passive",
     "description": "Increases Max Magicka for each Siphoning ability slotted.",
     "unlock_requirements": "Siphoning Rank 14",
@@ -1021,7 +1020,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Magicka Flood"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_021",
@@ -1029,7 +1029,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Soul Siphoner",
     "feature_type": "Passive",
     "description": "Increases healing done for each Siphoning ability slotted.",
     "unlock_requirements": "Siphoning Rank 22",
@@ -1037,7 +1036,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Soul Siphoner"
   },
   {
     "feature_id": "PLAYER_CLASS_NB_SIPH_022",
@@ -1045,7 +1045,6 @@
     "category": "Class",
     "subcategory": "Siphoning",
     "class_restriction": "Nightblade",
-    "feature_name": "Transfer",
     "feature_type": "Passive",
     "description": "Generates 2 Ultimate when dealing damage with a Siphoning ability.",
     "unlock_requirements": "Siphoning Rank 39",
@@ -1053,7 +1052,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Transfer"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_001",
@@ -1061,7 +1061,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Dive",
     "feature_type": "Active",
     "description": "Command a cliff racer to dive bomb an enemy, dealing Magic Damage.",
     "unlock_requirements": "Animal Companions Rank 1",
@@ -1069,7 +1068,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Dive"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_002",
@@ -1077,7 +1077,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Cutting Dive",
     "feature_type": "Active",
     "description": "Command a cliff racer to dive bomb an enemy, dealing Physical Damage. Applies a bleed, dealing Physical Damage over 6 seconds.",
     "unlock_requirements": "Dive Rank IV",
@@ -1085,7 +1084,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Dive"
+    "morph_of": "Dive",
+    "name": "Cutting Dive"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_003",
@@ -1093,7 +1093,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Screaming Cliff Racer",
     "feature_type": "Active",
     "description": "Command a cliff racer to dive bomb an enemy, dealing Magic Damage. Deals up to 50% more damage based on distance to target.",
     "unlock_requirements": "Dive Rank IV",
@@ -1101,7 +1100,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Dive"
+    "morph_of": "Dive",
+    "name": "Screaming Cliff Racer"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_004",
@@ -1109,7 +1109,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Scorch",
     "feature_type": "Active",
     "description": "Stir a group of shalk that burst from the ground after 3 seconds, dealing Magic Damage to enemies in front of you.",
     "unlock_requirements": "Animal Companions Rank 4",
@@ -1117,7 +1116,8 @@
     "cast_time": "Instant",
     "target": "Cone",
     "range": "20m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Scorch"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_005",
@@ -1125,7 +1125,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Subterranean Assault",
     "feature_type": "Active",
     "description": "Stir a group of shalk that burst from the ground after 3 seconds, dealing Physical Damage to enemies in front of you. Applies Major Breach, reducing armor for 10 seconds.",
     "unlock_requirements": "Scorch Rank IV",
@@ -1133,7 +1132,8 @@
     "cast_time": "Instant",
     "target": "Cone",
     "range": "20m",
-    "morph_of": "Scorch"
+    "morph_of": "Scorch",
+    "name": "Subterranean Assault"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_006",
@@ -1141,7 +1141,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Deep Fissure",
     "feature_type": "Active",
     "description": "Stir a group of shalk that burst from the ground after 3 seconds, dealing Magic Damage to enemies in front of you. Applies Major Breach, reducing armor for 10 seconds.",
     "unlock_requirements": "Scorch Rank IV",
@@ -1149,7 +1148,8 @@
     "cast_time": "Instant",
     "target": "Cone",
     "range": "20m",
-    "morph_of": "Scorch"
+    "morph_of": "Scorch",
+    "name": "Deep Fissure"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_007",
@@ -1157,7 +1157,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Swarm",
     "feature_type": "Active",
     "description": "Call a swarm of fetcherflies to attack an enemy, dealing Magic Damage over 10 seconds. Applies Minor Vulnerability, increasing their damage taken by 5%.",
     "unlock_requirements": "Animal Companions Rank 14",
@@ -1165,7 +1164,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Swarm"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_008",
@@ -1173,7 +1173,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Growing Swarm",
     "feature_type": "Active",
     "description": "Call a swarm of fetcherflies to attack an enemy, dealing Magic Damage over 10 seconds. Applies Minor Vulnerability. Transfers to a nearby enemy when target dies.",
     "unlock_requirements": "Swarm Rank IV",
@@ -1181,7 +1180,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Swarm"
+    "morph_of": "Swarm",
+    "name": "Growing Swarm"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_009",
@@ -1189,7 +1189,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Fetcher Infection",
     "feature_type": "Active",
     "description": "Call a swarm of fetcherflies to attack an enemy, dealing Magic Damage over 10 seconds. Applies Minor Vulnerability. Final tick deals increased damage.",
     "unlock_requirements": "Swarm Rank IV",
@@ -1197,7 +1196,8 @@
     "cast_time": "Instant",
     "target": "Enemy",
     "range": "28m",
-    "morph_of": "Swarm"
+    "morph_of": "Swarm",
+    "name": "Fetcher Infection"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_010",
@@ -1205,7 +1205,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Betty Netch",
     "feature_type": "Active",
     "description": "Call a betty netch to your side for 25 seconds. The netch restores Magicka over time and grants Major Brutality and Sorcery, increasing Weapon and Spell Damage by 20%.",
     "unlock_requirements": "Animal Companions Rank 20",
@@ -1213,7 +1212,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Betty Netch"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_011",
@@ -1221,7 +1221,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Blue Betty",
     "feature_type": "Active",
     "description": "Call a betty netch to your side for 25 seconds. The netch restores Magicka over time and grants Major Brutality and Sorcery. Removes 1 negative effect when summoned.",
     "unlock_requirements": "Betty Netch Rank IV",
@@ -1229,7 +1228,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Betty Netch"
+    "morph_of": "Betty Netch",
+    "name": "Blue Betty"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_012",
@@ -1237,7 +1237,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Bull Netch",
     "feature_type": "Active",
     "description": "Call a bull netch to your side for 25 seconds. The netch restores Stamina over time and grants Major Brutality and Sorcery, increasing Weapon and Spell Damage by 20%.",
     "unlock_requirements": "Betty Netch Rank IV",
@@ -1245,7 +1244,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Betty Netch"
+    "morph_of": "Betty Netch",
+    "name": "Bull Netch"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_013",
@@ -1253,7 +1253,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Falcon's Swiftness",
     "feature_type": "Active",
     "description": "Invoke the spirit of a falcon, granting Major Expedition and Minor Endurance for 10 seconds, increasing movement speed by 30% and Stamina Recovery by 15%.",
     "unlock_requirements": "Animal Companions Rank 30",
@@ -1261,7 +1260,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Falcon's Swiftness"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_014",
@@ -1269,7 +1269,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Deceptive Predator",
     "feature_type": "Active",
     "description": "Invoke the spirit of a falcon, granting Major Expedition, Minor Endurance, and Minor Evasion for 10 seconds, increasing movement speed and Stamina Recovery while reducing area damage taken.",
     "unlock_requirements": "Falcon's Swiftness Rank IV",
@@ -1277,7 +1276,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Falcon's Swiftness"
+    "morph_of": "Falcon's Swiftness",
+    "name": "Deceptive Predator"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_015",
@@ -1285,7 +1285,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Bird of Prey",
     "feature_type": "Active",
     "description": "Invoke the spirit of a falcon, granting Major Expedition, Minor Endurance, and Minor Berserk for 10 seconds, increasing movement speed, Stamina Recovery, and damage done.",
     "unlock_requirements": "Falcon's Swiftness Rank IV",
@@ -1293,7 +1292,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Falcon's Swiftness"
+    "morph_of": "Falcon's Swiftness",
+    "name": "Bird of Prey"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_016",
@@ -1301,7 +1301,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Feral Guardian",
     "feature_type": "Ultimate",
     "description": "Call a ferocious war bear to fight by your side. The bear bites enemies for Physical Damage and executes enemies below 25% Health. Can reactivate to command the bear to maul an enemy.",
     "unlock_requirements": "Animal Companions Rank 12",
@@ -1309,7 +1308,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Feral Guardian"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_017",
@@ -1317,7 +1317,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Eternal Guardian",
     "feature_type": "Ultimate",
     "description": "Call a ferocious war bear to fight by your side. The bear bites enemies for Physical Damage and executes enemies below 25% Health. The bear respawns automatically when killed.",
     "unlock_requirements": "Feral Guardian Rank IV",
@@ -1325,7 +1324,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Feral Guardian"
+    "morph_of": "Feral Guardian",
+    "name": "Eternal Guardian"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_018",
@@ -1333,7 +1333,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Wild Guardian",
     "feature_type": "Ultimate",
     "description": "Call a ferocious war bear to fight by your side. The bear bites enemies for Magic Damage and executes enemies below 25% Health. Bear damage scales with your Max Magicka.",
     "unlock_requirements": "Feral Guardian Rank IV",
@@ -1341,7 +1340,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Feral Guardian"
+    "morph_of": "Feral Guardian",
+    "name": "Wild Guardian"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_019",
@@ -1349,7 +1349,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Bond with Nature",
     "feature_type": "Passive",
     "description": "When one of your Animal Companions abilities ends, heal yourself.",
     "unlock_requirements": "Animal Companions Rank 8",
@@ -1357,7 +1356,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Bond with Nature"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_020",
@@ -1365,7 +1365,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Savage Beast",
     "feature_type": "Passive",
     "description": "Increases your Ultimate generation when you use an Animal Companions ability.",
     "unlock_requirements": "Animal Companions Rank 14",
@@ -1373,7 +1372,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Savage Beast"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_021",
@@ -1381,7 +1381,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Flourish",
     "feature_type": "Passive",
     "description": "Increases Magicka and Stamina Recovery for each Animal Companions ability slotted.",
     "unlock_requirements": "Animal Companions Rank 22",
@@ -1389,7 +1388,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Flourish"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_ANIM_022",
@@ -1397,7 +1397,6 @@
     "category": "Class",
     "subcategory": "Animal Companions",
     "class_restriction": "Warden",
-    "feature_name": "Advanced Species",
     "feature_type": "Passive",
     "description": "Increases damage done by Animal Companions abilities.",
     "unlock_requirements": "Animal Companions Rank 39",
@@ -1405,7 +1404,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Advanced Species"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_001",
@@ -1413,7 +1413,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Fungal Growth",
     "feature_type": "Active",
     "description": "Grow a fungal bloom that heals you and nearby allies.",
     "unlock_requirements": "Green Balance Rank 1",
@@ -1421,7 +1420,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "20m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Fungal Growth"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_002",
@@ -1429,7 +1429,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Enchanted Growth",
     "feature_type": "Active",
     "description": "Grow a fungal bloom that heals you and nearby allies. Grants Minor Intellect and Minor Endurance, increasing Magicka and Stamina Recovery.",
     "unlock_requirements": "Fungal Growth Rank IV",
@@ -1437,7 +1436,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "20m",
-    "morph_of": "Fungal Growth"
+    "morph_of": "Fungal Growth",
+    "name": "Enchanted Growth"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_003",
@@ -1445,7 +1445,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Soothing Spores",
     "feature_type": "Active",
     "description": "Grow a fungal bloom that heals you and nearby allies. Heals for increased amount on allies below 50% Health.",
     "unlock_requirements": "Fungal Growth Rank IV",
@@ -1453,7 +1452,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "20m",
-    "morph_of": "Fungal Growth"
+    "morph_of": "Fungal Growth",
+    "name": "Soothing Spores"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_004",
@@ -1461,7 +1461,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Healing Seed",
     "feature_type": "Active",
     "description": "Plant a healing seed at target location, healing allies in the area over 6 seconds. Allies can activate the Harvest synergy to heal themselves.",
     "unlock_requirements": "Green Balance Rank 4",
@@ -1469,7 +1468,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Healing Seed"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_005",
@@ -1477,7 +1477,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Budding Seeds",
     "feature_type": "Active",
     "description": "Plant a healing seed at target location, healing allies in the area over 6 seconds. Activating again triggers the synergy early, healing allies and granting Minor Vitality.",
     "unlock_requirements": "Healing Seed Rank IV",
@@ -1485,7 +1484,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Healing Seed"
+    "morph_of": "Healing Seed",
+    "name": "Budding Seeds"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_006",
@@ -1493,7 +1493,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Corrupting Pollen",
     "feature_type": "Active",
     "description": "Plant a healing seed at target location, healing allies over 6 seconds. Also damages enemies in the area and applies Major Defile, reducing their healing received.",
     "unlock_requirements": "Healing Seed Rank IV",
@@ -1501,7 +1500,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Healing Seed"
+    "morph_of": "Healing Seed",
+    "name": "Corrupting Pollen"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_007",
@@ -1509,7 +1509,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Living Vines",
     "feature_type": "Active",
     "description": "Grow vines that embrace you or the lowest Health ally in front of you for 10 seconds. The vines heal the target each time they take damage.",
     "unlock_requirements": "Green Balance Rank 14",
@@ -1517,7 +1516,8 @@
     "cast_time": "Instant",
     "target": "Ally or Self",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Living Vines"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_008",
@@ -1525,7 +1525,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Leeching Vines",
     "feature_type": "Active",
     "description": "Grow vines that embrace you or the lowest Health ally in front of you for 10 seconds. The vines heal the target each time they take damage and apply Minor Lifesteal to attackers.",
     "unlock_requirements": "Living Vines Rank IV",
@@ -1533,7 +1532,8 @@
     "cast_time": "Instant",
     "target": "Ally or Self",
     "range": "28m",
-    "morph_of": "Living Vines"
+    "morph_of": "Living Vines",
+    "name": "Leeching Vines"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_009",
@@ -1541,7 +1541,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Living Trellis",
     "feature_type": "Active",
     "description": "Grow vines that embrace you or the lowest Health ally in front of you for 10 seconds. The vines heal the target each time they take damage. Burst heals when the effect ends.",
     "unlock_requirements": "Living Vines Rank IV",
@@ -1549,7 +1548,8 @@
     "cast_time": "Instant",
     "target": "Ally or Self",
     "range": "28m",
-    "morph_of": "Living Vines"
+    "morph_of": "Living Vines",
+    "name": "Living Trellis"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_010",
@@ -1557,7 +1557,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Lotus Flower",
     "feature_type": "Active",
     "description": "Embrace the lotus blessing for 20 seconds. While active, your Light and Heavy Attacks heal you or a nearby ally.",
     "unlock_requirements": "Green Balance Rank 20",
@@ -1565,7 +1564,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Lotus Flower"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_011",
@@ -1573,7 +1573,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Green Lotus",
     "feature_type": "Active",
     "description": "Embrace the lotus blessing for 20 seconds. While active, your Light and Heavy Attacks heal you or a nearby ally. Grants Major Savagery and Prophecy, increasing critical chance.",
     "unlock_requirements": "Lotus Flower Rank IV",
@@ -1581,7 +1580,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Lotus Flower"
+    "morph_of": "Lotus Flower",
+    "name": "Green Lotus"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_012",
@@ -1589,7 +1589,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Lotus Blossom",
     "feature_type": "Active",
     "description": "Embrace the lotus blessing for 20 seconds. While active, your Light and Heavy Attacks heal you or a nearby ally. Healing is increased and costs Stamina.",
     "unlock_requirements": "Lotus Flower Rank IV",
@@ -1597,7 +1596,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Lotus Flower"
+    "morph_of": "Lotus Flower",
+    "name": "Lotus Blossom"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_013",
@@ -1605,7 +1605,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Nature's Grasp",
     "feature_type": "Active",
     "description": "Launch a vine at an ally, healing them and pulling you to their location. Grants Minor Expedition, increasing movement speed.",
     "unlock_requirements": "Green Balance Rank 30",
@@ -1613,7 +1612,8 @@
     "cast_time": "Instant",
     "target": "Ally",
     "range": "22m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Nature's Grasp"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_014",
@@ -1621,7 +1621,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Nature's Embrace",
     "feature_type": "Active",
     "description": "Launch a vine at an ally, healing them and pulling you to their location. Grants Minor Expedition. Heals the target again when you arrive.",
     "unlock_requirements": "Nature's Grasp Rank IV",
@@ -1629,7 +1628,8 @@
     "cast_time": "Instant",
     "target": "Ally",
     "range": "22m",
-    "morph_of": "Nature's Grasp"
+    "morph_of": "Nature's Grasp",
+    "name": "Nature's Embrace"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_015",
@@ -1637,7 +1637,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Bursting Vines",
     "feature_type": "Active",
     "description": "Launch a vine at an ally, healing them instantly for a larger amount. Does not pull you to their location. Grants Minor Expedition.",
     "unlock_requirements": "Nature's Grasp Rank IV",
@@ -1645,7 +1644,8 @@
     "cast_time": "Instant",
     "target": "Ally",
     "range": "28m",
-    "morph_of": "Nature's Grasp"
+    "morph_of": "Nature's Grasp",
+    "name": "Bursting Vines"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_016",
@@ -1653,7 +1653,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Secluded Grove",
     "feature_type": "Ultimate",
     "description": "Create a forest of healing at your location. You and allies in the area are healed every 1 second for 6 seconds and cleansed of negative effects.",
     "unlock_requirements": "Green Balance Rank 12",
@@ -1661,7 +1660,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Secluded Grove"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_017",
@@ -1669,7 +1669,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Enchanted Forest",
     "feature_type": "Ultimate",
     "description": "Create a forest of healing at your location. You and allies in the area are healed every 1 second for 6 seconds. Healing is increased on allies below 50% Health.",
     "unlock_requirements": "Secluded Grove Rank IV",
@@ -1677,7 +1676,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": "Secluded Grove"
+    "morph_of": "Secluded Grove",
+    "name": "Enchanted Forest"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_018",
@@ -1685,7 +1685,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Healing Thicket",
     "feature_type": "Ultimate",
     "description": "Create a forest of healing at your location. You and allies in the area are healed every 1 second for 6 seconds. Forest moves towards your target ally over the duration.",
     "unlock_requirements": "Secluded Grove Rank IV",
@@ -1693,7 +1692,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "8m radius",
-    "morph_of": "Secluded Grove"
+    "morph_of": "Secluded Grove",
+    "name": "Healing Thicket"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_019",
@@ -1701,7 +1701,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Accelerated Growth",
     "feature_type": "Passive",
     "description": "When you heal yourself or an ally with a Green Balance ability while under 50% Health, gain Major Mending, increasing healing done by 16% for 4 seconds.",
     "unlock_requirements": "Green Balance Rank 8",
@@ -1709,7 +1708,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Accelerated Growth"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_020",
@@ -1717,7 +1717,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Nature's Gift",
     "feature_type": "Passive",
     "description": "When you heal yourself or an ally with a Green Balance ability, restore Magicka. This effect can occur once every 3 seconds.",
     "unlock_requirements": "Green Balance Rank 14",
@@ -1725,7 +1724,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Nature's Gift"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_021",
@@ -1733,7 +1733,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Emerald Moss",
     "feature_type": "Passive",
     "description": "Increases healing received for each Green Balance ability slotted.",
     "unlock_requirements": "Green Balance Rank 22",
@@ -1741,7 +1740,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Emerald Moss"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_GBAL_022",
@@ -1749,7 +1749,6 @@
     "category": "Class",
     "subcategory": "Green Balance",
     "class_restriction": "Warden",
-    "feature_name": "Maturation",
     "feature_type": "Passive",
     "description": "When you heal yourself or an ally with a Green Balance ability, grant Minor Toughness for 20 seconds, increasing Max Health.",
     "unlock_requirements": "Green Balance Rank 39",
@@ -1757,7 +1756,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Maturation"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_001",
@@ -1765,7 +1765,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Frost Cloak",
     "feature_type": "Active",
     "description": "Wrap a cloak of frost around you and nearby allies, granting Major Resolve for 20 seconds, increasing Physical and Spell Resistance.",
     "unlock_requirements": "Winter's Embrace Rank 1",
@@ -1773,7 +1772,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Frost Cloak"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_002",
@@ -1781,7 +1781,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Ice Fortress",
     "feature_type": "Active",
     "description": "Wrap a cloak of frost around you and nearby allies, granting Major Resolve and Minor Protection for 20 seconds, increasing resistances and reducing damage taken.",
     "unlock_requirements": "Frost Cloak Rank IV",
@@ -1789,7 +1788,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Frost Cloak"
+    "morph_of": "Frost Cloak",
+    "name": "Ice Fortress"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_003",
@@ -1797,7 +1797,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Expansive Frost Cloak",
     "feature_type": "Active",
     "description": "Wrap a cloak of frost around you and nearby allies, granting Major Resolve for 20 seconds. Increased radius and duration.",
     "unlock_requirements": "Frost Cloak Rank IV",
@@ -1805,7 +1804,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "12m radius",
-    "morph_of": "Frost Cloak"
+    "morph_of": "Frost Cloak",
+    "name": "Expansive Frost Cloak"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_004",
@@ -1813,7 +1813,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Impaling Shards",
     "feature_type": "Active",
     "description": "Summon icy shards around you, dealing Frost Damage every 1 second for 12 seconds. Enemies in the area are slowed by 30%.",
     "unlock_requirements": "Winter's Embrace Rank 4",
@@ -1821,7 +1820,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "6m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Impaling Shards"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_005",
@@ -1829,7 +1829,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Gripping Shards",
     "feature_type": "Active",
     "description": "Summon icy shards at target location, dealing Frost Damage every 1 second for 12 seconds. Enemies in the area are immobilized for 3 seconds.",
     "unlock_requirements": "Impaling Shards Rank IV",
@@ -1837,7 +1836,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "20m",
-    "morph_of": "Impaling Shards"
+    "morph_of": "Impaling Shards",
+    "name": "Gripping Shards"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_006",
@@ -1845,7 +1845,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Winter's Revenge",
     "feature_type": "Active",
     "description": "Summon icy shards at target location, dealing Frost Damage every 1 second for 12 seconds. Enemies in the area are slowed by 30%. Increased damage.",
     "unlock_requirements": "Impaling Shards Rank IV",
@@ -1853,7 +1852,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "20m",
-    "morph_of": "Impaling Shards"
+    "morph_of": "Impaling Shards",
+    "name": "Winter's Revenge"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_007",
@@ -1861,7 +1861,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Arctic Wind",
     "feature_type": "Active",
     "description": "Envelop yourself in a healing frost, instantly healing yourself and gaining Major Resolve for 20 seconds.",
     "unlock_requirements": "Winter's Embrace Rank 14",
@@ -1869,7 +1868,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Arctic Wind"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_008",
@@ -1877,7 +1877,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Polar Wind",
     "feature_type": "Active",
     "description": "Envelop yourself in a healing frost, instantly healing yourself and gaining Major Resolve for 20 seconds. Also heals a nearby ally for the same amount.",
     "unlock_requirements": "Arctic Wind Rank IV",
@@ -1885,7 +1884,8 @@
     "cast_time": "Instant",
     "target": "Self and Ally",
     "range": null,
-    "morph_of": "Arctic Wind"
+    "morph_of": "Arctic Wind",
+    "name": "Polar Wind"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_009",
@@ -1893,7 +1893,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Arctic Blast",
     "feature_type": "Active",
     "description": "Envelop yourself in a healing frost, instantly healing yourself and dealing Frost Damage over 5 seconds to nearby enemies. Stuns enemies at the end of the duration.",
     "unlock_requirements": "Arctic Wind Rank IV",
@@ -1901,7 +1900,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "6m radius",
-    "morph_of": "Arctic Wind"
+    "morph_of": "Arctic Wind",
+    "name": "Arctic Blast"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_010",
@@ -1909,7 +1909,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Crystallized Shield",
     "feature_type": "Active",
     "description": "Conjure icy orbs around you that absorb projectiles for 6 seconds. Each orb absorbs one projectile. Gain Minor Vitality, increasing healing received.",
     "unlock_requirements": "Winter's Embrace Rank 20",
@@ -1917,7 +1916,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Crystallized Shield"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_011",
@@ -1925,7 +1925,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Crystallized Slab",
     "feature_type": "Active",
     "description": "Conjure icy orbs around you that absorb projectiles for 6 seconds. Each orb absorbs one projectile and returns Frost Damage to the attacker. Gain Minor Vitality.",
     "unlock_requirements": "Crystallized Shield Rank IV",
@@ -1933,7 +1932,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Crystallized Shield"
+    "morph_of": "Crystallized Shield",
+    "name": "Crystallized Slab"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_012",
@@ -1941,7 +1941,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Shimmering Shield",
     "feature_type": "Active",
     "description": "Conjure icy orbs around you that absorb projectiles for 6 seconds. Each orb absorbed generates Ultimate. Gain Minor Vitality.",
     "unlock_requirements": "Crystallized Shield Rank IV",
@@ -1949,7 +1948,8 @@
     "cast_time": "Instant",
     "target": "Self",
     "range": null,
-    "morph_of": "Crystallized Shield"
+    "morph_of": "Crystallized Shield",
+    "name": "Shimmering Shield"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_013",
@@ -1957,7 +1957,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Frozen Gate",
     "feature_type": "Active",
     "description": "Summon an ancient portal at target location. The first enemy to pass through is teleported to you and immobilized. Portal lasts 30 seconds.",
     "unlock_requirements": "Winter's Embrace Rank 30",
@@ -1965,7 +1964,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Frozen Gate"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_014",
@@ -1973,7 +1973,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Frozen Device",
     "feature_type": "Active",
     "description": "Summon an ancient portal at target location. The first enemy to pass through is teleported to you and immobilized. Portal lasts 30 seconds. Enemy takes Frost Damage on teleport.",
     "unlock_requirements": "Frozen Gate Rank IV",
@@ -1981,7 +1980,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Frozen Gate"
+    "morph_of": "Frozen Gate",
+    "name": "Frozen Device"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_015",
@@ -1989,7 +1989,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Frozen Retreat",
     "feature_type": "Active",
     "description": "Summon an ancient portal at target location. Activating again teleports you and nearby allies to the portal location. Portal lasts 30 seconds.",
     "unlock_requirements": "Frozen Gate Rank IV",
@@ -1997,7 +1996,8 @@
     "cast_time": "Instant",
     "target": "Ground",
     "range": "28m",
-    "morph_of": "Frozen Gate"
+    "morph_of": "Frozen Gate",
+    "name": "Frozen Retreat"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_016",
@@ -2005,7 +2005,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Sleet Storm",
     "feature_type": "Ultimate",
     "description": "Twist a violent storm around you, dealing Frost Damage every 1 second for 8 seconds to enemies in the area. Reduces their Movement Speed by 70% and grants Major Protection.",
     "unlock_requirements": "Winter's Embrace Rank 12",
@@ -2013,7 +2012,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": null
+    "morph_of": null,
+    "name": "Sleet Storm"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_017",
@@ -2021,7 +2021,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Northern Storm",
     "feature_type": "Ultimate",
     "description": "Twist a violent storm around you, dealing Frost Damage every 1 second for 8 seconds. Reduces enemy Movement Speed and grants Major Protection. Increases Max Magicka while slotted.",
     "unlock_requirements": "Sleet Storm Rank IV",
@@ -2029,7 +2028,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Sleet Storm"
+    "morph_of": "Sleet Storm",
+    "name": "Northern Storm"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_018",
@@ -2037,7 +2037,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Permafrost",
     "feature_type": "Ultimate",
     "description": "Twist a violent storm around you, dealing Frost Damage every 1 second for 8 seconds. Reduces enemy Movement Speed. Grants Major Protection. Stuns enemies when the effect ends.",
     "unlock_requirements": "Sleet Storm Rank IV",
@@ -2045,7 +2044,8 @@
     "cast_time": "Instant",
     "target": "Area",
     "range": "8m radius",
-    "morph_of": "Sleet Storm"
+    "morph_of": "Sleet Storm",
+    "name": "Permafrost"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_019",
@@ -2053,7 +2053,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Glacial Presence",
     "feature_type": "Passive",
     "description": "Increases chance to apply Chilled to enemies with Winter's Embrace abilities.",
     "unlock_requirements": "Winter's Embrace Rank 8",
@@ -2061,7 +2060,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Glacial Presence"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_020",
@@ -2069,7 +2069,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Frozen Armor",
     "feature_type": "Passive",
     "description": "Increases Physical and Spell Resistance for each Winter's Embrace ability slotted.",
     "unlock_requirements": "Winter's Embrace Rank 14",
@@ -2077,7 +2076,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Frozen Armor"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_021",
@@ -2085,7 +2085,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Icy Aura",
     "feature_type": "Passive",
     "description": "Reduces the cost of Block for each Winter's Embrace ability slotted.",
     "unlock_requirements": "Winter's Embrace Rank 22",
@@ -2093,7 +2092,8 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Icy Aura"
   },
   {
     "feature_id": "PLAYER_CLASS_WARD_WINT_022",
@@ -2101,7 +2101,6 @@
     "category": "Class",
     "subcategory": "Winter's Embrace",
     "class_restriction": "Warden",
-    "feature_name": "Piercing Cold",
     "feature_type": "Passive",
     "description": "Increases damage done with Winter's Embrace abilities.",
     "unlock_requirements": "Winter's Embrace Rank 39",
@@ -2109,6 +2108,7 @@
     "cast_time": null,
     "target": null,
     "range": null,
-    "morph_of": null
+    "morph_of": null,
+    "name": "Piercing Cold"
   }
 ]

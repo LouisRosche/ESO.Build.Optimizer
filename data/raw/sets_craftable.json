@@ -10,10 +10,22 @@
         "traits_required": 6,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon Critical", "value": 657},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Weapon Critical", "value": 657},
-            "5": {"stat": "Weapon Damage", "value": 300}
+            "2": {
+                "stat": "Weapon Critical",
+                "value": 657
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Weapon Critical",
+                "value": 657
+            },
+            "5": {
+                "stat": "Weapon Damage",
+                "value": 300
+            }
         },
         "pve_tier": "A",
         "role_affinity": {
@@ -23,7 +35,10 @@
         },
         "tags": "damage|stamina|crit|weapon-damage|beginner-friendly",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/hundings-rage"
+        "source_url": "https://eso-hub.com/en/sets/hundings-rage",
+        "feature_id": "SET_CRAFTABLE_HUNDINGS_RAGE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_LAW_OF_JULIANOS",
@@ -36,10 +51,22 @@
         "traits_required": 6,
         "dlc_required": "Orsinium",
         "bonuses": {
-            "2": {"stat": "Spell Critical", "value": 657},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Spell Critical", "value": 657},
-            "5": {"stat": "Spell Damage", "value": 300}
+            "2": {
+                "stat": "Spell Critical",
+                "value": 657
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Spell Critical",
+                "value": 657
+            },
+            "5": {
+                "stat": "Spell Damage",
+                "value": 300
+            }
         },
         "pve_tier": "A",
         "role_affinity": {
@@ -49,7 +76,10 @@
         },
         "tags": "damage|magicka|crit|spell-damage|beginner-friendly",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/law-of-julianos"
+        "source_url": "https://eso-hub.com/en/sets/law-of-julianos",
+        "feature_id": "SET_CRAFTABLE_LAW_OF_JULIANOS",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_MECHANICAL_ACUITY",
@@ -62,9 +92,18 @@
         "traits_required": 9,
         "dlc_required": "Clockwork City",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Critical", "value": 657},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Critical",
+                "value": 657
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal Critical Damage, gain guaranteed Critical Damage for 5 seconds. This effect can occur once every 18 seconds.",
                 "proc_condition": "critical_damage",
@@ -81,7 +120,10 @@
         },
         "tags": "damage|crit|burst|proc|guaranteed-crit",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/mechanical-acuity"
+        "source_url": "https://eso-hub.com/en/sets/mechanical-acuity",
+        "feature_id": "SET_CRAFTABLE_MECHANICAL_ACUITY",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_NEW_MOON_ACOLYTE",
@@ -94,9 +136,18 @@
         "traits_required": 9,
         "dlc_required": "Dragonhold",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Critical", "value": 657},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Critical",
+                "value": 657
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Increase your damage done by 13%. Increase the cost of your active abilities by 5%.",
                 "damage_bonus": 0.13,
@@ -111,7 +162,10 @@
         },
         "tags": "damage|meta|high-cost|all-content|trial-viable",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/new-moon-acolyte"
+        "source_url": "https://eso-hub.com/en/sets/new-moon-acolyte",
+        "feature_id": "SET_CRAFTABLE_NEW_MOON_ACOLYTE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_INNATE_AXIOM",
@@ -124,9 +178,18 @@
         "traits_required": 4,
         "dlc_required": "Clockwork City",
         "bonuses": {
-            "2": {"stat": "Magicka Recovery", "value": 129},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Increase the damage of your Class abilities by 8%.",
                 "damage_type": "class_abilities",
@@ -141,7 +204,10 @@
         },
         "tags": "damage|class-abilities|niche|nightblade|arcanist",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/innate-axiom"
+        "source_url": "https://eso-hub.com/en/sets/innate-axiom",
+        "feature_id": "SET_CRAFTABLE_INNATE_AXIOM",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_CLEVER_ALCHEMIST",
@@ -154,9 +220,18 @@
         "traits_required": 7,
         "dlc_required": "Thieves Guild",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Critical", "value": 657},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Critical",
+                "value": 657
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you drink a potion, gain 675 Weapon and Spell Damage for 15 seconds.",
                 "proc_condition": "drink_potion",
@@ -173,7 +248,10 @@
         },
         "tags": "damage|burst|potion-synergy|pvp-popular",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/clever-alchemist"
+        "source_url": "https://eso-hub.com/en/sets/clever-alchemist",
+        "feature_id": "SET_CRAFTABLE_CLEVER_ALCHEMIST",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_SHACKLEBREAKER",
@@ -186,14 +264,29 @@
         "traits_required": 6,
         "dlc_required": "Morrowind",
         "bonuses": {
-            "2": {"stat": "Magicka Recovery", "value": 129},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Max Magicka", "value": 1096},
-            "4b": {"stat": "Max Stamina", "value": 1096},
+            "2": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Magicka",
+                "value": 1096
+            },
+            "4b": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
             "5": {
                 "stat": "Max Magicka",
                 "value": 2000,
-                "additional": {"stat": "Max Stamina", "value": 2000}
+                "additional": {
+                    "stat": "Max Stamina",
+                    "value": 2000
+                }
             }
         },
         "pve_tier": "B",
@@ -204,7 +297,10 @@
         },
         "tags": "hybrid|stats|sustain|pvp-meta|versatile",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/shacklebreaker"
+        "source_url": "https://eso-hub.com/en/sets/shacklebreaker",
+        "feature_id": "SET_CRAFTABLE_SHACKLEBREAKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_FORTIFIED_BRASS",
@@ -217,10 +313,22 @@
         "traits_required": 4,
         "dlc_required": "Clockwork City",
         "bonuses": {
-            "2": {"stat": "Max Health", "value": 1206},
-            "3": {"stat": "Max Health", "value": 1206},
-            "4": {"stat": "Max Health", "value": 1206},
-            "5": {"stat": "Physical and Spell Resistance", "value": 5280}
+            "2": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "4": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "5": {
+                "stat": "Physical and Spell Resistance",
+                "value": 5280
+            }
         },
         "pve_tier": "A",
         "role_affinity": {
@@ -231,7 +339,10 @@
         },
         "tags": "tank|resistance|survivability|beginner-tank",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/fortified-brass"
+        "source_url": "https://eso-hub.com/en/sets/fortified-brass",
+        "feature_id": "SET_CRAFTABLE_FORTIFIED_BRASS",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_TORUGS_PACT",
@@ -244,12 +355,21 @@
         "traits_required": 3,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Reduce the cooldown of your weapon enchantments by 30%. Increase the damage or healing of your weapon enchantments by 45%.",
-                "enchantment_cooldown_reduction": 0.30,
+                "enchantment_cooldown_reduction": 0.3,
                 "enchantment_damage_bonus": 0.45
             }
         },
@@ -262,7 +382,10 @@
         },
         "tags": "support|tank|enchantments|crusher|weakening|group-utility",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/torugs-pact"
+        "source_url": "https://eso-hub.com/en/sets/torugs-pact",
+        "feature_id": "SET_CRAFTABLE_TORUGS_PACT",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_KAGRENACS_HOPE",
@@ -275,12 +398,21 @@
         "traits_required": 8,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Spell Critical", "value": 657},
-            "3": {"stat": "Spell Damage", "value": 129},
-            "4": {"stat": "Spell Critical", "value": 657},
+            "2": {
+                "stat": "Spell Critical",
+                "value": 657
+            },
+            "3": {
+                "stat": "Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Spell Critical",
+                "value": 657
+            },
             "5": {
                 "effect": "Reduce the cast time of resurrect by 50%. When you resurrect an ally, restore 4000 Health, Magicka, and Stamina to you.",
-                "resurrect_speed_bonus": 0.50,
+                "resurrect_speed_bonus": 0.5,
                 "resource_restore": 4000
             }
         },
@@ -292,7 +424,10 @@
         },
         "tags": "healer|resurrect|utility|progression|magicka",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/kagrenacs-hope"
+        "source_url": "https://eso-hub.com/en/sets/kagrenacs-hope",
+        "feature_id": "SET_CRAFTABLE_KAGRENACS_HOPE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_ALESSIAN_ORDER",
@@ -305,14 +440,23 @@
         "traits_required": 5,
         "dlc_required": "Blackwood",
         "bonuses": {
-            "2": {"stat": "Health Recovery", "value": 129},
-            "3": {"stat": "Health Recovery", "value": 129},
-            "4": {"stat": "Max Health", "value": 1206},
+            "2": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "While you have a Health, Magicka, or Stamina enchantment on your chest, legs, and head, increase your Health Recovery by 90% of the combined values.",
                 "scaling": "enchantment_values",
                 "recovery_type": "Health",
-                "bonus_percent": 0.90
+                "bonus_percent": 0.9
             }
         },
         "pve_tier": "B",
@@ -324,7 +468,10 @@
         },
         "tags": "tank|health-recovery|sustain|self-healing",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/alessian-order"
+        "source_url": "https://eso-hub.com/en/sets/alessian-order",
+        "feature_id": "SET_CRAFTABLE_ALESSIAN_ORDER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_ORGNUMS_SCALES",
@@ -337,9 +484,18 @@
         "traits_required": 4,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Health Recovery", "value": 129},
-            "3": {"stat": "Health Recovery", "value": 129},
-            "4": {"stat": "Health Recovery", "value": 129},
+            "2": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "Increase your swim speed by 200%. While swimming, restore 500 Health every 1 second.",
                 "swim_speed_bonus": 2.0,
@@ -355,7 +511,10 @@
         },
         "tags": "niche|swimming|exploration|fun|non-combat",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/orgnums-scales"
+        "source_url": "https://eso-hub.com/en/sets/orgnums-scales",
+        "feature_id": "SET_CRAFTABLE_ORGNUMS_SCALES",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_TWICE_BORN_STAR",
@@ -368,9 +527,18 @@
         "traits_required": 9,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Max Health", "value": 1206},
-            "3": {"stat": "Max Magicka", "value": 1096},
-            "4": {"stat": "Max Stamina", "value": 1096},
+            "2": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Max Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "You can gain the benefits of two Mundus Stones at once.",
                 "mundus_count": 2
@@ -384,7 +552,10 @@
         },
         "tags": "mundus|versatile|unique|dual-boon",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/twice-born-star"
+        "source_url": "https://eso-hub.com/en/sets/twice-born-star",
+        "feature_id": "SET_CRAFTABLE_TWICE_BORN_STAR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_ETERNAL_HUNT",
@@ -397,9 +568,18 @@
         "traits_required": 9,
         "dlc_required": "Thieves Guild",
         "bonuses": {
-            "2": {"stat": "Max Stamina", "value": 1096},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Max Stamina", "value": 1096},
+            "2": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you roll dodge, create a trap at your starting location that takes 1 second to arm and lasts for 5 seconds. The trap immobilizes and deals 4200 Poison Damage to the first enemy that enters its 3 meter radius. This can occur once every 3 seconds.",
                 "proc_condition": "roll_dodge",
@@ -420,7 +600,10 @@
         },
         "tags": "pvp|trap|roll-dodge|crowd-control|stamina",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/eternal-hunt"
+        "source_url": "https://eso-hub.com/en/sets/eternal-hunt",
+        "feature_id": "SET_CRAFTABLE_ETERNAL_HUNT",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_TAVAS_FAVOR",
@@ -433,9 +616,18 @@
         "traits_required": 5,
         "dlc_required": "Thieves Guild",
         "bonuses": {
-            "2": {"stat": "Max Stamina", "value": 1096},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Max Stamina", "value": 1096},
+            "2": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you roll dodge, gain 9 Ultimate. This effect can occur once every 6 seconds.",
                 "proc_condition": "roll_dodge",
@@ -452,7 +644,10 @@
         },
         "tags": "tank|ultimate|roll-dodge|stamina|warhorn",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/tavas-favor"
+        "source_url": "https://eso-hub.com/en/sets/tavas-favor",
+        "feature_id": "SET_CRAFTABLE_TAVAS_FAVOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_SENCHE_RAHTS_GRIT",
@@ -465,9 +660,18 @@
         "traits_required": 5,
         "dlc_required": "Elsweyr",
         "bonuses": {
-            "2": {"stat": "Max Health", "value": 1206},
-            "3": {"stat": "Max Stamina", "value": 1096},
-            "4": {"stat": "Max Magicka", "value": 1096},
+            "2": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Max Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "Increase Max Health, Max Magicka, and Max Stamina by 1000.",
                 "stat_bonus": {
@@ -485,7 +689,10 @@
         },
         "tags": "hybrid|stats|versatile|all-resources",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/senche-rahts-grit"
+        "source_url": "https://eso-hub.com/en/sets/senche-rahts-grit",
+        "feature_id": "SET_CRAFTABLE_SENCHE_RAHTS_GRIT",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_ARMOR_MASTER",
@@ -498,9 +705,18 @@
         "traits_required": 9,
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Max Health", "value": 1206},
-            "3": {"stat": "Health Recovery", "value": 129},
-            "4": {"stat": "Max Health", "value": 1206},
+            "2": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you cast an armor ability, increase your Physical and Spell Resistance by 6500 for 10 seconds.",
                 "proc_condition": "cast_armor_ability",
@@ -518,7 +734,10 @@
         },
         "tags": "tank|resistance|survivability|armor-abilities",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/armor-master"
+        "source_url": "https://eso-hub.com/en/sets/armor-master",
+        "feature_id": "SET_CRAFTABLE_ARMOR_MASTER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_TRIAL_BY_FIRE",
@@ -531,9 +750,18 @@
         "traits_required": 7,
         "dlc_required": "Deadlands",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Max Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Dealing damage to a Burning enemy grants you 300 Weapon and Spell Damage for 12 seconds.",
                 "proc_condition": "damage_burning_enemy",
@@ -550,7 +778,10 @@
         },
         "tags": "damage|fire|burning|dragonknight-synergy",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/trial-by-fire"
+        "source_url": "https://eso-hub.com/en/sets/trial-by-fire",
+        "feature_id": "SET_CRAFTABLE_TRIAL_BY_FIRE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_UNCHAINED_AGGRESSOR",
@@ -563,9 +794,18 @@
         "traits_required": 6,
         "dlc_required": "Markarth",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Max Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you break free, gain 860 Weapon and Spell Damage for 6 seconds. This effect can occur once every 15 seconds.",
                 "proc_condition": "break_free",
@@ -583,7 +823,10 @@
         },
         "tags": "damage|pvp|break-free|burst|situational",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/unchained-aggressor"
+        "source_url": "https://eso-hub.com/en/sets/unchained-aggressor",
+        "feature_id": "SET_CRAFTABLE_UNCHAINED_AGGRESSOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_STUHNS_FAVOR",
@@ -596,9 +839,18 @@
         "traits_required": 6,
         "dlc_required": "Greymoor",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Physical and Spell Penetration", "value": 1487},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Physical and Spell Penetration",
+                "value": 1487
+            },
             "5": {
                 "effect": "When you immobilize or stun an enemy, increase your Physical and Spell Penetration by 6230 for 10 seconds.",
                 "proc_condition": "immobilize_or_stun",
@@ -615,7 +867,10 @@
         },
         "tags": "damage|penetration|crowd-control|solo|overland",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/stuhns-favor"
+        "source_url": "https://eso-hub.com/en/sets/stuhns-favor",
+        "feature_id": "SET_CRAFTABLE_STUHNS_FAVOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_DRAGONS_APPETITE",
@@ -628,9 +883,18 @@
         "traits_required": 3,
         "dlc_required": "Elsweyr",
         "bonuses": {
-            "2": {"stat": "Magicka Recovery", "value": 129},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Health Recovery", "value": 129},
+            "2": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "When you kill an enemy, restore 5% of your Max Health, Magicka, and Stamina. This effect can occur once every 1 second.",
                 "proc_condition": "kill",
@@ -646,7 +910,10 @@
         },
         "tags": "sustain|kill-proc|overland|trash-clear",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/dragons-appetite"
+        "source_url": "https://eso-hub.com/en/sets/dragons-appetite",
+        "feature_id": "SET_CRAFTABLE_DRAGONS_APPETITE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_NOCTURNALS_FAVOR",
@@ -659,9 +926,18 @@
         "traits_required": 5,
         "dlc_required": "Summerset",
         "bonuses": {
-            "2": {"stat": "Max Stamina", "value": 1096},
-            "3": {"stat": "Max Magicka", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Max Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Max Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "While in Sneak or Invisible, increase your Weapon and Spell Damage by 350.",
                 "condition": "stealth_or_invisible",
@@ -677,7 +953,10 @@
         },
         "tags": "stealth|nightblade|sneak|pvp|ganking",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/nocturnals-favor"
+        "source_url": "https://eso-hub.com/en/sets/nocturnals-favor",
+        "feature_id": "SET_CRAFTABLE_NOCTURNALS_FAVOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_ORDERS_WRATH",
@@ -690,10 +969,22 @@
         "traits_required": 4,
         "dlc_required": "High Isle",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Critical", "value": 657},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
-            "5": {"stat": "Critical Damage", "value": 0.08}
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Critical",
+                "value": 657
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "5": {
+                "stat": "Critical Damage",
+                "value": 0.08
+            }
         },
         "pve_tier": "S",
         "role_affinity": {
@@ -703,7 +994,10 @@
         },
         "tags": "damage|crit|meta|beginner-friendly|trial-viable|all-content",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/orders-wrath"
+        "source_url": "https://eso-hub.com/en/sets/orders-wrath",
+        "feature_id": "SET_CRAFTABLE_ORDERS_WRATH",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_HEARTLAND_CONQUEROR",
@@ -716,9 +1010,18 @@
         "traits_required": 9,
         "dlc_required": "Blackwood",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Critical", "value": 657},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Critical",
+                "value": 657
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Increase the effectiveness of your equipped weapon trait by 100%.",
                 "trait_effectiveness_bonus": 1.0
@@ -732,7 +1035,10 @@
         },
         "tags": "damage|trait-bonus|versatile|nirnhoned|charged",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/heartland-conqueror"
+        "source_url": "https://eso-hub.com/en/sets/heartland-conqueror",
+        "feature_id": "SET_CRAFTABLE_HEARTLAND_CONQUEROR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_CRAFTABLE_HIST_BARK",
@@ -745,9 +1051,18 @@
         "traits_required": 4,
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Max Health", "value": 1206},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Max Health", "value": 1206},
+            "2": {
+                "stat": "Max Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Max Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "Increase your Block Mitigation by 8%. When you block, gain Major Evasion for 5 seconds, reducing damage from area attacks by 20%.",
                 "block_mitigation_bonus": 0.08,
@@ -766,6 +1081,9 @@
         },
         "tags": "tank|block|mitigation|evasion|beginner-tank",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/hist-bark"
+        "source_url": "https://eso-hub.com/en/sets/hist-bark",
+        "feature_id": "SET_CRAFTABLE_HIST_BARK",
+        "system": "PLAYER",
+        "category": "Set"
     }
 ]

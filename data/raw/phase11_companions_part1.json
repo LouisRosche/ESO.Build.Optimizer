@@ -4,7 +4,6 @@
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Fiery Flail",
     "skill_type": "Active",
     "description": "Lash an enemy with flame, dealing Flame Damage and setting them Off Balance",
     "resource_cost": "Stamina",
@@ -12,14 +11,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Fiery Flail"
   },
   {
     "feature_id": "COMPANION_BASTIAN_ARDENT_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Blazing Might",
     "skill_type": "Active",
     "description": "Ignite the flames of determination, increasing Weapon and Spell Damage for a duration",
     "resource_cost": "Stamina",
@@ -27,14 +26,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Blazing Might"
   },
   {
     "feature_id": "COMPANION_BASTIAN_ARDENT_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Scorching Strike",
     "skill_type": "Active",
     "description": "Strike an enemy with a searing blow, dealing Flame Damage and applying a burning effect",
     "resource_cost": "Stamina",
@@ -42,14 +41,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Scorching Strike"
   },
   {
     "feature_id": "COMPANION_BASTIAN_ARDENT_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Drake's Blood",
     "skill_type": "Active",
     "description": "Draw on draconic blood to heal and fortify yourself, restoring Health",
     "resource_cost": "Magicka",
@@ -57,14 +56,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Drake's Blood"
   },
   {
     "feature_id": "COMPANION_BASTIAN_ARDENT_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Cinder Storm",
     "skill_type": "Active",
     "description": "Create a whirlwind of fire at a location, dealing Flame Damage over time to enemies",
     "resource_cost": "Magicka",
@@ -72,14 +71,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Cinder Storm"
   },
   {
     "feature_id": "COMPANION_BASTIAN_ARDENT_006",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Ardent Warrior",
-    "skill_name": "Standard of Might",
     "skill_type": "Ultimate",
     "description": "Plant a battle standard that deals Flame Damage to enemies and buffs allies in the area",
     "resource_cost": "Ultimate",
@@ -87,14 +86,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Standard of Might"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_001",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Spiked Armor",
     "skill_type": "Active",
     "description": "Wrap yourself in protective scales, increasing Physical and Spell Resistance",
     "resource_cost": "Magicka",
@@ -102,14 +101,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Spiked Armor"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Dark Talons",
     "skill_type": "Active",
     "description": "Call forth talons from the ground to immobilize enemies and deal damage",
     "resource_cost": "Magicka",
@@ -117,14 +116,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Dark Talons"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Dragon Blood",
     "skill_type": "Active",
     "description": "Draw on your draconic blood to heal yourself and increase Health Recovery",
     "resource_cost": "Magicka",
@@ -132,14 +131,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Dragon Blood"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Reflective Scale",
     "skill_type": "Active",
     "description": "Manifest scales that reflect projectiles back at attackers",
     "resource_cost": "Magicka",
@@ -147,14 +146,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Reflective Scale"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Protective Scale",
     "skill_type": "Active",
     "description": "Conjure protective scales that reduce damage taken from projectiles",
     "resource_cost": "Magicka",
@@ -162,14 +161,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Protective Scale"
   },
   {
     "feature_id": "COMPANION_BASTIAN_DRACONIC_006",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Draconic Armor",
-    "skill_name": "Ferocious Leap",
     "skill_type": "Ultimate",
     "description": "Launch yourself at an enemy with a devastating leap, dealing massive damage on impact",
     "resource_cost": "Ultimate",
@@ -177,14 +176,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Ferocious Leap"
   },
   {
     "feature_id": "COMPANION_BASTIAN_EARTHEN_001",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Earthen Heart",
-    "skill_name": "Stonefist",
     "skill_type": "Active",
     "description": "Hurl a chunk ofite at an enemy, dealing Physical Damage and knocking them down",
     "resource_cost": "Magicka",
@@ -192,14 +191,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Stonefist"
   },
   {
     "feature_id": "COMPANION_BASTIAN_EARTHEN_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Earthen Heart",
-    "skill_name": "Molten Weapons",
     "skill_type": "Active",
     "description": "Charge your weapons with volcanic power, increasing Weapon Damage for allies",
     "resource_cost": "Magicka",
@@ -207,14 +206,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Molten Weapons"
   },
   {
     "feature_id": "COMPANION_BASTIAN_EARTHEN_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Earthen Heart",
-    "skill_name": "Obsidian Shield",
     "skill_type": "Active",
     "description": "Create a protective shield ofite that absorbs damage",
     "resource_cost": "Magicka",
@@ -222,14 +221,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Obsidian Shield"
   },
   {
     "feature_id": "COMPANION_BASTIAN_EARTHEN_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Earthen Heart",
-    "skill_name": "Ash Cloud",
     "skill_type": "Active",
     "description": "Summon a cloud of volcanic ash that snares and damages enemies",
     "resource_cost": "Magicka",
@@ -237,14 +236,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Ash Cloud"
   },
   {
     "feature_id": "COMPANION_BASTIAN_EARTHEN_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Bastian - Earthen Heart",
-    "skill_name": "Magma Shell",
     "skill_type": "Ultimate",
     "description": "Encase yourself in magma, massively increasing damage resistance",
     "resource_cost": "Ultimate",
@@ -252,14 +251,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Magma Shell"
   },
   {
     "feature_id": "COMPANION_BASTIAN_RACIAL_001",
     "system": "COMPANION",
     "category": "Racial",
     "subcategory": "Bastian - Imperial",
-    "skill_name": "Imperial Mettle",
     "skill_type": "Passive",
     "description": "Increases Max Health and Stamina Recovery",
     "resource_cost": "None",
@@ -267,14 +266,14 @@
     "companion_class": "Dragonknight",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Default",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Imperial Mettle"
   },
   {
     "feature_id": "COMPANION_MIRRI_ASSASSINATION_001",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Assassination",
-    "skill_name": "Assassin's Blade",
     "skill_type": "Active",
     "description": "Thrust a blade at an enemy, dealing Physical Damage with bonus damage to low health targets",
     "resource_cost": "Stamina",
@@ -282,14 +281,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Assassin's Blade"
   },
   {
     "feature_id": "COMPANION_MIRRI_ASSASSINATION_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Assassination",
-    "skill_name": "Teleport Strike",
     "skill_type": "Active",
     "description": "Flash through shadows to appear at an enemy's location, dealing damage on arrival",
     "resource_cost": "Magicka",
@@ -297,14 +296,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Teleport Strike"
   },
   {
     "feature_id": "COMPANION_MIRRI_ASSASSINATION_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Assassination",
-    "skill_name": "Blur",
     "skill_type": "Active",
     "description": "Surround yourself with a blur of shadows, increasing Dodge chance",
     "resource_cost": "Magicka",
@@ -312,14 +311,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Blur"
   },
   {
     "feature_id": "COMPANION_MIRRI_ASSASSINATION_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Assassination",
-    "skill_name": "Mark Target",
     "skill_type": "Active",
     "description": "Mark an enemy, exposing their weaknesses and reducing their armor",
     "resource_cost": "Magicka",
@@ -327,14 +326,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Mark Target"
   },
   {
     "feature_id": "COMPANION_MIRRI_ASSASSINATION_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Assassination",
-    "skill_name": "Death Stroke",
     "skill_type": "Ultimate",
     "description": "Execute a devastating strike against an enemy, dealing massive damage and reducing healing received",
     "resource_cost": "Ultimate",
@@ -342,14 +341,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Death Stroke"
   },
   {
     "feature_id": "COMPANION_MIRRI_SHADOW_001",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Shadow",
-    "skill_name": "Shadow Cloak",
     "skill_type": "Active",
     "description": "Cloak yourself in shadow, becoming invisible for a short duration",
     "resource_cost": "Magicka",
@@ -357,14 +356,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Shadow Cloak"
   },
   {
     "feature_id": "COMPANION_MIRRI_SHADOW_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Shadow",
-    "skill_name": "Veiled Strike",
     "skill_type": "Active",
     "description": "Strike an enemy from the shadows, dealing Magic Damage and stunning if used while stealthed",
     "resource_cost": "Magicka",
@@ -372,14 +371,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Veiled Strike"
   },
   {
     "feature_id": "COMPANION_MIRRI_SHADOW_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Shadow",
-    "skill_name": "Path of Darkness",
     "skill_type": "Active",
     "description": "Create a path of shadows that increases movement speed and heals allies who walk through it",
     "resource_cost": "Magicka",
@@ -387,14 +386,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Path of Darkness"
   },
   {
     "feature_id": "COMPANION_MIRRI_SHADOW_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Shadow",
-    "skill_name": "Aspect of Terror",
     "skill_type": "Active",
     "description": "Unleash a wave of fear, causing nearby enemies to flee in terror",
     "resource_cost": "Magicka",
@@ -402,14 +401,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Aspect of Terror"
   },
   {
     "feature_id": "COMPANION_MIRRI_SHADOW_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Shadow",
-    "skill_name": "Soul Shred",
     "skill_type": "Ultimate",
     "description": "Assault an enemy's spirit, dealing massive Magic Damage and stunning them",
     "resource_cost": "Ultimate",
@@ -417,14 +416,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Soul Shred"
   },
   {
     "feature_id": "COMPANION_MIRRI_SIPHONING_001",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Siphoning",
-    "skill_name": "Strife",
     "skill_type": "Active",
     "description": "Steal an enemy's life force, dealing Magic Damage and healing yourself",
     "resource_cost": "Magicka",
@@ -432,14 +431,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Strife"
   },
   {
     "feature_id": "COMPANION_MIRRI_SIPHONING_002",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Siphoning",
-    "skill_name": "Agony",
     "skill_type": "Active",
     "description": "Afflict an enemy with crippling agony, dealing Magic Damage over time and stunning them",
     "resource_cost": "Magicka",
@@ -447,14 +446,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Agony"
   },
   {
     "feature_id": "COMPANION_MIRRI_SIPHONING_003",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Siphoning",
-    "skill_name": "Cripple",
     "skill_type": "Active",
     "description": "Sap an enemy's agility, dealing Magic Damage and reducing their movement speed",
     "resource_cost": "Magicka",
@@ -462,14 +461,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Cripple"
   },
   {
     "feature_id": "COMPANION_MIRRI_SIPHONING_004",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Siphoning",
-    "skill_name": "Siphoning Strikes",
     "skill_type": "Active",
     "description": "Imbue weapons with soul-stealing power, restoring Health and resources on attacks",
     "resource_cost": "Magicka",
@@ -477,14 +476,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Siphoning Strikes"
   },
   {
     "feature_id": "COMPANION_MIRRI_SIPHONING_005",
     "system": "COMPANION",
     "category": "Class",
     "subcategory": "Mirri - Siphoning",
-    "skill_name": "Soul Tether",
     "skill_type": "Ultimate",
     "description": "Bind enemy souls to yourself, dealing damage and stunning while healing yourself",
     "resource_cost": "Ultimate",
@@ -492,14 +491,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Soul Tether"
   },
   {
     "feature_id": "COMPANION_MIRRI_RACIAL_001",
     "system": "COMPANION",
     "category": "Racial",
     "subcategory": "Mirri - Dark Elf",
-    "skill_name": "Dunmer Tenacity",
     "skill_type": "Passive",
     "description": "Increases Max Magicka and Flame Resistance",
     "resource_cost": "None",
@@ -507,14 +506,14 @@
     "companion_class": "Nightblade",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Default",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Dunmer Tenacity"
   },
   {
     "feature_id": "COMPANION_WEAPON_1H_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "One Hand and Shield",
-    "skill_name": "Puncture",
     "skill_type": "Active",
     "description": "Thrust at an enemy, dealing Physical Damage and taunting them",
     "resource_cost": "Stamina",
@@ -522,14 +521,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Puncture"
   },
   {
     "feature_id": "COMPANION_WEAPON_1H_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "One Hand and Shield",
-    "skill_name": "Shield Charge",
     "skill_type": "Active",
     "description": "Rush an enemy with your shield, dealing Physical Damage and stunning them",
     "resource_cost": "Stamina",
@@ -537,14 +536,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Shield Charge"
   },
   {
     "feature_id": "COMPANION_WEAPON_1H_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "One Hand and Shield",
-    "skill_name": "Power Bash",
     "skill_type": "Active",
     "description": "Bash an enemy with your shield, dealing Physical Damage and interrupting them",
     "resource_cost": "Stamina",
@@ -552,14 +551,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Power Bash"
   },
   {
     "feature_id": "COMPANION_WEAPON_1H_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "One Hand and Shield",
-    "skill_name": "Shield Wall",
     "skill_type": "Ultimate",
     "description": "Bolster your defenses with a shield wall, greatly reducing damage taken",
     "resource_cost": "Ultimate",
@@ -567,14 +566,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Shield Wall"
   },
   {
     "feature_id": "COMPANION_WEAPON_2H_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Two Handed",
-    "skill_name": "Uppercut",
     "skill_type": "Active",
     "description": "Slam an enemy with a powerful uppercut, dealing Physical Damage and knocking them back",
     "resource_cost": "Stamina",
@@ -582,14 +581,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Uppercut"
   },
   {
     "feature_id": "COMPANION_WEAPON_2H_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Two Handed",
-    "skill_name": "Cleave",
     "skill_type": "Active",
     "description": "Swing your weapon in an arc, dealing Physical Damage to all enemies in front of you",
     "resource_cost": "Stamina",
@@ -597,14 +596,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Cleave"
   },
   {
     "feature_id": "COMPANION_WEAPON_2H_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Two Handed",
-    "skill_name": "Critical Charge",
     "skill_type": "Active",
     "description": "Charge forward and swing at enemies in your path, dealing Physical Damage",
     "resource_cost": "Stamina",
@@ -612,14 +611,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Critical Charge"
   },
   {
     "feature_id": "COMPANION_WEAPON_2H_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Two Handed",
-    "skill_name": "Berserker Strike",
     "skill_type": "Ultimate",
     "description": "Go berserk and unleash devastating attacks, dealing massive Physical Damage",
     "resource_cost": "Ultimate",
@@ -627,14 +626,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Berserker Strike"
   },
   {
     "feature_id": "COMPANION_WEAPON_DW_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Dual Wield",
-    "skill_name": "Twin Slashes",
     "skill_type": "Active",
     "description": "Slash enemies twice, dealing Physical Damage and causing bleeding",
     "resource_cost": "Stamina",
@@ -642,14 +641,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Twin Slashes"
   },
   {
     "feature_id": "COMPANION_WEAPON_DW_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Dual Wield",
-    "skill_name": "Whirlwind",
     "skill_type": "Active",
     "description": "Spin around dealing Physical Damage to all nearby enemies",
     "resource_cost": "Stamina",
@@ -657,14 +656,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Whirlwind"
   },
   {
     "feature_id": "COMPANION_WEAPON_DW_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Dual Wield",
-    "skill_name": "Blade Cloak",
     "skill_type": "Active",
     "description": "Surround yourself with spinning blades, dealing damage to nearby enemies",
     "resource_cost": "Stamina",
@@ -672,14 +671,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Blade Cloak"
   },
   {
     "feature_id": "COMPANION_WEAPON_DW_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Dual Wield",
-    "skill_name": "Lacerate",
     "skill_type": "Ultimate",
     "description": "Spin rapidly slashing all enemies around you, dealing massive Physical Damage over time",
     "resource_cost": "Ultimate",
@@ -687,14 +686,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Lacerate"
   },
   {
     "feature_id": "COMPANION_WEAPON_BOW_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Bow",
-    "skill_name": "Snipe",
     "skill_type": "Active",
     "description": "Fire a powerful shot at an enemy from range, dealing high Physical Damage",
     "resource_cost": "Stamina",
@@ -702,14 +701,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Snipe"
   },
   {
     "feature_id": "COMPANION_WEAPON_BOW_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Bow",
-    "skill_name": "Volley",
     "skill_type": "Active",
     "description": "Launch a volley of arrows at a target area, dealing Physical Damage over time",
     "resource_cost": "Stamina",
@@ -717,14 +716,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Volley"
   },
   {
     "feature_id": "COMPANION_WEAPON_BOW_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Bow",
-    "skill_name": "Scatter Shot",
     "skill_type": "Active",
     "description": "Fire an arrow that knocks back enemies and deals Physical Damage",
     "resource_cost": "Stamina",
@@ -732,14 +731,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Scatter Shot"
   },
   {
     "feature_id": "COMPANION_WEAPON_BOW_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Bow",
-    "skill_name": "Rapid Fire",
     "skill_type": "Ultimate",
     "description": "Unleash a barrage of arrows at a single target, dealing massive Physical Damage",
     "resource_cost": "Ultimate",
@@ -747,14 +746,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Rapid Fire"
   },
   {
     "feature_id": "COMPANION_WEAPON_DESTRO_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Destruction Staff",
-    "skill_name": "Destructive Touch",
     "skill_type": "Active",
     "description": "Blast an enemy with elemental energy, dealing damage based on staff type",
     "resource_cost": "Magicka",
@@ -762,14 +761,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Elemental"
+    "damage_type": "Elemental",
+    "name": "Destructive Touch"
   },
   {
     "feature_id": "COMPANION_WEAPON_DESTRO_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Destruction Staff",
-    "skill_name": "Wall of Elements",
     "skill_type": "Active",
     "description": "Create a wall of elemental energy that damages enemies who pass through",
     "resource_cost": "Magicka",
@@ -777,14 +776,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Elemental"
+    "damage_type": "Elemental",
+    "name": "Wall of Elements"
   },
   {
     "feature_id": "COMPANION_WEAPON_DESTRO_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Destruction Staff",
-    "skill_name": "Impulse",
     "skill_type": "Active",
     "description": "Release a burst of elemental energy around you, damaging all nearby enemies",
     "resource_cost": "Magicka",
@@ -792,14 +791,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Elemental"
+    "damage_type": "Elemental",
+    "name": "Impulse"
   },
   {
     "feature_id": "COMPANION_WEAPON_DESTRO_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Destruction Staff",
-    "skill_name": "Elemental Storm",
     "skill_type": "Ultimate",
     "description": "Call down a devastating elemental storm on a target area",
     "resource_cost": "Ultimate",
@@ -807,14 +806,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Elemental"
+    "damage_type": "Elemental",
+    "name": "Elemental Storm"
   },
   {
     "feature_id": "COMPANION_WEAPON_RESTO_001",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Restoration Staff",
-    "skill_name": "Grand Healing",
     "skill_type": "Active",
     "description": "Create a healing circle at a location, restoring Health to allies over time",
     "resource_cost": "Magicka",
@@ -822,14 +821,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Grand Healing"
   },
   {
     "feature_id": "COMPANION_WEAPON_RESTO_002",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Restoration Staff",
-    "skill_name": "Regeneration",
     "skill_type": "Active",
     "description": "Bless an ally with regenerative energy, healing them over time",
     "resource_cost": "Magicka",
@@ -837,14 +836,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Regeneration"
   },
   {
     "feature_id": "COMPANION_WEAPON_RESTO_003",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Restoration Staff",
-    "skill_name": "Blessing of Protection",
     "skill_type": "Active",
     "description": "Grant an ally protective blessings, healing them and increasing their resistances",
     "resource_cost": "Magicka",
@@ -852,14 +851,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Blessing of Protection"
   },
   {
     "feature_id": "COMPANION_WEAPON_RESTO_004",
     "system": "COMPANION",
     "category": "Weapon",
     "subcategory": "Restoration Staff",
-    "skill_name": "Panacea",
     "skill_type": "Ultimate",
     "description": "Channel restorative energy to massively heal yourself and nearby allies",
     "resource_cost": "Ultimate",
@@ -867,14 +866,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Panacea"
   },
   {
     "feature_id": "COMPANION_ARMOR_LIGHT_001",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Light Armor",
-    "skill_name": "Annulment",
     "skill_type": "Active",
     "description": "Create a magical shield that absorbs spell damage",
     "resource_cost": "Magicka",
@@ -882,14 +881,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Annulment"
   },
   {
     "feature_id": "COMPANION_ARMOR_LIGHT_002",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Light Armor",
-    "skill_name": "Evocation",
     "skill_type": "Passive",
     "description": "Reduces Magicka cost of abilities while wearing Light Armor",
     "resource_cost": "None",
@@ -897,14 +896,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Evocation"
   },
   {
     "feature_id": "COMPANION_ARMOR_LIGHT_003",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Light Armor",
-    "skill_name": "Spell Warding",
     "skill_type": "Passive",
     "description": "Increases Spell Resistance while wearing Light Armor",
     "resource_cost": "None",
@@ -912,14 +911,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Spell Warding"
   },
   {
     "feature_id": "COMPANION_ARMOR_MEDIUM_001",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Medium Armor",
-    "skill_name": "Evasion",
     "skill_type": "Active",
     "description": "Increase your dodge chance and movement speed for a duration",
     "resource_cost": "Stamina",
@@ -927,14 +926,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Evasion"
   },
   {
     "feature_id": "COMPANION_ARMOR_MEDIUM_002",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Medium Armor",
-    "skill_name": "Wind Walker",
     "skill_type": "Passive",
     "description": "Reduces Stamina cost of abilities while wearing Medium Armor",
     "resource_cost": "None",
@@ -942,14 +941,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Wind Walker"
   },
   {
     "feature_id": "COMPANION_ARMOR_MEDIUM_003",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Medium Armor",
-    "skill_name": "Agility",
     "skill_type": "Passive",
     "description": "Increases Critical Strike chance while wearing Medium Armor",
     "resource_cost": "None",
@@ -957,14 +956,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Agility"
   },
   {
     "feature_id": "COMPANION_ARMOR_HEAVY_001",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Heavy Armor",
-    "skill_name": "Immovable",
     "skill_type": "Active",
     "description": "Brace yourself, becoming immune to knockbacks and increasing resistances",
     "resource_cost": "Stamina",
@@ -972,14 +971,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Immovable"
   },
   {
     "feature_id": "COMPANION_ARMOR_HEAVY_002",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Heavy Armor",
-    "skill_name": "Constitution",
     "skill_type": "Passive",
     "description": "Restores Health and Stamina when hit while wearing Heavy Armor",
     "resource_cost": "None",
@@ -987,14 +986,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Constitution"
   },
   {
     "feature_id": "COMPANION_ARMOR_HEAVY_003",
     "system": "COMPANION",
     "category": "Armor",
     "subcategory": "Heavy Armor",
-    "skill_name": "Juggernaut",
     "skill_type": "Passive",
     "description": "Increases Physical and Spell Resistance while wearing Heavy Armor",
     "resource_cost": "None",
@@ -1002,14 +1001,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Juggernaut"
   },
   {
     "feature_id": "COMPANION_GUILD_FG_001",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Fighters Guild",
-    "skill_name": "Silver Bolts",
     "skill_type": "Active",
     "description": "Fire a bolt of silver at an enemy, dealing Physical Damage with bonus damage to Undead and Daedra",
     "resource_cost": "Stamina",
@@ -1017,14 +1016,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Silver Bolts"
   },
   {
     "feature_id": "COMPANION_GUILD_FG_002",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Fighters Guild",
-    "skill_name": "Circle of Protection",
     "skill_type": "Active",
     "description": "Create a circle of holy energy that protects allies and damages Undead and Daedra",
     "resource_cost": "Magicka",
@@ -1032,14 +1031,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Circle of Protection"
   },
   {
     "feature_id": "COMPANION_GUILD_FG_003",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Fighters Guild",
-    "skill_name": "Dawnbreaker",
     "skill_type": "Ultimate",
     "description": "Strike enemies with a weapon of holy light, dealing massive damage to Undead and Daedra",
     "resource_cost": "Ultimate",
@@ -1047,14 +1046,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Physical"
+    "damage_type": "Physical",
+    "name": "Dawnbreaker"
   },
   {
     "feature_id": "COMPANION_GUILD_MG_001",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Mages Guild",
-    "skill_name": "Magelight",
     "skill_type": "Active",
     "description": "Summon a ball of light that increases Spell Critical and reveals hidden enemies",
     "resource_cost": "Magicka",
@@ -1062,14 +1061,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Magelight"
   },
   {
     "feature_id": "COMPANION_GUILD_MG_002",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Mages Guild",
-    "skill_name": "Fire Rune",
     "skill_type": "Active",
     "description": "Place a rune on the ground that explodes when triggered, dealing Flame Damage",
     "resource_cost": "Magicka",
@@ -1077,14 +1076,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Fire Rune"
   },
   {
     "feature_id": "COMPANION_GUILD_MG_003",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Mages Guild",
-    "skill_name": "Meteor",
     "skill_type": "Ultimate",
     "description": "Call down a meteor from the sky, dealing massive Flame Damage in an area",
     "resource_cost": "Ultimate",
@@ -1092,14 +1091,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Flame"
+    "damage_type": "Flame",
+    "name": "Meteor"
   },
   {
     "feature_id": "COMPANION_GUILD_UNDAUNTED_001",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Undaunted",
-    "skill_name": "Bone Shield",
     "skill_type": "Active",
     "description": "Surround yourself with a whirlwind of bones that absorbs damage",
     "resource_cost": "Stamina",
@@ -1107,14 +1106,14 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "None"
+    "damage_type": "None",
+    "name": "Bone Shield"
   },
   {
     "feature_id": "COMPANION_GUILD_UNDAUNTED_002",
     "system": "COMPANION",
     "category": "Guild",
     "subcategory": "Undaunted",
-    "skill_name": "Inner Fire",
     "skill_type": "Active",
     "description": "Ignite the fires of revenge in an enemy's heart, dealing Magic Damage and taunting them",
     "resource_cost": "Magicka",
@@ -1122,6 +1121,7 @@
     "companion_class": "Any",
     "dlc_required": "Blackwood Chapter",
     "unlock_requirement": "Companion Rapport",
-    "damage_type": "Magic"
+    "damage_type": "Magic",
+    "name": "Inner Fire"
   }
 ]

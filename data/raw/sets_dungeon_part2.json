@@ -9,9 +9,18 @@
         "location": "Banished Cells I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Healing Done", "value_percent": 2},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Healing Done", "value_percent": 2},
+            "2": {
+                "stat": "Healing Done",
+                "value_percent": 2
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Healing Done",
+                "value_percent": 2
+            },
             "5": {
                 "effect": "Increases the healing received of group members within 10 meters by 12%.",
                 "aura_type": "passive",
@@ -30,7 +39,10 @@
         },
         "tags": "healer|support|healing|aura|group-buff|trial-meta",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/sanctuary"
+        "source_url": "https://eso-hub.com/en/sets/sanctuary",
+        "feature_id": "SET_DUNGEON_SANCTUARY",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_UNDAUNTED_BASTION",
@@ -42,9 +54,18 @@
         "location": "Banished Cells I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Health Recovery", "value": 129},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Health Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you cast an ability that costs resources while in combat, you and up to 3 other group members within 8 meters gain a damage shield that absorbs 7000 damage for 6 seconds. This effect can occur once every 6 seconds.",
                 "proc_condition": "ability_cast",
@@ -65,7 +86,10 @@
         },
         "tags": "tank|support|shield|group-shield|defensive",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/undaunted-bastion"
+        "source_url": "https://eso-hub.com/en/sets/undaunted-bastion",
+        "feature_id": "SET_DUNGEON_UNDAUNTED_BASTION",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_JAILBREAKER",
@@ -77,9 +101,18 @@
         "location": "Banished Cells I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Stamina Recovery", "value": 129},
-            "4": {"stat": "Maximum Stamina", "value": 1096},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Stamina Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "Adds 385 Magicka Recovery and 385 Stamina Recovery.",
                 "stat_magicka_recovery": 385,
@@ -96,7 +129,10 @@
         },
         "tags": "sustain|recovery|stamina|magicka|leveling",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/jailbreaker"
+        "source_url": "https://eso-hub.com/en/sets/jailbreaker",
+        "feature_id": "SET_DUNGEON_JAILBREAKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_ARMOR_VEILED_HERITANCE",
@@ -108,9 +144,18 @@
         "location": "Darkshade Caverns I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you taunt an enemy, you gain Major Heroism for 12 seconds, granting you 3 Ultimate every 1.5 seconds. This effect can occur once every 12 seconds.",
                 "proc_condition": "taunt",
@@ -131,7 +176,10 @@
         },
         "tags": "tank|ultimate|heroism|sustain|utility",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/armor-of-the-veiled-heritance"
+        "source_url": "https://eso-hub.com/en/sets/armor-of-the-veiled-heritance",
+        "feature_id": "SET_DUNGEON_ARMOR_VEILED_HERITANCE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_NETCHS_TOUCH",
@@ -143,9 +191,18 @@
         "location": "Darkshade Caverns I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Shock Damage", "value_percent": 5},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Shock Damage",
+                "value_percent": 5
+            },
             "5": {
                 "effect": "Increases the damage of your Shock abilities by 10%.",
                 "damage_type_increase": "Shock",
@@ -162,7 +219,10 @@
         },
         "tags": "damage|shock|elemental|magicka|sorcerer|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/netchs-touch"
+        "source_url": "https://eso-hub.com/en/sets/netchs-touch",
+        "feature_id": "SET_DUNGEON_NETCHS_TOUCH",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_WIDOWMAKER",
@@ -174,9 +234,18 @@
         "location": "Darkshade Caverns I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Your Light and Heavy Attacks apply a stacking poison to the enemy that deals 960 Poison Damage every 1 second for 5 seconds, stacking up to 4 times.",
                 "proc_condition": "light_heavy_attack",
@@ -197,7 +266,10 @@
         },
         "tags": "damage|poison|dot|stacking|light-attack|stamina|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/widowmaker"
+        "source_url": "https://eso-hub.com/en/sets/widowmaker",
+        "feature_id": "SET_DUNGEON_WIDOWMAKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_TOOTHROW",
@@ -209,9 +281,18 @@
         "location": "Wayrest Sewers I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Adds 330 Weapon and Spell Damage to your Dual Wield abilities.",
                 "condition": "dual_wield",
@@ -228,7 +309,10 @@
         },
         "tags": "damage|dual-wield|stamina|niche|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/toothrow"
+        "source_url": "https://eso-hub.com/en/sets/toothrow",
+        "feature_id": "SET_DUNGEON_TOOTHROW",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_ROBES_OF_THE_HIST",
@@ -240,9 +324,18 @@
         "location": "Wayrest Sewers I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Healing Done", "value_percent": 4},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Healing Done",
+                "value_percent": 4
+            },
             "5": {
                 "effect": "Reduces the cost of your healing abilities by 8%.",
                 "cost_reduction_percent": 8,
@@ -259,7 +352,10 @@
         },
         "tags": "healer|sustain|cost-reduction|magicka|leveling",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/robes-of-the-hist"
+        "source_url": "https://eso-hub.com/en/sets/robes-of-the-hist",
+        "feature_id": "SET_DUNGEON_ROBES_OF_THE_HIST",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SHEER_VENOM",
@@ -271,9 +367,18 @@
         "location": "Wayrest Sewers I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal damage with a fully-charged Heavy Attack, you inject venom into the target, dealing 12000 Poison Damage over 6 seconds. This effect can occur once every 6 seconds per target.",
                 "proc_condition": "heavy_attack_complete",
@@ -293,7 +398,10 @@
         },
         "tags": "damage|poison|dot|heavy-attack|stamina|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/sheer-venom"
+        "source_url": "https://eso-hub.com/en/sets/sheer-venom",
+        "feature_id": "SET_DUNGEON_SHEER_VENOM",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_COMBAT_PHYSICIAN",
@@ -305,9 +413,18 @@
         "location": "Elden Hollow I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Healing Done", "value_percent": 2},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Healing Done",
+                "value_percent": 2
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you critically heal yourself or an ally, you grant them a damage shield that absorbs 5280 damage for 6 seconds. This effect can occur once every 6 seconds per target.",
                 "proc_condition": "critical_heal",
@@ -326,7 +443,10 @@
         },
         "tags": "healer|support|shield|defensive|crit",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/combat-physician"
+        "source_url": "https://eso-hub.com/en/sets/combat-physician",
+        "feature_id": "SET_DUNGEON_COMBAT_PHYSICIAN",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_LIGHT_SPEAKER",
@@ -338,9 +458,18 @@
         "location": "Elden Hollow I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Magicka Recovery", "value": 129},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "Dealing damage with a fully-charged Heavy Attack restores 1956 Magicka to you and all group members within 15 meters. This effect can occur once every 8 seconds.",
                 "proc_condition": "heavy_attack_complete",
@@ -360,7 +489,10 @@
         },
         "tags": "healer|support|sustain|group-resource|magicka|heavy-attack",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/light-speaker"
+        "source_url": "https://eso-hub.com/en/sets/light-speaker",
+        "feature_id": "SET_DUNGEON_LIGHT_SPEAKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_UNDAUNTED_INFILTRATOR",
@@ -372,9 +504,18 @@
         "location": "Elden Hollow I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Maximum Stamina", "value": 1096},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "Dealing damage with a Light Attack adds 480 Weapon and Spell Damage for 10 seconds.",
                 "proc_condition": "light_attack",
@@ -393,7 +534,10 @@
         },
         "tags": "damage|light-attack|stamina|dps|buff",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/undaunted-infiltrator"
+        "source_url": "https://eso-hub.com/en/sets/undaunted-infiltrator",
+        "feature_id": "SET_DUNGEON_UNDAUNTED_INFILTRATOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_DREUGH_KING_SLAYER",
@@ -405,9 +549,18 @@
         "location": "Fungal Grotto I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal damage, you gain Major Brutality and Sorcery for 10 seconds, increasing your Weapon and Spell Damage by 20%. This effect can occur once every 10 seconds.",
                 "proc_condition": "deal_damage",
@@ -427,7 +580,10 @@
         },
         "tags": "damage|tank|hybrid|brutality|sorcery|heavy-armor",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/dreugh-king-slayer"
+        "source_url": "https://eso-hub.com/en/sets/dreugh-king-slayer",
+        "feature_id": "SET_DUNGEON_DREUGH_KING_SLAYER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SPIDER_CULTIST_COWL",
@@ -439,9 +595,18 @@
         "location": "Fungal Grotto I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Adds 400 Weapon and Spell Damage while using a Destruction Staff ability.",
                 "condition": "destruction_staff_ability",
@@ -458,7 +623,10 @@
         },
         "tags": "damage|destruction-staff|magicka|niche|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/spider-cultist-cowl"
+        "source_url": "https://eso-hub.com/en/sets/spider-cultist-cowl",
+        "feature_id": "SET_DUNGEON_SPIDER_CULTIST_COWL",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_VIPERS_STING",
@@ -470,9 +638,18 @@
         "location": "Fungal Grotto I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal melee damage, you inject the enemy with poisonous blood, dealing 4800 Poison Damage over 4 seconds. This effect can occur once every 4 seconds per target.",
                 "proc_condition": "melee_damage",
@@ -492,7 +669,10 @@
         },
         "tags": "damage|poison|melee|dot|stamina|pvp",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/vipers-sting"
+        "source_url": "https://eso-hub.com/en/sets/vipers-sting",
+        "feature_id": "SET_DUNGEON_VIPERS_STING",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SHADOWREND",
@@ -504,9 +684,18 @@
         "location": "Spindleclutch I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal damage, you have a 15% chance to summon a shadowy clannfear to ambush the nearest enemy after 1 second, dealing 9000 Magic Damage to all enemies within 5 meters. This effect can occur once every 5 seconds.",
                 "proc_condition": "deal_damage",
@@ -529,7 +718,10 @@
         },
         "tags": "damage|proc|summon|aoe|stamina|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/shadowrend"
+        "source_url": "https://eso-hub.com/en/sets/shadowrend",
+        "feature_id": "SET_DUNGEON_SHADOWREND",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_PRAYER_SHAWL",
@@ -541,9 +733,18 @@
         "location": "Spindleclutch I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you heal yourself or an ally, grant them Minor Resolve for 8 seconds, increasing their Physical and Spell Resistance by 2974. This effect can occur once every 8 seconds per target.",
                 "proc_condition": "heal",
@@ -563,7 +764,10 @@
         },
         "tags": "healer|support|resistance|defensive|group-buff",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/prayer-shawl"
+        "source_url": "https://eso-hub.com/en/sets/prayer-shawl",
+        "feature_id": "SET_DUNGEON_PRAYER_SHAWL",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_KNIGHTMARE",
@@ -575,9 +779,18 @@
         "location": "Spindleclutch I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "Enemies within 5 meters of you have Minor Maim, reducing their damage done by 5%.",
                 "aura_type": "passive",
@@ -596,7 +809,10 @@
         },
         "tags": "tank|debuff|minor-maim|aura|defensive",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/knightmare"
+        "source_url": "https://eso-hub.com/en/sets/knightmare",
+        "feature_id": "SET_DUNGEON_KNIGHTMARE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_TREASURE_HUNTER",
@@ -608,9 +824,18 @@
         "location": "Volenfell",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Increases the quality of items you find in treasure chests.",
                 "utility_effect": "treasure_quality_increase"
@@ -626,7 +851,10 @@
         },
         "tags": "utility|treasure|exploration|non-combat",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/treasure-hunter"
+        "source_url": "https://eso-hub.com/en/sets/treasure-hunter",
+        "feature_id": "SET_DUNGEON_TREASURE_HUNTER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_ORDER_OF_DIAGNA",
@@ -638,9 +866,18 @@
         "location": "Volenfell",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "Reduces the cost of your Block by 8%.",
                 "cost_reduction_percent": 8,
@@ -657,7 +894,10 @@
         },
         "tags": "tank|block|cost-reduction|defensive|sustain",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/order-of-diagna"
+        "source_url": "https://eso-hub.com/en/sets/order-of-diagna",
+        "feature_id": "SET_DUNGEON_ORDER_OF_DIAGNA",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_CRUSADER",
@@ -669,9 +909,18 @@
         "location": "Volenfell",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Dealing damage grants you Crusader for 10 seconds, which reduces the Stamina, Magicka, and Health cost of your abilities by 8%.",
                 "proc_condition": "deal_damage",
@@ -690,7 +939,10 @@
         },
         "tags": "damage|sustain|cost-reduction|magicka|utility",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/crusader"
+        "source_url": "https://eso-hub.com/en/sets/crusader",
+        "feature_id": "SET_DUNGEON_CRUSADER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_STORM_KNIGHTS_PLATE",
@@ -702,9 +954,18 @@
         "location": "Tempest Island",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Health", "value": 1206},
-            "4": {"stat": "Magicka Recovery", "value": 129},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "4": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "When you take damage while you are under 35% Health, you gain a damage shield for 6 seconds that absorbs up to 9060 damage. This effect can occur once every 15 seconds.",
                 "proc_condition": "damage_taken_low_health",
@@ -724,7 +985,10 @@
         },
         "tags": "tank|shield|defensive|emergency|heavy-armor",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/storm-knights-plate"
+        "source_url": "https://eso-hub.com/en/sets/storm-knights-plate",
+        "feature_id": "SET_DUNGEON_STORM_KNIGHTS_PLATE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_JOLTING_ARMS",
@@ -736,9 +1000,18 @@
         "location": "Tempest Island",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal direct damage, you have a 20% chance to deal 3550 Shock Damage to enemies within 8 meters of you. This effect can occur once every 4 seconds.",
                 "proc_condition": "direct_damage",
@@ -759,7 +1032,10 @@
         },
         "tags": "damage|shock|aoe|proc|stamina|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/jolting-arms"
+        "source_url": "https://eso-hub.com/en/sets/jolting-arms",
+        "feature_id": "SET_DUNGEON_JOLTING_ARMS",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_WAY_OF_THE_AIR",
@@ -771,9 +1047,18 @@
         "location": "Tempest Island",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you dodge roll, you gain Major Expedition for 8 seconds, increasing your Movement Speed by 30%.",
                 "proc_condition": "dodge_roll",
@@ -792,7 +1077,10 @@
         },
         "tags": "mobility|speed|expedition|utility|dodge",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/way-of-air"
+        "source_url": "https://eso-hub.com/en/sets/way-of-air",
+        "feature_id": "SET_DUNGEON_WAY_OF_THE_AIR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_NIKULAS_HEAVY_ARMOR",
@@ -804,9 +1092,18 @@
         "location": "Blessed Crucible",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you take damage while you have a damage shield active, gain Major Heroism for 9 seconds, granting you 3 Ultimate every 1.5 seconds. This effect can occur once every 9 seconds.",
                 "proc_condition": "damage_taken_with_shield",
@@ -827,7 +1124,10 @@
         },
         "tags": "tank|ultimate|heroism|shield-build|heavy-armor",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/nikulas-heavy-armor"
+        "source_url": "https://eso-hub.com/en/sets/nikulas-heavy-armor",
+        "feature_id": "SET_DUNGEON_NIKULAS_HEAVY_ARMOR",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SITHIS_TOUCH",
@@ -839,9 +1139,18 @@
         "location": "Blessed Crucible",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Killing an enemy within 2 meters of you restores 4500 Health. This effect can occur once every 1 second.",
                 "proc_condition": "enemy_kill_melee",
@@ -860,7 +1169,10 @@
         },
         "tags": "damage|self-heal|execute|melee|stamina|trash-clear",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/sithis-touch"
+        "source_url": "https://eso-hub.com/en/sets/sithis-touch",
+        "feature_id": "SET_DUNGEON_SITHIS_TOUCH",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SWORD_SINGER",
@@ -872,9 +1184,18 @@
         "location": "Blessed Crucible",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Adds 340 Weapon and Spell Damage when you have a Two Handed weapon equipped or are Dual Wielding.",
                 "condition": "two_handed_or_dual_wield",
@@ -891,7 +1212,10 @@
         },
         "tags": "damage|melee|two-handed|dual-wield|stamina|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/sword-singer"
+        "source_url": "https://eso-hub.com/en/sets/sword-singer",
+        "feature_id": "SET_DUNGEON_SWORD_SINGER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_LEVIATHAN",
@@ -903,9 +1227,18 @@
         "location": "Crypt of Hearts I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Critical Chance", "value": 657},
-            "4": {"stat": "Critical Chance", "value": 657},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Critical Chance",
+                "value": 657
+            },
+            "4": {
+                "stat": "Critical Chance",
+                "value": 657
+            },
             "5": {
                 "effect": "Adds 1314 Critical Chance.",
                 "stat_crit_chance": 1314
@@ -921,7 +1254,10 @@
         },
         "tags": "damage|crit|stamina|dps|beginner-friendly|static-bonus",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/leviathan"
+        "source_url": "https://eso-hub.com/en/sets/leviathan",
+        "feature_id": "SET_DUNGEON_LEVIATHAN",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_EBON_ARMORY",
@@ -933,9 +1269,18 @@
         "location": "Crypt of Hearts I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Maximum Health", "value": 1206},
-            "4": {"stat": "Healing Taken", "value_percent": 4},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "4": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
             "5": {
                 "effect": "Increases your Max Health by 1000 for you and up to 11 group members within 28 meters of you.",
                 "aura_type": "passive",
@@ -955,7 +1300,10 @@
         },
         "tags": "tank|support|group-buff|health|aura|trial-meta",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/ebon-armory"
+        "source_url": "https://eso-hub.com/en/sets/ebon-armory",
+        "feature_id": "SET_DUNGEON_EBON_ARMORY",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_WORMS_RAIMENT",
@@ -967,9 +1315,19 @@
         "location": "Crypt of Hearts I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Magicka Recovery", "value": 129},
-            "3": {"stat": "Minor Slayer", "uptime": "always", "effect": "Gain Minor Slayer at all times, increasing damage to Dungeon, Trial, and Arena Monsters by 5%"},
-            "4": {"stat": "Magicka Recovery", "value": 129},
+            "2": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "3": {
+                "stat": "Minor Slayer",
+                "uptime": "always",
+                "effect": "Gain Minor Slayer at all times, increasing damage to Dungeon, Trial, and Arena Monsters by 5%"
+            },
+            "4": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "Reduces the cost of Magicka abilities by 4% for you and up to 11 group members within 28 meters of you.",
                 "aura_type": "passive",
@@ -990,7 +1348,10 @@
         },
         "tags": "healer|support|sustain|group-buff|magicka|aura",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/worms-raiment"
+        "source_url": "https://eso-hub.com/en/sets/worms-raiment",
+        "feature_id": "SET_DUNGEON_WORMS_RAIMENT",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_BURNING_SPELLWEAVE",
@@ -1002,9 +1363,18 @@
         "location": "City of Ash I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Flame Damage", "value_percent": 5},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Flame Damage",
+                "value_percent": 5
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal Flame Damage, you apply Burning to your target and gain 525 Weapon and Spell Damage for 8 seconds. This effect can occur once every 8 seconds.",
                 "proc_condition": "flame_damage",
@@ -1025,7 +1395,10 @@
         },
         "tags": "damage|fire|magicka|dps|proc|dragonknight",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/burning-spellweave"
+        "source_url": "https://eso-hub.com/en/sets/burning-spellweave",
+        "feature_id": "SET_DUNGEON_BURNING_SPELLWEAVE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SUNDERFLAME",
@@ -1037,9 +1410,18 @@
         "location": "City of Ash I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Health", "value": 1206},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Dealing Flame Damage applies Minor Breach and Minor Fracture to enemies for 10 seconds, reducing their Physical and Spell Resistance by 2974. This effect can occur once every 5 seconds.",
                 "proc_condition": "flame_damage",
@@ -1059,7 +1441,10 @@
         },
         "tags": "tank|debuff|breach|fracture|fire|penetration|support",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/sunderflame"
+        "source_url": "https://eso-hub.com/en/sets/sunderflame",
+        "feature_id": "SET_DUNGEON_SUNDERFLAME",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_EMBERSHIELD",
@@ -1071,9 +1456,18 @@
         "location": "City of Ash I & II",
         "dlc_required": "Base Game",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you take melee damage, you have a 50% chance to deal 1025 Flame Damage to all enemies within 5 meters. This effect can occur once every 1 second.",
                 "proc_condition": "melee_damage_taken",
@@ -1094,7 +1488,10 @@
         },
         "tags": "tank|fire|damage|proc|defensive|retaliation",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/embershield"
+        "source_url": "https://eso-hub.com/en/sets/embershield",
+        "feature_id": "SET_DUNGEON_EMBERSHIELD",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_ESSENCE_THIEF",
@@ -1106,9 +1503,18 @@
         "location": "White-Gold Tower",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Maximum Stamina", "value": 1096},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you deal damage with a Light Attack, you create an Aura of Pride at your target's location for 10 seconds, which heals you for 1650 Health every 1 second and restores 375 Stamina if you are standing within 5 meters of the aura. This effect can occur once every 15 seconds.",
                 "proc_condition": "light_attack",
@@ -1130,7 +1536,10 @@
         },
         "tags": "damage|sustain|self-heal|stamina|light-attack|dps",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/essence-thief"
+        "source_url": "https://eso-hub.com/en/sets/essence-thief",
+        "feature_id": "SET_DUNGEON_ESSENCE_THIEF",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SPELL_POWER_CURE",
@@ -1142,9 +1551,18 @@
         "location": "White-Gold Tower",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Healing Done", "value_percent": 2},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Healing Done", "value_percent": 2},
+            "2": {
+                "stat": "Healing Done",
+                "value_percent": 2
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Healing Done",
+                "value_percent": 2
+            },
             "5": {
                 "effect": "When you heal a target that is at full Health, grant them Major Courage for 10 seconds, increasing their Weapon and Spell Damage by 430. This effect can occur once every 5 seconds per target.",
                 "proc_condition": "heal_full_health_target",
@@ -1164,7 +1582,10 @@
         },
         "tags": "healer|support|major-courage|group-buff|trial-meta|dps-boost",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/spell-power-cure"
+        "source_url": "https://eso-hub.com/en/sets/spell-power-cure",
+        "feature_id": "SET_DUNGEON_SPELL_POWER_CURE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_IMPERIAL_PHYSIQUE",
@@ -1176,9 +1597,18 @@
         "location": "White-Gold Tower",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Maximum Stamina", "value": 1096},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "Increases your Health, Magicka, and Stamina Recovery by 200.",
                 "stat_health_recovery": 200,
@@ -1196,7 +1626,10 @@
         },
         "tags": "sustain|recovery|all-resources|leveling|beginner-friendly",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/imperial-physique"
+        "source_url": "https://eso-hub.com/en/sets/imperial-physique",
+        "feature_id": "SET_DUNGEON_IMPERIAL_PHYSIQUE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_LEECHING_PLATE",
@@ -1208,9 +1641,18 @@
         "location": "Imperial City Prison",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you take damage, you create a pool of desecrated blood beneath you, dealing 350 Magic Damage every 1 second for 6 seconds to all enemies in the area and healing you for 100% of the damage done. This effect can occur once every 6 seconds.",
                 "proc_condition": "damage_taken",
@@ -1233,7 +1675,10 @@
         },
         "tags": "tank|self-heal|sustain|damage|proc|trial-meta",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/leeching-plate"
+        "source_url": "https://eso-hub.com/en/sets/leeching-plate",
+        "feature_id": "SET_DUNGEON_LEECHING_PLATE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SCATHING_MAGE",
@@ -1245,9 +1690,18 @@
         "location": "Imperial City Prison",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Critical Chance", "value": 657},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Critical Chance",
+                "value": 657
+            },
             "5": {
                 "effect": "When you deal Critical Damage with a direct damage attack, you gain 516 Weapon and Spell Damage for 5 seconds. This effect can occur once every 5 seconds.",
                 "proc_condition": "critical_direct_damage",
@@ -1267,7 +1721,10 @@
         },
         "tags": "damage|crit|magicka|proc|dps|direct-damage",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/scathing-mage"
+        "source_url": "https://eso-hub.com/en/sets/scathing-mage",
+        "feature_id": "SET_DUNGEON_SCATHING_MAGE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_SHIELDBREAKER",
@@ -1279,9 +1736,18 @@
         "location": "Imperial City Prison",
         "dlc_required": "Imperial City",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Your direct damage attacks ignore Damage Shields. Your damage done against Damage Shields is increased by 300%.",
                 "effect_type": "passive",
@@ -1299,7 +1765,10 @@
         },
         "tags": "damage|pvp|shield-counter|stamina|niche",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/shieldbreaker"
+        "source_url": "https://eso-hub.com/en/sets/shieldbreaker",
+        "feature_id": "SET_DUNGEON_SHIELDBREAKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_FLANKING_STRATEGIST",
@@ -1311,9 +1780,18 @@
         "location": "Cradle of Shadows",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "When you deal damage from an enemy's flank, you deal an additional 2830 Physical Damage. This effect can occur once every 1 second.",
                 "proc_condition": "flank_damage",
@@ -1332,7 +1810,10 @@
         },
         "tags": "damage|melee|positioning|stamina|dps|nightblade",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/flanking-strategist"
+        "source_url": "https://eso-hub.com/en/sets/flanking-strategist",
+        "feature_id": "SET_DUNGEON_FLANKING_STRATEGIST",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_RATTLECAGE",
@@ -1344,9 +1825,18 @@
         "location": "Cradle of Shadows",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you deal direct damage, gain Major Sorcery for 12 seconds, increasing your Spell Damage by 20%. This effect can occur once every 12 seconds.",
                 "proc_condition": "direct_damage",
@@ -1366,7 +1856,10 @@
         },
         "tags": "damage|sorcery|heavy-armor|hybrid|magicka",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/rattlecage"
+        "source_url": "https://eso-hub.com/en/sets/rattlecage",
+        "feature_id": "SET_DUNGEON_RATTLECAGE",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_HAND_OF_MEPHALA",
@@ -1378,9 +1871,18 @@
         "location": "Cradle of Shadows",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you complete a fully-charged Heavy Attack, you spawn a web at the enemy's location for 10 seconds. Enemies in the web take 350 Magic Damage every 1 second and are snared by 50%. This effect can occur once every 10 seconds.",
                 "proc_condition": "heavy_attack_complete",
@@ -1402,7 +1904,10 @@
         },
         "tags": "damage|snare|crowd-control|heavy-attack|magicka|dot",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/hand-of-mephala"
+        "source_url": "https://eso-hub.com/en/sets/hand-of-mephala",
+        "feature_id": "SET_DUNGEON_HAND_OF_MEPHALA",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_AMBER_PLASM",
@@ -1414,9 +1919,18 @@
         "location": "Ruins of Mazzatun",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Maximum Magicka", "value": 1096},
-            "4": {"stat": "Magicka Recovery", "value": 129},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
             "5": {
                 "effect": "Adds 520 Magicka Recovery.",
                 "stat_magicka_recovery": 520
@@ -1432,7 +1946,10 @@
         },
         "tags": "healer|sustain|magicka|recovery|static-bonus",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/amber-plasm"
+        "source_url": "https://eso-hub.com/en/sets/amber-plasm",
+        "feature_id": "SET_DUNGEON_AMBER_PLASM",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_HEEM_JAS_RETRIBUTION",
@@ -1444,9 +1961,18 @@
         "location": "Ruins of Mazzatun",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Maximum Stamina", "value": 1096},
-            "3": {"stat": "Weapon and Spell Damage", "value": 129},
-            "4": {"stat": "Maximum Stamina", "value": 1096},
+            "2": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you damage an enemy that has more than 90% Health, you apply Hunter's Mark for 30 seconds. Your direct damage against enemies with Hunter's Mark has a 10% chance to deal an additional 9675 Physical Damage and stun them for 3 seconds. Once applied, you cannot apply Hunter's Mark to the same target for 60 seconds.",
                 "proc_condition": "damage_high_health_target",
@@ -1469,7 +1995,10 @@
         },
         "tags": "damage|burst|opener|stamina|pvp|stun",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/heem-jass-retribution"
+        "source_url": "https://eso-hub.com/en/sets/heem-jass-retribution",
+        "feature_id": "SET_DUNGEON_HEEM_JAS_RETRIBUTION",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_ASPECT_OF_MAZZATUN",
@@ -1481,9 +2010,18 @@
         "location": "Ruins of Mazzatun",
         "dlc_required": "Shadows of the Hist",
         "bonuses": {
-            "2": {"stat": "Maximum Health", "value": 1206},
-            "3": {"stat": "Healing Taken", "value_percent": 4},
-            "4": {"stat": "Maximum Health", "value": 1206},
+            "2": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
+            "3": {
+                "stat": "Healing Taken",
+                "value_percent": 4
+            },
+            "4": {
+                "stat": "Maximum Health",
+                "value": 1206
+            },
             "5": {
                 "effect": "When you take damage while under 30% Health, you heal for 20% of your Max Health, gain Major Vitality for 10 seconds, and remove 1 negative effect from yourself. This effect can occur once every 45 seconds.",
                 "proc_condition": "damage_taken_low_health",
@@ -1505,7 +2043,10 @@
         },
         "tags": "tank|emergency|heal|cleanse|defensive|survival",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/aspect-of-mazzatun"
+        "source_url": "https://eso-hub.com/en/sets/aspect-of-mazzatun",
+        "feature_id": "SET_DUNGEON_ASPECT_OF_MAZZATUN",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_BLOODDRINKER",
@@ -1517,9 +2058,18 @@
         "location": "Bloodroot Forge",
         "dlc_required": "Horns of the Reach",
         "bonuses": {
-            "2": {"stat": "Weapon and Spell Damage", "value": 129},
-            "3": {"stat": "Maximum Stamina", "value": 1096},
-            "4": {"stat": "Weapon and Spell Damage", "value": 129},
+            "2": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
+            "3": {
+                "stat": "Maximum Stamina",
+                "value": 1096
+            },
+            "4": {
+                "stat": "Weapon and Spell Damage",
+                "value": 129
+            },
             "5": {
                 "effect": "Increases your Bleed Damage done by 20%.",
                 "damage_type_increase": "Bleed",
@@ -1536,7 +2086,10 @@
         },
         "tags": "damage|bleed|dot|stamina|dps|necromancer|warden",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/blooddrinker"
+        "source_url": "https://eso-hub.com/en/sets/blooddrinker",
+        "feature_id": "SET_DUNGEON_BLOODDRINKER",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_HAGRAVEN_GARDEN",
@@ -1548,9 +2101,18 @@
         "location": "Bloodroot Forge",
         "dlc_required": "Horns of the Reach",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Magicka Recovery", "value": 129},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Magicka Recovery",
+                "value": 129
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you heal yourself or an ally, you create a circle of nature beneath them for 5 seconds. Allies in the circle recover 400 Magicka and Stamina every 1 second. This effect can occur once every 5 seconds.",
                 "proc_condition": "heal",
@@ -1571,7 +2133,10 @@
         },
         "tags": "healer|support|sustain|group-resource|magicka|stamina",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/hagravens-garden"
+        "source_url": "https://eso-hub.com/en/sets/hagravens-garden",
+        "feature_id": "SET_DUNGEON_HAGRAVEN_GARDEN",
+        "system": "PLAYER",
+        "category": "Set"
     },
     {
         "set_id": "SET_DUNGEON_FLAME_BLOSSOM",
@@ -1583,9 +2148,18 @@
         "location": "Bloodroot Forge",
         "dlc_required": "Horns of the Reach",
         "bonuses": {
-            "2": {"stat": "Maximum Magicka", "value": 1096},
-            "3": {"stat": "Flame Damage", "value_percent": 5},
-            "4": {"stat": "Maximum Magicka", "value": 1096},
+            "2": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
+            "3": {
+                "stat": "Flame Damage",
+                "value_percent": 5
+            },
+            "4": {
+                "stat": "Maximum Magicka",
+                "value": 1096
+            },
             "5": {
                 "effect": "When you deal direct damage, you have a 10% chance to summon a line of fire that moves forward after 1 second, dealing 11000 Flame Damage to all enemies in its path. This effect can occur once every 2 seconds.",
                 "proc_condition": "direct_damage",
@@ -1606,6 +2180,9 @@
         },
         "tags": "damage|fire|proc|magicka|dps|aoe",
         "patch_updated": "U48",
-        "source_url": "https://eso-hub.com/en/sets/flame-blossom"
+        "source_url": "https://eso-hub.com/en/sets/flame-blossom",
+        "feature_id": "SET_DUNGEON_FLAME_BLOSSOM",
+        "system": "PLAYER",
+        "category": "Set"
     }
 ]
