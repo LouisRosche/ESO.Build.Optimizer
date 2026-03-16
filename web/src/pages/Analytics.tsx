@@ -47,7 +47,7 @@ export default function Analytics() {
   const buffAnalysis = apiBuffAnalysis ?? mockBuffAnalysis;
   const detailedRun = apiDetailedRun ?? mockDetailedRun;
 
-  const isLoading = runsLoading && dpsTrendLoading && buffLoading;
+  const isLoading = runsLoading || dpsTrendLoading || buffLoading;
   const usingMockData = !apiRuns && !runsLoading;
 
   // Format data for charts - memoized to prevent unnecessary recalculations

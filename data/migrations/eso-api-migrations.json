@@ -259,6 +259,263 @@
       "notes": "Console: Now only returns long-term buffs for local player. isLongTermBuff return value removed.",
       "oldSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ..., isLongTermBuff",
       "newSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ... (console only returns long-term player buffs)"
+    },
+    {
+      "id": "endeavor-001",
+      "oldName": "GetDailyEndeavors",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- GetDailyEndeavors removed (Endeavors system removed in U49)"
+    },
+    {
+      "id": "endeavor-002",
+      "oldName": "GetWeeklyEndeavors",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- GetWeeklyEndeavors removed (Endeavors system removed in U49)"
+    },
+    {
+      "id": "endeavor-003",
+      "oldName": "GetEndeavorsProgress",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- GetEndeavorsProgress removed (Endeavors system removed in U49)"
+    },
+    {
+      "id": "endeavor-004",
+      "oldName": "GetEndeavorsInfo",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- GetEndeavorsInfo removed (Endeavors system removed in U49)"
+    },
+    {
+      "id": "endeavor-005",
+      "oldName": "GetNumEndeavors",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- GetNumEndeavors removed (Endeavors system removed in U49)"
+    },
+    {
+      "id": "endeavor-006",
+      "oldName": "IsEndeavorsSystemAvailable",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "endeavors",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Endeavors system removed in Update 49",
+      "replacementCode": "-- IsEndeavorsSystemAvailable removed; always returns false equivalent"
+    },
+    {
+      "id": "daily-login-001",
+      "oldName": "GetDailyLoginRewardInfo",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- GetDailyLoginRewardInfo removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "daily-login-002",
+      "oldName": "GetDailyLoginRewardIndex",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- GetDailyLoginRewardIndex removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "daily-login-003",
+      "oldName": "GetNumDailyLoginRewards",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- GetNumDailyLoginRewards removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "daily-login-004",
+      "oldName": "IsDailyLoginRewardClaimed",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- IsDailyLoginRewardClaimed removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "daily-login-005",
+      "oldName": "ClaimDailyLoginReward",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- ClaimDailyLoginReward removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "daily-login-006",
+      "oldName": "GetDailyLoginClaimableRewardIndex",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "daily_login",
+      "confidence": 1.0,
+      "autoFixable": false,
+      "notes": "Daily Login Rewards system removed in Update 49",
+      "replacementCode": "-- GetDailyLoginClaimableRewardIndex removed (Daily Login Rewards removed in U49)"
+    },
+    {
+      "id": "transmute-001",
+      "oldName": "GetMaxTransmuteCrystals",
+      "type": "return_changed",
+      "versionDeprecated": 101049,
+      "category": "currency",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Transmute Crystal cap tripled from 1000 to 3000 in Update 49. Function still works but returns new max.",
+      "exceptions": ["Addons that query this dynamically are unaffected"]
+    },
+    {
+      "id": "tomes-001",
+      "oldName": "GetTomeProgressionInfo",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "tamriel_tomes",
+      "confidence": 0.5,
+      "autoFixable": false,
+      "notes": "New in U49: Tamriel Tomes progression. Not available on API < 101049.",
+      "replacementCode": "-- GetTomeProgressionInfo is new in API 101049 (U49)"
+    },
+    {
+      "id": "tomes-002",
+      "oldName": "GetNumTomePoints",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "tamriel_tomes",
+      "confidence": 0.5,
+      "autoFixable": false,
+      "notes": "New in U49: Tome Points currency. Not available on API < 101049.",
+      "replacementCode": "-- GetNumTomePoints is new in API 101049 (U49)"
+    },
+    {
+      "id": "tomes-003",
+      "oldName": "GetNumPremiumTomeTokens",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "tamriel_tomes",
+      "confidence": 0.5,
+      "autoFixable": false,
+      "notes": "New in U49: Premium Tome Tokens currency. Not available on API < 101049.",
+      "replacementCode": "-- GetNumPremiumTomeTokens is new in API 101049 (U49)"
+    },
+    {
+      "id": "tomes-004",
+      "oldName": "GetCurrentTomeSeason",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "category": "tamriel_tomes",
+      "confidence": 0.5,
+      "autoFixable": false,
+      "notes": "New in U49: Tamriel Tomes season info. Not available on API < 101049.",
+      "replacementCode": "-- GetCurrentTomeSeason is new in API 101049 (U49)"
+    },
+    {
+      "id": "outfit-001",
+      "oldName": "GetOutfitSlotDataForCharacter",
+      "type": "replaced",
+      "versionDeprecated": 101049,
+      "versionRemoved": 101049,
+      "category": "outfit",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Outfit Slots are now account-wide in U49. Character-specific API removed.",
+      "replacementCode": "GetOutfitSlotData(outfitIndex, slotIndex)"
+    },
+    {
+      "id": "outfit-002",
+      "oldName": "SetOutfitSlotForCharacter",
+      "type": "replaced",
+      "versionDeprecated": 101049,
+      "versionRemoved": 101049,
+      "category": "outfit",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "Outfit Slots are now account-wide in U49. Character-specific API removed.",
+      "replacementCode": "SetOutfitSlot(outfitIndex, slotIndex, collectibleId)"
+    },
+    {
+      "id": "outfit-003",
+      "oldName": "GetNumOutfitsForCharacter",
+      "type": "renamed",
+      "newName": "GetNumOutfits",
+      "versionDeprecated": 101049,
+      "versionRemoved": 101049,
+      "category": "outfit",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "Outfit Slots are now account-wide in U49. No character parameter needed."
+    },
+    {
+      "id": "outfit-004",
+      "oldName": "RenameOutfitForCharacter",
+      "type": "renamed",
+      "newName": "RenameOutfit",
+      "versionDeprecated": 101049,
+      "versionRemoved": 101049,
+      "category": "outfit",
+      "confidence": 0.9,
+      "autoFixable": true,
+      "notes": "Outfit Slots are now account-wide in U49. No character parameter needed."
+    },
+    {
+      "id": "currency-001",
+      "oldName": "GetCurrencyAmount",
+      "type": "signature_changed",
+      "versionDeprecated": 101049,
+      "category": "currency",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Event Tickets and Endeavor Seals currency types removed in U49. GetCurrencyAmount with CURT_EVENT_TICKETS or CURT_ENDEAVOR_SEALS will return 0. New currency types added: CURT_TRADE_BARS, CURT_OUTFIT_CHANGE_TOKENS, CURT_TOME_POINTS, CURT_PREMIUM_TOME_TOKENS.",
+      "exceptions": ["Addons that only use standard currency types (gold, AP, Tel Var) are unaffected"]
+    },
+    {
+      "id": "xp-001",
+      "oldName": "GetUnitXPBarInfo",
+      "type": "return_changed",
+      "versionDeprecated": 101049,
+      "category": "experience",
+      "confidence": 0.7,
+      "autoFixable": false,
+      "notes": "Back bar now earns equal XP in U49. XP values no longer differ based on active bar.",
+      "exceptions": ["Addons that do not differentiate front/back bar XP are unaffected"]
     }
   ],
 
@@ -277,6 +534,48 @@
       "type": "removed",
       "versionRemoved": 100015,
       "notes": "Veteran system removed."
+    },
+    {
+      "id": "evt-003",
+      "oldName": "EVENT_ENDEAVOR_PROGRESS_UPDATE",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "notes": "Endeavors system removed in Update 49."
+    },
+    {
+      "id": "evt-004",
+      "oldName": "EVENT_ENDEAVOR_COMPLETED",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "notes": "Endeavors system removed in Update 49."
+    },
+    {
+      "id": "evt-005",
+      "oldName": "EVENT_ENDEAVORS_RESET",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "notes": "Endeavors system removed in Update 49."
+    },
+    {
+      "id": "evt-006",
+      "oldName": "EVENT_DAILY_LOGIN_REWARDS_UPDATED",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "notes": "Daily Login Rewards system removed in Update 49."
+    },
+    {
+      "id": "evt-007",
+      "oldName": "EVENT_DAILY_LOGIN_REWARDS_CLAIMED",
+      "type": "removed",
+      "versionRemoved": 101049,
+      "notes": "Daily Login Rewards system removed in Update 49."
+    },
+    {
+      "id": "evt-008",
+      "oldName": "EVENT_OUTFIT_CHANGE_RESPONSE",
+      "type": "signature_changed",
+      "versionChanged": 101049,
+      "notes": "Outfit events now account-wide in U49. Character parameter removed from callback."
     }
   ],
 

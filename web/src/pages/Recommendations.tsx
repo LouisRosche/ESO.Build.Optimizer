@@ -22,7 +22,7 @@ export default function Recommendations() {
   const recommendations = apiRecommendations ?? mockRecommendations;
   const usingMockData = !apiRuns && !runsLoading;
 
-  const isLoading = runsLoading && recsLoading;
+  const isLoading = runsLoading || recsLoading;
 
   const categories: { value: RecommendationCategory | 'all'; label: string; icon: typeof Lightbulb }[] = [
     { value: 'all', label: 'All', icon: Lightbulb },

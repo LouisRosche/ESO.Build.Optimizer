@@ -86,6 +86,12 @@ local defaultSavedVars = {
 local MAX_PENDING_RUNS = 100  -- Maximum pending runs before FIFO eviction
 
 ---------------------------------------------------------------------------
+-- Library References (optional, graceful fallback if not installed)
+---------------------------------------------------------------------------
+
+local logger = LibDebugLogger and LibDebugLogger:Create("ESOBuildOptimizer")
+
+---------------------------------------------------------------------------
 -- Local State
 ---------------------------------------------------------------------------
 
@@ -114,18 +120,33 @@ end
 -- Debug logging
 function addon:Debug(message, ...)
     if self.savedVars and self.savedVars.settings.verboseLogging then
-        d(string.format("[%s] %s", self.name, string.format(message, ...)))
+        local formatted = string.format(message, ...)
+        if logger then
+            logger:Debug(formatted)
+        else
+            d(string.format("[%s] %s", self.name, formatted))
+        end
     end
 end
 
 -- Info logging (always shown)
 function addon:Info(message, ...)
-    d(string.format("[%s] %s", self.displayName, string.format(message, ...)))
+    local formatted = string.format(message, ...)
+    if logger then
+        logger:Info(formatted)
+    end
+    -- Always print to chat so users see important messages
+    d(string.format("[%s] %s", self.displayName, formatted))
 end
 
 -- Error logging
 function addon:Error(message, ...)
-    d(string.format("[%s] ERROR: %s", self.name, string.format(message, ...)))
+    local formatted = string.format(message, ...)
+    if logger then
+        logger:Error(formatted)
+    end
+    -- Always print to chat so users see errors
+    d(string.format("[%s] ERROR: %s", self.name, formatted))
 end
 
 -- Get current timestamp in ISO8601 format
@@ -160,6 +181,172 @@ local function InitializeSavedVariables()
 
     addon.savedVars = ESOBuildOptimizerSV
     addon:Debug("SavedVariables initialized")
+end
+
+---------------------------------------------------------------------------
+-- LibAddonMenu Settings Panel
+---------------------------------------------------------------------------
+
+local function CreateSettingsPanel()
+    local LAM = LibAddonMenu2
+    if not LAM then return end
+    if not addon.savedVars then return end
+
+    local settings = addon.savedVars.settings
+
+    local panelData = {
+        type = "panel",
+        name = addon.displayName,
+        displayName = addon.displayName,
+        author = addon.author,
+        version = addon.version,
+        registerForRefresh = true,
+    }
+
+    LAM:RegisterAddonPanel(addon.name .. "Options", panelData)
+
+    local optionsData = {
+        -- General Settings
+        {
+            type = "header",
+            name = "General",
+        },
+        {
+            type = "checkbox",
+            name = "Enable Addon",
+            tooltip = "Enable or disable the ESO Build Optimizer addon.",
+            getFunc = function() return settings.enabled end,
+            setFunc = function(value) settings.enabled = value end,
+            default = true,
+        },
+        {
+            type = "checkbox",
+            name = "Verbose Logging",
+            tooltip = "Enable detailed debug logging. Useful for troubleshooting. Uses LibDebugLogger if available.",
+            getFunc = function() return settings.verboseLogging end,
+            setFunc = function(value) settings.verboseLogging = value end,
+            default = false,
+        },
+
+        -- UI Settings
+        {
+            type = "header",
+            name = "Metrics UI",
+        },
+        {
+            type = "checkbox",
+            name = "Show UI",
+            tooltip = "Show or hide the metrics overlay.",
+            getFunc = function() return settings.showUI end,
+            setFunc = function(value)
+                settings.showUI = value
+                if addon.MetricsUI then
+                    if value then
+                        addon.MetricsUI:Show()
+                    else
+                        addon.MetricsUI:Hide()
+                    end
+                end
+            end,
+            default = true,
+        },
+        {
+            type = "slider",
+            name = "UI Scale",
+            tooltip = "Scale of the metrics overlay.",
+            min = 0.5,
+            max = 2.0,
+            step = 0.1,
+            decimals = 1,
+            getFunc = function() return settings.uiScale end,
+            setFunc = function(value)
+                settings.uiScale = value
+                if addon.MetricsUI then
+                    addon.MetricsUI:SetScale(value)
+                end
+            end,
+            default = 1.0,
+        },
+        {
+            type = "checkbox",
+            name = "Lock UI Position",
+            tooltip = "Prevent the metrics overlay from being dragged.",
+            getFunc = function() return settings.uiLocked end,
+            setFunc = function(value)
+                settings.uiLocked = value
+                if addon.MetricsUI then
+                    if value then
+                        addon.MetricsUI:Lock()
+                    else
+                        addon.MetricsUI:Unlock()
+                    end
+                end
+            end,
+            default = false,
+        },
+        {
+            type = "checkbox",
+            name = "Auto-Display in Combat",
+            tooltip = "Automatically show the metrics overlay when entering combat.",
+            getFunc = function() return settings.autoDisplayMetrics end,
+            setFunc = function(value)
+                settings.autoDisplayMetrics = value
+                if addon.MetricsUI then
+                    addon.MetricsUI:SetAutoDisplay(value)
+                end
+            end,
+            default = true,
+        },
+        {
+            type = "checkbox",
+            name = "Expanded View by Default",
+            tooltip = "Start with the expanded metrics view instead of the collapsed view.",
+            getFunc = function() return settings.expandedView end,
+            setFunc = function(value)
+                settings.expandedView = value
+                if addon.MetricsUI then
+                    addon.MetricsUI:SetExpanded(value)
+                end
+            end,
+            default = false,
+        },
+
+        -- Skill Advisor Settings
+        {
+            type = "header",
+            name = "Skill Advisor",
+        },
+        {
+            type = "checkbox",
+            name = "Enable Skill Advisor",
+            tooltip = "Show real-time skill recommendations during combat.",
+            getFunc = function() return settings.showSkillAdvisor end,
+            setFunc = function(value)
+                settings.showSkillAdvisor = value
+                if addon.SkillAdvisor then
+                    addon.SkillAdvisor:SetEnabled(value)
+                end
+            end,
+            default = true,
+        },
+        {
+            type = "checkbox",
+            name = "Skill Glow Effect",
+            tooltip = "Highlight recommended abilities with a glow effect on the action bar.",
+            getFunc = function() return settings.skillHighlightEnabled end,
+            setFunc = function(value)
+                settings.skillHighlightEnabled = value
+                if addon.SkillAdvisor then
+                    addon.SkillAdvisor:SetHighlightEnabled(value)
+                end
+            end,
+            default = true,
+        },
+    }
+
+    LAM:RegisterOptionControls(addon.name .. "Options", optionsData)
+
+    addon:Debug("LAM settings panel registered")
 end
 
 ---------------------------------------------------------------------------
@@ -212,6 +399,9 @@ local function OnPlayerActivated(eventCode, initial)
     if addon.SkillAdvisor then
         addon.SkillAdvisor:Initialize()
     end
+
+    -- Register LAM settings panel (after modules so setFunc callbacks work)
+    CreateSettingsPanel()
 
     addon:Info("Ready - v%s", addon.version)
 end
