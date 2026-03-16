@@ -9,12 +9,35 @@ from datetime import datetime
 from unittest.mock import Mock, patch
 
 
-def test_ml_imports():
-    """Test that all ML modules can be imported without errors."""
-    from ml.percentile import PercentileCalculator, CombatRun, CombatMetrics, ContentInfo
-    from ml.recommendations import RecommendationEngine, Recommendation
+def test_ml_percentile_imports():
+    """Test that percentile module can be imported."""
+    from ml.percentile import (
+        PercentileCalculator,
+        CombatRun,
+        ContributionMetrics,
+        ContentInfo,
+        ContentType,
+        Difficulty,
+        RoleType,
+        SimilarityCriteria,
+        PercentileResult,
+    )
 
     assert PercentileCalculator is not None
+
+
+def test_ml_recommendations_imports():
+    """Test that recommendation module can be imported."""
+    from ml.recommendations import (
+        RecommendationEngine,
+        Recommendation,
+        BUFF_UPTIME_THRESHOLD,
+        DOT_UPTIME_THRESHOLD,
+        OVERHEALING_THRESHOLD,
+        BUILD_OVERHAUL_PERCENTILE_THRESHOLD,
+        TOP_PERFORMER_CLASS_USAGE_THRESHOLD,
+    )
+
     assert RecommendationEngine is not None
 
 
@@ -29,50 +52,45 @@ class TestPercentileCalculator:
 
     @pytest.fixture
     def sample_run(self):
-        """Create a sample combat run."""
-        from ml.percentile import CombatRun, CombatMetrics, ContentInfo, BuildSnapshot
+        """Create a sample combat run matching ml.percentile's CombatRun."""
+        from ml.percentile import (
+            CombatRun, ContributionMetrics, ContentInfo,
+            ContentType, Difficulty, RoleType,
+        )
 
         return CombatRun(
             run_id="test-run-1",
             player_id="player-1",
             character_name="TestChar",
             timestamp=datetime.now(),
-            content=ContentInfo(type="dungeon", name="Test Dungeon", difficulty="veteran"),
+            content=ContentInfo(
+                content_type=ContentType.DUNGEON,
+                name="Test Dungeon",
+                difficulty=Difficulty.VETERAN,
+            ),
             duration_sec=300,
             success=True,
             group_size=4,
-            build_snapshot=BuildSnapshot(
-                class_name="Dragonknight",
-                subclass=None,
-                race="Dark Elf",
-                cp_level=2100,
-                sets=["Set1", "Set2"],
-                skills_front=["Skill1"],
-                skills_back=["Skill2"],
-                champion_points={}
+            cp_level=2100,
+            role=RoleType.DPS,
+            metrics=ContributionMetrics(
+                damage_dealt=0.75,
+                damage_taken=0.2,
+                healing_done=0.05,
+                buff_uptime=0.9,
+                debuff_uptime=0.5,
+                mechanic_execution=0.85,
+                resource_efficiency=0.7,
             ),
-            metrics=CombatMetrics(
-                damage_done=1000000,
-                dps=50000,
-                crit_rate=0.65,
-                healing_done=0,
-                hps=0,
-                overhealing=0,
-                damage_taken=50000,
-                damage_blocked=10000,
-                damage_shielded=5000,
-                deaths=0,
-                interrupts=5,
-                synergies_used=10,
-                buff_uptime={"Major Brutality": 0.95},
-                debuff_uptime={}
-            )
         )
 
     @pytest.fixture
     def population(self, sample_run):
         """Create a population of runs for comparison."""
-        from ml.percentile import CombatRun, CombatMetrics, ContentInfo, BuildSnapshot
+        from ml.percentile import (
+            CombatRun, ContributionMetrics, ContentInfo,
+            ContentType, Difficulty, RoleType,
+        )
 
         population = []
         for i in range(50):
@@ -81,36 +99,25 @@ class TestPercentileCalculator:
                 player_id=f"player-{i}",
                 character_name=f"Char{i}",
                 timestamp=datetime.now(),
-                content=sample_run.content,
+                content=ContentInfo(
+                    content_type=ContentType.DUNGEON,
+                    name="Test Dungeon",
+                    difficulty=Difficulty.VETERAN,
+                ),
                 duration_sec=300,
                 success=True,
                 group_size=4,
-                build_snapshot=BuildSnapshot(
-                    class_name="Dragonknight",
-                    subclass=None,
-                    race="Dark Elf",
-                    cp_level=2000 + i * 10,
-                    sets=["Set1", "Set2"],
-                    skills_front=["Skill1"],
-                    skills_back=["Skill2"],
-                    champion_points={}
+                cp_level=2000 + i * 10,
+                role=RoleType.DPS,
+                metrics=ContributionMetrics(
+                    damage_dealt=0.3 + i * 0.01,
+                    damage_taken=0.5 - i * 0.005,
+                    healing_done=0.05,
+                    buff_uptime=0.6 + i * 0.006,
+                    debuff_uptime=0.4 + i * 0.005,
+                    mechanic_execution=0.5 + i * 0.008,
+                    resource_efficiency=0.5 + i * 0.007,
                 ),
-                metrics=CombatMetrics(
-                    damage_done=800000 + i * 10000,
-                    dps=40000 + i * 500,
-                    crit_rate=0.5 + i * 0.005,
-                    healing_done=0,
-                    hps=0,
-                    overhealing=0,
-                    damage_taken=60000 - i * 500,
-                    damage_blocked=8000,
-                    damage_shielded=4000,
-                    deaths=0 if i > 10 else 1,
-                    interrupts=3 + i % 5,
-                    synergies_used=8 + i % 10,
-                    buff_uptime={"Major Brutality": 0.8 + i * 0.003},
-                    debuff_uptime={}
-                )
             )
             population.append(run)
         return population
@@ -125,7 +132,7 @@ class TestPercentileCalculator:
         result = calculator.calculate_percentile(sample_run, [])
 
         assert result is not None
-        assert result.confidence == "low"
+        assert result.confidence == 0.0
         assert result.sample_size == 0
 
     def test_none_population(self, calculator, sample_run):
@@ -133,61 +140,131 @@ class TestPercentileCalculator:
         result = calculator.calculate_percentile(sample_run, None)
 
         assert result is not None
-        assert result.confidence == "low"
+        assert result.sample_size == 0
 
     def test_percentile_calculation(self, calculator, sample_run, population):
         """Test basic percentile calculation."""
         result = calculator.calculate_percentile(sample_run, population)
 
         assert result is not None
-        assert result.sample_size == len(population)
-        assert 0.0 <= result.dps_percentile <= 1.0
+        assert result.sample_size > 0
+        assert 0.0 <= result.weighted_overall <= 1.0
         assert "damage_dealt" in result.percentiles
 
     def test_similar_runs_filtering(self, calculator, sample_run, population):
         """Test that only similar runs are included."""
-        # Modify some runs to be dissimilar (different content)
-        from ml.percentile import ContentInfo
+        from ml.percentile import ContentInfo, ContentType, Difficulty
 
+        # Modify some runs to be dissimilar (different content)
         for run in population[:10]:
-            run.content = ContentInfo(type="trial", name="Different", difficulty="normal")
+            run.content = ContentInfo(
+                content_type=ContentType.TRIAL,
+                name="Different",
+                difficulty=Difficulty.NORMAL,
+            )
 
         result = calculator.calculate_percentile(sample_run, population)
 
         # Should filter out the dissimilar runs
         assert result.sample_size <= len(population)
 
-    def test_cache_key_generation(self, calculator):
-        """Test that cache keys are generated correctly."""
-        from ml.percentile import ContentInfo
+    def test_confidence_calculation(self, calculator):
+        """Test confidence calculation based on sample size."""
+        from ml.percentile import ContentInfo, ContentType, Difficulty
 
-        content = ContentInfo(type="dungeon", name="Test", difficulty="veteran")
-        key = calculator._generate_cache_key(content, 2000, 2200)
+        content = ContentInfo(
+            content_type=ContentType.DUNGEON,
+            name="Test",
+            difficulty=Difficulty.VETERAN,
+        )
 
-        assert key is not None
-        assert isinstance(key, str)
-        assert len(key) > 0
+        # Zero samples
+        assert calculator.calculate_confidence(0) == 0.0
 
-    def test_weighted_percentile_zero_weights(self, calculator):
-        """Test weighted percentile with zero weights doesn't crash."""
-        import numpy as np
+        # Small sample
+        conf_small = calculator.calculate_confidence(5)
+        assert 0.0 < conf_small < 0.5
 
-        values = np.array([1.0, 2.0, 3.0])
-        weights = np.array([0.0, 0.0, 0.0])
+        # Large sample
+        conf_large = calculator.calculate_confidence(200)
+        assert conf_large > 0.85
 
-        result = calculator._calculate_weighted_percentile(values, weights, 0.5)
+    def test_batch_calculation(self, calculator, sample_run, population):
+        """Test batch percentile calculation."""
+        from ml.percentile import CombatRun
+
+        runs = [sample_run]
+        results = calculator.calculate_batch(runs, population)
+
+        assert len(results) == 1
+        assert results[0].sample_size > 0
+
+    def test_cache_operations(self, calculator):
+        """Test cache clear and stats."""
+        stats = calculator.get_cache_stats()
+        assert "size" in stats
+        assert stats["size"] == 0
+
+        cleared = calculator.clear_cache()
+        assert cleared == 0
+
+    def test_get_similar_runs(self, calculator, sample_run, population):
+        """Test get_similar_runs filtering."""
+        similar = calculator.get_similar_runs(sample_run, population)
+
+        # All population runs should match (same content, within CP range)
+        assert len(similar) > 0
+        for run in similar:
+            assert run.run_id != sample_run.run_id
+
+    def test_weighted_percentile_method(self, calculator):
+        """Test public calculate_weighted_percentile method."""
+        values = [10.0, 20.0, 30.0, 40.0, 50.0]
+        result = calculator.calculate_weighted_percentile(values, 0.5)
+        assert result == pytest.approx(30.0, abs=5.0)
+
+    def test_weighted_percentile_empty(self, calculator):
+        """Test weighted percentile with empty list."""
+        result = calculator.calculate_weighted_percentile([], 0.5)
         assert result == 0.0
 
-    def test_linear_interpolation_equal_weights(self, calculator):
-        """Test linear interpolation when weights are equal."""
-        import numpy as np
+    def test_contribution_metrics_clamping(self):
+        """Test that ContributionMetrics clamps values."""
+        from ml.percentile import ContributionMetrics
 
-        sorted_values = np.array([10.0, 20.0, 30.0])
-        cumulative_weights = np.array([0.33, 0.33, 0.34])
+        metrics = ContributionMetrics(
+            damage_dealt=1.5,  # Over 1.0
+            damage_taken=-0.1,  # Under 0.0
+        )
 
-        # Should not crash on equal weights
-        result = calculator._interpolate_percentile(sorted_values, cumulative_weights, 0.33)
-        assert result is not None
+        assert metrics.damage_dealt == 1.0
+        assert metrics.damage_taken == 0.0
+
+    def test_create_combat_run_from_dict(self):
+        """Test factory function for creating CombatRun from dict."""
+        from ml.percentile import create_combat_run_from_dict
+
+        data = {
+            "run_id": "test-1",
+            "player_id": "player-1",
+            "character_name": "Test",
+            "timestamp": datetime.now().isoformat(),
+            "content": {"type": "dungeon", "name": "Test", "difficulty": "veteran"},
+            "duration_sec": 300,
+            "success": True,
+            "group_size": 4,
+            "cp_level": 2000,
+            "role": "dps",
+            "metrics": {
+                "damage_dealt": 0.8,
+                "healing_done": 0.1,
+            },
+        }
+
+        run = create_combat_run_from_dict(data)
+        assert run is not None
+        assert run.run_id == "test-1"
+        assert run.character_name == "Test"
 
 
 class TestRecommendationEngine:
@@ -210,7 +287,7 @@ class TestRecommendationEngine:
             DOT_UPTIME_THRESHOLD,
             OVERHEALING_THRESHOLD,
             BUILD_OVERHAUL_PERCENTILE_THRESHOLD,
-            TOP_PERFORMER_CLASS_USAGE_THRESHOLD
+            TOP_PERFORMER_CLASS_USAGE_THRESHOLD,
         )
 
         assert 0.0 <= BUFF_UPTIME_THRESHOLD <= 1.0
@@ -232,49 +309,39 @@ class TestRecommendationEngine:
             recommended_change="Switch to Set B",
             expected_improvement="+5% DPS",
             reasoning="Better synergy",
-            confidence=0.85
+            confidence=0.85,
         )
 
         assert rec.category == "gear"
         assert rec.priority == 1
         assert 0.0 <= rec.confidence <= 1.0
 
-    def test_percentile_result_confidence(self):
-        """Test PercentileResult confidence string type."""
-        from ml.recommendations import PercentileResult
-
-        result = PercentileResult(
-            sample_size=100,
-            confidence="high",
-            dps_percentile=0.75,
-            percentiles={"damage_dealt": 0.75}
-        )
-
-        assert result.confidence in ["low", "medium", "high"]
-        assert isinstance(result.confidence, str)
-
-    def test_combat_run_from_dict_invalid_timestamp(self):
-        """Test CombatRun.from_dict handles invalid timestamps."""
+    def test_combat_run_from_dict(self):
+        """Test CombatRun.from_dict from recommendations module."""
         from ml.recommendations import CombatRun
 
         data = {
             "run_id": "test-1",
             "player_id": "player-1",
             "character_name": "Test",
-            "timestamp": "invalid-timestamp",
-            "content": {"type": "dungeon", "name": "Test", "difficulty": "veteran"},
+            "timestamp": datetime.now().isoformat(),
+            "content": {
+                "content_type": "dungeon",
+                "name": "Test",
+                "difficulty": "veteran",
+            },
             "duration_sec": 300,
             "success": True,
             "group_size": 4,
             "build_snapshot": {
-                "class_name": "Dragonknight",
+                "class": "Dragonknight",
                 "subclass": None,
                 "race": "Dark Elf",
                 "cp_level": 2000,
                 "sets": [],
                 "skills_front": [],
                 "skills_back": [],
-                "champion_points": {}
+                "champion_points": {},
             },
             "metrics": {
                 "damage_done": 1000000,
@@ -285,18 +352,56 @@ class TestRecommendationEngine:
                 "overhealing": 0,
                 "damage_taken": 50000,
                 "damage_blocked": 10000,
-                "damage_shielded": 5000,
+                "damage_mitigated": 5000,
                 "deaths": 0,
                 "interrupts": 5,
                 "synergies_used": 10,
                 "buff_uptime": {},
-                "debuff_uptime": {}
-            }
+                "debuff_uptime": {},
+            },
+            "contribution_scores": {},
         }
 
         run = CombatRun.from_dict(data)
+        assert run is not None
+        assert run.run_id == "test-1"
 
-        # Should not crash, should use current time as fallback
+    def test_combat_run_from_dict_invalid_timestamp(self):
+        """Test CombatRun.from_dict handles invalid timestamps."""
+        from ml.recommendations import CombatRun
+
+        data = {
+            "run_id": "test-1",
+            "player_id": "player-1",
+            "character_name": "Test",
+            "timestamp": "invalid-timestamp",
+            "content": {
+                "content_type": "dungeon",
+                "name": "Test",
+                "difficulty": "veteran",
+            },
+            "duration_sec": 300,
+            "success": True,
+            "group_size": 4,
+            "build_snapshot": {
+                "class": "Dragonknight",
+                "subclass": None,
+                "race": "Dark Elf",
+                "cp_level": 2000,
+                "sets": [],
+                "skills_front": [],
+                "skills_back": [],
+                "champion_points": {},
+            },
+            "metrics": {
+                "damage_done": 1000000,
+                "dps": 50000,
+                "crit_rate": 0.65,
+            },
+            "contribution_scores": {},
+        }
+
+        run = CombatRun.from_dict(data)
         assert run is not None
         assert run.timestamp is not None
 
@@ -309,45 +414,64 @@ class TestRecommendationEngine:
             "player_id": "player-1",
             "character_name": "Test",
             "timestamp": datetime.now().isoformat(),
-            "content": {"type": "dungeon", "name": "Test", "difficulty": "veteran"},
+            "content": {
+                "content_type": "dungeon",
+                "name": "Test",
+                "difficulty": "veteran",
+            },
             "duration_sec": 300,
             "success": True,
             "group_size": 4,
             "build_snapshot": {
-                "class_name": "Dragonknight",
+                "class": "Dragonknight",
                 "subclass": None,
                 "race": "Dark Elf",
                 "cp_level": 2000,
                 "sets": [],
                 "skills_front": [],
                 "skills_back": [],
-                "champion_points": {}
+                "champion_points": {},
             },
             "metrics": {
                 "damage_done": 1000000,
                 "dps": 50000,
                 "crit_rate": 0.65,
-                "healing_done": 0,
-                "hps": 0,
-                "overhealing": 0,
-                "damage_taken": 50000,
-                "damage_blocked": 10000,
-                "damage_shielded": 5000,
-                "deaths": 0,
-                "interrupts": 5,
-                "synergies_used": 10,
-                "buff_uptime": {},
-                "debuff_uptime": {},
                 "unknown_field": "should be ignored",
-                "another_unknown": 12345
-            }
+                "another_unknown": 12345,
+            },
+            "contribution_scores": {},
         }
 
         run = CombatRun.from_dict(data)
-
-        # Should not crash with unknown fields
         assert run is not None
         assert run.metrics is not None
+
+    def test_percentile_result_dataclass(self):
+        """Test PercentileResult from recommendations module."""
+        from ml.recommendations import PercentileResult
+
+        result = PercentileResult(
+            metric="damage_dealt",
+            percentile=0.75,
+            sample_size=100,
+            confidence="high",
+        )
+
+        assert result.confidence in ["low", "medium", "high"]
+        assert result.is_below_median is False
+
+    def test_contribution_scores_dataclass(self):
+        """Test ContributionScores from recommendations module."""
+        from ml.recommendations import ContributionScores
+
+        scores = ContributionScores(
+            damage_dealt=0.8,
+            healing_done=0.1,
+            buff_uptime=0.9,
+        )
+
+        d = scores.to_dict()
+        assert d["damage_dealt"] == 0.8
 
 
 class TestDataValidation:
