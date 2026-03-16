@@ -56,6 +56,7 @@ class CompanionApp:
             'eso_path': None,  # Auto-detect
             'offline_mode': False,
             'debug': False,
+            'watch_cmx': False,  # Watch Combat Metrics SavedVariables
         }
 
         if self.config_path.exists():
@@ -99,11 +100,18 @@ class CompanionApp:
                 return False
 
             # Create watcher and set callback
+            watch_cmx = self.config.get('watch_cmx', False)
             self.watcher = SavedVariablesWatcher(
                 saved_variables_path=Path(saved_variables_path),
                 addon_name='ESOBuildOptimizer',
+                watch_cmx=watch_cmx,
             )
             self.watcher.on_file_change = self._on_data_changed
+
+            if watch_cmx:
+                self.watcher.on_cmx_combat_run = self._on_cmx_combat_run
+                logger.info('Combat Metrics (CMX) watching enabled')
+
             return True
 
         except ImportError as e:
@@ -137,6 +145,18 @@ class CompanionApp:
                     self.sync_client.queue_run(run)
         except Exception as e:
             logger.error(f'Error processing data change: {e}')
+
+    def _on_cmx_combat_run(self, run_data: dict):
+        """Callback when a new Combat Metrics fight is detected."""
+        try:
+            content_name = run_data.get('content', {}).get('name', 'Unknown')
+            dps = run_data.get('metrics', {}).get('dps', 0)
+            logger.info(f'CMX fight detected: {content_name} ({dps:.0f} DPS)')
+
+            if self.sync_client and not self.config.get('offline_mode'):
+                self.sync_client.queue_run(run_data)
+        except Exception as e:
+            logger.error(f'Error processing CMX combat run: {e}')
 
     async def _sync_loop(self):
         """Background sync loop."""
