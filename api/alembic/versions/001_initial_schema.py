@@ -78,12 +78,7 @@ def upgrade() -> None:
         sa.Column("dps", sa.Float(), nullable=False, server_default=sa.text("0.0")),
         sa.Column("cp_level", sa.Integer(), nullable=False, server_default=sa.text("0")),
     )
-    op.create_index("ix_combat_runs_player_id", "combat_runs", ["player_id"])
-    op.create_index("ix_combat_runs_timestamp", "combat_runs", ["timestamp"])
-    op.create_index("ix_combat_runs_content_type", "combat_runs", ["content_type"])
-    op.create_index("ix_combat_runs_content_name", "combat_runs", ["content_name"])
     op.create_index("ix_combat_runs_success", "combat_runs", ["success"])
-    op.create_index("ix_combat_runs_dps", "combat_runs", ["dps"])
     op.create_index(
         "ix_runs_content_lookup",
         "combat_runs",
