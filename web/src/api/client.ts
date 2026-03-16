@@ -173,6 +173,24 @@ export const api = {
       offset?: number;
     }) => request('/features/sets', { params }),
   },
+
+  // Characters
+  characters: {
+    list: () => request('/characters'),
+    get: (characterId: string) => request(`/characters/${characterId}`),
+    runs: (characterName: string, params?: { limit?: number; offset?: number }) =>
+      request('/runs', { params: { character_name: characterName, ...params } }),
+  },
+
+  // Analytics
+  analytics: {
+    dpsTrend: (params?: { time_range?: string; character_name?: string }) =>
+      request('/analytics/dps-trend', { params }),
+    percentileTrend: (params?: { time_range?: string; character_name?: string }) =>
+      request('/analytics/percentile-trend', { params }),
+    buffAnalysis: (params?: { time_range?: string; character_name?: string }) =>
+      request('/analytics/buff-analysis', { params }),
+  },
 };
 
 export { APIError };

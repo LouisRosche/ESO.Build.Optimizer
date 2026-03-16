@@ -8,7 +8,7 @@
 
     Author: ESO Build Optimizer Team
     Version: 1.0.0
-    APIVersion: 101046 101047
+    APIVersion: 101047 101048 101049
 ]]--
 
 ---------------------------------------------------------------------------
@@ -22,6 +22,10 @@ addon.name = "ESOBuildOptimizer"
 addon.displayName = "ESO Build Optimizer"
 addon.version = "1.0.0"
 addon.author = "ESO Build Optimizer Team"
+
+-- Console compatibility
+addon.isConsole = IsConsoleUI and IsConsoleUI() or false
+addon.isGamepad = IsInGamepadPreferredMode and IsInGamepadPreferredMode() or false
 
 -- Module references (populated when modules load)
 addon.CombatTracker = nil

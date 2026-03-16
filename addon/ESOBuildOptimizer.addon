@@ -1,0 +1,14 @@
+## Title: ESO Build Optimizer
+## Description: Combat metrics tracking with ML-powered recommendations. Console compatible.
+## Author: ESO Build Optimizer Team
+## AddOnVersion: 1
+## APIVersion: 101047 101048 101049
+## SavedVariables: ESOBuildOptimizerSV
+## OptionalDependsOn: LibAddonMenu-2.0>=30 LibDebugLogger>=180
+## IsLibrary: false
+
+ESOBuildOptimizer.lua
+modules/CombatTracker.lua
+modules/BuildSnapshot.lua
+modules/MetricsUI.lua
+modules/SkillAdvisor.lua

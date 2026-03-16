@@ -119,12 +119,20 @@ export const API_VERSION_HISTORY: readonly APIVersionInfo[] = [
   },
   {
     version: 101049,
-    update: 'Update 49 (PTS)',
+    update: 'Update 49 - Tamriel Tomes',
     releaseDate: '2026-03-09',
     isLive: false,
     isPTS: true,
     significantChanges: [
-      'PTS version',
+      'Endeavors and Daily Login Rewards systems removed',
+      'Dragonknight class ability rework (visual effects, animations, audio)',
+      'Two-Handed skill line updates',
+      'Outfit Slots now account-wide (character-specific API removed)',
+      'Back bar now earns equal XP (experience API changes)',
+      'Transmute Crystal cap tripled (1000 → 3000)',
+      'New Tamriel Tomes system (Tome Points, Premium Tome Tokens)',
+      'New currencies: Trade Bars, Outfit Change Tokens',
+      'Event Tickets and Endeavors currency removed',
     ],
   },
 ];
@@ -238,6 +246,256 @@ export const FUNCTION_MIGRATIONS: readonly FunctionMigration[] = [
     notes: 'Sound constant renamed',
     confidence: 0.85,
     autoFixable: true,
+  },
+
+  // ==================== Endeavors API Removal (API 101049) ====================
+  {
+    oldName: 'GetDailyEndeavors',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- GetDailyEndeavors removed (Endeavors system removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetWeeklyEndeavors',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- GetWeeklyEndeavors removed (Endeavors system removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetEndeavorsProgress',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- GetEndeavorsProgress removed (Endeavors system removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetEndeavorsInfo',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- GetEndeavorsInfo removed (Endeavors system removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetNumEndeavors',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- GetNumEndeavors removed (Endeavors system removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'IsEndeavorsSystemAvailable',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'endeavors',
+    notes: 'Endeavors system removed in Update 49',
+    replacementCode: '-- IsEndeavorsSystemAvailable removed; always returns false equivalent',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+
+  // ==================== Daily Login Rewards API Removal (API 101049) ====================
+  {
+    oldName: 'GetDailyLoginRewardInfo',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- GetDailyLoginRewardInfo removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetDailyLoginRewardIndex',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- GetDailyLoginRewardIndex removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetNumDailyLoginRewards',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- GetNumDailyLoginRewards removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'IsDailyLoginRewardClaimed',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- IsDailyLoginRewardClaimed removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'ClaimDailyLoginReward',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- ClaimDailyLoginReward removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetDailyLoginClaimableRewardIndex',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'daily_login',
+    notes: 'Daily Login Rewards system removed in Update 49',
+    replacementCode: '-- GetDailyLoginClaimableRewardIndex removed (Daily Login Rewards removed in U49)',
+    confidence: 1.0,
+    autoFixable: false,
+  },
+
+  // ==================== Transmute Crystal Cap (API 101049) ====================
+  {
+    oldName: 'GetMaxTransmuteCrystals',
+    migrationType: 'return_changed',
+    versionDeprecated: 101049,
+    category: 'currency',
+    notes: 'Transmute Crystal cap tripled from 1000 to 3000 in Update 49. Function still works but returns new max.',
+    confidence: 0.7,
+    autoFixable: false,
+    exceptions: ['Addons that query this dynamically are unaffected'],
+  },
+
+  // ==================== Tamriel Tomes API (API 101049) ====================
+  // Note: These are new functions. Addons referencing them on older API will get nil.
+  // We track them here for forward-compatibility awareness.
+  {
+    oldName: 'GetTomeProgressionInfo',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'tamriel_tomes',
+    notes: 'New in U49: Tamriel Tomes progression. Not available on API < 101049.',
+    replacementCode: '-- GetTomeProgressionInfo is new in API 101049 (U49)',
+    confidence: 0.5,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetNumTomePoints',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'tamriel_tomes',
+    notes: 'New in U49: Tome Points currency. Not available on API < 101049.',
+    replacementCode: '-- GetNumTomePoints is new in API 101049 (U49)',
+    confidence: 0.5,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetNumPremiumTomeTokens',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'tamriel_tomes',
+    notes: 'New in U49: Premium Tome Tokens currency. Not available on API < 101049.',
+    replacementCode: '-- GetNumPremiumTomeTokens is new in API 101049 (U49)',
+    confidence: 0.5,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetCurrentTomeSeason',
+    migrationType: 'removed',
+    versionRemoved: 101049,
+    category: 'tamriel_tomes',
+    notes: 'New in U49: Tamriel Tomes season info. Not available on API < 101049.',
+    replacementCode: '-- GetCurrentTomeSeason is new in API 101049 (U49)',
+    confidence: 0.5,
+    autoFixable: false,
+  },
+
+  // ==================== Outfit Slot API Changes (API 101049) ====================
+  {
+    oldName: 'GetOutfitSlotDataForCharacter',
+    migrationType: 'replaced',
+    replacementCode: 'GetOutfitSlotData(outfitIndex, slotIndex)',
+    versionDeprecated: 101049,
+    versionRemoved: 101049,
+    category: 'outfit',
+    notes: 'Outfit Slots are now account-wide in U49. Character-specific API removed.',
+    confidence: 0.9,
+    autoFixable: false,
+  },
+  {
+    oldName: 'SetOutfitSlotForCharacter',
+    migrationType: 'replaced',
+    replacementCode: 'SetOutfitSlot(outfitIndex, slotIndex, collectibleId)',
+    versionDeprecated: 101049,
+    versionRemoved: 101049,
+    category: 'outfit',
+    notes: 'Outfit Slots are now account-wide in U49. Character-specific API removed.',
+    confidence: 0.9,
+    autoFixable: false,
+  },
+  {
+    oldName: 'GetNumOutfitsForCharacter',
+    migrationType: 'renamed',
+    newName: 'GetNumOutfits',
+    versionDeprecated: 101049,
+    versionRemoved: 101049,
+    category: 'outfit',
+    notes: 'Outfit Slots are now account-wide in U49. No character parameter needed.',
+    confidence: 0.9,
+    autoFixable: true,
+  },
+  {
+    oldName: 'RenameOutfitForCharacter',
+    migrationType: 'renamed',
+    newName: 'RenameOutfit',
+    versionDeprecated: 101049,
+    versionRemoved: 101049,
+    category: 'outfit',
+    notes: 'Outfit Slots are now account-wide in U49. No character parameter needed.',
+    confidence: 0.9,
+    autoFixable: true,
+  },
+
+  // ==================== Removed Currencies (API 101049) ====================
+  {
+    oldName: 'GetCurrencyAmount',
+    migrationType: 'signature_changed',
+    versionDeprecated: 101049,
+    category: 'currency',
+    notes: 'Event Tickets and Endeavor Seals currency types removed in U49. GetCurrencyAmount with CURT_EVENT_TICKETS or CURT_ENDEAVOR_SEALS will return 0. New currency types added: CURT_TRADE_BARS, CURT_OUTFIT_CHANGE_TOKENS, CURT_TOME_POINTS, CURT_PREMIUM_TOME_TOKENS.',
+    confidence: 0.7,
+    autoFixable: false,
+    exceptions: ['Addons that only use standard currency types (gold, AP, Tel Var) are unaffected'],
+  },
+
+  // ==================== Experience API Changes (API 101049) ====================
+  {
+    oldName: 'GetUnitXPBarInfo',
+    migrationType: 'return_changed',
+    versionDeprecated: 101049,
+    category: 'experience',
+    notes: 'Back bar now earns equal XP in U49. XP values no longer differ based on active bar.',
+    confidence: 0.7,
+    autoFixable: false,
+    exceptions: ['Addons that do not differentiate front/back bar XP are unaffected'],
   },
 ];
 
@@ -367,6 +625,49 @@ export const EVENT_MIGRATIONS: readonly EventMigration[] = [
     versionChanged: 100015,
     notes: 'Veteran system removed.',
   },
+
+  // ==================== Endeavors Events Removed (API 101049) ====================
+  {
+    oldName: 'EVENT_ENDEAVOR_PROGRESS_UPDATE',
+    removed: true,
+    versionChanged: 101049,
+    notes: 'Endeavors system removed in Update 49.',
+  },
+  {
+    oldName: 'EVENT_ENDEAVOR_COMPLETED',
+    removed: true,
+    versionChanged: 101049,
+    notes: 'Endeavors system removed in Update 49.',
+  },
+  {
+    oldName: 'EVENT_ENDEAVORS_RESET',
+    removed: true,
+    versionChanged: 101049,
+    notes: 'Endeavors system removed in Update 49.',
+  },
+
+  // ==================== Daily Login Events Removed (API 101049) ====================
+  {
+    oldName: 'EVENT_DAILY_LOGIN_REWARDS_UPDATED',
+    removed: true,
+    versionChanged: 101049,
+    notes: 'Daily Login Rewards system removed in Update 49.',
+  },
+  {
+    oldName: 'EVENT_DAILY_LOGIN_REWARDS_CLAIMED',
+    removed: true,
+    versionChanged: 101049,
+    notes: 'Daily Login Rewards system removed in Update 49.',
+  },
+
+  // ==================== Outfit Events Changed (API 101049) ====================
+  {
+    oldName: 'EVENT_OUTFIT_CHANGE_RESPONSE',
+    newName: 'EVENT_OUTFIT_CHANGE_RESPONSE',
+    removed: false,
+    versionChanged: 101049,
+    notes: 'Outfit events now account-wide in U49. Character parameter removed from callback.',
+  },
 ];
 
 // ============================================================================
@@ -377,6 +678,29 @@ export const EVENT_MIGRATIONS: readonly EventMigration[] = [
  * Functions that exist and work fine in current API.
  * These should NOT be flagged as deprecated.
  */
+// ============================================================================
+// Removed Constants (Update 49)
+// ============================================================================
+
+/**
+ * Currency type constants removed in Update 49.
+ * Addons referencing these will get nil errors.
+ */
+export const REMOVED_CONSTANTS_U49: ReadonlySet<string> = new Set([
+  'CURT_EVENT_TICKETS',
+  'CURT_ENDEAVOR_SEALS',
+]);
+
+/**
+ * New currency type constants added in Update 49.
+ */
+export const NEW_CONSTANTS_U49: ReadonlySet<string> = new Set([
+  'CURT_TRADE_BARS',
+  'CURT_OUTFIT_CHANGE_TOKENS',
+  'CURT_TOME_POINTS',
+  'CURT_PREMIUM_TOME_TOKENS',
+]);
+
 export const VALID_CURRENT_FUNCTIONS: ReadonlySet<string> = new Set([
   // These still work fine, signature may have changed but backwards compatible
   'GetPlayerStat',

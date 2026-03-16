@@ -126,7 +126,7 @@ ESO has 7 base classes. Since Update 46, players can **subclass** - using skills
 
 | Class | Primary Resource | Signature Mechanic |
 |-------|------------------|-------------------|
-| Dragonknight | Magicka/Stamina | Burning DoTs, self-healing |
+| Dragonknight | Magicka/Stamina | **Reworked in U49** - updated skill lines, new DoT/sustain mechanics |
 | Nightblade | Magicka/Stamina | Stealth, execute damage |
 | Sorcerer | Magicka | Pets, shields, burst |
 | Templar | Magicka/Stamina | Jabs, purify, execute (Radiant Glory) |
@@ -134,7 +134,9 @@ ESO has 7 base classes. Since Update 46, players can **subclass** - using skills
 | Necromancer | Magicka/Stamina | Corpses, Blastbones |
 | Arcanist | Magicka | Crux system, beams |
 
-**Subclassing meta** (as of U48):
+> **U49 Note (March 2026)**: Dragonknight received a significant class rework in Update 49. DK skill data in the feature database must be re-scraped and validated against the new skill values, morphs, and mechanics. The `patch_updated` field for all DK skills should be set to `U49`.
+
+**Subclassing meta** (as of U49):
 - Warden subclass: Bull Netch (sustain), Ice Fortress (buffs)
 - Templar subclass: Radiant Glory (ranged execute)
 - Arcanist subclass: Cephaliarch's Flail (execute with Crux)
@@ -409,8 +411,13 @@ When ESO patches:
 |--------|-----|-----------|-------------|
 | UESP | uesp.net/wiki/Online:* | Skills, sets, mechanics, quests | Very High |
 | ESO-Hub | eso-hub.com | Sets, builds, item database | High |
-| ESO Logs | esologs.com | Combat rankings, percentiles | High |
+| ESO Logs | esologs.com | Combat rankings, percentiles, trial parses | High |
 | ESO Sets | eso-sets.com | Set bonuses, acquisition | High |
+
+**ESO Logs Integration Notes:**
+- ESO Logs already provides percentile rankings for trial bosses. Our value-add is per-encounter, per-player ML recommendations that go beyond raw rankings.
+- Consider ingesting ESO Logs public API data to bootstrap our percentile pools before we have enough first-party data.
+- ESO Logs focuses on trials; we cover dungeons, arenas, and overworld content as well.
 
 **Excluded Sources:**
 - Alcast (opinion-based meta builds, not objective data)
@@ -614,7 +621,7 @@ ESO.Build.Optimizer/
 - [x] Research docs on addon gaps
 - [x] Lua addon with combat tracking, build snapshots, metrics UI
 - [x] Lua addon SkillAdvisor module (real-time recommendations, skill highlights)
-- [x] Lua addon ESO best practices compliance (APIVersion 101046/101047, event filtering, manifest format)
+- [x] Lua addon ESO best practices compliance (APIVersion 101049, event filtering, manifest format)
 - [x] Companion app (watcher.py + sync.py) with cross-platform support
 - [x] FastAPI backend with auth, runs, recommendations endpoints
 - [x] ML pipeline (percentile.py + recommendations.py)
@@ -632,8 +639,9 @@ ESO.Build.Optimizer/
 - [ ] Companion app installer packaging
 
 ### Future Enhancements:
-- [ ] Console addon support (PS5/Xbox - Update 46+)
+- [ ] Console addon optimization (PS5/Xbox - live since Update 46, simultaneous releases since U49)
 - [ ] Additional content percentiles (more dungeons/trials)
+- [ ] ESO Logs data integration for percentile bootstrapping
 - [ ] Guild leaderboards
 - [ ] Build sharing/import
 
@@ -644,7 +652,8 @@ The addon is ready for ESOUI.com distribution via Minion:
 **Package Structure** (ZIP file for upload):
 ```
 ESOBuildOptimizer/
-├── ESOBuildOptimizer.txt          # Manifest (CRLF line endings)
+├── ESOBuildOptimizer.txt          # Manifest (CRLF line endings) - PC/Mac
+├── ESOBuildOptimizer.addon        # Manifest (console) - PS5/Xbox Series X|S
 ├── ESOBuildOptimizer.lua          # Main addon
 ├── modules/
 │   ├── CombatTracker.lua
@@ -658,17 +667,25 @@ ESOBuildOptimizer/
 - **Title**: ESO Build Optimizer
 - **Category**: Combat Mods
 - **Version**: 1.0.0
-- **Game Version**: 101046 / 101047 (Update 46-48)
+- **Game Version**: 101049 (Update 49)
 - **Description**: Combat metrics with ML-powered recommendations. Track DPS/HPS, compare against similar players, get actionable improvement suggestions.
 - **Changelog**: Initial release
 
+**Console Submission (PS5/Xbox Series X|S):**
+- Console addons are submitted via the Bethesda.net uploader tool (separate from ESOUI.com)
+- The `.addon` manifest file is required for console clients (`.txt` is ignored on console)
+- Both `.txt` and `.addon` files must be included in the package for cross-platform support
+- PlayStation uses a case-sensitive filesystem; all file references must match exactly
+- Maximum 500 files per addon on console
+
 **Manifest Compliance** (already done):
 - [x] `## AddOnVersion: 1` (integer)
-- [x] `## APIVersion: 101046 101047` (dual support)
+- [x] `## APIVersion: 101049` (Update 49)
 - [x] `## SavedVariables:` declared
 - [x] UTF-8 without BOM, CRLF line endings
 - [x] `## OptionalDependsOn:` with versions
 - [x] `## IsLibrary: false`
+- [x] `.addon` manifest for console compatibility
 
 ---
 
@@ -701,7 +718,7 @@ node dist/cli.js info                      # Show ESO API version info
 
 ## 11.1 ESO Addon Fixer
 
-The addon fixer is an automated tool for repairing broken ESO addons. It updates addons to work with **APIVersion 101048** (Update 48).
+The addon fixer is an automated tool for repairing broken ESO addons. It updates addons to work with **APIVersion 101049** (Update 49).
 
 ### What It Fixes
 
@@ -776,30 +793,43 @@ print(f"Changes: {result.total_changes}")
 
 ## 12. Market Context & Competitive Landscape
 
-### 12.1 Discontinued Addons We Replace
+### 12.1 How We Complement Existing Tools
 
-| Addon | Gap Created | Our Solution |
-|-------|-------------|--------------|
-| **Combat Metrics** | Raw data only, no analysis | ML-powered recommendations |
-| **Stoned** | No in-game theorycrafting | Build comparison via feature database |
-| **Leo's Altholic** | No account-wide dashboard | Web interface with cross-character tracking |
+We are the **analytics layer** that works WITH existing addons, not instead of them.
+
+| Tool | What They Do | What We Add On Top |
+|------|-------------|-------------------|
+| **Combat Metrics** | Gold standard combat logging addon (7M+ downloads, actively maintained as of March 2026). Provides raw DPS/HPS numbers, buff uptimes, and combat breakdowns in-game. | We consume Combat Metrics output and layer on cloud analytics, ML-powered recommendations, cross-session historical tracking, and percentile comparisons. Combat Metrics shows *what happened*; we show *what to change*. |
+| **ESO Logs** | Community-driven trial ranking site. Provides percentile rankings for trial boss encounters and leaderboards. | ESO Logs focuses on trial rankings. We provide per-encounter, per-player actionable recommendations across all content types (dungeons, arenas, overworld), plus ML-based build optimization that ESO Logs does not offer. |
+| **Stoned** | In-game theorycrafting (discontinued). | Build comparison via feature database with data-backed recommendations. |
+| **Leo's Altholic** | Account-wide character management (limited). | Web interface with cross-character tracking and performance trends. |
+
+**Key positioning**: No ML-based combat analytics tool exists for ESO. We are the first to apply machine learning to ESO combat data for personalized improvement recommendations.
 
 ### 12.2 Key Market Insights (from research)
 
 1. **Update 33 (March 2022)** broke per-character achievement tracking. 91-page forum debate, ZOS rejected fix. Our addon can shadow-track per-character completion.
 
-2. **Console addon support** launching June 2025 (Update 46) for PS5/Xbox Series X|S. First-mover opportunity for performance-optimized addons.
+2. **Console addon support is live** (launched June 2025, Update 46) for PS5/Xbox Series X|S. Update 49 (March 2026) marked the first simultaneous PC and console release, cementing addons as a cross-platform feature. Our addon should be console-compatible from day one.
 
 3. **"Do-everything" addons** achieve highest adoption. Fragmented solutions frustrate players. Our unified approach (addon + companion + web) addresses this.
 
 4. **Lightweight alternatives** consistently requested. Master Merchant causes 2-10 min load times. Our approach: compute-heavy work happens server-side.
 
+5. **Library availability risk**: LibHarvensAddonSettings (LHAS) was recently affected by DMCA takedowns, reminding the community that key library dependencies can disappear without warning. We should minimize reliance on third-party libraries and prefer built-in ESO API alternatives where possible. Document any library dependencies with fallback strategies.
+
+6. **ESO Logs as complementary data source**: ESO Logs provides public trial ranking data that could bootstrap our percentile pools. We should explore integration rather than rebuilding what they already track well for trials.
+
 ### 12.3 Differentiation
 
 What we do that **nothing else does**:
+- **ML-powered combat analytics** - no other ESO tool applies machine learning to combat data
+- Works alongside Combat Metrics, not against it - we are the analytics layer on top
 - Continuous role contribution model (not Tank/Healer/DPS trinary)
 - Percentile comparison against similar runs (same content, difficulty, CP range)
 - Actionable recommendations with expected improvement estimates
+- Cloud-based historical tracking across sessions (Combat Metrics data is local and ephemeral)
+- Console-compatible from day one (PS5/Xbox Series X|S, live since U46)
 - Historical trend analysis across runs
 
 ---
@@ -884,7 +914,7 @@ python scripts/refresh_docs.py --fetch
 |----------|------------|
 | **Privacy** | Anonymous by default. Opt-in for richer data sharing. |
 | **Content scope** | PvE only, all-inclusive: dungeons, trials, arenas. No PvP. |
-| **Historical data** | Starting fresh - addon replaces Combat Metrics entirely. |
+| **Historical data** | Starting fresh - addon complements Combat Metrics by adding cloud analytics on top. |
 | **Gear sets** | Include full set database (see section 4.4). |
 | **Data sources** | UESP, ESO-Hub, ESO-Log, ESO-Sets. Exclude Alcast. |
 | **In-game UI** | Minimal default with opt-in checkbox; "+" expander for full details |
@@ -972,4 +1002,4 @@ Available in `.claude/agents/`:
 
 ---
 
-*Last updated: February 2026 | ESO Update 48*
+*Last updated: March 2026 | ESO Update 49 (API 101049)*
