@@ -52,7 +52,7 @@ For each discovered migration, provide:
   "category": "function|event|library|pattern",
   "oldName": "deprecated name",
   "newName": "replacement name",
-  "apiVersion": 101048,
+  "apiVersion": 101049,
   "notes": "explanation",
   "confidence": 0.0-1.0,
   "autoFixable": true|false,

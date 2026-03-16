@@ -172,7 +172,7 @@ class TestLocalCache:
         )
 
         cache.enqueue(item)
-        cache.update_item_status("test-item-2", SyncStatus.SYNCED)
+        cache.update_item_status("test-item-2", SyncStatus.UPLOADED)
 
         pending = cache.dequeue_batch(
             direction=SyncDirection.UPLOAD,

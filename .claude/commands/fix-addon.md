@@ -4,7 +4,7 @@ allowed-tools: Bash(node*), Bash(npm*), Read, Glob
 ---
 
 # Context
-- Current API Version: 101048 (Update 48)
+- Current API Version: 101049 (Update 49)
 - Tool location: tools/addon-fixer/
 
 # Pre-computed info

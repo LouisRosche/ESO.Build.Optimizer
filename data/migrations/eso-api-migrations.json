@@ -1,9 +1,9 @@
 {
   "$schema": "./migrations.schema.json",
-  "version": "1.0.0",
-  "lastUpdated": "2026-02-01",
-  "currentLiveAPI": 101048,
-  "currentPTSAPI": 101049,
+  "version": "1.1.0",
+  "lastUpdated": "2026-03-16",
+  "currentLiveAPI": 101049,
+  "currentPTSAPI": 101050,
 
   "apiVersionHistory": [
     {
@@ -58,7 +58,13 @@
       "version": 101048,
       "update": "Update 48 - Seasons of the Worm Cult",
       "releaseDate": "2026-01-13",
-      "changes": ["Current live version"]
+      "changes": ["Previous live version"]
+    },
+    {
+      "version": 101049,
+      "update": "Update 49 - Tamriel Tomes",
+      "releaseDate": "2026-03-09",
+      "changes": ["Current live version", "Endeavors and Daily Login removed", "DK class rework", "Outfit Slots account-wide"]
     }
   ],
 

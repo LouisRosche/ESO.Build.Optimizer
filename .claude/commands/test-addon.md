@@ -17,7 +17,7 @@ Run comprehensive verification on the specified addon:
 
 2. **Manifest Validation**:
    - Check for .addon file (console compatibility)
-   - Verify APIVersion is current (101048)
+   - Verify APIVersion is current (101049)
    - Check file references match actual files (case-sensitive)
 
 3. **Analyze for remaining issues**:

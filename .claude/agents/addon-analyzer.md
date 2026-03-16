@@ -18,7 +18,7 @@ You are a specialized agent for analyzing ESO addon compatibility and complexity
    - Categorize: Low / Medium / High / Very High complexity
 
 2. **Compatibility Check**
-   - Verify APIVersion (current: 101048)
+   - Verify APIVersion (current: 101049)
    - Check manifest format (.addon vs .txt)
    - Identify deprecated function calls
    - Check font path formats (.ttf/.otf vs .slug)

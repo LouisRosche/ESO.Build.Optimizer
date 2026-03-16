@@ -8,40 +8,61 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-import { Trophy, Swords, Clock, Calendar, TrendingUp, History } from 'lucide-react';
+import { Trophy, Swords, Clock, Calendar, TrendingUp, History, Loader2, AlertCircle } from 'lucide-react';
 import clsx from 'clsx';
 import CharacterCard from '../components/CharacterCard';
 import RunCard from '../components/RunCard';
+import { useCharacters, useRuns, useDPSTrend } from '../hooks/useApi';
 import { mockCharacters, mockRuns, formatDPS, mockDPSTrend } from '../data/mockData';
 import { classColors } from '../utils/classColors';
 import type { Character } from '../types';
 
-// TODO: Replace mock data with API hooks when backend is connected
-// Use: import { useCharacters, useCharacterRuns } from '../api/hooks';
-// Example: const { data: characters, isLoading } = useCharacters();
-// Example: const { data: runs } = useCharacterRuns(selectedCharacter?.id);
-
 export default function Characters() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
+
+  const { data: apiCharacters, isLoading: charsLoading } = useCharacters();
+  const { data: apiRuns, isLoading: runsLoading } = useRuns();
+  const { data: apiDPSTrend } = useDPSTrend(
+    selectedCharacter ? { character_name: selectedCharacter.name } : undefined
+  );
+
+  // Fall back to mock data when API is unreachable
+  const characters = apiCharacters ?? mockCharacters;
+  const runs = apiRuns ?? mockRuns;
+  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
+
+  const isLoading = charsLoading && runsLoading;
+  const usingMockData = !apiCharacters && !charsLoading;
 
   // Get runs for selected character - memoized to prevent unnecessary recalculations
   const characterRuns = useMemo(
     () =>
       selectedCharacter
-        ? mockRuns.filter((run) => run.character_name === selectedCharacter.name)
+        ? runs.filter((run) => run.character_name === selectedCharacter.name)
         : [],
-    [selectedCharacter?.name]
+    [selectedCharacter?.name, runs]
   );
 
-  // Mock DPS history for selected character - memoized to prevent unnecessary recalculations
+  // DPS history for selected character - memoized to prevent unnecessary recalculations
   const characterDPSHistory = useMemo(
     () =>
-      mockDPSTrend.map((point, index) => ({
+      dpsTrend.map((point, index) => ({
         date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         dps: point.dps + (selectedCharacter ? (selectedCharacter.id === 'char-001' ? 0 : -5000 - index * 500) : 0),
       })),
-    [selectedCharacter?.id]
+    [selectedCharacter?.id, dpsTrend]
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-eso-gold-400 animate-spin" />
+          <p className="text-gray-400">Loading characters...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -51,6 +72,12 @@ export default function Characters() {
         <p className="text-gray-500 mt-1">
           View and manage your character roster and their performance stats.
         </p>
+        {usingMockData && (
+          <div className="flex items-center gap-2 mt-2 text-sm text-eso-gold-400">
+            <AlertCircle className="w-4 h-4" />
+            <span>API unavailable - showing sample data</span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -58,18 +85,24 @@ export default function Characters() {
         <div className="lg:col-span-1 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-100">Your Characters</h2>
-            <span className="text-sm text-gray-500">{mockCharacters.length} total</span>
+            <span className="text-sm text-gray-500">{characters.length} total</span>
           </div>
-          <div className="space-y-4">
-            {mockCharacters.map((character) => (
-              <CharacterCard
-                key={character.id}
-                character={character}
-                onClick={() => setSelectedCharacter(character)}
-                isSelected={selectedCharacter?.id === character.id}
-              />
-            ))}
-          </div>
+          {charsLoading ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="w-6 h-6 text-gray-500 animate-spin" />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {characters.map((character) => (
+                <CharacterCard
+                  key={character.id}
+                  character={character}
+                  onClick={() => setSelectedCharacter(character)}
+                  isSelected={selectedCharacter?.id === character.id}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Character Details */}
@@ -231,7 +264,11 @@ export default function Characters() {
                 <h3 className="text-lg font-semibold text-gray-100 mb-4">
                   Recent Runs
                 </h3>
-                {characterRuns.length > 0 ? (
+                {runsLoading ? (
+                  <div className="flex justify-center py-4">
+                    <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+                  </div>
+                ) : characterRuns.length > 0 ? (
                   <div className="space-y-3">
                     {characterRuns.map((run) => (
                       <RunCard key={run.run_id} run={run} />

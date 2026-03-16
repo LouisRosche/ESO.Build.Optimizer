@@ -142,7 +142,7 @@ ESOBuildOptimizer/
 ```
 
 **Manifest Compliance:**
-- APIVersion: 101046 101047 (Update 46-48)
+- APIVersion: 101047 101048 101049 (Update 47-49)
 - AddOnVersion: 1 (integer)
 - Event filtering on high-frequency events
 - Single namespaced global table

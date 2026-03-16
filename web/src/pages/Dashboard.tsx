@@ -25,7 +25,7 @@ import {
 
 export default function Dashboard() {
   const { data: apiRuns, isLoading: runsLoading, error: runsError } = useRuns({ limit: 6 });
-  const { data: apiStats, isLoading: statsLoading, error: statsError } = useRunStatistics();
+  const { data: apiStats, isLoading: statsLoading } = useRunStatistics();
   const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: '30d' });
   const { data: apiPercentileTrend, isLoading: percentileTrendLoading } = usePercentileTrend({ time_range: '30d' });
 

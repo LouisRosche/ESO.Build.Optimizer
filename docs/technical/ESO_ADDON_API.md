@@ -1,7 +1,7 @@
 # ESO Addon API Reference
 
-> **Last Updated**: January 2026
-> **API Version**: 101047 (ESO 11.0.0 "Seasons of the Worm Cult Part 1")
+> **Last Updated**: March 2026
+> **API Version**: 101049 (ESO Update 49 "Tamriel Tomes")
 > **Source**: [ESOUI Wiki](https://wiki.esoui.com/Main_Page), [UESP ESO Data](https://esoapi.uesp.net/)
 
 ---
@@ -71,7 +71,7 @@ Line Length: Maximum 301 bytes per line (HARD LIMIT)
 
 ```ini
 ## Title: ESOBuildOptimizer
-## APIVersion: 101047
+## APIVersion: 101049
 ## AddOnVersion: 100
 ## Author: Your Name
 ## SavedVariables: ESOBuildOptimizerSV
@@ -82,7 +82,7 @@ Line Length: Maximum 301 bytes per line (HARD LIMIT)
 | Directive | Format | Description |
 |-----------|--------|-------------|
 | `Title` | String | Display name in addon manager |
-| `APIVersion` | Integer (101047) | Current ESO API version. **MUST** match game version |
+| `APIVersion` | Integer (101049) | Current ESO API version. **MUST** match game version |
 | `AddOnVersion` | Integer only | Your addon's version number (e.g., `100` for v1.0.0) |
 | `Author` | String | Author name(s) |
 | `SavedVariables` | Identifier | Global variable name(s) for account-wide data |
@@ -109,7 +109,7 @@ Line Length: Maximum 301 bytes per line (HARD LIMIT)
 ## Title: ESOBuildOptimizer
 ## Description: Combat analytics and build optimization for ESO
 ## Author: @YourAccountName
-## APIVersion: 101047
+## APIVersion: 101049
 ## AddOnVersion: 100
 ## Version: 1.0.0
 ## SavedVariables: ESOBuildOptimizerSV
@@ -1107,7 +1107,7 @@ When ESO patches:
 
 3. **Update Manifest**
    ```ini
-   ## APIVersion: 101048  -- Update this
+   ## APIVersion: 101049  -- Update this
    ```
 
 4. **Test Core Functionality**
@@ -1125,6 +1125,8 @@ When ESO patches:
 
 | Version | ESO Version | Notes |
 |---------|-------------|-------|
+| 101049 | 11.2.0 | Tamriel Tomes (Update 49) |
+| 101048 | 11.1.0 | Seasons of the Worm Cult P2 |
 | 101047 | 11.0.0 | Seasons of the Worm Cult P1 |
 | 101046 | 10.3.0 | Gold Road Update |
 | 101045 | 10.2.0 | Update 45 |
@@ -1269,4 +1271,4 @@ EVENT_GROUP_UPDATE = 131200
 ---
 
 *This document should be refreshed after each ESO quarterly update.*
-*Last verified: January 2026 (Update 47/48)*
+*Last verified: March 2026 (Update 49)*
