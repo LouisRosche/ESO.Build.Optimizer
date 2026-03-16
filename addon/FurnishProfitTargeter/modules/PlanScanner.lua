@@ -21,15 +21,6 @@ FPT.PlanScanner = PlanScanner
 -- Constants
 ---------------------------------------------------------------------------
 
--- Furnishing category IDs from ESO API
-local CATEGORY_NAMES = {
-    [SPECIALIZED_ITEMTYPE_FURNISHING_CRAFTING_STATION]    = "Crafting Station",
-    [SPECIALIZED_ITEMTYPE_FURNISHING_LIGHT]               = "Lighting",
-    [SPECIALIZED_ITEMTYPE_FURNISHING_ORNAMENTAL]          = "Ornamental",
-    [SPECIALIZED_ITEMTYPE_FURNISHING_SEATING]             = "Seating",
-    [SPECIALIZED_ITEMTYPE_FURNISHING_TARGET_DUMMY]        = "Target Dummy",
-}
-
 -- Crafting type display names
 local CRAFT_TYPE_NAMES = {
     [CRAFTING_TYPE_BLACKSMITHING]  = "Blacksmithing",
@@ -53,53 +44,47 @@ end
 -- Core Scanning
 ---------------------------------------------------------------------------
 
--- Scan all known furnishing plans across all crafting types
+-- Scan all known furnishing plans across all recipe lists (single pass)
 function PlanScanner:ScanAllPlans()
     local plans = {}
+    local seen = {} -- deduplicate by result item link
 
-    -- Iterate through each crafting type that can produce furnishings
-    for craftType = 1, 7 do
-        local craftPlans = self:ScanCraftType(craftType)
-        for _, plan in ipairs(craftPlans) do
-            table.insert(plans, plan)
-        end
-    end
+    local numRecipeLists = GetNumRecipeLists()
 
-    FPT:Debug("PlanScanner: found %d total known plans", #plans)
-    return plans
-end
-
--- Scan furnishing plans for a specific crafting type
-function PlanScanner:ScanCraftType(craftType)
-    local plans = {}
-
-    -- Get the number of known furnishing recipes for this craft type
-    local numRecipes = GetNumRecipeLists()
-
-    for listIndex = 1, numRecipes do
+    for listIndex = 1, numRecipeLists do
         local listName, numRecipesInList = GetRecipeListInfo(listIndex)
 
         for recipeIndex = 1, numRecipesInList do
-            local known, recipeName, numIngredients, _, _, _, resultItemId =
-                GetRecipeInfo(listIndex, recipeIndex)
+            -- GetRecipeInfo returns: known, recipeName, numIngredients,
+            --   provisionerLevelReq, qualityReq, specialIngredientType
+            -- NOTE: resultItemId is NOT returned here
+            local known, recipeName, numIngredients = GetRecipeInfo(listIndex, recipeIndex)
 
-            if known and resultItemId and resultItemId > 0 then
-                -- Check if this recipe produces a furnishing
+            if known then
+                -- Get the result item link to check if it's a furnishing
                 local resultLink = GetRecipeResultItemLink(listIndex, recipeIndex, LINK_STYLE_BRACKETS)
 
-                if resultLink and self:IsFurnishing(resultLink) then
-                    local plan = self:BuildPlanData(
-                        listIndex, recipeIndex, recipeName,
-                        numIngredients, resultItemId, resultLink, craftType
-                    )
-                    if plan then
-                        table.insert(plans, plan)
+                if resultLink and resultLink ~= "" and self:IsFurnishing(resultLink) then
+                    -- Deduplicate by result link
+                    if not seen[resultLink] then
+                        seen[resultLink] = true
+
+                        local resultItemId = GetItemLinkItemId(resultLink)
+
+                        local plan = self:BuildPlanData(
+                            listIndex, recipeIndex, recipeName,
+                            numIngredients, resultItemId, resultLink
+                        )
+                        if plan then
+                            table.insert(plans, plan)
+                        end
                     end
                 end
             end
         end
     end
 
+    FPT:Debug("PlanScanner: found %d unique known furnishing plans", #plans)
     return plans
 end
 
@@ -112,20 +97,21 @@ end
 
 -- Build comprehensive plan data for a single recipe
 function PlanScanner:BuildPlanData(listIndex, recipeIndex, recipeName,
-    numIngredients, resultItemId, resultLink, craftType)
+    numIngredients, resultItemId, resultLink)
 
     -- Get material requirements
     local materials = {}
     local totalMaterialCount = 0
 
     for ingredientIndex = 1, numIngredients do
+        -- ESO API: GetRecipeIngredientItemInfo (not GetRecipeIngredientInfo)
         local ingredientName, _, ingredientQuantity =
-            GetRecipeIngredientInfo(listIndex, recipeIndex, ingredientIndex)
+            GetRecipeIngredientItemInfo(listIndex, recipeIndex, ingredientIndex)
         local ingredientLink =
             GetRecipeIngredientItemLink(listIndex, recipeIndex, ingredientIndex, LINK_STYLE_BRACKETS)
 
         local ingredientItemId = nil
-        if ingredientLink then
+        if ingredientLink and ingredientLink ~= "" then
             ingredientItemId = GetItemLinkItemId(ingredientLink)
         end
 
@@ -146,8 +132,13 @@ function PlanScanner:BuildPlanData(listIndex, recipeIndex, recipeName,
     local quality = GetItemLinkDisplayQuality(resultLink)
     local itemName = GetItemLinkName(resultLink)
 
-    -- Determine specialized type (lighting, seating, etc.)
-    local specializedType = GetItemLinkFurnishingLimitType(resultLink)
+    -- Determine the furnishing's specialized type
+    -- GetItemLinkSpecializedItemType is the correct ESO API function
+    local _, specializedType = GetItemLinkItemType(resultLink)
+
+    -- Detect which crafting type this recipe belongs to
+    -- We infer from ingredient types since GetRecipeInfo doesn't return craft type
+    local craftType = self:InferCraftType(materials)
 
     -- Detect if structural
     local isStructural = self:IsStructuralItem(itemName, resultLink)
@@ -174,7 +165,6 @@ function PlanScanner:BuildPlanData(listIndex, recipeIndex, recipeName,
         -- Classification
         quality = quality,
         specializedType = specializedType,
-        specializedTypeName = CATEGORY_NAMES[specializedType] or "General",
         isStructural = isStructural,
         isHighDemandStyle = isHighDemandStyle,
         styleName = styleName,
@@ -191,6 +181,35 @@ function PlanScanner:BuildPlanData(listIndex, recipeIndex, recipeName,
         salesCount = 0,
         velocityScore = 0,
     }
+end
+
+---------------------------------------------------------------------------
+-- Craft Type Inference
+---------------------------------------------------------------------------
+
+-- Infer crafting type from ingredient materials
+-- Housing materials map to specific crafting stations
+function PlanScanner:InferCraftType(materials)
+    for _, mat in ipairs(materials) do
+        local id = mat.itemId
+        if id then
+            -- Heartwood → Woodworking
+            if id == 114889 then return CRAFTING_TYPE_WOODWORKING end
+            -- Regulus → Blacksmithing
+            if id == 114890 then return CRAFTING_TYPE_BLACKSMITHING end
+            -- Bast → Clothier
+            if id == 114891 then return CRAFTING_TYPE_CLOTHIER end
+            -- Mundane Rune → Enchanting
+            if id == 114892 then return CRAFTING_TYPE_ENCHANTING end
+            -- Clean Pelts → Clothier
+            if id == 114893 then return CRAFTING_TYPE_CLOTHIER end
+            -- Decorative Wax → Provisioning
+            if id == 114894 then return CRAFTING_TYPE_PROVISIONING end
+            -- Ochre → Alchemy
+            if id == 114895 then return CRAFTING_TYPE_ALCHEMY end
+        end
+    end
+    return nil
 end
 
 ---------------------------------------------------------------------------
@@ -241,12 +260,12 @@ end
 
 -- Get a summary of known plans by crafting type
 function PlanScanner:GetPlanSummary()
+    local plans = self:ScanAllPlans()
     local summary = {}
 
-    for craftType = 1, 7 do
-        local plans = self:ScanCraftType(craftType)
-        local craftName = CRAFT_TYPE_NAMES[craftType] or "Unknown"
-        summary[craftName] = #plans
+    for _, plan in ipairs(plans) do
+        local craftName = plan.craftTypeName or "Unknown"
+        summary[craftName] = (summary[craftName] or 0) + 1
     end
 
     return summary

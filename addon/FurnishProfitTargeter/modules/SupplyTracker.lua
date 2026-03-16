@@ -75,7 +75,12 @@ end
 
 -- Called when a mail becomes readable - check if it's a COD material delivery
 function SupplyTracker:OnMailReadable(mailId)
-    local senderDisplayName, senderCharacterName, subject, _, _, fromSystem, fromCS, _, codAmount =
+    -- GetMailItemInfo returns:
+    --   1: senderDisplayName, 2: senderCharacterName, 3: subject, 4: icon,
+    --   5: unread, 6: fromSystem, 7: fromCS, 8: returned,
+    --   9: numAttachments, 10: attachedMoney, 11: codAmount,
+    --   12: expiresInDays, 13: secsSinceReceived
+    local senderDisplayName, senderCharacterName, subject, _, _, fromSystem, fromCS, _, numAttachments, _, codAmount =
         GetMailItemInfo(mailId)
 
     -- Skip system and CS mails
@@ -83,9 +88,8 @@ function SupplyTracker:OnMailReadable(mailId)
 
     -- Check if this is a COD mail (has a payment amount)
     if codAmount and codAmount > 0 then
-        -- Check attachments for tracked materials
-        local numAttachments = GetMailAttachmentInfo(mailId)
-        for attachIndex = 1, numAttachments do
+        -- Iterate attachments
+        for attachIndex = 1, (numAttachments or 0) do
             local itemLink = GetAttachedItemLink(mailId, attachIndex, LINK_STYLE_BRACKETS)
             if itemLink then
                 local itemId = GetItemLinkItemId(itemLink)

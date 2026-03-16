@@ -161,10 +161,11 @@ FPT.STARTER_ZONES = {
     "Bleakrock Isle", "Bal Foyen", "Vulkhel Guard",
 }
 
--- Schedule days (0 = Sunday, 1 = Monday, etc.)
+-- Schedule days using (days + 4) % 7 formula:
+-- Thu=4, Fri=5, Sat=6, Sun=0, Mon=1, Tue=2, Wed=3
 FPT.SCHEDULE_DAYS = {
-    TUESDAY = 3,
-    FRIDAY  = 6,
+    TUESDAY = 2,
+    FRIDAY  = 5,
 }
 
 -- Colors
@@ -247,8 +248,8 @@ end
 function FPT:IsAddonLoaded(addonName)
     local mgr = GetAddOnManager()
     for i = 1, mgr:GetNumAddOns() do
-        local name, _, _, _, _, state = mgr:GetAddOnInfo(i)
-        if name == addonName and state == ADDON_STATE_ENABLED then
+        local name, _, _, _, enabled = mgr:GetAddOnInfo(i)
+        if name == addonName and enabled then
             return true
         end
     end
