@@ -84,13 +84,17 @@ local defaultSavedVars = {
     supplyChain = {
         codPurchases = {},
         materialInventory = {},
+        dailyLog = {},
         totalSaved = 0,
+        totalSpent = 0,
+        totalUnits = 0,
     },
 
     -- Marketing templates
     marketing = {
         customTemplates = {},
         portfolioHome = "",
+        adHistory = {},
     },
 
     -- Historical profit tracking
