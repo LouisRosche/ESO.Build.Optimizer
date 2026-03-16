@@ -1,18 +1,28 @@
 import { useState, useMemo } from 'react';
-import { Filter, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
+import { Filter, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, RefreshCw, Loader2 } from 'lucide-react';
 import clsx from 'clsx';
 import RecommendationCard from '../components/RecommendationCard';
+import { useRecommendations, useRuns } from '../hooks/useApi';
 import { mockRecommendations, mockRuns, formatDPS, getRelativeTime } from '../data/mockData';
 import type { RecommendationCategory } from '../types';
 
-// TODO: Replace mock data with API hooks when backend is connected
-// Use: import { useRecommendations, useRuns } from '../api/hooks';
-// Example: const { data: recommendations, isLoading } = useRecommendations(selectedRunId);
-// Example: const { data: runs } = useRuns();
-
 export default function Recommendations() {
   const [selectedCategory, setSelectedCategory] = useState<RecommendationCategory | 'all'>('all');
-  const [selectedRunId, setSelectedRunId] = useState<string | null>(mockRuns[0]?.run_id || null);
+  const [selectedRunId, setSelectedRunId] = useState<string | null>(null);
+
+  const { data: apiRuns, isLoading: runsLoading } = useRuns();
+  const runs = apiRuns ?? mockRuns;
+
+  // Use selected run or default to first run
+  const activeRunId = selectedRunId ?? runs[0]?.run_id ?? '';
+
+  const { data: apiRecommendations, isLoading: recsLoading, refetch: refetchRecs } = useRecommendations(activeRunId);
+
+  // Fall back to mock data when API is unreachable
+  const recommendations = apiRecommendations ?? mockRecommendations;
+  const usingMockData = !apiRuns && !runsLoading;
+
+  const isLoading = runsLoading && recsLoading;
 
   const categories: { value: RecommendationCategory | 'all'; label: string; icon: typeof Lightbulb }[] = [
     { value: 'all', label: 'All', icon: Lightbulb },
@@ -25,28 +35,39 @@ export default function Recommendations() {
   // Filtered recommendations - memoized to prevent unnecessary recalculations
   const filteredRecommendations = useMemo(
     () =>
-      mockRecommendations.filter((rec) => {
+      recommendations.filter((rec) => {
         if (selectedCategory !== 'all' && rec.category !== selectedCategory) return false;
-        if (selectedRunId && rec.run_id !== selectedRunId) return false;
+        if (activeRunId && rec.run_id !== activeRunId) return false;
         return true;
       }),
-    [selectedCategory, selectedRunId]
+    [selectedCategory, activeRunId, recommendations]
   );
 
   // Summary stats - memoized to prevent unnecessary recalculations
-  const totalRecommendations = useMemo(() => mockRecommendations.length, []);
+  const totalRecommendations = useMemo(() => recommendations.length, [recommendations]);
   const highConfidenceCount = useMemo(
-    () => mockRecommendations.filter((r) => r.confidence >= 0.8).length,
-    []
+    () => recommendations.filter((r) => r.confidence >= 0.8).length,
+    [recommendations]
   );
   const gearRecommendations = useMemo(
-    () => mockRecommendations.filter((r) => r.category === 'gear').length,
-    []
+    () => recommendations.filter((r) => r.category === 'gear').length,
+    [recommendations]
   );
   const executionRecommendations = useMemo(
-    () => mockRecommendations.filter((r) => r.category === 'execution').length,
-    []
+    () => recommendations.filter((r) => r.category === 'execution').length,
+    [recommendations]
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-eso-gold-400 animate-spin" />
+          <p className="text-gray-400">Loading recommendations...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -57,9 +78,23 @@ export default function Recommendations() {
           <p className="text-gray-500 mt-1">
             AI-generated suggestions to improve your performance.
           </p>
+          {usingMockData && (
+            <div className="flex items-center gap-2 mt-2 text-sm text-eso-gold-400">
+              <AlertCircle className="w-4 h-4" />
+              <span>API unavailable - showing sample data</span>
+            </div>
+          )}
         </div>
-        <button className="btn-primary">
-          <RefreshCw className="w-4 h-4" />
+        <button
+          className="btn-primary"
+          onClick={() => refetchRecs()}
+          disabled={recsLoading}
+        >
+          {recsLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <RefreshCw className="w-4 h-4" />
+          )}
           Regenerate
         </button>
       </div>
@@ -142,33 +177,39 @@ export default function Recommendations() {
           {/* Run Filter */}
           <div className="card">
             <h2 className="font-semibold text-gray-100 mb-4">Select Run</h2>
-            <div className="space-y-2 max-h-80 overflow-y-auto">
-              {mockRuns.map((run) => (
-                <button
-                  key={run.run_id}
-                  onClick={() => setSelectedRunId(run.run_id)}
-                  className={clsx(
-                    'w-full text-left p-3 rounded-lg transition-colors',
-                    selectedRunId === run.run_id
-                      ? 'bg-eso-gold-500/10 border border-eso-gold-500/30'
-                      : 'bg-eso-dark-800 hover:bg-eso-dark-700'
-                  )}
-                >
-                  <p className="text-sm font-medium text-gray-100 truncate">
-                    {run.content_name}
-                  </p>
-                  <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs text-gray-500">{run.character_name}</span>
-                    <span className="text-xs text-gray-500">
-                      {formatDPS(run.dps)}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-600 mt-1">
-                    {getRelativeTime(run.timestamp)}
-                  </p>
-                </button>
-              ))}
-            </div>
+            {runsLoading ? (
+              <div className="flex justify-center py-4">
+                <Loader2 className="w-5 h-5 text-gray-500 animate-spin" />
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-80 overflow-y-auto">
+                {runs.map((run) => (
+                  <button
+                    key={run.run_id}
+                    onClick={() => setSelectedRunId(run.run_id)}
+                    className={clsx(
+                      'w-full text-left p-3 rounded-lg transition-colors',
+                      activeRunId === run.run_id
+                        ? 'bg-eso-gold-500/10 border border-eso-gold-500/30'
+                        : 'bg-eso-dark-800 hover:bg-eso-dark-700'
+                    )}
+                  >
+                    <p className="text-sm font-medium text-gray-100 truncate">
+                      {run.content_name}
+                    </p>
+                    <div className="flex items-center justify-between mt-1">
+                      <span className="text-xs text-gray-500">{run.character_name}</span>
+                      <span className="text-xs text-gray-500">
+                        {formatDPS(run.dps)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-600 mt-1">
+                      {getRelativeTime(run.timestamp)}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Confidence Legend */}
@@ -202,7 +243,14 @@ export default function Recommendations() {
 
         {/* Recommendations List */}
         <div className="lg:col-span-3">
-          {filteredRecommendations.length > 0 ? (
+          {recsLoading ? (
+            <div className="card flex items-center justify-center h-64">
+              <div className="flex flex-col items-center gap-3">
+                <Loader2 className="w-6 h-6 text-eso-gold-400 animate-spin" />
+                <p className="text-gray-400">Loading recommendations...</p>
+              </div>
+            </div>
+          ) : filteredRecommendations.length > 0 ? (
             <div className="space-y-4">
               {filteredRecommendations.map((rec) => (
                 <RecommendationCard key={rec.recommendation_id} recommendation={rec} />

@@ -120,7 +120,7 @@ class TestManifestFixer:
         fixer = ManifestFixer(data)
         content, changes = fixer.fix_all()
 
-        assert "101047 101048" in content
+        assert "101048 101049" in content
         assert any("Updated APIVersion" in c for c in changes)
 
     def test_remove_libstub_dependency(self, tmp_path):
@@ -422,7 +422,7 @@ class TestConstants:
 
     def test_current_api_version(self):
         """Test that current API version is set correctly."""
-        assert CURRENT_API_VERSION == 101048
+        assert CURRENT_API_VERSION == 101049
 
     def test_library_globals_mapping(self):
         """Test that library globals are properly mapped."""
