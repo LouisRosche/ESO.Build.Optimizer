@@ -52,6 +52,7 @@ async def lifespan(app: FastAPI):
     logger.info(f"Debug mode: {settings.debug}")
 
     # Initialize database tables
+    # For production: run 'alembic upgrade head' instead of init_db()
     try:
         await init_db()
         logger.info("Database initialized successfully")
