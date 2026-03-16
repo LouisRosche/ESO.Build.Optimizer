@@ -24,7 +24,8 @@ API_VERSION_HISTORY = {
     101033: {"update": "Update 33", "changes": ["Per-character achievement tracking removed"]},
     101041: {"update": "Update 41", "changes": ["Slug font format migration (.ttf → .slug)"]},
     101046: {"update": "Update 46", "changes": ["Subclassing system", "Console addon support"]},
-    101048: {"update": "Update 48", "changes": ["Current live version"]},
+    101048: {"update": "Update 48", "changes": ["Previous live version"]},
+    101049: {"update": "Update 49", "changes": ["Current live version", "Endeavors/Daily Login removed", "DK class rework", "Outfit Slots account-wide"]},
 }
 
 # Library global variable mappings (LibStub replacement)

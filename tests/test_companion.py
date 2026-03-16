@@ -2,9 +2,11 @@
 Companion App Tests
 
 Tests for file watcher, sync client, and utilities.
+Runs without real SavedVariables files using temp files and mocks.
 """
 
 import pytest
+import asyncio
 import tempfile
 import json
 from pathlib import Path
@@ -32,45 +34,63 @@ class TestLuaTableParser:
 
     def test_parse_empty_table(self, parser):
         """Test parsing empty Lua table."""
-        result = parser.parse("{}")
+        result = parser.parse_table_string("{}")
         assert result == {}
 
     def test_parse_simple_table(self, parser):
         """Test parsing simple Lua table."""
         lua_str = '{ ["key"] = "value" }'
-        result = parser.parse(lua_str)
+        result = parser.parse_table_string(lua_str)
         assert result.get("key") == "value"
 
     def test_parse_nested_table(self, parser):
         """Test parsing nested Lua table."""
         lua_str = '{ ["outer"] = { ["inner"] = 42 } }'
-        result = parser.parse(lua_str)
+        result = parser.parse_table_string(lua_str)
         assert result.get("outer", {}).get("inner") == 42
 
     def test_parse_number_values(self, parser):
         """Test parsing number values."""
         lua_str = '{ ["int"] = 42, ["float"] = 3.14 }'
-        result = parser.parse(lua_str)
+        result = parser.parse_table_string(lua_str)
         assert result.get("int") == 42
         assert result.get("float") == 3.14
 
     def test_parse_boolean_values(self, parser):
         """Test parsing boolean values."""
         lua_str = '{ ["yes"] = true, ["no"] = false }'
-        result = parser.parse(lua_str)
+        result = parser.parse_table_string(lua_str)
         assert result.get("yes") is True
         assert result.get("no") is False
 
     def test_parse_array_style_table(self, parser):
         """Test parsing array-style Lua table."""
         lua_str = '{ "a", "b", "c" }'
-        result = parser.parse(lua_str)
-        # Array-style becomes dict with numeric string keys
-        assert len(result) > 0
+        result = parser.parse_table_string(lua_str)
+        # Array-style should return a list
+        assert isinstance(result, list)
+        assert len(result) == 3
+        assert result[0] == "a"
+
+    def test_parse_full_saved_variables(self, parser):
+        """Test parsing a full SavedVariables-style content."""
+        lua_content = '''TestAddon_SavedVariables = {
+    ["setting1"] = true,
+    ["setting2"] = "hello",
+    ["nested"] = {
+        ["value"] = 42,
+    },
+}'''
+        result = parser.parse(lua_content)
+        assert "TestAddon_SavedVariables" in result
+        sv = result["TestAddon_SavedVariables"]
+        assert sv.get("setting1") is True
+        assert sv.get("setting2") == "hello"
+        assert sv.get("nested", {}).get("value") == 42
 
 
 class TestRateLimiter:
-    """Tests for rate limiter."""
+    """Tests for rate limiter (async)."""
 
     @pytest.fixture
     def limiter(self):
@@ -78,32 +98,25 @@ class TestRateLimiter:
         from companion.sync import RateLimiter
         return RateLimiter(requests_per_minute=5, requests_per_hour=100)
 
-    def test_allow_under_limit(self, limiter):
-        """Test that requests under limit are allowed."""
-        for _ in range(5):
-            assert limiter.acquire() is True
+    def test_remaining_counts_initial(self, limiter):
+        """Test initial remaining counts."""
+        assert limiter.remaining_minute == 5
+        assert limiter.remaining_hour == 100
 
-    def test_block_over_minute_limit(self, limiter):
-        """Test that requests over minute limit are blocked."""
-        for _ in range(5):
-            limiter.acquire()
+    @pytest.mark.asyncio
+    async def test_acquire_reduces_remaining(self):
+        """Test that acquiring reduces remaining counts."""
+        from companion.sync import RateLimiter
 
-        # Next request should be blocked
-        assert limiter.acquire() is False
+        limiter = RateLimiter(requests_per_minute=5, requests_per_hour=100)
+        await limiter.acquire()
 
-    def test_remaining_counts(self, limiter):
-        """Test remaining count tracking."""
-        initial_minute = limiter.remaining_minute
-        initial_hour = limiter.remaining_hour
-
-        limiter.acquire()
-
-        assert limiter.remaining_minute == initial_minute - 1
-        assert limiter.remaining_hour == initial_hour - 1
+        assert limiter.remaining_minute == 4
+        assert limiter.remaining_hour == 99
 
 
 class TestLocalCache:
-    """Tests for local cache."""
+    """Tests for local SQLite cache."""
 
     @pytest.fixture
     def cache(self):
@@ -118,26 +131,55 @@ class TestLocalCache:
         assert cache is not None
         assert cache.db_path.exists()
 
-    def test_cache_data(self, cache):
-        """Test caching data."""
-        test_data = {"key": "value", "number": 42}
-        cache_key = cache.cache_data("test_type", test_data)
+    def test_sync_queue_operations(self, cache):
+        """Test enqueue and dequeue operations."""
+        from companion.sync import SyncItem, SyncDirection, SyncStatus
+        from datetime import datetime, timezone
 
-        assert cache_key is not None
-        assert len(cache_key) > 0
+        item = SyncItem(
+            id="test-item-1",
+            item_type="combat_run",
+            data={"test": "data"},
+            direction=SyncDirection.UPLOAD,
+            status=SyncStatus.PENDING,
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
+        )
 
-    def test_get_pending(self, cache):
-        """Test getting pending items."""
-        pending = cache.get_pending(limit=10)
-        assert isinstance(pending, list)
+        cache.enqueue(item)
 
-    def test_mark_synced(self, cache):
-        """Test marking items as synced."""
-        test_data = {"test": "data"}
-        cache_key = cache.cache_data("test_type", test_data)
+        pending = cache.dequeue_batch(
+            direction=SyncDirection.UPLOAD,
+            status=SyncStatus.PENDING,
+            limit=10,
+        )
+        assert len(pending) == 1
+        assert pending[0].id == "test-item-1"
 
-        # Should not raise
-        cache.mark_synced([cache_key])
+    def test_update_item_status(self, cache):
+        """Test updating item status."""
+        from companion.sync import SyncItem, SyncDirection, SyncStatus
+        from datetime import datetime, timezone
+
+        item = SyncItem(
+            id="test-item-2",
+            item_type="combat_run",
+            data={"test": "data"},
+            direction=SyncDirection.UPLOAD,
+            status=SyncStatus.PENDING,
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
+        )
+
+        cache.enqueue(item)
+        cache.update_item_status("test-item-2", SyncStatus.SYNCED)
+
+        pending = cache.dequeue_batch(
+            direction=SyncDirection.UPLOAD,
+            status=SyncStatus.PENDING,
+            limit=10,
+        )
+        assert len(pending) == 0
 
 
 class TestSavedVariablesWatcher:
@@ -148,15 +190,13 @@ class TestSavedVariablesWatcher:
         from companion.watcher import SavedVariablesWatcher
 
         with tempfile.TemporaryDirectory() as tmpdir:
-            sv_path = Path(tmpdir) / "TestAddon.lua"
-            sv_path.write_text('ESOBuildOptimizerSV = {}')
-
+            sv_path = Path(tmpdir)
             watcher = SavedVariablesWatcher(
                 saved_variables_path=sv_path,
-                addon_name="ESOBuildOptimizer"
+                addon_name="ESOBuildOptimizer",
             )
-
             assert watcher is not None
+            assert watcher.addon_name == "ESOBuildOptimizer"
 
     def test_default_path_detection(self):
         """Test default SavedVariables path detection."""
@@ -164,10 +204,66 @@ class TestSavedVariablesWatcher:
 
         # Should not crash
         path = get_default_saved_variables_path()
+        assert path is not None
+        assert isinstance(path, Path)
 
-        # May return None if ESO not installed
-        if path is not None:
-            assert isinstance(path, Path)
+    def test_addon_file_path(self):
+        """Test addon_file_path property."""
+        from companion.watcher import SavedVariablesWatcher
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sv_path = Path(tmpdir)
+            watcher = SavedVariablesWatcher(
+                saved_variables_path=sv_path,
+                addon_name="TestAddon",
+            )
+            assert watcher.addon_file_path == sv_path / "TestAddon.lua"
+
+    def test_parse_current_file_missing(self):
+        """Test parsing when file doesn't exist."""
+        from companion.watcher import SavedVariablesWatcher
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sv_path = Path(tmpdir)
+            watcher = SavedVariablesWatcher(
+                saved_variables_path=sv_path,
+                addon_name="NonExistent",
+            )
+            result = watcher.parse_current_file()
+            assert result is None
+
+    def test_parse_current_file_exists(self):
+        """Test parsing when file exists."""
+        from companion.watcher import SavedVariablesWatcher
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sv_path = Path(tmpdir)
+            addon_file = sv_path / "TestAddon.lua"
+            addon_file.write_text('TestAddon_SavedVariables = { ["key"] = "value" }')
+
+            watcher = SavedVariablesWatcher(
+                saved_variables_path=sv_path,
+                addon_name="TestAddon",
+            )
+            result = watcher.parse_current_file()
+
+            assert result is not None
+            assert "TestAddon_SavedVariables" in result
+
+    def test_run_cache_operations(self):
+        """Test run ID cache operations."""
+        from companion.watcher import SavedVariablesWatcher
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            sv_path = Path(tmpdir)
+            watcher = SavedVariablesWatcher(
+                saved_variables_path=sv_path,
+                addon_name="Test",
+            )
+
+            assert len(watcher.get_known_run_ids()) == 0
+            watcher.clear_run_cache()
+            assert len(watcher.get_known_run_ids()) == 0
 
 
 class TestHashFunctions:
@@ -197,18 +293,12 @@ class TestHashFunctions:
 class TestCrossPlatformPaths:
     """Tests for cross-platform path handling."""
 
-    def test_windows_path_fallback(self):
-        """Test Windows USERPROFILE fallback."""
-        import os
-        from pathlib import Path
+    def test_find_saved_variables_paths(self):
+        """Test that find_saved_variables_paths doesn't crash."""
+        from companion.watcher import find_saved_variables_paths
 
-        # Simulate getting user home directory
-        userprofile = os.environ.get("USERPROFILE")
-        if not userprofile:
-            userprofile = os.path.expanduser("~")
-
-        assert userprofile is not None
-        assert len(userprofile) > 0
+        paths = find_saved_variables_paths()
+        assert isinstance(paths, list)
 
     def test_log_path_creation(self):
         """Test log path directory creation."""

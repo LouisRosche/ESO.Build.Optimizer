@@ -5,7 +5,7 @@ This package provides tools to analyze and fix broken Elder Scrolls Online
 addons by updating deprecated API calls, fixing manifest files, removing
 LibStub dependencies, and more.
 
-Target API Version: 101048 (Update 48 - January 2026)
+Target API Version: 101049 (Update 49 - March 2026)
 """
 
 __version__ = "1.0.0"
