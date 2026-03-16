@@ -72,16 +72,21 @@ class TestRequiredFields:
         ids=lambda p: p.name,
     )
     def test_skill_required_fields(self, json_file):
-        """Test that skill/feature entries have feature_id, name, and category."""
+        """Test that skill/feature entries have feature_id, a name field, and category."""
         with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)
+
+        # Some files use alternative name fields (feature_name, skill_name)
+        name_fields = ("name", "feature_name", "skill_name")
 
         for i, entry in enumerate(data):
             assert "feature_id" in entry, (
                 f"{json_file.name}[{i}]: missing 'feature_id'"
             )
-            assert "name" in entry, (
-                f"{json_file.name}[{i}] ({entry.get('feature_id', '?')}): missing 'name'"
+            has_name = any(field in entry for field in name_fields)
+            assert has_name, (
+                f"{json_file.name}[{i}] ({entry.get('feature_id', '?')}): "
+                f"missing name field (expected one of: {name_fields})"
             )
             assert "category" in entry, (
                 f"{json_file.name}[{i}] ({entry.get('feature_id', '?')}): missing 'category'"
