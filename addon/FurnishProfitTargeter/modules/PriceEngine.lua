@@ -70,7 +70,7 @@ function PriceEngine:GetMMPrice(itemIdOrLink)
 
     if success and result then
         if type(result) == "table" then
-            price = result.avgPrice or result.average or result.avg
+            price = result.avgPrice or result.average or result.avg or 0
         elseif type(result) == "number" then
             price = result
         end

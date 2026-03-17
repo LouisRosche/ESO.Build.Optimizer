@@ -196,13 +196,16 @@ local isPlayerActivated = false
 -- Utility Functions
 ---------------------------------------------------------------------------
 
-local function DeepCopy(orig)
+local function DeepCopy(orig, seen)
     local origType = type(orig)
     local copy
     if origType == "table" then
+        if seen and seen[orig] then return seen[orig] end
         copy = {}
+        seen = seen or {}
+        seen[orig] = copy
         for origKey, origValue in pairs(orig) do
-            copy[DeepCopy(origKey)] = DeepCopy(origValue)
+            copy[DeepCopy(origKey, seen)] = DeepCopy(origValue, seen)
         end
     else
         copy = orig
