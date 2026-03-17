@@ -83,6 +83,8 @@ local RACE_NAMES = {
     [10] = "Imperial",
 }
 
+local MAX_PENDING_BUILDS = 50  -- Maximum pending builds before FIFO eviction
+
 -- Action bar slots
 local ACTION_BAR_SLOTS = {3, 4, 5, 6, 7, 8} -- Slots 3-7 are skills, 8 is ultimate
 
@@ -412,6 +414,12 @@ function BuildSnapshot:CaptureFullSnapshot()
             timestamp = state.currentBuild.timestamp,
             build = state.currentBuild,
         })
+
+        -- Prune oldest pending builds if limit exceeded
+        while #addon.savedVars.pendingSync.builds > MAX_PENDING_BUILDS do
+            table.remove(addon.savedVars.pendingSync.builds, 1)
+            addon:Debug("Pending builds limit exceeded, pruned oldest build")
+        end
     end
 
     addon:Debug("Build snapshot captured")

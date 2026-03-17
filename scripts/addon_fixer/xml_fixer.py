@@ -10,7 +10,6 @@ import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
-import xml.etree.ElementTree as ET
 
 logger = logging.getLogger(__name__)
 
@@ -225,7 +224,7 @@ class XMLAnalyzer:
         ]
 
         for event in deprecated_events:
-            pattern = rf'On{event}\s*=\s*["\']([^"\']+)["\']'
+            pattern = rf'{event}\s*=\s*["\']([^"\']+)["\']'
             for match in re.finditer(pattern, content, re.IGNORECASE):
                 line_num = content[:match.start()].count("\n") + 1
                 result.issues.append(XMLIssue(

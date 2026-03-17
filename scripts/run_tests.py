@@ -6,6 +6,7 @@ Runs all tests and validation checks locally.
 Usage: python scripts/run_tests.py
 """
 
+import importlib
 import subprocess
 import sys
 import json
@@ -95,7 +96,8 @@ def check_python_imports() -> tuple[int, int]:
 
     for module, attr in imports:
         try:
-            exec(f"from {module} import {attr}")
+            mod = importlib.import_module(module)
+            getattr(mod, attr)
             print_result(f"{module}.{attr}", True)
             passed += 1
         except Exception as e:

@@ -67,6 +67,10 @@ local MINOR_DEBUFFS = {
 -- Combat timeout (seconds without combat event = encounter end)
 local COMBAT_TIMEOUT = 8
 
+-- Throttle interval for UI updates (milliseconds)
+local UI_UPDATE_THROTTLE_MS = 100
+local lastUIUpdateTime = 0
+
 -- Pre-computed boss unit tags for fast lookup
 local BOSS_UNIT_TAGS = {}
 local BOSS_UNIT_TAGS_SET = {}
@@ -256,7 +260,8 @@ local function StartEncounter()
         local bossUnitTag = BOSS_UNIT_TAGS[i]
         if DoesUnitExist(bossUnitTag) then
             bossName = GetUnitName(bossUnitTag)
-            state.encounter.bossMaxHealth = GetUnitPower(bossUnitTag, POWERTYPE_HEALTH)
+            local _, bossMax = GetUnitPower(bossUnitTag, POWERTYPE_HEALTH)
+            state.encounter.bossMaxHealth = bossMax
             break
         end
     end
@@ -412,12 +417,16 @@ function CombatTracker:OnCombatEvent(eventCode, result, isError, abilityName,
         encounter.interrupts = encounter.interrupts + 1
     end
 
-    -- Update UI with real-time metrics
+    -- Update UI with real-time metrics (throttled to avoid excessive redraws)
     if addon.MetricsUI then
-        local duration = GetCurrentTime() - encounter.startTime
-        local dps = duration > 0 and (encounter.damage.total / duration) or 0
-        local hps = duration > 0 and (encounter.healing.total / duration) or 0
-        addon.MetricsUI:UpdateMetrics(dps, hps, encounter.damage.hits, encounter.damage.crits)
+        local now = GetGameTimeMilliseconds()
+        if now - lastUIUpdateTime >= UI_UPDATE_THROTTLE_MS then
+            lastUIUpdateTime = now
+            local duration = GetCurrentTime() - encounter.startTime
+            local dps = duration > 0 and (encounter.damage.total / duration) or 0
+            local hps = duration > 0 and (encounter.healing.total / duration) or 0
+            addon.MetricsUI:UpdateMetrics(dps, hps, encounter.damage.hits, encounter.damage.crits)
+        end
     end
 end
 

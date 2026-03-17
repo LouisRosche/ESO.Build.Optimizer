@@ -105,12 +105,13 @@ def create_refresh_token(user_id: UUID) -> str:
     )
 
 
-def decode_token(token: str) -> TokenPayload:
+def decode_token(token: str, expected_type: str = "access") -> TokenPayload:
     """
     Decode and validate a JWT token.
 
     Args:
         token: The JWT token string
+        expected_type: Expected token type ("access" or "refresh")
 
     Returns:
         TokenPayload with user information
@@ -124,6 +125,16 @@ def decode_token(token: str) -> TokenPayload:
             settings.jwt_secret_key,
             algorithms=[settings.jwt_algorithm],
         )
+
+        # Validate token type
+        token_type = payload.get("type")
+        if token_type != expected_type:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token type",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
         return TokenPayload(
             sub=UUID(payload["sub"]),
             exp=datetime.fromtimestamp(payload["exp"], tz=timezone.utc),

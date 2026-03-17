@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 
 # =============================================================================
@@ -130,11 +130,23 @@ class UserCreate(UserBase):
     """Schema for user registration."""
     password: str = Field(..., min_length=8, max_length=128)
 
+    @field_validator("password")
+    @classmethod
+    def validate_password_complexity(cls, v: str) -> str:
+        """Require at least one uppercase, one lowercase, and one digit."""
+        if not any(c.isupper() for c in v):
+            raise ValueError("Password must contain at least one uppercase letter")
+        if not any(c.islower() for c in v):
+            raise ValueError("Password must contain at least one lowercase letter")
+        if not any(c.isdigit() for c in v):
+            raise ValueError("Password must contain at least one digit")
+        return v
+
 
 class UserLogin(BaseModel):
     """Schema for user login."""
     email: EmailStr
-    password: str
+    password: str = Field(..., max_length=128)
 
 
 class UserResponse(UserBase):

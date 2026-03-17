@@ -263,6 +263,8 @@ async def get_feature_updates(
         description="Patch version to compare from (e.g., 'U47')",
         pattern=r"^U\d+$",
     ),
+    limit: int = Query(100, ge=1, le=500, description="Number of results per page"),
+    offset: int = Query(0, ge=0, description="Offset for pagination"),
 ) -> FeatureUpdatesResponse:
     """
     Get features updated since a specific patch.
@@ -335,11 +337,15 @@ async def get_feature_updates(
             )
         )
 
+    total_changes = len(updates)
+    # Apply pagination
+    updates = updates[offset:offset + limit]
+
     return FeatureUpdatesResponse(
         since_patch=since,
         current_patch=settings.current_patch,
         updates=updates,
-        total_changes=len(updates),
+        total_changes=total_changes,
     )
 
 
@@ -467,6 +473,8 @@ async def get_features_by_class(
         True,
         description="Include skills available to all classes",
     ),
+    limit: int = Query(100, ge=1, le=500, description="Number of results per page"),
+    offset: int = Query(0, ge=0, description="Offset for pagination"),
 ) -> FeatureListResponse:
     """
     Get all features available to a specific class.
@@ -487,16 +495,22 @@ async def get_features_by_class(
             Feature.class_restriction == class_name.value
         )
 
+    # Get total count
+    count_query = select(func.count()).select_from(query.subquery())
+    total_result = await db.execute(count_query)
+    total = total_result.scalar() or 0
+
     query = query.order_by(Feature.category, Feature.subcategory, Feature.name)
+    query = query.limit(limit).offset(offset)
 
     result = await db.execute(query)
     features = result.scalars().all()
 
     return FeatureListResponse(
         features=[FeatureResponse.model_validate(f) for f in features],
-        total=len(features),
-        limit=len(features),
-        offset=0,
+        total=total,
+        limit=limit,
+        offset=offset,
     )
 
 

@@ -224,7 +224,7 @@ function PlanScanner:IsStructuralItem(itemName, itemLink)
 
     -- Check against structural tags
     for _, tag in ipairs(FPT.STRUCTURAL_TAGS) do
-        if string.find(lowerName, string.lower(tag)) then
+        if string.find(lowerName, string.lower(tag), 1, true) then
             return true
         end
     end
@@ -237,7 +237,7 @@ function PlanScanner:IsStructuralItem(itemName, itemLink)
     }
 
     for _, pattern in ipairs(structuralPatterns) do
-        if string.find(lowerName, pattern) then
+        if string.find(lowerName, pattern, 1, true) then
             return true
         end
     end
@@ -250,7 +250,7 @@ function PlanScanner:DetectHighDemandStyle(itemName)
     if not itemName then return false, nil end
 
     for _, style in ipairs(FPT.HIGH_DEMAND_STYLES) do
-        if string.find(itemName, style) then
+        if string.find(itemName, style, 1, true) then
             return true, style
         end
     end

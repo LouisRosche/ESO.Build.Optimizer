@@ -54,12 +54,6 @@ local AOE_SKILL_PATTERNS = {
     "Glacial Colossus",
     "Elemental Blockade",
     "Liquid Lightning",
-    "Impale",
-    "Killers Blade",
-    "Radiant Glory",
-    "Radiant Oppression",
-    "Executioner",
-    "Reverse Slash",
 }
 
 -- Execute skills (for low health targets)

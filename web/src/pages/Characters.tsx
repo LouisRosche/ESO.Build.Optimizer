@@ -26,10 +26,10 @@ export default function Characters() {
     selectedCharacter ? { character_name: selectedCharacter.name } : undefined
   );
 
-  // Fall back to mock data when API is unreachable
-  const characters = apiCharacters ?? mockCharacters;
-  const runs = apiRuns ?? mockRuns;
-  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
+  // Fall back to mock data when API is unreachable (dev only)
+  const characters = apiCharacters ?? (import.meta.env.DEV ? mockCharacters : []);
+  const runs = apiRuns ?? (import.meta.env.DEV ? mockRuns : []);
+  const dpsTrend = apiDPSTrend ?? (import.meta.env.DEV ? mockDPSTrend : []);
 
   const isLoading = charsLoading && runsLoading;
   const usingMockData = !apiCharacters && !charsLoading;
@@ -222,7 +222,7 @@ export default function Characters() {
                     <span className="text-sm font-medium">Improving</span>
                   </div>
                 </div>
-                <div className="h-48">
+                <div className="h-48" role="img" aria-label="DPS history chart for selected character">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={characterDPSHistory}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#393941" />

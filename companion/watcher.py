@@ -55,6 +55,12 @@ logger = logging.getLogger(__name__)
 # Maximum cached combat runs to prevent unbounded memory growth
 MAX_CACHED_RUNS = 10000
 
+# Maximum file size to read (50 MB)
+MAX_FILE_SIZE = 50 * 1024 * 1024
+
+# Maximum recursion depth for Lua table parsing
+MAX_PARSE_DEPTH = 50
+
 # Combat Metrics SavedVariables filename
 CMX_FILENAME = "CombatMetrics.lua"
 
@@ -326,13 +332,23 @@ class LuaTableParser:
         value, _ = self._parse_table(table_string, 0)
         return value
 
-    def _parse_table(self, content: str, start: int) -> tuple[Any, int]:
+    def _parse_table(self, content: str, start: int, depth: int = 0) -> tuple[Any, int]:
         """
         Parse a Lua table starting at the given position.
+
+        Args:
+            content: The Lua content string.
+            start: Starting position in the content.
+            depth: Current recursion depth.
 
         Returns:
             Tuple of (parsed value, end position).
         """
+        if depth > MAX_PARSE_DEPTH:
+            raise LuaParseError(
+                f"Maximum parse depth ({MAX_PARSE_DEPTH}) exceeded at position {start}"
+            )
+
         if content[start] != "{":
             raise LuaParseError(f"Expected '{{' at position {start}")
 
@@ -361,7 +377,7 @@ class LuaTableParser:
                 pos += 1
                 pos = self._skip_whitespace(content, pos)
 
-                key, pos = self._parse_value(content, pos)
+                key, pos = self._parse_value(content, pos, depth)
                 pos = self._skip_whitespace(content, pos)
 
                 if pos >= len(content) or content[pos] != "]":
@@ -375,7 +391,7 @@ class LuaTableParser:
                 pos += 1
 
                 pos = self._skip_whitespace(content, pos)
-                value, pos = self._parse_value(content, pos)
+                value, pos = self._parse_value(content, pos, depth)
 
                 # Check if this breaks array pattern
                 if key != array_index:
@@ -390,16 +406,16 @@ class LuaTableParser:
                     key = ident_match.group(1)
                     pos += ident_match.end()
                     pos = self._skip_whitespace(content, pos)
-                    value, pos = self._parse_value(content, pos)
+                    value, pos = self._parse_value(content, pos, depth)
                     is_array = False
                 else:
                     # Array element (bare value)
-                    value, pos = self._parse_value(content, pos)
+                    value, pos = self._parse_value(content, pos, depth)
                     key = array_index
                     array_index += 1
             else:
                 # Array element (bare value)
-                value, pos = self._parse_value(content, pos)
+                value, pos = self._parse_value(content, pos, depth)
                 key = array_index
                 array_index += 1
 
@@ -423,7 +439,7 @@ class LuaTableParser:
 
         return result, pos
 
-    def _parse_value(self, content: str, pos: int) -> tuple[Any, int]:
+    def _parse_value(self, content: str, pos: int, depth: int = 0) -> tuple[Any, int]:
         """Parse a single Lua value at the given position."""
         pos = self._skip_whitespace(content, pos)
 
@@ -434,7 +450,7 @@ class LuaTableParser:
 
         # Table
         if char == "{":
-            return self._parse_table(content, pos)
+            return self._parse_table(content, pos, depth + 1)
 
         # String (double-quoted)
         if char == '"':
@@ -705,6 +721,50 @@ class SavedVariablesWatcher:
         """Get the full path to the addon's SavedVariables file."""
         return self.saved_variables_path / self.addon_filename
 
+    def _validate_file_path(self, path: Path) -> bool:
+        """Validate a file path is safe to read.
+
+        Checks that the path is not a symlink and that the resolved path
+        is within the expected SavedVariables directory.
+
+        Args:
+            path: The path to validate.
+
+        Returns:
+            True if the path is safe, False otherwise.
+        """
+        # Reject symlinks
+        if path.is_symlink():
+            logger.warning(f"Skipping symlink: {path}")
+            return False
+
+        # Verify resolved path is within the SavedVariables directory
+        try:
+            resolved = path.resolve()
+            expected_dir = self.saved_variables_path.resolve()
+            if not str(resolved).startswith(str(expected_dir) + os.sep) and resolved.parent != expected_dir:
+                logger.warning(
+                    f"Path escapes SavedVariables directory: {path} -> {resolved}"
+                )
+                return False
+        except (OSError, ValueError) as e:
+            logger.warning(f"Failed to resolve path {path}: {e}")
+            return False
+
+        # Check file size
+        try:
+            file_size = path.stat().st_size
+            if file_size > MAX_FILE_SIZE:
+                logger.warning(
+                    f"File too large ({file_size} bytes > {MAX_FILE_SIZE} bytes): {path}"
+                )
+                return False
+        except OSError as e:
+            logger.warning(f"Failed to stat file {path}: {e}")
+            return False
+
+        return True
+
     def start(self, blocking: bool = False) -> None:
         """
         Start watching for SavedVariables changes.
@@ -787,6 +847,9 @@ class SavedVariablesWatcher:
             logger.debug(f"Addon file not found: {self.addon_file_path}")
             return None
 
+        if not self._validate_file_path(self.addon_file_path):
+            return None
+
         try:
             content = self.addon_file_path.read_text(encoding="utf-8")
             return self._parser.parse(content)
@@ -799,6 +862,9 @@ class SavedVariablesWatcher:
     def _handle_file_change(self, path: Path) -> None:
         """Handle a detected file change with retry logic for race conditions."""
         with self._lock:
+            if not self._validate_file_path(path):
+                return
+
             content = None
             # Retry logic to handle race conditions during file writes
             for attempt in range(3):
@@ -951,6 +1017,9 @@ class SavedVariablesWatcher:
     def _handle_cmx_file_change(self, path: Path) -> None:
         """Handle a detected change to CombatMetrics.lua."""
         with self._lock:
+            if not self._validate_file_path(path):
+                return
+
             content = None
             for attempt in range(3):
                 try:

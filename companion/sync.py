@@ -20,6 +20,7 @@ import hashlib
 import json
 import logging
 import os
+import random
 import sqlite3
 import threading
 import time
@@ -37,7 +38,7 @@ import httpx
 
 # Configure module logger
 logger = logging.getLogger("eso_sync")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # Type variable for generic operations
 T = TypeVar("T")
@@ -82,9 +83,21 @@ class SyncConfig:
     token_refresh_buffer: int = 300  # Refresh token 5 min before expiry
 
     def __post_init__(self):
-        """Ensure cache directory exists."""
+        """Ensure cache directory exists and validate settings."""
         self.cache_dir = Path(self.cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.cache_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
+
+        # Validate HTTPS enforcement
+        url = self.api_base_url.rstrip("/")
+        if not (
+            url.startswith("https://")
+            or url.startswith("http://localhost")
+            or url.startswith("http://127.0.0.1")
+        ):
+            raise ValueError(
+                f"api_base_url must use HTTPS (got {self.api_base_url!r}). "
+                "Only http://localhost and http://127.0.0.1 are allowed for development."
+            )
 
     @property
     def cache_db_path(self) -> Path:
@@ -397,6 +410,11 @@ class LocalCache:
         with self._get_connection() as conn:
             conn.executescript(self.SCHEMA)
             conn.commit()
+        # Restrict database file permissions to owner only
+        try:
+            os.chmod(self.db_path, 0o600)
+        except OSError:
+            pass  # May fail on Windows; non-critical
 
     @contextmanager
     def _get_connection(self):
@@ -705,6 +723,7 @@ class TokenManager:
         if self._http_client is None or self._http_client.is_closed:
             self._http_client = httpx.AsyncClient(
                 timeout=httpx.Timeout(self.config.api_timeout),
+                verify=True,
             )
         return self._http_client
 
@@ -849,7 +868,7 @@ class SyncClient:
         )
 
         self._http_client: Optional[httpx.AsyncClient] = None
-        self._upload_queue: asyncio.Queue[SyncItem] = asyncio.Queue()
+        self._upload_queue: asyncio.Queue[SyncItem] = asyncio.Queue(maxsize=1000)
         self._running = False
         self._sync_task: Optional[asyncio.Task] = None
 
@@ -859,6 +878,7 @@ class SyncClient:
             self._http_client = httpx.AsyncClient(
                 timeout=httpx.Timeout(self.config.api_timeout),
                 limits=httpx.Limits(max_keepalive_connections=5, max_connections=10),
+                verify=True,
             )
         return self._http_client
 
@@ -957,7 +977,7 @@ class SyncClient:
         """Calculate exponential backoff delay."""
         delay = self.config.base_retry_delay * (2 ** attempt)
         # Add jitter (0-25% of delay)
-        jitter = delay * 0.25 * (hash(time.time()) % 100) / 100
+        jitter = random.uniform(0, 0.25 * delay)
         return min(delay + jitter, self.config.max_retry_delay)
 
     # === Upload Operations ===
@@ -984,7 +1004,10 @@ class SyncClient:
         self.cache.enqueue(item)
 
         # Add to in-memory queue for immediate processing
-        await self._upload_queue.put(item)
+        try:
+            self._upload_queue.put_nowait(item)
+        except asyncio.QueueFull:
+            logger.warning(f"Upload queue full, item {item_id} saved to cache only")
 
         logger.info(f"Queued combat run for upload: {item_id}")
         return item_id
@@ -1008,7 +1031,10 @@ class SyncClient:
         )
 
         self.cache.enqueue(item)
-        await self._upload_queue.put(item)
+        try:
+            self._upload_queue.put_nowait(item)
+        except asyncio.QueueFull:
+            logger.warning(f"Upload queue full, item {item_id} saved to cache only")
 
         logger.info(f"Queued build snapshot for upload: {item_id}")
         return item_id

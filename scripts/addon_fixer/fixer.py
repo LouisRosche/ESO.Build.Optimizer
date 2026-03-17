@@ -6,6 +6,7 @@ XML fixes, dependency validation, and packaging.
 """
 
 import logging
+import os
 import shutil
 import zipfile
 from dataclasses import dataclass, field
@@ -77,6 +78,18 @@ class AddonFixer:
         self.xml_analyzer = XMLAnalyzer()
         self.xml_transformer = XMLTransformer()
 
+    def _validate_path(self, file_path: Path, base_path: Path) -> bool:
+        """Validate that file_path is safely within base_path (no traversal or symlinks)."""
+        resolved_file = file_path.resolve()
+        resolved_base = base_path.resolve()
+        if os.path.islink(str(file_path)):
+            logger.warning(f"Skipping symlink: {file_path}")
+            return False
+        if not str(resolved_file).startswith(str(resolved_base) + os.sep) and resolved_file != resolved_base:
+            logger.warning(f"Skipping file outside base path: {file_path}")
+            return False
+        return True
+
     def analyze(self, addon_path: Path) -> AddonFixResult:
         """Analyze an addon without making changes."""
         addon_path = Path(addon_path)
@@ -102,6 +115,8 @@ class AddonFixer:
 
         # Analyze Lua files
         for lua_file in addon_path.rglob("*.lua"):
+            if not self._validate_path(lua_file, addon_path):
+                continue
             lua_result = self._analyze_lua(lua_file)
             result.lua_results.append(lua_result)
             if lua_result.errors:
@@ -109,6 +124,8 @@ class AddonFixer:
 
         # Analyze XML files
         for xml_file in addon_path.rglob("*.xml"):
+            if not self._validate_path(xml_file, addon_path):
+                continue
             xml_result = self._analyze_xml(xml_file)
             result.xml_results.append(xml_result)
             if xml_result.errors:
@@ -161,6 +178,8 @@ class AddonFixer:
 
             # Fix Lua files
             for lua_file in addon_path.rglob("*.lua"):
+                if not self._validate_path(lua_file, addon_path):
+                    continue
                 lua_result = self._fix_lua(lua_file)
                 result.lua_results.append(lua_result)
                 result.total_changes += len(lua_result.changes)
@@ -168,6 +187,8 @@ class AddonFixer:
             # Fix XML files
             if self.config.fix_xml_issues:
                 for xml_file in addon_path.rglob("*.xml"):
+                    if not self._validate_path(xml_file, addon_path):
+                        continue
                     xml_result = self._fix_xml(xml_file)
                     result.xml_results.append(xml_result)
                     result.total_changes += len(xml_result.changes)
@@ -270,7 +291,7 @@ class AddonFixer:
 
             if changes and not self.config.dry_run:
                 # Write with proper line endings
-                with open(manifest_path, "w", encoding="utf-8", newline="\r\n") as f:
+                with open(manifest_path, "w", encoding="utf-8", newline="") as f:
                     f.write(content)
                 result.was_modified = True
 

@@ -51,6 +51,14 @@ async def lifespan(app: FastAPI):
     logger.info(f"Environment: {settings.environment}")
     logger.info(f"Debug mode: {settings.debug}")
 
+    # Warn if production uses in-memory rate limiter
+    if settings.environment == "production" and settings.redis_url is None:
+        logger.warning(
+            "Production environment is using in-memory rate limiter. "
+            "This will not work correctly with multiple workers or instances. "
+            "Set REDIS_URL to use a distributed rate limiter."
+        )
+
     # Initialize database tables
     # For production: run 'alembic upgrade head' instead of init_db()
     try:
@@ -116,9 +124,9 @@ All endpoints (except /health) require JWT authentication.
 Use the `/api/v1/auth/login` endpoint to obtain a token.
     """,
     version=settings.app_version,
-    docs_url="/api/docs",
-    redoc_url="/api/redoc",
-    openapi_url="/api/openapi.json",
+    docs_url="/api/docs" if settings.debug else None,
+    redoc_url="/api/redoc" if settings.debug else None,
+    openapi_url="/api/openapi.json" if settings.debug else None,
     openapi_tags=tags_metadata,
     lifespan=lifespan,
 )
@@ -157,6 +165,7 @@ async def add_security_headers(request: Request, call_next):
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Content-Security-Policy"] = "default-src 'none'; frame-ancestors 'none'"
     if not settings.debug:
         response.headers["Strict-Transport-Security"] = (
             "max-age=63072000; includeSubDomains; preload"

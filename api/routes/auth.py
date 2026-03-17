@@ -8,6 +8,7 @@ from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -60,24 +61,17 @@ async def register(
     - **username**: Username (3-50 characters, must be unique)
     - **password**: Password (minimum 8 characters)
     """
-    # Check if email already exists
+    # Check if email or username already exists (generic message to prevent enumeration)
     existing_email = await db.execute(
         select(User).where(User.email == user_data.email)
     )
-    if existing_email.scalar_one_or_none():
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered",
-        )
-
-    # Check if username already exists
     existing_username = await db.execute(
         select(User).where(User.username == user_data.username)
     )
-    if existing_username.scalar_one_or_none():
+    if existing_email.scalar_one_or_none() or existing_username.scalar_one_or_none():
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Username already taken",
+            detail="Registration failed. Email or username may already be in use.",
         )
 
     # Create new user
@@ -182,16 +176,39 @@ async def login(
     description="Get a new access token using the current valid token.",
 )
 async def refresh_token(
-    current_user: CurrentUser,
+    credentials: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer(auto_error=True))],
+    db: Annotated[AsyncSession, Depends(get_db)],
 ) -> TokenResponse:
     """
-    Refresh the access token for an authenticated user.
+    Refresh the access token using a valid refresh token.
 
-    Requires a valid Bearer token in the Authorization header.
+    Requires a valid refresh Bearer token in the Authorization header.
     Returns a new access token with extended expiration.
     """
+    # Decode and validate as refresh token
+    token_data = decode_token(credentials.credentials, expected_type="refresh")
+
+    # Fetch user from database
+    result = await db.execute(
+        select(User).where(User.id == token_data.sub)
+    )
+    user = result.scalar_one_or_none()
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User account is disabled",
+        )
+
     # Generate new access token
-    access_token = create_access_token(current_user.id)
+    access_token = create_access_token(user.id)
 
     return TokenResponse(
         access_token=access_token,

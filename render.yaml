@@ -31,7 +31,7 @@ services:
       - key: ALLOWED_ORIGINS
         sync: false  # Set to your Vercel frontend URL
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: 3.11
       - key: RATE_LIMIT_REQUESTS_PER_MINUTE
         value: 60
       - key: RATE_LIMIT_REQUESTS_PER_DAY

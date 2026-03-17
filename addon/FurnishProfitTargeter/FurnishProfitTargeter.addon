@@ -1,0 +1,18 @@
+## Title: Furnish Profit Targeter
+## Description: Algorithmic furnishing profit calculator using sales velocity. Integrates with Master Merchant and Tamriel Trade Centre to identify highest velocity-adjusted profit furnishing plans.
+## Author: ESO Build Optimizer Team
+## AddOnVersion: 1
+## APIVersion: 101047 101048 101049
+## SavedVariables: FurnishProfitTargeterSV
+## OptionalDependsOn: MasterMerchant TamrielTradeCentre LibAddonMenu-2.0>=30
+## IsLibrary: false
+
+FurnishProfitTargeter.lua
+modules/PlanScanner.lua
+modules/PriceEngine.lua
+modules/VelocityCalculator.lua
+modules/ResultsUI.lua
+modules/BundleManager.lua
+modules/SupplyTracker.lua
+modules/MarketCopy.lua
+ui/ResultsWindow.xml

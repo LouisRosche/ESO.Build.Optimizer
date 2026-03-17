@@ -65,11 +65,31 @@ class CompanionApp:
                     user_config = json.load(f)
                     default_config.update(user_config)
                     logger.info(f'Loaded config from {self.config_path}')
-            except Exception as e:
+            except (json.JSONDecodeError, OSError, TypeError) as e:
                 logger.warning(f'Failed to load config: {e}, using defaults')
         else:
             # Create default config file
             self._save_config(default_config)
+
+        # Validate config types and ranges
+        try:
+            default_config['sync_interval_seconds'] = max(5, int(default_config['sync_interval_seconds']))
+        except (ValueError, TypeError):
+            logger.warning('Invalid sync_interval_seconds, using default of 30')
+            default_config['sync_interval_seconds'] = 30
+
+        if not isinstance(default_config.get('api_url'), str):
+            logger.warning('Invalid api_url type, using default')
+            default_config['api_url'] = 'https://api.esobuildoptimizer.com'
+        else:
+            url = default_config['api_url']
+            if not (
+                url.startswith('https://')
+                or url.startswith('http://localhost')
+                or url.startswith('http://127.0.0.1')
+            ):
+                logger.warning(f'Insecure api_url rejected: {url}, using default')
+                default_config['api_url'] = 'https://api.esobuildoptimizer.com'
 
         return default_config
 

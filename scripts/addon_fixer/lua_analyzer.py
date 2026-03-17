@@ -55,7 +55,7 @@ class LuaAnalyzer:
         re.MULTILINE
     )
     FUNCTION_CALL_PATTERN = re.compile(
-        r'\b([A-Z][a-zA-Z0-9_]*)\s*\(',
+        r'\b([A-Z][a-zA-Z0-9_.]*[a-zA-Z0-9_])\s*[\(]',
         re.MULTILINE
     )
     FONT_PATH_PATTERN = re.compile(
@@ -63,7 +63,7 @@ class LuaAnalyzer:
         re.IGNORECASE | re.MULTILINE
     )
     STRING_LITERAL_PATTERN = re.compile(
-        r'(["\'])(?:(?!\1)[^\\]|\\.)*\1|--\[\[[\s\S]*?\]\]|--[^\n]*',
+        r'(["\'])(?:(?!\1)[^\\]|\\.)*\1|--\[\[[\s\S]*?\]\]|--[^\n]*|\[=+\[[\s\S]*?\]=+\]|\[\[[\s\S]*?\]\]',
         re.MULTILINE
     )
 
@@ -354,30 +354,38 @@ class LuaTransformer:
         pattern = r'LibStub\s*:\s*GetLibrary\s*\(\s*["\']([^"\']+)["\']\s*\)'
         content = re.sub(pattern, replace_libstub, content)
 
-        # Add hybrid fallback pattern at the top if LibStub was used
-        # This provides backward compatibility
-        if "LibStub" in content and "LibStub and LibStub" not in content:
-            # Find all unique libraries used
-            libs_used = set(re.findall(r'= (Lib\w+)', content))
-            for lib in libs_used:
-                if lib in LIBRARY_GLOBALS.values():
-                    # Already using global, skip
-                    continue
-
         return content
 
     def _fix_deprecated_functions(self, content: str) -> str:
         """Replace deprecated function calls with their replacements."""
+        analyzer = LuaAnalyzer(self.migration_db)
+        mask = analyzer._create_string_mask(content)
+
         for func_name, migration in self.migration_db.function_migrations.items():
             if migration.migration_type == MigrationType.RENAMED and migration.new_name:
                 # Simple rename - use word boundaries
                 pattern = rf'\b{re.escape(func_name)}\b'
 
-                if re.search(pattern, content):
-                    content = re.sub(pattern, migration.new_name, content)
-                    self.changes_made.append(
-                        f"Renamed {func_name} to {migration.new_name}"
-                    )
+                # Find matches only in unmasked regions and apply in reverse order
+                matches = list(re.finditer(pattern, content))
+                if not matches:
+                    continue
+
+                # Filter to only matches outside strings/comments
+                valid_matches = [m for m in matches if not analyzer._is_in_string(m.start(), mask)]
+                if not valid_matches:
+                    continue
+
+                # Apply replacements in reverse order to preserve positions
+                for match in reversed(valid_matches):
+                    content = content[:match.start()] + migration.new_name + content[match.end():]
+
+                # Rebuild mask after content changed
+                mask = analyzer._create_string_mask(content)
+
+                self.changes_made.append(
+                    f"Renamed {func_name} to {migration.new_name}"
+                )
 
         return content
 

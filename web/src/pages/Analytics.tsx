@@ -38,14 +38,14 @@ export default function Analytics() {
   const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: timeRange });
   const { data: apiBuffAnalysis, isLoading: buffLoading } = useBuffAnalysis({ time_range: timeRange });
   // Fetch detailed run for contribution scores (use first run if available)
-  const firstRunId = (apiRuns ?? mockRuns)[0]?.run_id ?? '';
+  const firstRunId = (apiRuns ?? (import.meta.env.DEV ? mockRuns : []))[0]?.run_id ?? '';
   const { data: apiDetailedRun } = useRun(firstRunId);
 
-  // Fall back to mock data when API is unreachable
-  const runs = apiRuns ?? mockRuns;
-  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
-  const buffAnalysis = apiBuffAnalysis ?? mockBuffAnalysis;
-  const detailedRun = apiDetailedRun ?? mockDetailedRun;
+  // Fall back to mock data when API is unreachable (dev only)
+  const runs = apiRuns ?? (import.meta.env.DEV ? mockRuns : []);
+  const dpsTrend = apiDPSTrend ?? (import.meta.env.DEV ? mockDPSTrend : []);
+  const buffAnalysis = apiBuffAnalysis ?? (import.meta.env.DEV ? mockBuffAnalysis : []);
+  const detailedRun = apiDetailedRun ?? (import.meta.env.DEV ? mockDetailedRun : { contribution_scores: null });
 
   const isLoading = runsLoading || dpsTrendLoading || buffLoading;
   const usingMockData = !apiRuns && !runsLoading;
@@ -119,6 +119,7 @@ export default function Analytics() {
             <button
               key={range}
               onClick={() => setTimeRange(range)}
+              aria-pressed={timeRange === range}
               className={clsx(
                 'px-4 py-2 text-sm font-medium rounded-md transition-colors',
                 timeRange === range
@@ -197,7 +198,7 @@ export default function Analytics() {
               )}
             </div>
           </div>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="DPS over time line chart">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dpsTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#393941" />
@@ -240,7 +241,7 @@ export default function Analytics() {
             <h2 className="text-lg font-semibold text-gray-100">Buff Uptime Analysis</h2>
             {buffLoading && <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />}
           </div>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="Buff uptime radar chart comparing current vs target uptimes">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={buffRadarData}>
                 <PolarGrid stroke="#393941" />
@@ -277,7 +278,7 @@ export default function Analytics() {
         {/* Crit Rate Per Run */}
         <div className="card">
           <h2 className="text-lg font-semibold text-gray-100 mb-6">Crit Rate by Run</h2>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="Critical hit rate bar chart by run">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={critRateData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#393941" />
@@ -319,7 +320,7 @@ export default function Analytics() {
         {/* Deaths by Content */}
         <div className="card">
           <h2 className="text-lg font-semibold text-gray-100 mb-6">Deaths by Content Type</h2>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="Deaths by content type horizontal bar chart">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={deathsData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#393941" horizontal={false} />

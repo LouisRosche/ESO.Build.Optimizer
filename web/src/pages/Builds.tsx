@@ -10,9 +10,9 @@ export default function Builds() {
   const { data: apiGearSets, isLoading: setsLoading } = useGearSets();
   const { data: apiCharacters, isLoading: charsLoading } = useCharacters();
 
-  // Fall back to mock data when API is unreachable
-  const gearSets = apiGearSets ?? mockGearSets;
-  const characters = apiCharacters ?? mockCharacters;
+  // Fall back to mock data when API is unreachable (dev only)
+  const gearSets = apiGearSets ?? (import.meta.env.DEV ? mockGearSets : []);
+  const characters = apiCharacters ?? (import.meta.env.DEV ? mockCharacters : []);
 
   const isLoading = setsLoading && charsLoading;
   const usingMockData = !apiGearSets && !setsLoading;

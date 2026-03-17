@@ -43,6 +43,8 @@ local scrollOffset = 0
 ---------------------------------------------------------------------------
 
 function ResultsUI:Initialize()
+    -- Prevent duplicate control creation on /reloadui
+    if WINDOW_MANAGER:GetControlByName("FPT_ResultsWindow") then return end
     self:CreateWindow()
     FPT:Debug("ResultsUI initialized")
 end
@@ -75,7 +77,6 @@ function ResultsUI:CreateWindow()
     bg:SetAnchorFill(tlw)
     bg:SetCenterColor(0, 0, 0, 0.85)
     bg:SetEdgeColor(0.6, 0.5, 0.2, 0.9)
-    bg:SetEdgeTexture("", 1, 1, 1, 0)
 
     -- Title bar
     local titleBar = CreateControl("FPT_TitleBar", tlw, CT_LABEL)

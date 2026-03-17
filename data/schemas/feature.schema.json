@@ -26,7 +26,7 @@
     },
     "feature_type": {
       "type": "string",
-      "enum": ["ULTIMATE", "ACTIVE", "PASSIVE", "MORPH_A", "MORPH_B", "SET_BONUS"],
+      "enum": ["ULTIMATE", "ACTIVE", "PASSIVE", "MORPH_A", "MORPH_B", "SET_BONUS", "FOCUS_SCRIPT", "SIGNATURE_SCRIPT", "AFFIX_SCRIPT"],
       "description": "Type of feature"
     },
     "name": {
@@ -127,5 +127,5 @@
       "description": "Source URL for this data"
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }
