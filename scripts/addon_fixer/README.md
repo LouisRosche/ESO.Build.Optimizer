@@ -1,6 +1,6 @@
 # ESO Addon Fixer
 
-Automated tool for fixing broken Elder Scrolls Online addons. This tool analyzes and repairs addons that have broken due to API changes, updating them to work with **APIVersion 101048** (Update 48 - January 2026).
+Automated tool for fixing broken Elder Scrolls Online addons. This tool analyzes and repairs addons that have broken due to API changes, updating them to work with **APIVersion 101049** (Update 49 - March 2026).
 
 ## Features
 
@@ -94,7 +94,7 @@ python scripts/fix_addon.py export [-o FILE]
 
 | Issue | Fix Applied |
 |-------|-------------|
-| Outdated APIVersion | Updated to `101047 101048` |
+| Outdated APIVersion | Updated to `101048 101049` |
 | LibStub dependency | Removed from DependsOn |
 | Encoding issues | Converted to UTF-8, CRLF line endings |
 

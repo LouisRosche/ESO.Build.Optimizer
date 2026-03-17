@@ -43,7 +43,7 @@ class DependencyValidator:
     """Validate addon dependencies."""
 
     # Dependency pattern with optional version
-    DEP_PATTERN = re.compile(r"([A-Za-z][\w-]*)(?:>=(\d+))?")
+    DEP_PATTERN = re.compile(r"([A-Za-z][\w.\-]*)(?:>=(\d+))?")
 
     def __init__(self, known_libraries: Optional[dict] = None):
         """Initialize validator with known library information."""

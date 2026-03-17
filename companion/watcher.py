@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import os
 import platform
@@ -33,6 +34,7 @@ import re
 import sys
 import threading
 import time
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -52,6 +54,9 @@ logger = logging.getLogger(__name__)
 
 # Maximum cached combat runs to prevent unbounded memory growth
 MAX_CACHED_RUNS = 10000
+
+# Combat Metrics SavedVariables filename
+CMX_FILENAME = "CombatMetrics.lua"
 
 
 # =============================================================================
@@ -619,6 +624,9 @@ class SavedVariablesEventHandler(FileSystemEventHandler):
         if path.name == self.watcher.addon_filename:
             logger.debug(f"Detected modification to {path}")
             self.watcher._handle_file_change(path)
+        elif self.watcher.watch_cmx and path.name == CMX_FILENAME:
+            logger.debug(f"Detected modification to CMX file: {path}")
+            self.watcher._handle_cmx_file_change(path)
 
 
 class SavedVariablesWatcher:
@@ -641,6 +649,7 @@ class SavedVariablesWatcher:
         saved_variables_path: Optional[Path] = None,
         addon_name: str = "ESOBuildOptimizer",
         poll_interval: float = 1.0,
+        watch_cmx: bool = False,
     ):
         """
         Initialize the SavedVariables watcher.
@@ -650,10 +659,13 @@ class SavedVariablesWatcher:
                                   Auto-detected if not provided.
             addon_name: Name of the addon to monitor.
             poll_interval: How often to check for changes (seconds).
+            watch_cmx: If True, also watch for Combat Metrics
+                       (CombatMetrics.lua) changes and parse fight data.
         """
         self.addon_name = addon_name
         self.addon_filename = f"{addon_name}.lua"
         self.poll_interval = poll_interval
+        self.watch_cmx = watch_cmx
 
         # Set or detect SavedVariables path
         if saved_variables_path:
@@ -666,19 +678,27 @@ class SavedVariablesWatcher:
 
         # State tracking
         self._last_file_hash: Optional[str] = None
-        self._last_combat_runs: set[str] = set()
+        self._last_cmx_hash: Optional[str] = None
+        self._last_combat_runs: OrderedDict[str, float] = OrderedDict()  # run_id -> timestamp
         self._last_build_hash: Optional[str] = None
         self._observer: Optional[Observer] = None
         self._running = False
         self._lock = threading.Lock()
+
+        # CMX parser (lazy-initialized when watch_cmx is enabled)
+        self._cmx_parser: Optional[Any] = None
+        if self.watch_cmx:
+            self._init_cmx_parser()
 
         # Callbacks
         self.on_combat_run: Optional[Callable[[CombatRun], None]] = None
         self.on_build_change: Optional[Callable[[BuildSnapshot], None]] = None
         self.on_error: Optional[Callable[[Exception], None]] = None
         self.on_file_change: Optional[Callable[[dict[str, Any]], None]] = None
+        self.on_cmx_combat_run: Optional[Callable[[dict[str, Any]], None]] = None
 
-        logger.info(f"Initialized watcher for {self.saved_variables_path}")
+        cmx_status = " (+CMX)" if self.watch_cmx else ""
+        logger.info(f"Initialized watcher for {self.saved_variables_path}{cmx_status}")
 
     @property
     def addon_file_path(self) -> Path:
@@ -732,6 +752,12 @@ class SavedVariablesWatcher:
         # Do initial parse if file exists
         if self.addon_file_path.exists():
             self._handle_file_change(self.addon_file_path)
+
+        # Do initial CMX parse if enabled and file exists
+        if self.watch_cmx:
+            cmx_path = self.saved_variables_path / CMX_FILENAME
+            if cmx_path.exists():
+                self._handle_cmx_file_change(cmx_path)
 
         if blocking:
             try:
@@ -858,15 +884,11 @@ class SavedVariablesWatcher:
             if not run_id or run_id in self._last_combat_runs:
                 continue
 
-            self._last_combat_runs.add(run_id)
+            self._last_combat_runs[run_id] = time.time()
 
-            # Prevent unbounded memory growth by limiting cache size
-            if len(self._last_combat_runs) > MAX_CACHED_RUNS:
-                # Convert to list, sort would require timestamps - just keep arbitrary subset
-                # Since run_ids are UUIDs/timestamps, we keep the set but trim it
-                excess = len(self._last_combat_runs) - MAX_CACHED_RUNS
-                runs_list = list(self._last_combat_runs)
-                self._last_combat_runs = set(runs_list[excess:])
+            # Prevent unbounded memory growth by evicting oldest entries
+            while len(self._last_combat_runs) > MAX_CACHED_RUNS:
+                self._last_combat_runs.popitem(last=False)  # Remove oldest (FIFO)
 
             try:
                 combat_run = self._create_combat_run(run_data)
@@ -894,7 +916,7 @@ class SavedVariablesWatcher:
             return
 
         # Check if build changed
-        build_hash = hashlib.sha256(str(current_build).encode()).hexdigest()
+        build_hash = hashlib.sha256(json.dumps(current_build, sort_keys=True).encode()).hexdigest()
         if build_hash == self._last_build_hash:
             return
 
@@ -907,6 +929,73 @@ class SavedVariablesWatcher:
             logger.info(f"Build change detected: {build_snapshot.character_name}")
         except Exception as e:
             logger.error(f"Failed to process build snapshot: {e}")
+
+    def _init_cmx_parser(self) -> None:
+        """Initialize the CMX parser if not already done."""
+        if self._cmx_parser is not None:
+            return
+        try:
+            from cmx_parser import CMXParser
+
+            self._cmx_parser = CMXParser(
+                saved_variables_path=self.saved_variables_path,
+            )
+            logger.info("CMX parser initialized")
+        except ImportError:
+            logger.error(
+                "Failed to import cmx_parser module. "
+                "CMX watching will be disabled."
+            )
+            self.watch_cmx = False
+
+    def _handle_cmx_file_change(self, path: Path) -> None:
+        """Handle a detected change to CombatMetrics.lua."""
+        with self._lock:
+            content = None
+            for attempt in range(3):
+                try:
+                    if not path.exists():
+                        return
+                    content = path.read_text(encoding="utf-8")
+                    break
+                except (PermissionError, IOError) as e:
+                    if attempt < 2:
+                        time.sleep(0.5)
+                    else:
+                        logger.warning(f"Could not read CMX file after retries: {e}")
+                        return
+
+            if content is None:
+                return
+
+            try:
+                current_hash = hashlib.sha256(content.encode()).hexdigest()
+                if current_hash == self._last_cmx_hash:
+                    return
+
+                self._last_cmx_hash = current_hash
+                logger.info(f"Processing CMX file change: {path}")
+
+                if self._cmx_parser is None:
+                    self._init_cmx_parser()
+
+                if self._cmx_parser is None:
+                    return
+
+                new_runs = self._cmx_parser.parse()
+                for run_data in new_runs:
+                    if self.on_cmx_combat_run:
+                        self.on_cmx_combat_run(run_data)
+                    logger.info(
+                        "New CMX fight: %s (%.0f DPS)",
+                        run_data.get("content", {}).get("name", "Unknown"),
+                        run_data.get("metrics", {}).get("dps", 0),
+                    )
+
+            except Exception as e:
+                logger.error(f"Error handling CMX file change: {e}")
+                if self.on_error:
+                    self.on_error(e)
 
     def _create_combat_run(self, run_data: dict[str, Any]) -> CombatRun:
         """Create a CombatRun from raw data."""
@@ -990,7 +1079,7 @@ class SavedVariablesWatcher:
 
     def get_known_run_ids(self) -> set[str]:
         """Get the set of known combat run IDs."""
-        return self._last_combat_runs.copy()
+        return set(self._last_combat_runs.keys())
 
     def clear_run_cache(self) -> None:
         """Clear the cache of known run IDs."""

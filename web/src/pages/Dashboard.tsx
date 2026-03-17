@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Swords, Trophy, Clock, Target, TrendingUp } from 'lucide-react';
+import { Swords, Trophy, Clock, Target, TrendingUp, Loader2, AlertCircle } from 'lucide-react';
 import {
   LineChart,
   Line,
@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import StatCard from '../components/StatCard';
 import RunCard from '../components/RunCard';
+import { useRuns, useRunStatistics, useDPSTrend, usePercentileTrend } from '../hooks/useApi';
 import {
   mockRuns,
   mockStatistics,
@@ -22,28 +23,48 @@ import {
   formatDPS,
 } from '../data/mockData';
 
-// TODO: Replace mock data with API hooks when backend is connected
-// Use: import { useRuns, useStatistics } from '../api/hooks';
-// Example: const { data: runs, isLoading } = useRuns();
-// Example: const { data: stats } = useStatistics();
-
 export default function Dashboard() {
-  const successRate = mockStatistics.total_runs > 0
-    ? Math.round((mockStatistics.successful_runs / mockStatistics.total_runs) * 100)
+  const { data: apiRuns, isLoading: runsLoading, error: runsError } = useRuns({ limit: 6 });
+  const { data: apiStats, isLoading: statsLoading } = useRunStatistics();
+  const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: '30d' });
+  const { data: apiPercentileTrend, isLoading: percentileTrendLoading } = usePercentileTrend({ time_range: '30d' });
+
+  // Fall back to mock data when API is unreachable
+  const runs = apiRuns ?? mockRuns;
+  const statistics = apiStats ?? mockStatistics;
+  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
+  const percentileTrend = apiPercentileTrend ?? mockPercentileTrend;
+
+  const isLoading = runsLoading || statsLoading;
+  const usingMockData = !apiRuns && !runsLoading;
+
+  const successRate = statistics.total_runs > 0
+    ? Math.round((statistics.successful_runs / statistics.total_runs) * 100)
     : 0;
 
-  const totalPlayTimeHours = Math.round(mockStatistics.total_play_time_sec / 3600);
+  const totalPlayTimeHours = Math.round(statistics.total_play_time_sec / 3600);
 
   // Format trend data for charts - memoized to prevent unnecessary recalculations
-  const dpsTrendData = useMemo(() => mockDPSTrend.map((point) => ({
+  const dpsTrendData = useMemo(() => dpsTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  })), []);
+  })), [dpsTrend]);
 
-  const percentileTrendData = useMemo(() => mockPercentileTrend.map((point) => ({
+  const percentileTrendData = useMemo(() => percentileTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  })), []);
+  })), [percentileTrend]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-eso-gold-400 animate-spin" />
+          <p className="text-gray-400">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -51,28 +72,34 @@ export default function Dashboard() {
       <div>
         <h1 className="text-2xl font-bold text-gray-100">Dashboard</h1>
         <p className="text-gray-500 mt-1">
-          Welcome back, Drakonis. Here's your performance overview.
+          Welcome back, {statistics.favorite_character ?? 'Adventurer'}. Here's your performance overview.
         </p>
+        {usingMockData && (
+          <div className="flex items-center gap-2 mt-2 text-sm text-eso-gold-400">
+            <AlertCircle className="w-4 h-4" />
+            <span>API unavailable - showing sample data</span>
+          </div>
+        )}
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Runs"
-          value={mockStatistics.total_runs}
+          value={statistics.total_runs}
           subtitle={`${successRate}% success rate`}
           icon={Target}
         />
         <StatCard
           title="Average DPS"
-          value={formatDPS(mockStatistics.average_dps)}
+          value={formatDPS(statistics.average_dps)}
           trend={{ value: 12, isPositive: true }}
           icon={Swords}
         />
         <StatCard
           title="Best DPS"
-          value={formatDPS(mockStatistics.best_dps)}
-          subtitle={mockStatistics.favorite_content || 'N/A'}
+          value={formatDPS(statistics.best_dps)}
+          subtitle={statistics.favorite_content || 'N/A'}
           icon={Trophy}
         />
         <StatCard
@@ -92,10 +119,14 @@ export default function Dashboard() {
               <h2 className="text-lg font-semibold text-gray-100">DPS Trend</h2>
               <p className="text-sm text-gray-500">Last 30 days performance</p>
             </div>
-            <div className="flex items-center gap-2 text-eso-green-400">
-              <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium">+31.7%</span>
-            </div>
+            {dpsTrendLoading ? (
+              <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
+            ) : (
+              <div className="flex items-center gap-2 text-eso-green-400">
+                <TrendingUp className="w-4 h-4" />
+                <span className="text-sm font-medium">+31.7%</span>
+              </div>
+            )}
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -147,9 +178,15 @@ export default function Dashboard() {
               <h2 className="text-lg font-semibold text-gray-100">Percentile Ranking</h2>
               <p className="text-sm text-gray-500">Compared to similar players</p>
             </div>
-            <span className="text-2xl font-bold text-eso-gold-400">
-              85th
-            </span>
+            {percentileTrendLoading ? (
+              <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
+            ) : (
+              <span className="text-2xl font-bold text-eso-gold-400">
+                {percentileTrendData.length > 0
+                  ? `${percentileTrendData[percentileTrendData.length - 1].percentile}th`
+                  : '--'}
+              </span>
+            )}
           </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
@@ -197,8 +234,14 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-gray-100">Recent Encounters</h2>
           <Link to="/analytics" className="btn-ghost text-sm">View All</Link>
         </div>
+        {runsError && !apiRuns && (
+          <div className="flex items-center gap-2 mb-4 text-sm text-gray-500">
+            <AlertCircle className="w-4 h-4" />
+            <span>Could not reach API - displaying sample runs</span>
+          </div>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {mockRuns.slice(0, 6).map((run) => (
+          {runs.slice(0, 6).map((run) => (
             <RunCard key={run.run_id} run={run} />
           ))}
         </div>

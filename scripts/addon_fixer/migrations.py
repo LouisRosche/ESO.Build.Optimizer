@@ -41,6 +41,16 @@ class Migration:
 
 
 @dataclass
+class EventMigration:
+    """Event constant migration entry."""
+    old_name: str
+    removed: bool
+    version_changed: int
+    new_name: Optional[str] = None
+    notes: str = ""
+
+
+@dataclass
 class LibraryMigration:
     """Library access pattern migration."""
     old_pattern: str
@@ -56,12 +66,14 @@ class MigrationDatabase:
     def __init__(self):
         """Initialize the migration database."""
         self.function_migrations: dict[str, Migration] = {}
+        self.event_migrations: dict[str, EventMigration] = {}
         self.library_migrations: dict[str, LibraryMigration] = {}
         self._load_migrations()
 
     def _load_migrations(self) -> None:
         """Load all migration data."""
         self._load_function_migrations()
+        self._load_event_migrations()
         self._load_library_migrations()
 
     def _load_function_migrations(self) -> None:
@@ -247,6 +259,219 @@ class MigrationDatabase:
             ),
         ]
 
+        # Endeavors API removal (Update 49 / API 101049)
+        endeavor_migrations = [
+            Migration(
+                old_name="GetDailyEndeavors",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- GetDailyEndeavors removed (Endeavors system removed in U49)",
+            ),
+            Migration(
+                old_name="GetWeeklyEndeavors",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- GetWeeklyEndeavors removed (Endeavors system removed in U49)",
+            ),
+            Migration(
+                old_name="GetEndeavorsProgress",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- GetEndeavorsProgress removed (Endeavors system removed in U49)",
+            ),
+            Migration(
+                old_name="GetEndeavorsInfo",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- GetEndeavorsInfo removed (Endeavors system removed in U49)",
+            ),
+            Migration(
+                old_name="GetNumEndeavors",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- GetNumEndeavors removed (Endeavors system removed in U49)",
+            ),
+            Migration(
+                old_name="IsEndeavorsSystemAvailable",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="endeavors",
+                notes="Endeavors system removed in Update 49",
+                replacement_code="-- IsEndeavorsSystemAvailable removed; always returns false equivalent",
+            ),
+        ]
+
+        # Daily Login Rewards API removal (Update 49 / API 101049)
+        daily_login_migrations = [
+            Migration(
+                old_name="GetDailyLoginRewardInfo",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- GetDailyLoginRewardInfo removed (Daily Login Rewards removed in U49)",
+            ),
+            Migration(
+                old_name="GetDailyLoginRewardIndex",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- GetDailyLoginRewardIndex removed (Daily Login Rewards removed in U49)",
+            ),
+            Migration(
+                old_name="GetNumDailyLoginRewards",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- GetNumDailyLoginRewards removed (Daily Login Rewards removed in U49)",
+            ),
+            Migration(
+                old_name="IsDailyLoginRewardClaimed",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- IsDailyLoginRewardClaimed removed (Daily Login Rewards removed in U49)",
+            ),
+            Migration(
+                old_name="ClaimDailyLoginReward",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- ClaimDailyLoginReward removed (Daily Login Rewards removed in U49)",
+            ),
+            Migration(
+                old_name="GetDailyLoginClaimableRewardIndex",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="daily_login",
+                notes="Daily Login Rewards system removed in Update 49",
+                replacement_code="-- GetDailyLoginClaimableRewardIndex removed (Daily Login Rewards removed in U49)",
+            ),
+        ]
+
+        # Transmute Crystal cap change (Update 49 / API 101049)
+        transmute_migrations = [
+            Migration(
+                old_name="GetMaxTransmuteCrystals",
+                migration_type=MigrationType.RETURN_CHANGED,
+                version_deprecated=101049,
+                category="currency",
+                notes="Transmute Crystal cap tripled from 1000 to 3000 in U49. Function still works but returns new max.",
+            ),
+        ]
+
+        # Tamriel Tomes API - new in Update 49 (API 101049)
+        tamriel_tomes_migrations = [
+            Migration(
+                old_name="GetTomeProgressionInfo",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="tamriel_tomes",
+                notes="New in U49: Tamriel Tomes progression. Not available on API < 101049.",
+                replacement_code="-- GetTomeProgressionInfo is new in API 101049 (U49)",
+            ),
+            Migration(
+                old_name="GetNumTomePoints",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="tamriel_tomes",
+                notes="New in U49: Tome Points currency. Not available on API < 101049.",
+                replacement_code="-- GetNumTomePoints is new in API 101049 (U49)",
+            ),
+            Migration(
+                old_name="GetNumPremiumTomeTokens",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="tamriel_tomes",
+                notes="New in U49: Premium Tome Tokens currency. Not available on API < 101049.",
+                replacement_code="-- GetNumPremiumTomeTokens is new in API 101049 (U49)",
+            ),
+            Migration(
+                old_name="GetCurrentTomeSeason",
+                migration_type=MigrationType.REMOVED,
+                version_removed=101049,
+                category="tamriel_tomes",
+                notes="New in U49: Tamriel Tomes season info. Not available on API < 101049.",
+                replacement_code="-- GetCurrentTomeSeason is new in API 101049 (U49)",
+            ),
+        ]
+
+        # Outfit Slot API changes - now account-wide (Update 49 / API 101049)
+        outfit_migrations = [
+            Migration(
+                old_name="GetOutfitSlotDataForCharacter",
+                migration_type=MigrationType.REPLACED,
+                version_deprecated=101049,
+                version_removed=101049,
+                category="outfit",
+                notes="Outfit Slots are now account-wide in U49. Character-specific API removed.",
+                replacement_code="GetOutfitSlotData(outfitIndex, slotIndex)",
+            ),
+            Migration(
+                old_name="SetOutfitSlotForCharacter",
+                migration_type=MigrationType.REPLACED,
+                version_deprecated=101049,
+                version_removed=101049,
+                category="outfit",
+                notes="Outfit Slots are now account-wide in U49. Character-specific API removed.",
+                replacement_code="SetOutfitSlot(outfitIndex, slotIndex, collectibleId)",
+            ),
+            Migration(
+                old_name="GetNumOutfitsForCharacter",
+                migration_type=MigrationType.RENAMED,
+                new_name="GetNumOutfits",
+                version_deprecated=101049,
+                version_removed=101049,
+                category="outfit",
+                notes="Outfit Slots are now account-wide in U49. No character parameter needed.",
+            ),
+            Migration(
+                old_name="RenameOutfitForCharacter",
+                migration_type=MigrationType.RENAMED,
+                new_name="RenameOutfit",
+                version_deprecated=101049,
+                version_removed=101049,
+                category="outfit",
+                notes="Outfit Slots are now account-wide in U49. No character parameter needed.",
+            ),
+        ]
+
+        # Currency constant changes (Update 49 / API 101049)
+        currency_migrations = [
+            Migration(
+                old_name="GetCurrencyAmount",
+                migration_type=MigrationType.SIGNATURE_CHANGED,
+                version_deprecated=101049,
+                category="currency",
+                notes="Event Tickets (CURT_EVENT_TICKETS) and Endeavor Seals (CURT_ENDEAVOR_SEALS) currency types removed in U49. New types added: CURT_TRADE_BARS, CURT_OUTFIT_CHANGE_TOKENS, CURT_TOME_POINTS, CURT_PREMIUM_TOME_TOKENS.",
+            ),
+        ]
+
+        # Experience API changes (Update 49 / API 101049)
+        experience_migrations = [
+            Migration(
+                old_name="GetUnitXPBarInfo",
+                migration_type=MigrationType.RETURN_CHANGED,
+                version_deprecated=101049,
+                category="experience",
+                notes="Back bar now earns equal XP in U49. XP values no longer differ based on active bar.",
+            ),
+        ]
+
         # Compile all migrations
         all_migrations = (
             cp_migrations +
@@ -257,11 +482,96 @@ class MigrationDatabase:
             ui_migrations +
             zone_migrations +
             achievement_migrations +
-            deprecated_globals
+            deprecated_globals +
+            endeavor_migrations +
+            daily_login_migrations +
+            transmute_migrations +
+            tamriel_tomes_migrations +
+            outfit_migrations +
+            currency_migrations +
+            experience_migrations
         )
 
         for migration in all_migrations:
             self.function_migrations[migration.old_name] = migration
+
+    def _load_event_migrations(self) -> None:
+        """Load event constant migration mappings."""
+        # Veteran system events (Update 10 / API 100015)
+        veteran_event_migrations = [
+            EventMigration(
+                old_name="EVENT_VETERAN_RANK_UPDATE",
+                removed=True,
+                version_changed=100015,
+                notes="Veteran system removed. Use EVENT_CHAMPION_POINT_UPDATE instead.",
+            ),
+            EventMigration(
+                old_name="EVENT_VETERAN_POINTS_UPDATE",
+                removed=True,
+                version_changed=100015,
+                notes="Veteran system removed.",
+            ),
+        ]
+
+        # Endeavors events removed (Update 49 / API 101049)
+        endeavor_event_migrations = [
+            EventMigration(
+                old_name="EVENT_ENDEAVOR_PROGRESS_UPDATE",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_ENDEAVOR_COMPLETED",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_ENDEAVORS_RESET",
+                removed=True,
+                version_changed=101049,
+                notes="Endeavors system removed in Update 49.",
+            ),
+        ]
+
+        # Daily Login Rewards events removed (Update 49 / API 101049)
+        daily_login_event_migrations = [
+            EventMigration(
+                old_name="EVENT_DAILY_LOGIN_REWARDS_UPDATED",
+                removed=True,
+                version_changed=101049,
+                notes="Daily Login Rewards system removed in Update 49.",
+            ),
+            EventMigration(
+                old_name="EVENT_DAILY_LOGIN_REWARDS_CLAIMED",
+                removed=True,
+                version_changed=101049,
+                notes="Daily Login Rewards system removed in Update 49.",
+            ),
+        ]
+
+        # Outfit events changed (Update 49 / API 101049)
+        outfit_event_migrations = [
+            EventMigration(
+                old_name="EVENT_OUTFIT_CHANGE_RESPONSE",
+                removed=False,
+                version_changed=101049,
+                new_name="EVENT_OUTFIT_CHANGE_RESPONSE",
+                notes="Outfit events now account-wide in U49. Character parameter removed from callback.",
+            ),
+        ]
+
+        # Compile all event migrations
+        all_event_migrations = (
+            veteran_event_migrations +
+            endeavor_event_migrations +
+            daily_login_event_migrations +
+            outfit_event_migrations
+        )
+
+        for migration in all_event_migrations:
+            self.event_migrations[migration.old_name] = migration
 
     def _load_library_migrations(self) -> None:
         """Load library access pattern migrations."""
@@ -357,6 +667,21 @@ class MigrationDatabase:
         return [
             m for m in self.function_migrations.values()
             if m.version_deprecated == api_version or m.version_removed == api_version
+        ]
+
+    def get_event_migration(self, event_name: str) -> Optional[EventMigration]:
+        """Look up migration for an event constant."""
+        return self.event_migrations.get(event_name)
+
+    def get_all_deprecated_events(self) -> list[str]:
+        """Get list of all deprecated event constant names."""
+        return list(self.event_migrations.keys())
+
+    def get_event_migrations_by_version(self, api_version: int) -> list[EventMigration]:
+        """Get event migrations that became relevant at a specific API version."""
+        return [
+            m for m in self.event_migrations.values()
+            if m.version_changed == api_version
         ]
 
     def export_to_json(self, output_path: Path) -> None:

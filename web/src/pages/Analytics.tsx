@@ -17,8 +17,9 @@ import {
   Radar,
   Legend,
 } from 'recharts';
-import { Calendar, Skull, Zap, Target, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Calendar, Skull, Zap, Target, TrendingUp, AlertTriangle, Loader2, AlertCircle } from 'lucide-react';
 import clsx from 'clsx';
+import { useRuns, useDPSTrend, useBuffAnalysis, useRun } from '../hooks/useApi';
 import {
   mockDPSTrend,
   mockBuffAnalysis,
@@ -27,35 +28,46 @@ import {
   mockDetailedRun,
 } from '../data/mockData';
 
-// TODO: Replace mock data with API hooks when backend is connected
-// Use: import { useAnalytics, useBuffAnalysis, useRuns } from '../api/hooks';
-// Example: const { data: analytics, isLoading } = useAnalytics(timeRange);
-// Example: const { data: buffAnalysis } = useBuffAnalysis();
-
 // Constant for converting percentage to degrees (for conic-gradient in contribution circles)
 const PERCENT_TO_DEG = 360 / 100; // 3.6
 
 export default function Analytics() {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
 
+  const { data: apiRuns, isLoading: runsLoading } = useRuns({ limit: 8 });
+  const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: timeRange });
+  const { data: apiBuffAnalysis, isLoading: buffLoading } = useBuffAnalysis({ time_range: timeRange });
+  // Fetch detailed run for contribution scores (use first run if available)
+  const firstRunId = (apiRuns ?? mockRuns)[0]?.run_id ?? '';
+  const { data: apiDetailedRun } = useRun(firstRunId);
+
+  // Fall back to mock data when API is unreachable
+  const runs = apiRuns ?? mockRuns;
+  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
+  const buffAnalysis = apiBuffAnalysis ?? mockBuffAnalysis;
+  const detailedRun = apiDetailedRun ?? mockDetailedRun;
+
+  const isLoading = runsLoading || dpsTrendLoading || buffLoading;
+  const usingMockData = !apiRuns && !runsLoading;
+
   // Format data for charts - memoized to prevent unnecessary recalculations
-  const dpsTrendData = useMemo(() => mockDPSTrend.map((point) => ({
+  const dpsTrendData = useMemo(() => dpsTrend.map((point) => ({
     ...point,
     date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-  })), []);
+  })), [dpsTrend]);
 
-  // Crit rate data from mock runs - memoized to prevent Math.random() UI flickering
-  const critRateData = useMemo(() => mockRuns.slice(0, 8).map((_, index) => ({
+  // Crit rate data from runs - memoized to prevent Math.random() UI flickering
+  const critRateData = useMemo(() => runs.slice(0, 8).map((_, index) => ({
     run: `Run ${index + 1}`,
     critRate: (0.55 + Math.random() * 0.15) * 100, // Mock crit rates 55-70%
-  })), []);
+  })), [runs]);
 
   // Buff uptime data for radar chart
-  const buffRadarData = useMemo(() => mockBuffAnalysis.map((buff) => ({
+  const buffRadarData = useMemo(() => buffAnalysis.map((buff) => ({
     buff: buff.name.replace('Major ', '').replace('Minor ', ''),
     current: buff.average_uptime * 100,
     target: buff.target_uptime * 100,
-  })), []);
+  })), [buffAnalysis]);
 
   // Deaths per content type
   const deathsData = useMemo(() => [
@@ -66,14 +78,25 @@ export default function Analytics() {
   ], []);
 
   // Contribution breakdown from detailed run
-  const contributionData = useMemo(() => mockDetailedRun.contribution_scores
-    ? Object.entries(mockDetailedRun.contribution_scores).map(([key, value]) => ({
+  const contributionData = useMemo(() => detailedRun.contribution_scores
+    ? Object.entries(detailedRun.contribution_scores).map(([key, value]) => ({
         category: key
           .replace(/_/g, ' ')
           .replace(/\b\w/g, (l) => l.toUpperCase()),
         value: Math.round(value * 100),
       }))
-    : [], []);
+    : [], [detailedRun]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-eso-gold-400 animate-spin" />
+          <p className="text-gray-400">Loading analytics...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -84,6 +107,12 @@ export default function Analytics() {
           <p className="text-gray-500 mt-1">
             Deep dive into your performance metrics and trends.
           </p>
+          {usingMockData && (
+            <div className="flex items-center gap-2 mt-2 text-sm text-eso-gold-400">
+              <AlertCircle className="w-4 h-4" />
+              <span>API unavailable - showing sample data</span>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-2 bg-eso-dark-900 p-1 rounded-lg">
           {(['7d', '30d', '90d'] as const).map((range) => (
@@ -158,8 +187,14 @@ export default function Analytics() {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-100">DPS Over Time</h2>
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-500">Last {timeRange}</span>
+              {dpsTrendLoading ? (
+                <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
+              ) : (
+                <>
+                  <Calendar className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-500">Last {timeRange}</span>
+                </>
+              )}
             </div>
           </div>
           <div className="h-64">
@@ -201,7 +236,10 @@ export default function Analytics() {
 
         {/* Buff Uptime Radar */}
         <div className="card">
-          <h2 className="text-lg font-semibold text-gray-100 mb-6">Buff Uptime Analysis</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-gray-100">Buff Uptime Analysis</h2>
+            {buffLoading && <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />}
+          </div>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={buffRadarData}>
@@ -313,7 +351,7 @@ export default function Analytics() {
       <div className="card">
         <h2 className="text-lg font-semibold text-gray-100 mb-6">Buff Uptime Details</h2>
         <div className="space-y-4">
-          {mockBuffAnalysis.map((buff) => {
+          {buffAnalysis.map((buff) => {
             const uptimePercent = Math.round(buff.average_uptime * 100);
             const targetPercent = Math.round(buff.target_uptime * 100);
             const gap = targetPercent - uptimePercent;

@@ -95,6 +95,21 @@ class InMemoryRateLimiter:
 rate_limiter = InMemoryRateLimiter()
 
 
+def get_client_ip(request: Request) -> str:
+    """
+    Extract client IP from request, only trusting X-Forwarded-For
+    if the direct connection is from a trusted proxy.
+    """
+    direct_ip = request.client.host if request.client else "unknown"
+
+    if settings.trusted_proxies and direct_ip in settings.trusted_proxies:
+        forwarded = request.headers.get("X-Forwarded-For")
+        if forwarded:
+            return forwarded.split(",")[0].strip()
+
+    return direct_ip
+
+
 # =============================================================================
 # Rate Limit Dependencies
 # =============================================================================
@@ -117,12 +132,7 @@ async def check_rate_limit(
     if user_id:
         key = f"user:{user_id}"
     else:
-        # Get client IP from request
-        forwarded = request.headers.get("X-Forwarded-For")
-        if forwarded:
-            client_ip = forwarded.split(",")[0].strip()
-        else:
-            client_ip = request.client.host if request.client else "unknown"
+        client_ip = get_client_ip(request)
         key = f"ip:{client_ip}"
 
     # Add endpoint to key for per-endpoint limits
@@ -218,11 +228,7 @@ def rate_limit_dependency(
     async def dependency(request: Request):
         key = f"custom:{request.url.path}"
 
-        forwarded = request.headers.get("X-Forwarded-For")
-        if forwarded:
-            client_ip = forwarded.split(",")[0].strip()
-        else:
-            client_ip = request.client.host if request.client else "unknown"
+        client_ip = get_client_ip(request)
 
         full_key = f"ip:{client_ip}:{key}"
 

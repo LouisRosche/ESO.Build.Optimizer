@@ -43,7 +43,6 @@ jobs:
       - name: Run unit tests
         run: |
           pytest tests/ -v --tb=short --cov=api --cov=ml --cov-report=term-missing
-        continue-on-error: true
 
       - name: Check import errors
         run: |
@@ -145,6 +144,9 @@ jobs:
             echo "Checking $file..."
             luac -p "$file" || echo "Warning: $file has syntax issues"
           done
+
+      - name: Validate addon manifests
+        run: bash scripts/validate_manifests.sh
 
       - name: Luacheck lint
         run: |

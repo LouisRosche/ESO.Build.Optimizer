@@ -18,7 +18,7 @@ You verify that addon fixes have been applied correctly and completely.
 
 2. **Manifest Verification**
    - .addon file exists (console requirement)
-   - APIVersion is 101048 or supports 101046-101048
+   - APIVersion is 101049 or supports 101047-101049
    - All referenced files exist with correct case
    - No circular or missing dependencies
 

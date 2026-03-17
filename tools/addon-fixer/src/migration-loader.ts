@@ -137,9 +137,9 @@ export async function loadMigrations(
 function getEmbeddedMigrations(): MigrationDatabase {
   return {
     version: '1.0.0-embedded',
-    lastUpdated: '2026-02-01',
-    currentLiveAPI: 101048,
-    currentPTSAPI: 101049,
+    lastUpdated: '2026-03-16',
+    currentLiveAPI: 101049,
+    currentPTSAPI: 101050,
     apiVersionHistory: [],
     functionMigrations: [
       {

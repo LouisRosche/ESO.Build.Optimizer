@@ -16,8 +16,8 @@ export interface APIVersionInfo {
   readonly significantChanges: readonly string[];
 }
 
-export const CURRENT_LIVE_API = 101048 as const;
-export const CURRENT_PTS_API = 101049 as const;
+export const CURRENT_LIVE_API = 101049 as const;
+export const CURRENT_PTS_API = 101050 as const;
 
 // ============================================================================
 // Migration Types

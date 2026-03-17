@@ -50,6 +50,7 @@ class Settings(BaseSettings):
     rate_limit_requests_per_minute: int = 60
     rate_limit_requests_per_day: int = 10000
     rate_limit_burst_size: int = 10
+    trusted_proxies: set[str] = Field(default_factory=set)
 
     # Password Hashing
     password_hash_rounds: int = 12
@@ -67,6 +68,14 @@ class Settings(BaseSettings):
         """Parse comma-separated origins string to list."""
         if isinstance(v, str):
             return [origin.strip() for origin in v.split(",")]
+        return v
+
+    @field_validator("trusted_proxies", mode="before")
+    @classmethod
+    def parse_trusted_proxies(cls, v):
+        """Parse comma-separated trusted proxy IPs to set."""
+        if isinstance(v, str):
+            return {ip.strip() for ip in v.split(",") if ip.strip()}
         return v
 
     @field_validator("jwt_secret_key", mode="after")
