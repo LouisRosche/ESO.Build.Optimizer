@@ -440,13 +440,13 @@ local function InitializeSavedVariables()
 
     -- Validate critical numeric settings are within sane bounds
     local s = sv.settings
-    if type(s.velocityWindowDays) ~= "number" or s.velocityWindowDays < 1 or s.velocityWindowDays > 365 then
+    if type(s.velocityWindowDays) ~= "number" or s.velocityWindowDays < 3 or s.velocityWindowDays > 30 then
         s.velocityWindowDays = defaultSavedVars.settings.velocityWindowDays
     end
-    if type(s.topNResults) ~= "number" or s.topNResults < 1 or s.topNResults > 200 then
+    if type(s.topNResults) ~= "number" or s.topNResults < 5 or s.topNResults > 50 then
         s.topNResults = defaultSavedVars.settings.topNResults
     end
-    if type(s.codDiscountPct) ~= "number" or s.codDiscountPct < 0 or s.codDiscountPct > 100 then
+    if type(s.codDiscountPct) ~= "number" or s.codDiscountPct < 5 or s.codDiscountPct > 30 then
         s.codDiscountPct = defaultSavedVars.settings.codDiscountPct
     end
     if type(s.minProfitMargin) ~= "number" or s.minProfitMargin < 0 then
@@ -564,6 +564,8 @@ SLASH_COMMANDS["/fpt"] = function(args)
         FPT:Info("  /fpt settings     - Open settings panel")
         FPT:Info("  /fpt window       - Toggle results window")
         FPT:Info("  /fpt debug        - Toggle debug logging")
+        FPT:Info("  /fpt log [N]      - Show last N log entries (default 50)")
+        FPT:Info("  /fpt exportlog    - Save log buffer to SavedVars for bug reports")
         FPT:Info("  /fpt help         - Show this help")
 
     elseif cmd == "top" then

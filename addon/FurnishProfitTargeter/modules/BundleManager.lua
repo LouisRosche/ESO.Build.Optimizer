@@ -224,7 +224,7 @@ function BundleManager:ShowBundle(nameOrIndex)
     local bundle = self:FindBundle(nameOrIndex)
     if not bundle then
         -- Try to create a new bundle
-        if string.sub(nameOrIndex, 1, 4) == "add " then
+        if nameOrIndex and string.sub(nameOrIndex, 1, 4) == "add " then
             local newName = string.sub(nameOrIndex, 5)
             self:CreateBundle(newName)
         else

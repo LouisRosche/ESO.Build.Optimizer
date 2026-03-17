@@ -155,20 +155,22 @@ def test_module_wiring(suite: TestSuite):
             missing.append(f"{mod_name}: missing Initialize() function")
 
     # Check main file calls Initialize on each module
+    # Strip comments to avoid false matches on commented-out code
+    main_code_lines = [
+        line for line in main_lua.split("\n")
+        if not line.strip().startswith("--")
+    ]
+    main_code = "\n".join(main_code_lines)
+
     for mod_name in expected_modules:
-        init_patterns = [
-            f"self.{mod_name}:Initialize()",
-            f"self.{mod_name}:Initialize(",
-            f"FPT.{mod_name}:Initialize()",
-        ]
-        found = any(p in main_lua for p in init_patterns)
-        # Some modules are initialized conditionally
-        if not found and f"{mod_name}" in main_lua:
-            # Check for conditional init pattern
-            found = f"{mod_name}:Initialize" in main_lua or f"{mod_name}.Initialize" in main_lua
+        # Look for actual initialization calls (not in comments)
+        found = (
+            f"{mod_name}:Initialize()" in main_code
+            or f"{mod_name}:Initialize(" in main_code
+        )
 
         if not found:
-            missing.append(f"{mod_name}: not initialized in main file")
+            missing.append(f"{mod_name}: not initialized in main file (no :Initialize() call found in non-comment code)")
 
     duration = (time.time() - t0) * 1000
     passed = len(missing) == 0

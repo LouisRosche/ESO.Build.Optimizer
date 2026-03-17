@@ -273,10 +273,11 @@ function ResultsUI:UpdateRow(row, index, item)
     row.tag:SetText(table.concat(tags, " "))
 
     -- Margin
-    row.margin:SetText(FPT:FormatGold(item.profitMargin))
-    if item.profitMargin > 10000 then
+    local margin = item.profitMargin or 0
+    row.margin:SetText(FPT:FormatGold(margin))
+    if margin > 10000 then
         row.margin:SetColor(0, 1, 0, 1)
-    elseif item.profitMargin > 5000 then
+    elseif margin > 5000 then
         row.margin:SetColor(0.5, 1, 0, 1)
     else
         row.margin:SetColor(0.7, 0.9, 0.3, 1)
