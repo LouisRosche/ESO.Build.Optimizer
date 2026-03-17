@@ -38,6 +38,7 @@ local currentResults = {}
 local ROW_POOL_MAX = 100  -- Hard cap to prevent unbounded UI memory growth
 local isVisible = false
 local isDragging = false
+local scrollOffset = 0
 
 ---------------------------------------------------------------------------
 -- Initialization
@@ -126,10 +127,19 @@ function ResultsUI:CreateWindow()
     divider:SetCenterColor(0.5, 0.4, 0.1, 0.8)
     divider:SetEdgeColor(0, 0, 0, 0)
 
-    -- Scroll area for results
+    -- Scroll area for results (clipped to prevent overflow)
     local scrollContainer = CreateControl("FPT_ScrollArea", tlw, CT_CONTROL)
     scrollContainer:SetAnchor(TOPLEFT, tlw, TOPLEFT, 0, headerY + 24)
     scrollContainer:SetAnchor(BOTTOMRIGHT, tlw, BOTTOMRIGHT, 0, -36)
+    scrollContainer:SetClampedToScreen(false)
+    scrollContainer:SetMouseEnabled(true)
+
+    -- Scroll wheel support
+    scrollContainer:SetHandler("OnMouseWheel", function(control, delta)
+        local maxOffset = math.max(0, #currentResults - MAX_VISIBLE_ROWS)
+        scrollOffset = math.max(0, math.min(maxOffset, scrollOffset - delta))
+        ResultsUI:RefreshVisibleRows()
+    end)
 
     -- Status bar at bottom
     local statusBar = CreateControl("FPT_StatusBar", tlw, CT_LABEL)
@@ -228,10 +238,11 @@ function ResultsUI:CreateRow(index)
     roiLabel:SetDimensions(55, 20)
     roiLabel:SetFont("ZoFontWinT1")
 
-    -- Click handler for detail view
+    -- Click handler for detail view (uses scroll offset to find correct data index)
     row:SetHandler("OnMouseUp", function(control, button)
         if button == MOUSE_BUTTON_INDEX_LEFT then
-            FPT:ShowItemDetail(index)
+            local dataIndex = index + scrollOffset
+            FPT:ShowItemDetail(dataIndex)
         end
     end)
 
@@ -314,44 +325,61 @@ end
 
 function ResultsUI:ShowResults(results)
     currentResults = results or {}
+    scrollOffset = 0
 
-    -- Cap results to prevent unbounded row creation
-    local displayCount = math.min(#currentResults, ROW_POOL_MAX)
-
-    -- Create/update rows
-    for i = 1, math.max(displayCount, #rowPool) do
-        if i <= displayCount then
-            if not rowPool[i] then
-                rowPool[i] = self:CreateRow(i)
-            end
-            self:UpdateRow(rowPool[i], i, currentResults[i])
-        elseif rowPool[i] then
-            rowPool[i].control:SetHidden(true)
+    -- Ensure we have enough row controls for visible area
+    for i = 1, MAX_VISIBLE_ROWS do
+        if not rowPool[i] then
+            rowPool[i] = self:CreateRow(i)
         end
     end
 
-    -- Destroy excess rows beyond 2x current display count to reclaim memory
-    -- (keep some headroom to avoid constant create/destroy churn)
-    local keepCount = math.max(displayCount * 2, 20)
-    for i = #rowPool, keepCount + 1, -1 do
+    -- Destroy excess rows beyond MAX_VISIBLE_ROWS (we only need that many)
+    for i = #rowPool, MAX_VISIBLE_ROWS + 1, -1 do
         if rowPool[i] and rowPool[i].control then
             rowPool[i].control:SetHidden(true)
-            rowPool[i].control:SetParent(nil)  -- Detach from UI tree
+            rowPool[i].control:SetParent(nil)
         end
         rowPool[i] = nil
     end
 
-    -- Update status bar
-    if self.statusBar and #currentResults > 0 then
-        local stats = FPT.VelocityCalculator and FPT.VelocityCalculator:GetSummaryStats(currentResults) or {}
-        self.statusBar:SetText(string.format(
-            "%d items | Est. weekly: %s | Click row for details",
-            #currentResults,
-            FPT:FormatGold(stats.totalEstWeeklyProfit or 0)
-        ))
+    self:RefreshVisibleRows()
+    self:Show()
+end
+
+-- Refresh which data items are shown in the visible row slots
+function ResultsUI:RefreshVisibleRows()
+    local totalItems = #currentResults
+
+    for slot = 1, MAX_VISIBLE_ROWS do
+        local dataIndex = slot + scrollOffset
+        if rowPool[slot] then
+            if dataIndex <= totalItems then
+                self:UpdateRow(rowPool[slot], dataIndex, currentResults[dataIndex])
+                rowPool[slot].control:SetHidden(false)
+            else
+                rowPool[slot].control:SetHidden(true)
+            end
+        end
     end
 
-    self:Show()
+    -- Update status bar with scroll info
+    if self.statusBar and totalItems > 0 then
+        local stats = FPT.VelocityCalculator and FPT.VelocityCalculator:GetSummaryStats(currentResults) or {}
+        local scrollInfo = ""
+        if totalItems > MAX_VISIBLE_ROWS then
+            scrollInfo = string.format(" | Showing %d-%d of %d (scroll for more)",
+                scrollOffset + 1,
+                math.min(scrollOffset + MAX_VISIBLE_ROWS, totalItems),
+                totalItems)
+        end
+        self.statusBar:SetText(string.format(
+            "%d items | Est. weekly: %s%s",
+            totalItems,
+            FPT:FormatGold(stats.totalEstWeeklyProfit or 0),
+            scrollInfo
+        ))
+    end
 end
 
 function ResultsUI:Show()

@@ -332,13 +332,15 @@ function BundleManager:CalculateBundleCosts(bundle)
 
     local totalCOGS = 0
 
-    -- Match item patterns against last scan results
+    -- Match item patterns against last scan results (deduplicate by name)
     local results = FPT.savedVars.lastScanResults or {}
     local matched = {}
+    local seen = {}
 
     for _, pattern in ipairs(bundle.itemPatterns or {}) do
         for _, item in ipairs(results) do
-            if item.name and string.find(item.name, pattern) then
+            if item.name and not seen[item.name] and string.find(item.name, pattern) then
+                seen[item.name] = true
                 table.insert(matched, item)
                 totalCOGS = totalCOGS + (item.materialCost or 0)
             end
