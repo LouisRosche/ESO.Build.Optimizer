@@ -511,6 +511,356 @@ def test_addon_fixer(suite: TestSuite):
 
 
 # ---------------------------------------------------------------------------
+# Test 9: Formula & Unit Consistency
+# ---------------------------------------------------------------------------
+
+def test_formula_consistency(suite: TestSuite):
+    """Verify mathematical formulas use correct units and FormatGold is only applied to gold values."""
+    t0 = time.time()
+
+    issues = []
+    checks = 0
+
+    for lua_file in ADDON_DIR.rglob("*.lua"):
+        content = lua_file.read_text()
+        rel = lua_file.relative_to(ADDON_DIR)
+        lines = content.split("\n")
+
+        for i, line in enumerate(lines, 1):
+            stripped = line.strip()
+            if stripped.startswith("--"):
+                continue
+
+            # Check FormatGold is not applied to non-gold values
+            fmt_gold_match = re.search(r'FormatGold\(([^)]+)\)', stripped)
+            if fmt_gold_match:
+                checks += 1
+                arg = fmt_gold_match.group(1).strip()
+                # velocityScore is NOT gold — it's margin × count
+                non_gold_fields = ["velocityScore", "totalScore"]
+                for field in non_gold_fields:
+                    if field in arg:
+                        issues.append(
+                            f"{rel}:{i}: FormatGold() applied to non-gold value '{field}' "
+                            f"(use FormatScore instead)"
+                        )
+
+            # Check FormatPct isn't double-multiplying
+            fmt_pct_match = re.search(r'FormatPct\(([^)]+)\)', stripped)
+            if fmt_pct_match:
+                checks += 1
+                arg = fmt_pct_match.group(1).strip()
+                if "* 100" in arg or "*100" in arg:
+                    issues.append(
+                        f"{rel}:{i}: FormatPct() arg already multiplied by 100 "
+                        f"(FormatPct does its own ×100)"
+                    )
+
+            # Check division operations have guards
+            div_match = re.search(r'/\s*([\w.]+(?:\s*or\s*\d+)?)\s*', stripped)
+            if div_match and "savedVars" in stripped and "/" in stripped:
+                checks += 1
+                divisor = div_match.group(1)
+                # Check if there's a guard (or N, > 0, ~= 0) nearby
+                context = "\n".join(lines[max(0, i-5):i])
+                has_guard = (
+                    "or 14" in context or "or 1" in context
+                    or "> 0" in context or "<= 0" in context
+                    or "~= 0" in context
+                )
+                if not has_guard and "windowDays" in divisor:
+                    issues.append(f"{rel}:{i}: Division by {divisor} without guard")
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    msg = f"{checks} formula/unit checks"
+    if issues:
+        msg += f", {len(issues)} issues"
+        for issue in issues[:5]:
+            vlog(issue)
+    suite.add("Formula & unit consistency", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
+# Test 10: Cross-Module Data Field Consistency
+# ---------------------------------------------------------------------------
+
+def test_data_field_consistency(suite: TestSuite):
+    """Verify plan/item objects use consistent field names across all modules."""
+    t0 = time.time()
+
+    issues = []
+
+    # The plan object flows: PlanScanner → PriceEngine → VelocityCalculator → ResultsUI
+    # Track which fields are SET and READ in each module
+
+    field_writers: dict[str, list[str]] = {}  # field → [module:line, ...]
+    field_readers: dict[str, list[str]] = {}
+
+    # Patterns for setting fields on plan/item objects
+    # Matches: plan.fieldName = ..., item.fieldName = ..., result.fieldName = ...
+    set_pattern = re.compile(r'(?:plan|item|result)\.(\w+)\s*=')
+    # Also matches table constructors: { fieldName = value, ... }
+    table_set_pattern = re.compile(r'^\s*(\w+)\s*=\s*[^=]')
+    get_pattern = re.compile(r'(?:plan|item|result)\.(\w+)(?:\s|[,)\]}]|$)')
+
+    in_table_constructor = False
+    brace_depth = 0
+
+    for lua_file in ADDON_DIR.rglob("*.lua"):
+        content = lua_file.read_text()
+        rel = str(lua_file.relative_to(ADDON_DIR))
+        in_table_constructor = False
+        brace_depth = 0
+
+        for i, line in enumerate(content.split("\n"), 1):
+            stripped = line.strip()
+            if stripped.startswith("--"):
+                continue
+
+            # Track table constructor context (for detecting field writes)
+            for ch in stripped:
+                if ch == '{':
+                    brace_depth += 1
+                    in_table_constructor = True
+                elif ch == '}':
+                    brace_depth -= 1
+                    if brace_depth <= 0:
+                        in_table_constructor = False
+                        brace_depth = 0
+
+            for m in set_pattern.finditer(stripped):
+                field_name = m.group(1)
+                field_writers.setdefault(field_name, []).append(f"{rel}:{i}")
+
+            # Table constructor fields count as writes
+            if in_table_constructor:
+                for m in table_set_pattern.finditer(stripped):
+                    field_name = m.group(1)
+                    # Skip Lua keywords and common non-field patterns
+                    if field_name not in {"local", "function", "if", "for", "while",
+                                          "return", "end", "else", "elseif", "then",
+                                          "do", "repeat", "until", "not", "and", "or",
+                                          "type", "name", "id", "true", "false"}:
+                        field_writers.setdefault(field_name, []).append(f"{rel}:{i}")
+
+            for m in get_pattern.finditer(stripped):
+                field_name = m.group(1)
+                # Skip assignments (already captured)
+                if f"{field_name} =" in stripped and f"{field_name} ==" not in stripped:
+                    continue
+                field_readers.setdefault(field_name, []).append(f"{rel}:{i}")
+
+    # Find fields that are READ but never WRITTEN (potential typo or missing data)
+    # Exclude common method names and known globals
+    method_names = {"name", "find", "insert", "format", "sub", "lower", "upper",
+                    "concat", "gsub", "len", "match", "rep", "byte", "char"}
+
+    for field_name, readers in field_readers.items():
+        if field_name in method_names:
+            continue
+        if field_name not in field_writers:
+            # Only flag if read in more than one place (single reads might be method calls)
+            if len(readers) >= 2:
+                issues.append(
+                    f"Field '{field_name}' read in {len(readers)} places but never explicitly set: "
+                    f"{readers[0]}"
+                )
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    total_fields = len(set(field_writers.keys()) | set(field_readers.keys()))
+    msg = f"{total_fields} data fields tracked across modules"
+    if issues:
+        msg += f", {len(issues)} consistency issues"
+        for issue in issues[:5]:
+            vlog(issue)
+    suite.add("Data field consistency", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
+# Test 11: Mathematical Correctness Verification
+# ---------------------------------------------------------------------------
+
+def test_math_verification(suite: TestSuite):
+    """Verify key formulas produce correct results with known test vectors."""
+    t0 = time.time()
+
+    issues = []
+    checks = 0
+
+    # Extract and verify formulas from source code
+    velocity_calc = (ADDON_DIR / "modules" / "VelocityCalculator.lua").read_text()
+    price_engine = (ADDON_DIR / "modules" / "PriceEngine.lua").read_text()
+    bundle_mgr = (ADDON_DIR / "modules" / "BundleManager.lua").read_text()
+
+    # Test 1: ROI formula — verify it's profit/cost, not cost/profit
+    checks += 1
+    roi_match = re.search(r'plan\.roi\s*=\s*([^\n]+)', price_engine)
+    if roi_match:
+        formula = roi_match.group(1).strip()
+        # ROI should be profitMargin / materialCost (positive when profitable)
+        if "profitMargin" not in formula or "materialCost" not in formula:
+            issues.append(f"ROI formula doesn't use expected fields: {formula}")
+        elif formula.index("materialCost") < formula.index("profitMargin"):
+            issues.append(f"ROI formula appears inverted (cost/profit instead of profit/cost): {formula}")
+    else:
+        issues.append("ROI formula not found in PriceEngine")
+
+    # Test 2: Profit margin = retail - cost (not cost - retail)
+    checks += 1
+    margin_match = re.search(r'plan\.profitMargin\s*=\s*([^\n]+)', price_engine)
+    if margin_match:
+        formula = margin_match.group(1).strip()
+        if "retailPrice" in formula and "materialCost" in formula:
+            # Verify order: should be retail - cost
+            retail_pos = formula.index("retailPrice")
+            cost_pos = formula.index("materialCost")
+            if "-" in formula and cost_pos < retail_pos:
+                issues.append(f"Profit margin appears inverted (cost - retail): {formula}")
+        else:
+            issues.append(f"Profit margin doesn't use expected fields: {formula}")
+    else:
+        issues.append("Profit margin formula not found in PriceEngine")
+
+    # Test 3: Bundle markup: price = COGS × (1 + markup/100), not COGS × markup/100
+    checks += 1
+    # Find the actual calculation (contains math.floor), not the initialization (= 0)
+    markup_match = re.search(r'suggestedPrice\s*=\s*(math\.floor\([^\n]+)', bundle_mgr)
+    if markup_match:
+        formula = markup_match.group(1).strip()
+        if "(1 +" not in formula and "(1+" not in formula:
+            issues.append(f"Bundle markup formula missing (1 + markup) pattern: {formula}")
+    else:
+        # Fallback: look for any suggestedPrice assignment with actual math
+        for line in bundle_mgr.split("\n"):
+            if "suggestedPrice" in line and "math.floor" in line:
+                if "(1 +" not in line and "(1+" not in line:
+                    issues.append(f"Bundle markup formula missing (1 + markup) pattern")
+                break
+
+    # Test 4: Weekly profit uses /windowDays * 7, not raw score
+    checks += 1
+    weekly_match = re.search(r'totalEstWeeklyProfit\s*=\s*([^\n]+)', velocity_calc)
+    if weekly_match:
+        formula = weekly_match.group(1).strip()
+        if "windowDays" not in formula:
+            issues.append(f"Weekly profit doesn't divide by windowDays: {formula}")
+        if "* 7" not in formula and "*7" not in formula:
+            issues.append(f"Weekly profit doesn't multiply by 7: {formula}")
+        # Verify it uses raw profit, not bonus-inflated score
+        if "totalScore" in formula:
+            issues.append(
+                f"Weekly profit uses bonus-inflated totalScore instead of raw profit: {formula}"
+            )
+
+    # Test 5: Velocity score is margin × sales (basic sanity)
+    checks += 1
+    vscore_match = re.search(r'local velocityScore\s*=\s*([^\n]+)', velocity_calc)
+    if vscore_match:
+        formula = vscore_match.group(1).strip()
+        if "profitMargin" not in formula or "salesCount" not in formula:
+            issues.append(f"Velocity score doesn't use margin × sales: {formula}")
+
+    # Test 6: COD discount: target = price × (1 - discount/100)
+    checks += 1
+    cod_match = re.search(r'codTargetPrice\s*=\s*([^\n]+)', price_engine)
+    if cod_match:
+        formula = cod_match.group(1).strip()
+        if "1 -" not in formula and "1-" not in formula:
+            issues.append(f"COD discount formula missing (1 - discount) pattern: {formula}")
+
+    # Test 7: Summary stats division guards
+    checks += 1
+    if "avgMargin" in velocity_calc:
+        # Find the actual formula (contains division), not initialization
+        avg_match = re.search(r'avgMargin\s*=\s*(.+/[^\n]+)', velocity_calc)
+        if avg_match:
+            formula = avg_match.group(1).strip()
+            if "> 0" not in formula and "and" not in formula:
+                issues.append(f"avgMargin has no division-by-zero guard: {formula}")
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    msg = f"{checks} formula verifications"
+    if issues:
+        msg += f", {len(issues)} issues"
+        for issue in issues[:5]:
+            vlog(issue)
+    suite.add("Math verification", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
+# Test 12: Scroll & UI Bounds Safety
+# ---------------------------------------------------------------------------
+
+def test_ui_bounds(suite: TestSuite):
+    """Verify UI scroll logic and row management are correctly bounded."""
+    t0 = time.time()
+
+    issues = []
+    checks = 0
+
+    results_ui = (ADDON_DIR / "modules" / "ResultsUI.lua").read_text()
+
+    # Check that scroll offset is used in click handlers
+    checks += 1
+    if "scrollOffset" in results_ui:
+        # Verify click handler uses scroll-adjusted index
+        if "ShowItemDetail(index)" in results_ui and "scrollOffset" not in results_ui.split("ShowItemDetail")[0].split("OnMouseUp")[-1]:
+            # Check if scrollOffset is used near ShowItemDetail
+            click_section = re.search(
+                r'OnMouseUp.*?ShowItemDetail\(([^)]+)\)',
+                results_ui, re.DOTALL
+            )
+            if click_section:
+                if "scrollOffset" not in click_section.group(1):
+                    issues.append("Click handler doesn't use scrollOffset for data index")
+    else:
+        issues.append("ResultsUI has no scrollOffset — rows beyond visible area are inaccessible")
+
+    # Check that row pool is bounded
+    checks += 1
+    if "MAX_VISIBLE_ROWS" in results_ui or "ROW_POOL_MAX" in results_ui:
+        pass  # Has bounds
+    else:
+        issues.append("ResultsUI has no row pool bounds")
+
+    # Check scroll handler exists
+    checks += 1
+    if "OnMouseWheel" in results_ui:
+        # Verify scroll bounds: offset >= 0 and offset <= max
+        if "math.max(0" in results_ui and "math.min(" in results_ui:
+            pass  # Properly bounded
+        else:
+            issues.append("Scroll handler may not properly bound scroll offset")
+    else:
+        issues.append("ResultsUI has no scroll wheel handler")
+
+    # Check RefreshVisibleRows exists and is called
+    checks += 1
+    if "RefreshVisibleRows" in results_ui:
+        # Count definitions vs calls
+        defs = len(re.findall(r'function\s+ResultsUI:RefreshVisibleRows', results_ui))
+        calls = len(re.findall(r'RefreshVisibleRows\(\)', results_ui))
+        if defs == 0:
+            issues.append("RefreshVisibleRows is referenced but not defined")
+        elif calls == 0:
+            issues.append("RefreshVisibleRows is defined but never called")
+    else:
+        issues.append("No RefreshVisibleRows function for scroll redraw")
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    msg = f"{checks} UI bounds checks"
+    if issues:
+        msg += f", {len(issues)} issues"
+        for issue in issues[:5]:
+            vlog(issue)
+    suite.add("UI bounds safety", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -524,14 +874,18 @@ def main():
     suite = TestSuite()
 
     tests = [
-        ("1/8", "Static Validator", test_static_validator),
-        ("2/8", "Module Wiring", test_module_wiring),
-        ("3/8", "SavedVars Defaults", test_savedvars_defaults),
-        ("4/8", "Event Registration", test_event_registration),
-        ("5/8", "String Format", test_string_format),
-        ("6/8", "Packaging Readiness", test_packaging),
-        ("7/8", "Cross-Module API", test_cross_module_api),
-        ("8/8", "Addon Fixer", test_addon_fixer),
+        ("1/12", "Static Validator", test_static_validator),
+        ("2/12", "Module Wiring", test_module_wiring),
+        ("3/12", "SavedVars Defaults", test_savedvars_defaults),
+        ("4/12", "Event Registration", test_event_registration),
+        ("5/12", "String Format", test_string_format),
+        ("6/12", "Packaging Readiness", test_packaging),
+        ("7/12", "Cross-Module API", test_cross_module_api),
+        ("8/12", "Addon Fixer", test_addon_fixer),
+        ("9/12", "Formula & Units", test_formula_consistency),
+        ("10/12", "Data Fields", test_data_field_consistency),
+        ("11/12", "Math Verification", test_math_verification),
+        ("12/12", "UI Bounds", test_ui_bounds),
     ]
 
     for num, name, test_fn in tests:

@@ -301,7 +301,7 @@ function ResultsUI:UpdateRow(row, index, item)
     row.sales:SetText(tostring(item.salesCount or 0))
 
     -- Velocity Score
-    row.score:SetText(FPT:FormatGold(item.velocityScore))
+    row.score:SetText(FPT:FormatScore(item.velocityScore))
 
     -- ROI
     local roiPct = (item.roi or 0) * 100

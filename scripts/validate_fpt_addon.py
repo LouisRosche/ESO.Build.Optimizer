@@ -906,6 +906,43 @@ def check_pricing_api_patterns(lines: list[str], filename: str, result: Validati
 
 
 # ─────────────────────────────────────────────────────────────
+# Check 14: Unit/dimension correctness
+# ─────────────────────────────────────────────────────────────
+
+def check_unit_correctness(lines: list[str], filename: str, result: ValidationResult):
+    """Verify FormatGold is only applied to gold values, not scores or ratios."""
+    non_gold_fields = ["velocityScore", "totalScore"]
+
+    for line_num, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if stripped.startswith("--"):
+            continue
+
+        result.checks_run += 1
+
+        # Check FormatGold applied to non-gold values
+        for match in re.finditer(r'FormatGold\(([^)]+)\)', stripped):
+            arg = match.group(1)
+            for field in non_gold_fields:
+                if field in arg:
+                    result.issues.append(Issue(
+                        file=filename, line=line_num, severity="CRITICAL",
+                        category="unit_mismatch",
+                        message=f"FormatGold() applied to non-gold value '{field}' — use FormatScore()"
+                    ))
+
+        # Check FormatPct double-multiply
+        for match in re.finditer(r'FormatPct\(([^)]+)\)', stripped):
+            arg = match.group(1)
+            if re.search(r'\*\s*100', arg):
+                result.issues.append(Issue(
+                    file=filename, line=line_num, severity="CRITICAL",
+                    category="unit_mismatch",
+                    message="FormatPct() arg already ×100 — FormatPct does its own multiplication"
+                ))
+
+
+# ─────────────────────────────────────────────────────────────
 # Main validator
 # ─────────────────────────────────────────────────────────────
 
@@ -936,6 +973,7 @@ def run_validation() -> ValidationResult:
         check_duplicate_scanning(lines, rel_path, result)
         check_day_of_week(lines, rel_path, result)
         check_pricing_api_patterns(lines, rel_path, result)
+        check_unit_correctness(lines, rel_path, result)
 
     # Non-file-specific checks
     check_xml_colors(result)

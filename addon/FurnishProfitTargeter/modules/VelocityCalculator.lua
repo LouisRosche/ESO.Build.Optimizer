@@ -191,11 +191,14 @@ function VelocityCalculator:GetSummaryStats(scoredPlans)
     local totalScore = 0
     local totalMargin = 0
     local totalSales = 0
+    local totalRawProfit = 0
 
     for _, plan in ipairs(scoredPlans) do
         totalScore = totalScore + (plan.velocityScore or 0)
         totalMargin = totalMargin + (plan.profitMargin or 0)
         totalSales = totalSales + (plan.salesCount or 0)
+        -- Use raw margin × sales for weekly estimate (excludes style/structural bonuses)
+        totalRawProfit = totalRawProfit + ((plan.profitMargin or 0) * (plan.salesCount or 0))
     end
 
     local windowDays = FPT.savedVars.settings.velocityWindowDays or 14
@@ -204,8 +207,8 @@ function VelocityCalculator:GetSummaryStats(scoredPlans)
     return {
         count = #scoredPlans,
         totalScore = totalScore,
-        avgMargin = totalMargin / #scoredPlans,
-        avgVelocity = totalSales / #scoredPlans,
-        totalEstWeeklyProfit = (totalScore / windowDays) * 7,
+        avgMargin = #scoredPlans > 0 and (totalMargin / #scoredPlans) or 0,
+        avgVelocity = #scoredPlans > 0 and (totalSales / #scoredPlans) or 0,
+        totalEstWeeklyProfit = (totalRawProfit / windowDays) * 7,
     }
 end

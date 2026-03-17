@@ -296,6 +296,18 @@ function FPT:FormatGold(amount)
     return formatted .. "g"
 end
 
+-- Format dimensionless score with commas (not currency)
+function FPT:FormatScore(score)
+    if not score then return "0" end
+    local formatted = tostring(math.floor(score))
+    local k
+    while true do
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1,%2")
+        if k == 0 then break end
+    end
+    return formatted
+end
+
 -- Format percentage
 function FPT:FormatPct(value)
     if not value then return "0%" end
@@ -781,7 +793,7 @@ function FPT:DisplayScanResults(results, structuralOnly)
         self:Info("   Margin: %s%s%s | Velocity: %s%d sales/%dd%s | Score: %s%s%s",
             self.COLORS.GREEN, self:FormatGold(item.profitMargin), self.COLORS.RESET,
             self.COLORS.CYAN, item.salesCount or 0, self.savedVars.settings.velocityWindowDays, self.COLORS.RESET,
-            self.COLORS.GOLD, self:FormatGold(item.velocityScore), self.COLORS.RESET)
+            self.COLORS.GOLD, self:FormatScore(item.velocityScore), self.COLORS.RESET)
 
         self:Info("   COGS: %s | Retail: %s | ROI: %s",
             self:FormatGold(item.materialCost),
@@ -863,7 +875,7 @@ function FPT:ShowItemDetail(index)
         self.savedVars.settings.velocityWindowDays,
         self.COLORS.CYAN, item.salesCount or 0, self.COLORS.RESET)
     self:Info("  %sVelocity Score: %s%s",
-        self.COLORS.GOLD, self:FormatGold(item.velocityScore), self.COLORS.RESET)
+        self.COLORS.GOLD, self:FormatScore(item.velocityScore), self.COLORS.RESET)
     self:Info("  ROI: %s", self:FormatPct(item.roi))
 
     if item.salesCount and item.salesCount > 0 and item.profitMargin then
