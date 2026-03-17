@@ -1,7 +1,7 @@
 # ESO Build Optimizer - Development Makefile
 # Common workflows for rapid development iteration
 
-.PHONY: help all clean test build lint validate fix-addon
+.PHONY: help all clean test build lint validate fix-addon fpt-test fpt-validate fpt-package
 
 # Default target
 help:
@@ -27,6 +27,11 @@ help:
 	@echo "Lua Addon:"
 	@echo "  lua-check    - Lint Lua addon code"
 	@echo ""
+	@echo "FurnishProfitTargeter:"
+	@echo "  fpt-test     - Run FPT pre-publish test suite (8 checks)"
+	@echo "  fpt-validate - Run FPT static validator (8800+ checks)"
+	@echo "  fpt-package  - Build ESOUI distribution ZIP"
+	@echo ""
 	@echo "Cleanup:"
 	@echo "  clean        - Remove build artifacts"
 
@@ -36,7 +41,7 @@ help:
 
 all: build test lint
 
-test: fixer-test lua-check validate
+test: fixer-test lua-check validate fpt-validate
 	@echo "All tests passed!"
 
 build: fixer-build
@@ -87,7 +92,7 @@ excel:
 
 lua-check:
 	@echo "Checking Lua syntax..."
-	@for file in addon/*.lua addon/modules/*.lua; do \
+	@for file in $$(find addon -name '*.lua' -type f); do \
 		echo "  Checking $$file..."; \
 		luac -p "$$file" 2>/dev/null || echo "    Warning: $$file has issues"; \
 	done
@@ -123,6 +128,26 @@ lib-check:
 	cd tools/addon-fixer && npx ts-node scripts/sync-library-versions.ts --check
 
 # =============================================================================
+# FurnishProfitTargeter
+# =============================================================================
+
+fpt-test:
+	@echo "Running FPT pre-publish test suite..."
+	python scripts/test_fpt_prepublish.py
+
+fpt-validate:
+	@echo "Running FPT static validator..."
+	python scripts/validate_fpt_addon.py
+
+fpt-package:
+	@echo "Packaging FPT addon for ESOUI..."
+	python scripts/package_fpt_addon.py
+
+fpt-package-check:
+	@echo "Validating FPT package (dry run)..."
+	python scripts/package_fpt_addon.py --check
+
+# =============================================================================
 # Cleanup
 # =============================================================================
 
@@ -130,6 +155,7 @@ clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf tools/addon-fixer/dist
 	rm -rf web/dist
+	rm -rf dist/
 	rm -rf data/compiled/*.xlsx
 	@echo "Clean complete!"
 
