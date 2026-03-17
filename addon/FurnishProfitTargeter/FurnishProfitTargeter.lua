@@ -217,7 +217,13 @@ end
 local LOG_RING_MAX = 200
 local logRing = {}
 
+local SV_MAX_STRING_LEN = 1900  -- ESO SavedVars crash on strings > 1999 bytes
+
 local function AppendLog(level, msg)
+    -- Truncate to prevent SavedVars nil-string crash
+    if msg and #msg > SV_MAX_STRING_LEN then
+        msg = string.sub(msg, 1, SV_MAX_STRING_LEN) .. "...[truncated]"
+    end
     table.insert(logRing, {
         t = GetTimeStamp and GetTimeStamp() or 0,
         l = level,
@@ -545,6 +551,9 @@ local function OnPlayerActivated(eventCode, initial)
     if FPT.savedVars.settings.showScheduleReminder and FPT:IsScanDay() then
         FPT:Info("%s>>> SCAN DAY! Run /fpt to recalibrate your manufacturing queue <<<", FPT.COLORS.CYAN)
     end
+
+    -- Create LAM settings panel (after modules are initialized)
+    CreateSettingsPanel()
 end
 
 ---------------------------------------------------------------------------
@@ -1063,10 +1072,3 @@ local function RegisterEvents()
 end
 
 RegisterEvents()
-
--- Defer LAM setup to after addon load
-local function OnPlayerActivatedForLAM(eventCode, initial)
-    CreateSettingsPanel()
-    EVENT_MANAGER:UnregisterForEvent(FPT.name .. "_LAM", EVENT_PLAYER_ACTIVATED)
-end
-EVENT_MANAGER:RegisterForEvent(FPT.name .. "_LAM", EVENT_PLAYER_ACTIVATED, OnPlayerActivatedForLAM)

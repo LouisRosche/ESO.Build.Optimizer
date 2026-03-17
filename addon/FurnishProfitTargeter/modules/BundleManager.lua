@@ -298,10 +298,17 @@ function BundleManager:FindBundle(nameOrIndex)
     return nil
 end
 
+local MAX_BUNDLES = 100
+
 -- Create a new custom bundle
 function BundleManager:CreateBundle(name)
     if not name or name == "" then
         FPT:Info("Usage: /fpt bundle add <bundle name>")
+        return
+    end
+
+    if #FPT.savedVars.bundles >= MAX_BUNDLES then
+        FPT:Info("Bundle limit reached (%d). Remove a bundle before adding more.", MAX_BUNDLES)
         return
     end
 
