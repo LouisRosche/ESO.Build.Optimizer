@@ -374,7 +374,18 @@ export class AddonFixer {
     let content: string;
     try {
       content = await fsReadFile(filePath, 'utf-8');
-    } catch {
+    } catch (e) {
+      issues.push({
+        id: 'read-error-0',
+        filePath,
+        category: 'deprecated_function',
+        severity: 'warning',
+        message: `Failed to read file for pattern migration check: ${e instanceof Error ? e.message : 'unknown error'}`,
+        location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+        oldCode: '',
+        autoFixable: false,
+        confidence: 0,
+      });
       return issues;
     }
 
@@ -487,8 +498,19 @@ export class AddonFixer {
             actualFiles.set(relativePath.toLowerCase(), relativePath);
           }
         }
-      } catch {
-        // Skip unreadable directories
+      } catch (e) {
+        // Log warning for unreadable directories
+        issues.push({
+          id: `readdir-error-${++issueId}`,
+          filePath: dir,
+          category: 'dependency',
+          severity: 'warning',
+          message: `Failed to read directory for case sensitivity check: ${e instanceof Error ? e.message : 'unknown error'}`,
+          location: { start: { line: 0, column: 0, offset: 0 }, end: { line: 0, column: 0, offset: 0 } },
+          oldCode: '',
+          autoFixable: false,
+          confidence: 0,
+        });
       }
     };
     await collectFiles(addonPath);

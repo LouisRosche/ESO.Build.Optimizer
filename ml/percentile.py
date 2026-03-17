@@ -170,6 +170,10 @@ class ContributionMetrics:
         for category in CONTRIBUTION_CATEGORIES:
             value = getattr(self, category)
             clamped = max(0.0, min(1.0, float(value)))
+            if clamped != float(value):
+                logging.warning(
+                    f"ContributionMetrics.{category} value {value} clamped to {clamped}"
+                )
             setattr(self, category, clamped)
 
     def to_dict(self) -> dict[str, float]:
@@ -995,10 +999,26 @@ def create_combat_run_from_dict(data: dict[str, Any]) -> CombatRun:
         CombatRun instance.
     """
     content_data = data.get("content", {})
+    try:
+        content_type = ContentType(content_data.get("type", "dungeon"))
+    except ValueError:
+        logger.warning(
+            f"Unknown content type {content_data.get('type')!r}, defaulting to DUNGEON"
+        )
+        content_type = ContentType.DUNGEON
+
+    try:
+        difficulty = Difficulty(content_data.get("difficulty", "normal"))
+    except ValueError:
+        logger.warning(
+            f"Unknown difficulty {content_data.get('difficulty')!r}, defaulting to NORMAL"
+        )
+        difficulty = Difficulty.NORMAL
+
     content = ContentInfo(
-        content_type=ContentType(content_data.get("type", "dungeon")),
+        content_type=content_type,
         name=content_data.get("name", "Unknown"),
-        difficulty=Difficulty(content_data.get("difficulty", "normal")),
+        difficulty=difficulty,
     )
 
     metrics_data = data.get("metrics", {})
@@ -1017,7 +1037,11 @@ def create_combat_run_from_dict(data: dict[str, Any]) -> CombatRun:
     if isinstance(role_value, RoleType):
         role = role_value
     else:
-        role = RoleType(role_value)
+        try:
+            role = RoleType(role_value)
+        except ValueError:
+            logger.warning(f"Unknown role {role_value!r}, defaulting to DPS")
+            role = RoleType.DPS
 
     # Parse timestamp
     timestamp = data.get("timestamp")
@@ -1026,16 +1050,33 @@ def create_combat_run_from_dict(data: dict[str, Any]) -> CombatRun:
     elif timestamp is None:
         timestamp = datetime.now()
 
+    # Validate required fields
+    run_id = data.get("run_id", "")
+    if not run_id:
+        raise ValueError("run_id must be non-empty")
+
+    player_id = data.get("player_id", "")
+    if not player_id:
+        raise ValueError("player_id must be non-empty")
+
+    # Validate and clamp numeric fields
+    duration_sec = data.get("duration_sec", 0)
+    if not isinstance(duration_sec, (int, float)) or duration_sec <= 0:
+        raise ValueError(f"duration_sec must be > 0, got {duration_sec}")
+
+    cp_level = max(1, min(3600, int(data.get("cp_level", 160))))
+    group_size = max(1, min(24, int(data.get("group_size", 4))))
+
     return CombatRun(
-        run_id=data.get("run_id", ""),
-        player_id=data.get("player_id", ""),
+        run_id=run_id,
+        player_id=player_id,
         character_name=data.get("character_name", "Unknown"),
         timestamp=timestamp,
         content=content,
-        duration_sec=data.get("duration_sec", 0),
+        duration_sec=duration_sec,
         success=data.get("success", True),
-        group_size=data.get("group_size", 4),
-        cp_level=data.get("cp_level", 160),
+        group_size=group_size,
+        cp_level=cp_level,
         role=role,
         metrics=metrics,
         build_snapshot=data.get("build_snapshot", {}),
