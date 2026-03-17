@@ -151,7 +151,7 @@ function PriceEngine:GetTTCPrice(itemIdOrLink)
         return TamrielTradeCentrePrice:GetPriceInfo(itemLink)
     end)
 
-    if success and result then
+    if success and result and type(result) == "table" then
         -- TTC returns { Avg, Min, Max, EntryCount, AmountCount, SuggestedPrice,
         --               SaleAvg, SaleEntryCount, SaleAmountCount }
         -- Prefer SaleAvg (actual sales) over Avg (listing averages) when available
@@ -181,7 +181,7 @@ function PriceEngine:GetTTCListingCount(itemIdOrLink)
         return TamrielTradeCentrePrice:GetPriceInfo(itemLink)
     end)
 
-    if success and result then
+    if success and result and type(result) == "table" then
         count = result.AmountCount or 0
     end
 
@@ -310,8 +310,40 @@ function PriceEngine:ClearCache()
     FPT:Debug("Price cache cleared")
 end
 
+-- Evict stale entries to prevent unbounded memory growth over long sessions
+function PriceEngine:EvictStaleEntries()
+    local now = GetGameTimeMilliseconds()
+    local evicted = 0
+    for key, entry in pairs(priceCache) do
+        if (now - entry.time) >= CACHE_TTL_MS then
+            priceCache[key] = nil
+            evicted = evicted + 1
+        end
+    end
+    if evicted > 0 then
+        FPT:Debug("PriceEngine: evicted %d stale cache entries", evicted)
+    end
+end
+
+-- Hard cap: if cache exceeds this size, clear it entirely
+local CACHE_MAX_ENTRIES = 2000
+
 function PriceEngine:GetCacheSize()
     local count = 0
     for _ in pairs(priceCache) do count = count + 1 end
+
+    -- Auto-evict if cache is getting large
+    if count > CACHE_MAX_ENTRIES then
+        self:EvictStaleEntries()
+        -- Recount after eviction
+        count = 0
+        for _ in pairs(priceCache) do count = count + 1 end
+        -- If still over limit after eviction, hard clear
+        if count > CACHE_MAX_ENTRIES then
+            self:ClearCache()
+            count = 0
+        end
+    end
+
     return count
 end

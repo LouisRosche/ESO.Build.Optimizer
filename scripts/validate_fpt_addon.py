@@ -383,6 +383,46 @@ def check_gsub_safety(lines: list[str], filename: str, result: ValidationResult)
 
 
 # ─────────────────────────────────────────────────────────────
+# Check 3d: Division-by-zero patterns
+# ─────────────────────────────────────────────────────────────
+
+def check_division_safety(lines: list[str], filename: str, result: ValidationResult):
+    """Check for divisions where the divisor could be zero or nil."""
+    div_pattern = re.compile(r'/\s*(\w+(?:\.\w+)*)')
+
+    for line_num, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if stripped.startswith("--"):
+            continue
+
+        if "/" not in line:
+            continue
+
+        result.checks_run += 1
+
+        # Skip string patterns (inside quotes)
+        if stripped.startswith('"') or stripped.startswith("'"):
+            continue
+
+        for match in div_pattern.finditer(line):
+            divisor = match.group(1)
+
+            # Skip safe patterns: already guarded with `or <default>`
+            # e.g., `/ (windowDays or 14)` or `/ #scoredPlans` (guarded above)
+            context_start = max(0, match.start() - 30)
+            context = line[context_start:match.end()]
+
+            # Flag if divisor is a savedVars access without guard
+            if "savedVars" in divisor and "or" not in context:
+                result.issues.append(Issue(
+                    file=filename, line=line_num, severity="WARNING",
+                    category="division_safety",
+                    message=f"Division by SavedVars value '{divisor}' without fallback guard. "
+                            f"Add 'or <default>' to prevent div-by-zero from corrupted settings."
+                ))
+
+
+# ─────────────────────────────────────────────────────────────
 # Check 4: Non-existent ESO constants
 # ─────────────────────────────────────────────────────────────
 
@@ -889,6 +929,7 @@ def run_validation() -> ValidationResult:
         check_global_names(lines, rel_path, result)
         check_deprecated_window_manager(lines, rel_path, result)
         check_gsub_safety(lines, rel_path, result)
+        check_division_safety(lines, rel_path, result)
         check_eso_constants(lines, rel_path, result)
         check_lua_patterns(lines, rel_path, result)
         check_item_link_format(lines, rel_path, result)

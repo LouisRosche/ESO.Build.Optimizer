@@ -35,6 +35,7 @@ local MAX_VISIBLE_ROWS = 8
 local window = nil
 local rowPool = {}
 local currentResults = {}
+local ROW_POOL_MAX = 100  -- Hard cap to prevent unbounded UI memory growth
 local isVisible = false
 local isDragging = false
 
@@ -313,9 +314,12 @@ end
 function ResultsUI:ShowResults(results)
     currentResults = results or {}
 
+    -- Cap results to prevent unbounded row creation
+    local displayCount = math.min(#currentResults, ROW_POOL_MAX)
+
     -- Create/update rows
-    for i = 1, math.max(#currentResults, #rowPool) do
-        if i <= #currentResults then
+    for i = 1, math.max(displayCount, #rowPool) do
+        if i <= displayCount then
             if not rowPool[i] then
                 rowPool[i] = self:CreateRow(i)
             end
@@ -323,6 +327,17 @@ function ResultsUI:ShowResults(results)
         elseif rowPool[i] then
             rowPool[i].control:SetHidden(true)
         end
+    end
+
+    -- Destroy excess rows beyond 2x current display count to reclaim memory
+    -- (keep some headroom to avoid constant create/destroy churn)
+    local keepCount = math.max(displayCount * 2, 20)
+    for i = #rowPool, keepCount + 1, -1 do
+        if rowPool[i] and rowPool[i].control then
+            rowPool[i].control:SetHidden(true)
+            rowPool[i].control:SetParent(nil)  -- Detach from UI tree
+        end
+        rowPool[i] = nil
     end
 
     -- Update status bar

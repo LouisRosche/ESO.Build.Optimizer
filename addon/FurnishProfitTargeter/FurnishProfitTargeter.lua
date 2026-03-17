@@ -527,6 +527,11 @@ function FPT:RunScan(topN, structuralOnly)
 
     self:Info("Scanning known furnishing plans...")
 
+    -- Evict stale price cache entries before scanning to bound memory usage
+    if self.PriceEngine and self.PriceEngine.EvictStaleEntries then
+        self.PriceEngine:EvictStaleEntries()
+    end
+
     -- Step 1: Iterate all known plans
     local plans = {}
     if self.PlanScanner then
@@ -698,8 +703,11 @@ function FPT:ShowItemDetail(index)
     self:Info("  ROI: %s", self:FormatPct(item.roi))
 
     if item.salesCount and item.salesCount > 0 and item.profitMargin then
-        local dailyProfit = (item.profitMargin * item.salesCount) / self.savedVars.settings.velocityWindowDays
-        self:Info("  Est. Daily Profit: %s%s%s", self.COLORS.GREEN, self:FormatGold(dailyProfit), self.COLORS.RESET)
+        local windowDays = self.savedVars.settings.velocityWindowDays or 14
+        if windowDays > 0 then
+            local dailyProfit = (item.profitMargin * item.salesCount) / windowDays
+            self:Info("  Est. Daily Profit: %s%s%s", self.COLORS.GREEN, self:FormatGold(dailyProfit), self.COLORS.RESET)
+        end
     end
 end
 

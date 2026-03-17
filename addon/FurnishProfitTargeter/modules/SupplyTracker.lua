@@ -107,6 +107,15 @@ end
 ---------------------------------------------------------------------------
 
 function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
+    if not quantity or quantity <= 0 then
+        FPT:Debug("SupplyTracker: skipping COD with invalid quantity=%s", tostring(quantity))
+        return
+    end
+    if not totalPaid or totalPaid < 0 then
+        FPT:Debug("SupplyTracker: skipping COD with invalid totalPaid=%s", tostring(totalPaid))
+        return
+    end
+
     local sc = FPT.savedVars.supplyChain
     local materialName = TRACKED_MATERIALS[itemId] or "Unknown"
     local unitPaid = totalPaid / quantity
@@ -218,8 +227,11 @@ function SupplyTracker:ShowDashboard()
     FPT:Info("  Total Saved vs Market: %s%s%s", FPT.COLORS.GREEN, FPT:FormatGold(sc.totalSaved or 0), FPT.COLORS.RESET)
 
     if (sc.totalSpent or 0) > 0 then
-        local avgDiscount = (sc.totalSaved / (sc.totalSpent + sc.totalSaved)) * 100
-        FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+        local denominator = (sc.totalSpent or 0) + (sc.totalSaved or 0)
+        if denominator > 0 then
+            local avgDiscount = ((sc.totalSaved or 0) / denominator) * 100
+            FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+        end
     end
 
     -- Starter zone WTB command

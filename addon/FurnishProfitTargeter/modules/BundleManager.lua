@@ -287,7 +287,7 @@ function BundleManager:FindBundle(nameOrIndex)
     -- Search by name (case-insensitive partial match)
     local lowerSearch = string.lower(nameOrIndex)
     for _, bundle in ipairs(bundles) do
-        if string.find(string.lower(bundle.name), lowerSearch) then
+        if bundle.name and string.find(string.lower(bundle.name), lowerSearch) then
             return bundle
         end
         if bundle.id and string.find(string.lower(bundle.id), lowerSearch) then

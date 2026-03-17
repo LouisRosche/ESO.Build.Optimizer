@@ -232,7 +232,9 @@ function MarketCopy:GetBundleNameList()
 
     local names = {}
     for i = 1, math.min(3, #bundles) do
-        table.insert(names, bundles[i].name)
+        if bundles[i] and bundles[i].name then
+            table.insert(names, bundles[i].name)
+        end
     end
 
     return table.concat(names, ", ")
@@ -240,7 +242,7 @@ end
 
 function MarketCopy:GetFirstBundleName()
     local bundles = FPT.savedVars.bundles
-    if bundles and #bundles > 0 then
+    if bundles and #bundles > 0 and bundles[1] then
         return bundles[1].name
     end
     return nil
@@ -248,7 +250,7 @@ end
 
 function MarketCopy:GetFirstBundleDescription()
     local bundles = FPT.savedVars.bundles
-    if bundles and #bundles > 0 then
+    if bundles and #bundles > 0 and bundles[1] then
         return bundles[1].description
     end
     return nil

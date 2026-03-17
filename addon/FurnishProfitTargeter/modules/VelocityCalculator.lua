@@ -150,7 +150,8 @@ end
 
 -- Get estimated daily profit for a plan
 function VelocityCalculator:GetDailyProfit(plan)
-    local windowDays = FPT.savedVars.settings.velocityWindowDays
+    local windowDays = FPT.savedVars.settings.velocityWindowDays or 14
+    if windowDays <= 0 then windowDays = 14 end
     if plan.salesCount and plan.salesCount > 0 and plan.profitMargin then
         return (plan.profitMargin * plan.salesCount) / windowDays
     end
@@ -164,7 +165,8 @@ end
 
 -- Categorize a plan's velocity tier
 function VelocityCalculator:GetVelocityTier(plan)
-    local windowDays = FPT.savedVars.settings.velocityWindowDays
+    local windowDays = FPT.savedVars.settings.velocityWindowDays or 14
+    if windowDays <= 0 then windowDays = 14 end
     local dailySales = (plan.salesCount or 0) / windowDays
 
     if dailySales >= 5 then
@@ -196,11 +198,14 @@ function VelocityCalculator:GetSummaryStats(scoredPlans)
         totalSales = totalSales + (plan.salesCount or 0)
     end
 
+    local windowDays = FPT.savedVars.settings.velocityWindowDays or 14
+    if windowDays <= 0 then windowDays = 14 end
+
     return {
         count = #scoredPlans,
         totalScore = totalScore,
         avgMargin = totalMargin / #scoredPlans,
         avgVelocity = totalSales / #scoredPlans,
-        totalEstWeeklyProfit = (totalScore / FPT.savedVars.settings.velocityWindowDays) * 7,
+        totalEstWeeklyProfit = (totalScore / windowDays) * 7,
     }
 end
