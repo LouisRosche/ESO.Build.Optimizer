@@ -210,18 +210,75 @@ local function DeepCopy(orig)
     return copy
 end
 
+-- Log ring buffer for post-crash debugging (persisted to SavedVars)
+local LOG_RING_MAX = 200
+local logRing = {}
+
+local function AppendLog(level, msg)
+    table.insert(logRing, {
+        t = GetTimeStamp and GetTimeStamp() or 0,
+        l = level,
+        m = msg,
+    })
+    -- Prune oldest entries
+    while #logRing > LOG_RING_MAX do
+        table.remove(logRing, 1)
+    end
+end
+
 function FPT:Debug(message, ...)
+    local ok, formatted = pcall(string.format, message, ...)
+    if not ok then formatted = message end
+
+    AppendLog("D", formatted)
+
     if self.savedVars and self.savedVars.settings.verboseLogging then
-        d(string.format("[FPT] %s", string.format(message, ...)))
+        d(string.format("[FPT] %s", formatted))
     end
 end
 
 function FPT:Info(message, ...)
-    d(string.format("%s[FPT]%s %s", self.COLORS.GOLD, self.COLORS.RESET, string.format(message, ...)))
+    local ok, formatted = pcall(string.format, message, ...)
+    if not ok then formatted = message end
+
+    AppendLog("I", formatted)
+    d(string.format("%s[FPT]%s %s", self.COLORS.GOLD, self.COLORS.RESET, formatted))
 end
 
 function FPT:Error(message, ...)
-    d(string.format("%s[FPT] ERROR:%s %s", self.COLORS.RED, self.COLORS.RESET, string.format(message, ...)))
+    local ok, formatted = pcall(string.format, message, ...)
+    if not ok then formatted = message end
+
+    AppendLog("E", formatted)
+    d(string.format("%s[FPT] ERROR:%s %s", self.COLORS.RED, self.COLORS.RESET, formatted))
+end
+
+-- Dump recent logs to chat (for bug reports)
+function FPT:DumpLogs(count)
+    count = count or 50
+    local start = math.max(1, #logRing - count + 1)
+
+    self:Info("%s===== FPT DEBUG LOG (last %d entries) =====%s",
+        self.COLORS.GRAY, math.min(count, #logRing), self.COLORS.RESET)
+
+    for i = start, #logRing do
+        local entry = logRing[i]
+        local levelColor = entry.l == "E" and self.COLORS.RED
+            or entry.l == "D" and self.COLORS.GRAY
+            or self.COLORS.RESET
+        d(string.format("%s[%s]%s %s", levelColor, entry.l, self.COLORS.RESET, entry.m))
+    end
+
+    self:Info("Log buffer: %d/%d entries. Use /fpt exportlog to save to SavedVars.", #logRing, LOG_RING_MAX)
+end
+
+-- Export log ring to SavedVars for external retrieval
+function FPT:ExportLogs()
+    if self.savedVars then
+        self.savedVars._debugLog = logRing
+        self:Info("Exported %d log entries to SavedVariables.", #logRing)
+        self:Info("Find them in: FurnishProfitTargeterSV._debugLog")
+    end
 end
 
 -- Format gold amount with commas
@@ -309,26 +366,98 @@ end
 -- SavedVariables Management
 ---------------------------------------------------------------------------
 
-local function InitializeSavedVariables()
-    FurnishProfitTargeterSV = FurnishProfitTargeterSV or {}
+-- Current SavedVariables schema version (increment on breaking changes)
+local SAVEDVARS_VERSION = 1
 
-    for key, defaultValue in pairs(defaultSavedVars) do
-        if FurnishProfitTargeterSV[key] == nil then
-            FurnishProfitTargeterSV[key] = DeepCopy(defaultValue)
-        end
+-- Validate that a saved value has the expected type; reset to default if corrupt
+local function ValidateField(sv, key, default)
+    if sv[key] == nil then
+        sv[key] = DeepCopy(default)
+        return
     end
 
-    -- Merge nested settings to preserve new defaults
-    if FurnishProfitTargeterSV.settings then
-        for key, defaultValue in pairs(defaultSavedVars.settings) do
-            if FurnishProfitTargeterSV.settings[key] == nil then
-                FurnishProfitTargeterSV.settings[key] = defaultValue
+    local expectedType = type(default)
+    local actualType = type(sv[key])
+
+    -- Type mismatch = corruption; reset to default
+    if expectedType ~= actualType then
+        FPT:Debug("SavedVars: resetting corrupted field '%s' (expected %s, got %s)",
+            tostring(key), expectedType, actualType)
+        sv[key] = DeepCopy(default)
+    end
+end
+
+-- Deep-merge nested tables: add missing keys from defaults, validate types
+local function MergeDefaults(sv, defaults)
+    if type(sv) ~= "table" or type(defaults) ~= "table" then return end
+
+    for key, defaultValue in pairs(defaults) do
+        if sv[key] == nil then
+            sv[key] = DeepCopy(defaultValue)
+        elseif type(defaultValue) == "table" and type(sv[key]) == "table" then
+            -- Recurse for nested tables (but not arrays like codPurchases)
+            -- Only merge if default has string keys (is a struct, not an array)
+            local isStruct = false
+            for k, _ in pairs(defaultValue) do
+                if type(k) == "string" then
+                    isStruct = true
+                    break
+                end
             end
+            if isStruct then
+                MergeDefaults(sv[key], defaultValue)
+            end
+        elseif type(defaultValue) ~= type(sv[key]) then
+            -- Type mismatch on leaf value = corruption
+            FPT:Debug("SavedVars: resetting corrupted '%s' (expected %s, got %s)",
+                tostring(key), type(defaultValue), type(sv[key]))
+            sv[key] = DeepCopy(defaultValue)
         end
     end
+end
 
-    FPT.savedVars = FurnishProfitTargeterSV
-    FPT:Debug("SavedVariables initialized")
+local function InitializeSavedVariables()
+    -- Handle completely missing or corrupted root
+    if type(FurnishProfitTargeterSV) ~= "table" then
+        FPT:Debug("SavedVars: root was %s, resetting to defaults",
+            type(FurnishProfitTargeterSV))
+        FurnishProfitTargeterSV = DeepCopy(defaultSavedVars)
+    end
+
+    local sv = FurnishProfitTargeterSV
+
+    -- Version migration: check if SavedVars need upgrading
+    local savedVersion = sv._schemaVersion or 0
+    if savedVersion < SAVEDVARS_VERSION then
+        FPT:Debug("SavedVars: migrating from v%d to v%d", savedVersion, SAVEDVARS_VERSION)
+        -- Future migrations go here:
+        -- if savedVersion < 2 then MigrateV1toV2(sv) end
+    end
+    sv._schemaVersion = SAVEDVARS_VERSION
+
+    -- Deep-merge all defaults (handles new fields, type corruption, nested structs)
+    MergeDefaults(sv, defaultSavedVars)
+
+    -- Validate critical numeric settings are within sane bounds
+    local s = sv.settings
+    if type(s.velocityWindowDays) ~= "number" or s.velocityWindowDays < 1 or s.velocityWindowDays > 365 then
+        s.velocityWindowDays = defaultSavedVars.settings.velocityWindowDays
+    end
+    if type(s.topNResults) ~= "number" or s.topNResults < 1 or s.topNResults > 200 then
+        s.topNResults = defaultSavedVars.settings.topNResults
+    end
+    if type(s.codDiscountPct) ~= "number" or s.codDiscountPct < 0 or s.codDiscountPct > 100 then
+        s.codDiscountPct = defaultSavedVars.settings.codDiscountPct
+    end
+    if type(s.minProfitMargin) ~= "number" or s.minProfitMargin < 0 then
+        s.minProfitMargin = defaultSavedVars.settings.minProfitMargin
+    end
+    if type(s.minSalesCount) ~= "number" or s.minSalesCount < 0 then
+        s.minSalesCount = defaultSavedVars.settings.minSalesCount
+    end
+
+    FPT.savedVars = sv
+    FPT:Debug("SavedVariables initialized (schema v%d)", SAVEDVARS_VERSION)
 end
 
 ---------------------------------------------------------------------------
@@ -507,6 +636,13 @@ SLASH_COMMANDS["/fpt"] = function(args)
         FPT.savedVars.settings.verboseLogging = not FPT.savedVars.settings.verboseLogging
         FPT:Info("Debug logging: %s", FPT.savedVars.settings.verboseLogging and "ON" or "OFF")
 
+    elseif cmd == "log" or cmd == "logs" then
+        local count = tonumber(param) or 50
+        FPT:DumpLogs(count)
+
+    elseif cmd == "exportlog" then
+        FPT:ExportLogs()
+
     else
         FPT:Info("Unknown command: %s. Type /fpt help for commands.", cmd)
     end
@@ -548,21 +684,44 @@ function FPT:RunScan(topN, structuralOnly)
     end
 
     -- Step 2: Calculate COGS and retail for each plan
-    if self.PriceEngine then
-        for _, plan in ipairs(plans) do
-            self.PriceEngine:CalculatePrices(plan)
-        end
-    else
+    if not self.PriceEngine then
         self:Error("PriceEngine module not loaded")
         return
     end
 
+    local priceErrors = 0
+    for _, plan in ipairs(plans) do
+        local ok, err = pcall(function()
+            self.PriceEngine:CalculatePrices(plan)
+        end)
+        if not ok then
+            priceErrors = priceErrors + 1
+            self:Debug("Price error on '%s': %s", plan.name or "unknown", tostring(err))
+            plan.materialCost = 0
+            plan.retailPrice = 0
+            plan.profitMargin = 0
+            plan.roi = 0
+        end
+    end
+
+    if priceErrors > 0 then
+        self:Debug("Pricing: %d/%d plans had errors (continuing with %d good plans)",
+            priceErrors, #plans, #plans - priceErrors)
+    end
+
     -- Step 3: Calculate velocity scores
-    local scored = {}
-    if self.VelocityCalculator then
-        scored = self.VelocityCalculator:ScoreAll(plans, structuralOnly)
-    else
+    if not self.VelocityCalculator then
         self:Error("VelocityCalculator module not loaded")
+        return
+    end
+
+    local scored = {}
+    local ok, err = pcall(function()
+        scored = self.VelocityCalculator:ScoreAll(plans, structuralOnly)
+    end)
+
+    if not ok then
+        self:Error("Velocity scoring failed: %s", tostring(err))
         return
     end
 

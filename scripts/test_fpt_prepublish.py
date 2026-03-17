@@ -84,46 +84,35 @@ def test_static_validator(suite: TestSuite):
     """Run the comprehensive FPT addon validator."""
     t0 = time.time()
 
+    # Import the validator module and call run_validation() directly
     spec = importlib.util.spec_from_file_location(
         "validate_fpt_addon",
         REPO_ROOT / "scripts" / "validate_fpt_addon.py"
     )
     validator = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(validator)
 
-    # Capture the validator's output
-    import io
-    from contextlib import redirect_stdout
-
-    f = io.StringIO()
-    try:
-        with redirect_stdout(f):
-            spec.loader.exec_module(validator)
-    except SystemExit:
-        pass  # Validator calls sys.exit
-
-    output = f.getvalue()
+    # Call the validation function directly (not via __main__ guard)
+    result = validator.run_validation()
     duration = (time.time() - t0) * 1000
 
-    # Parse results
-    critical = 0
-    warnings = 0
-    checks = 0
+    checks = result.checks_run
+    critical = result.critical_count
+    warnings = result.warning_count
 
-    for line in output.split("\n"):
-        if "Critical issues:" in line:
-            critical = int(line.split(":")[1].strip())
-        if "Warnings:" in line:
-            warnings = int(line.split(":")[1].strip())
-        if "Checks run:" in line:
-            checks = int(line.split(":")[1].strip())
+    # Sanity check: if validator ran 0 checks, something is broken
+    if checks == 0:
+        suite.add("Static validator", False,
+                   "BROKEN: validator ran 0 checks (test harness error)", duration)
+        return
 
     passed = critical == 0
     msg = f"{checks} checks, {critical} critical, {warnings} warnings"
     suite.add("Static validator", passed, msg, duration)
 
-    if VERBOSE:
-        for line in output.strip().split("\n"):
-            vlog(line)
+    if VERBOSE or not passed:
+        for issue in result.issues:
+            vlog(f"[{issue.severity}] {issue.file}:{issue.line} - {issue.message}")
 
 
 # ---------------------------------------------------------------------------
