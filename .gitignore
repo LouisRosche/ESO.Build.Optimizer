@@ -54,6 +54,9 @@ data/scraped/
 *.log
 logs/
 
+# Distribution packages
+dist/
+
 # Compiled Excel (keep template)
 # data/compiled/*.xlsx
 

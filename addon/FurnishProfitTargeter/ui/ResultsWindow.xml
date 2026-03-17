@@ -1,0 +1,138 @@
+<GuiXml>
+    <Controls>
+        <!--
+            FurnishProfitTargeter Results Window
+            Note: The actual window is created dynamically in ResultsUI.lua
+            using WINDOW_MANAGER:CreateTopLevelWindow for full programmatic control.
+
+            This XML defines supplementary tooltip and font style controls
+            used by the results display.
+        -->
+
+        <!-- Custom tooltip for item hover details -->
+        <TopLevelControl name="FPT_ItemTooltip" hidden="true" clampedToScreen="true"
+            mouseEnabled="false" layer="OVERLAY" tier="HIGH">
+            <Dimensions x="320" y="200" />
+
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
+                    <AnchorFill />
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <!-- Item Name -->
+                <Label name="$(parent)_ItemName" font="ZoFontWinH3"
+                    color="1 0.843 0 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="24" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"
+                        offsetX="10" offsetY="10" />
+                </Label>
+
+                <!-- Craft Type -->
+                <Label name="$(parent)_CraftType" font="ZoFontWinT2"
+                    color="0.6 0.6 0.6 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="18" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_ItemName" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="2" />
+                </Label>
+
+                <!-- Divider -->
+                <Backdrop name="$(parent)_Divider">
+                    <Dimensions x="300" y="1" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_CraftType" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="6" />
+                    <Center color="0.333 0.333 0.333 1" />
+                </Backdrop>
+
+                <!-- Margin Label -->
+                <Label name="$(parent)_MarginLabel" font="ZoFontWinT1"
+                    color="0 1 0 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="20" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_Divider" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="6" />
+                </Label>
+
+                <!-- COGS Label -->
+                <Label name="$(parent)_COGSLabel" font="ZoFontWinT2"
+                    color="1 0.267 0.267 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="18" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_MarginLabel" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="2" />
+                </Label>
+
+                <!-- Velocity Label -->
+                <Label name="$(parent)_VelocityLabel" font="ZoFontWinT1"
+                    color="0 1 1 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="20" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_COGSLabel" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="2" />
+                </Label>
+
+                <!-- Score Label -->
+                <Label name="$(parent)_ScoreLabel" font="ZoFontWinH4"
+                    color="1 0.843 0 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="TOP">
+                    <Dimensions x="300" y="24" />
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)_VelocityLabel" relativePoint="BOTTOMLEFT"
+                        offsetX="0" offsetY="4" />
+                </Label>
+
+                <!-- Tip Label -->
+                <Label name="$(parent)_TipLabel" font="ZoFontWinT2"
+                    color="0.4 0.4 0.4 1" wrapMode="TRUNCATE"
+                    horizontalAlignment="LEFT" verticalAlignment="BOTTOM">
+                    <Dimensions x="300" y="16" />
+                    <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT"
+                        offsetX="10" offsetY="-8" />
+                </Label>
+            </Controls>
+        </TopLevelControl>
+
+        <!-- Confirmation dialog for bundle sales -->
+        <TopLevelControl name="FPT_SaleConfirmDialog" hidden="true" clampedToScreen="true"
+            mouseEnabled="true" layer="OVERLAY" tier="HIGH">
+            <Dimensions x="360" y="160" />
+
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop">
+                    <AnchorFill />
+                    <Edge edgeSize="1" />
+                </Backdrop>
+
+                <Label name="$(parent)_Title" font="ZoFontWinH3" color="1 0.843 0 1"
+                    horizontalAlignment="CENTER" verticalAlignment="TOP">
+                    <Dimensions x="340" y="24" />
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP"
+                        offsetX="0" offsetY="12" />
+                </Label>
+
+                <Label name="$(parent)_Message" font="ZoFontWinT1" color="1 1 1 1"
+                    horizontalAlignment="CENTER" verticalAlignment="CENTER"
+                    wrapMode="ELLIPSIS">
+                    <Dimensions x="320" y="60" />
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"
+                        offsetX="0" offsetY="0" />
+                </Label>
+
+                <Button name="$(parent)_ConfirmBtn" font="ZoFontWinH4"
+                    normalColor="0 1 0 1" mouseOverColor="0.267 1 0.267 1">
+                    <Dimensions x="100" y="30" />
+                    <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT"
+                        offsetX="50" offsetY="-12" />
+                </Button>
+
+                <Button name="$(parent)_CancelBtn" font="ZoFontWinH4"
+                    normalColor="1 0.267 0.267 1" mouseOverColor="1 0.4 0.4 1">
+                    <Dimensions x="100" y="30" />
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"
+                        offsetX="-50" offsetY="-12" />
+                </Button>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

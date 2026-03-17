@@ -1,7 +1,7 @@
 {
   "$schema": "./migrations.schema.json",
   "version": "1.0.0",
-  "lastUpdated": "2026-02-01",
+  "lastUpdated": "2026-03-16",
   "currentLiveAPI": 101048,
   "currentPTSAPI": 101049,
 
@@ -253,6 +253,18 @@
       "notes": "Console: Now only returns long-term buffs for local player. isLongTermBuff return value removed.",
       "oldSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ..., isLongTermBuff",
       "newSignature": "GetUnitBuffInfo(unitTag, buffIndex) -> abilityId, name, ... (console only returns long-term player buffs)"
+    },
+    {
+      "id": "recipe-001",
+      "oldName": "GetRecipeInfo",
+      "type": "return_changed",
+      "category": "provisioning",
+      "confidence": 0.95,
+      "autoFixable": false,
+      "notes": "GetRecipeInfo returns 8 values, not 7. requiredCraftingStationType (TradeskillType) was added as the 7th return value; resultItemId is the 8th. Code reading resultItemId as the 7th value gets requiredCraftingStationType instead.",
+      "oldSignature": "GetRecipeInfo(recipeListIndex, recipeIndex) -> known, name, numIngredients, provisionerLevelReq, qualityReq, specialIngredientType, resultItemId",
+      "newSignature": "GetRecipeInfo(recipeListIndex, recipeIndex) -> known, name, numIngredients, provisionerLevelReq, qualityReq, specialIngredientType, requiredCraftingStationType, resultItemId",
+      "source": "https://github.com/esoui/esoui/blob/live/ESOUIDocumentation.txt"
     }
   ],
 
@@ -409,6 +421,189 @@
     }
   ],
 
+  "thirdPartyApiNotes": [
+    {
+      "id": "ttc-001",
+      "name": "TamrielTradeCentre",
+      "category": "pricing_library",
+      "confidence": 0.85,
+      "notes": "The correct global object for price queries is TamrielTradeCentrePrice, NOT TamrielTradeCentre. Calling TamrielTradeCentre:GetPriceInfo() will error. Use TamrielTradeCentrePrice:GetPriceInfo(itemLink).",
+      "correctCall": "TamrielTradeCentrePrice:GetPriceInfo(itemLink)",
+      "incorrectCall": "TamrielTradeCentre:GetPriceInfo(itemLink)",
+      "returnType": "TamrielTradeCentre_PriceInfo table or nil",
+      "returnFields": {
+        "Avg": "number - average listing price",
+        "Max": "number - maximum listing price",
+        "Min": "number - minimum listing price",
+        "EntryCount": "number - count of listings seen",
+        "AmountCount": "number - total items in listings",
+        "SuggestedPrice": "number - suggested low price (multiply by 1.25 for high)",
+        "SaleAvg": "number - average from completed sales",
+        "SaleEntryCount": "number - count of sales recorded",
+        "SaleAmountCount": "number - total items sold"
+      },
+      "source": "https://www.esoui.com/downloads/info1245-TamrielTradeCentre.html"
+    },
+    {
+      "id": "mm-001",
+      "name": "MasterMerchant",
+      "category": "pricing_library",
+      "confidence": 0.4,
+      "notes": "MasterMerchant source is not publicly available on GitHub. The function ItemPriceByItemLink exists per community reports but exact return table structure requires inspection of the installed addon's .lua files. Likely returns a table with avgPrice, numEntries, minPrice, maxPrice fields or nil if no data.",
+      "correctCall": "MasterMerchant:ItemPriceByItemLink(itemLink)",
+      "returnType": "table or nil (structure unverified without source access)",
+      "source": "Community knowledge - inspect addon source at: Documents/Elder Scrolls Online/live/AddOns/MasterMerchant/"
+    }
+  ],
+
+  "validatedFunctionSignatures": [
+    {
+      "id": "sig-recipe-001",
+      "name": "GetRecipeInfo",
+      "signature": "GetRecipeInfo(luaindex recipeListIndex, luaindex recipeIndex)",
+      "returns": [
+        {"pos": 1, "type": "bool", "name": "known"},
+        {"pos": 2, "type": "string", "name": "name"},
+        {"pos": 3, "type": "integer", "name": "numIngredients"},
+        {"pos": 4, "type": "integer", "name": "provisionerLevelReq"},
+        {"pos": 5, "type": "integer", "name": "qualityReq"},
+        {"pos": 6, "type": "ProvisionerSpecialIngredientType", "name": "specialIngredientType"},
+        {"pos": 7, "type": "TradeskillType", "name": "requiredCraftingStationType"},
+        {"pos": 8, "type": "integer", "name": "resultItemId"}
+      ],
+      "confidence": 0.95,
+      "source": "https://github.com/esoui/esoui/blob/live/ESOUIDocumentation.txt"
+    },
+    {
+      "id": "sig-recipe-002",
+      "name": "GetRecipeResultItemLink",
+      "signature": "GetRecipeResultItemLink(luaindex recipeListIndex, luaindex recipeIndex, LinkStyle linkStyle)",
+      "returns": [
+        {"pos": 1, "type": "string", "name": "link"}
+      ],
+      "confidence": 0.95,
+      "source": "https://github.com/esoui/esoui/blob/live/ESOUIDocumentation.txt"
+    },
+    {
+      "id": "sig-recipe-003",
+      "name": "GetRecipeIngredientItemInfo",
+      "signature": "GetRecipeIngredientItemInfo(luaindex recipeListIndex, luaindex recipeIndex, luaindex ingredientIndex)",
+      "returns": [
+        {"pos": 1, "type": "string", "name": "name"},
+        {"pos": 2, "type": "textureName", "name": "icon"},
+        {"pos": 3, "type": "integer", "name": "requiredQuantity"},
+        {"pos": 4, "type": "integer", "name": "sellPrice"},
+        {"pos": 5, "type": "ItemDisplayQuality", "name": "displayQuality"}
+      ],
+      "confidence": 0.95,
+      "source": "https://github.com/esoui/esoui/blob/live/ESOUIDocumentation.txt"
+    },
+    {
+      "id": "sig-recipe-004",
+      "name": "GetRecipeIngredientItemLink",
+      "signature": "GetRecipeIngredientItemLink(luaindex recipeListIndex, luaindex recipeIndex, luaindex ingredientIndex, LinkStyle linkStyle)",
+      "returns": [
+        {"pos": 1, "type": "string", "name": "link"}
+      ],
+      "confidence": 0.95,
+      "source": "https://github.com/esoui/esoui/blob/live/ESOUIDocumentation.txt"
+    },
+    {
+      "id": "sig-item-001",
+      "name": "GetItemLinkItemId",
+      "signature": "GetItemLinkItemId(string itemLink)",
+      "returns": [
+        {"pos": 1, "type": "integer", "name": "itemId"}
+      ],
+      "confidence": 0.98,
+      "notes": "Returns item definition/template ID as integer. Replaced deprecated GetItemId() which returned a string.",
+      "source": "https://github.com/esoui/esoui/blob/master/esoui/publicallingames/tooltip/itemtooltips.lua"
+    },
+    {
+      "id": "sig-item-002",
+      "name": "GetItemLinkItemType",
+      "signature": "GetItemLinkItemType(string itemLink)",
+      "returns": [
+        {"pos": 1, "type": "ItemType", "name": "itemType"},
+        {"pos": 2, "type": "SpecializedItemType", "name": "specializedItemType"}
+      ],
+      "confidence": 0.98,
+      "notes": "Returns TWO values. specializedItemType may be 0 for items not fully tagged in game data.",
+      "source": "https://github.com/esoui/esoui/blob/master/esoui/publicallingames/tooltip/itemtooltips.lua"
+    },
+    {
+      "id": "sig-item-003",
+      "name": "GetItemLinkDisplayQuality",
+      "signature": "GetItemLinkDisplayQuality(string itemLink)",
+      "returns": [
+        {"pos": 1, "type": "ItemDisplayQuality", "name": "displayQuality"}
+      ],
+      "confidence": 0.98,
+      "source": "https://github.com/esoui/esoui/blob/master/esoui/publicallingames/tooltip/itemtooltips.lua"
+    },
+    {
+      "id": "sig-item-004",
+      "name": "GetItemLinkName",
+      "signature": "GetItemLinkName(string itemLink)",
+      "returns": [
+        {"pos": 1, "type": "string", "name": "itemName"}
+      ],
+      "confidence": 0.99,
+      "source": "https://github.com/mrheault/eso-api-lua-intellij/blob/master/eso-api.lua"
+    },
+    {
+      "id": "sig-mail-001",
+      "name": "GetMailItemInfo",
+      "signature": "GetMailItemInfo(integer mailId)",
+      "returns": [
+        {"pos": 1,  "type": "string",  "name": "senderDisplayName"},
+        {"pos": 2,  "type": "string",  "name": "senderCharacterName"},
+        {"pos": 3,  "type": "string",  "name": "subject"},
+        {"pos": 4,  "type": "string",  "name": "icon"},
+        {"pos": 5,  "type": "bool",    "name": "unread"},
+        {"pos": 6,  "type": "bool",    "name": "fromSystem"},
+        {"pos": 7,  "type": "bool",    "name": "fromCustomerService"},
+        {"pos": 8,  "type": "bool",    "name": "returned"},
+        {"pos": 9,  "type": "integer", "name": "numAttachments"},
+        {"pos": 10, "type": "integer", "name": "attachedMoney"},
+        {"pos": 11, "type": "integer", "name": "codAmount"},
+        {"pos": 12, "type": "number",  "name": "expiresInDays"},
+        {"pos": 13, "type": "number",  "name": "secsSinceReceived"}
+      ],
+      "confidence": 0.99,
+      "notes": "13 return values. Confirmed by esoui.com forums thread #4399, eso-api.lua stub, and 4 independent call sites in ESO-MailLooter.",
+      "source": "https://github.com/nilsbrummond/ESO-MailLooter/blob/master/core/MailLooter.lua"
+    },
+    {
+      "id": "sig-mail-002",
+      "name": "GetAttachedItemInfo",
+      "signature": "GetAttachedItemInfo(integer mailId, luaindex attachIndex)",
+      "returns": [
+        {"pos": 1, "type": "textureName", "name": "icon"},
+        {"pos": 2, "type": "integer",     "name": "stack"},
+        {"pos": 3, "type": "string",      "name": "creatorName"},
+        {"pos": 4, "type": "integer",     "name": "sellPrice"},
+        {"pos": 5, "type": "bool",        "name": "meetsUsageRequirement"},
+        {"pos": 6, "type": "EquipType",   "name": "equipType"},
+        {"pos": 7, "type": "integer",     "name": "itemStyle"},
+        {"pos": 8, "type": "integer",     "name": "quality"}
+      ],
+      "confidence": 0.85,
+      "notes": "8 return values per eso-api.lua IntelliJ stub. Many addons only capture first 3 (icon, stack, creatorName) as they do not need the rest.",
+      "source": "https://github.com/mrheault/eso-api-lua-intellij/blob/master/eso-api.lua"
+    },
+    {
+      "id": "sig-mail-003",
+      "name": "GetAttachedItemLink",
+      "signature": "GetAttachedItemLink(integer mailId, luaindex attachIndex, LinkStyle linkStyle)",
+      "returns": [
+        {"pos": 1, "type": "string", "name": "link"}
+      ],
+      "confidence": 0.99,
+      "source": "https://github.com/mrheault/eso-api-lua-intellij/blob/master/eso-api.lua"
+    }
+  ],
+
   "validCurrentFunctions": [
     "GetPlayerStat",
     "GetUnitPower",
@@ -424,7 +619,18 @@
     "ZO_CallbackObject",
     "ZO_SavedVars",
     "ZO_DeepTableCopy",
-    "ZO_ShallowTableCopy"
+    "ZO_ShallowTableCopy",
+    "GetRecipeInfo",
+    "GetRecipeResultItemLink",
+    "GetRecipeIngredientItemInfo",
+    "GetRecipeIngredientItemLink",
+    "GetItemLinkItemId",
+    "GetItemLinkItemType",
+    "GetItemLinkDisplayQuality",
+    "GetItemLinkName",
+    "GetAttachedItemLink",
+    "GetAttachedItemInfo",
+    "GetMailItemInfo"
   ],
 
   "patternMigrations": [
@@ -477,6 +683,26 @@
       "confidence": 0.9,
       "autoFixable": true,
       "notes": "CreateTopLevelWindow is now a global function"
+    },
+    {
+      "id": "pat-006",
+      "name": "tamrielTradeCentreGlobal",
+      "pattern": "TamrielTradeCentre:GetPriceInfo(",
+      "replacement": "TamrielTradeCentrePrice:GetPriceInfo(",
+      "category": "third_party",
+      "confidence": 0.85,
+      "autoFixable": true,
+      "notes": "Correct TTC global is TamrielTradeCentrePrice, not TamrielTradeCentre"
+    },
+    {
+      "id": "pat-007",
+      "name": "getRecipeInfoResultItemIdPosition",
+      "pattern": "local\\s+[^=]+=.*GetRecipeInfo\\(",
+      "replacement": null,
+      "category": "provisioning",
+      "confidence": 0.9,
+      "autoFixable": false,
+      "notes": "GetRecipeInfo returns 8 values not 7. resultItemId is position 8; position 7 is requiredCraftingStationType. Any destructuring that reads resultItemId at position 7 is wrong. Manual review required."
     }
   ],
 
