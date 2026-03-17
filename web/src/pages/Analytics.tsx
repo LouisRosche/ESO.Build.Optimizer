@@ -38,14 +38,14 @@ export default function Analytics() {
   const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: timeRange });
   const { data: apiBuffAnalysis, isLoading: buffLoading } = useBuffAnalysis({ time_range: timeRange });
   // Fetch detailed run for contribution scores (use first run if available)
-  const firstRunId = (apiRuns ?? mockRuns)[0]?.run_id ?? '';
+  const firstRunId = (apiRuns ?? (import.meta.env.DEV ? mockRuns : []))[0]?.run_id ?? '';
   const { data: apiDetailedRun } = useRun(firstRunId);
 
-  // Fall back to mock data when API is unreachable
-  const runs = apiRuns ?? mockRuns;
-  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
-  const buffAnalysis = apiBuffAnalysis ?? mockBuffAnalysis;
-  const detailedRun = apiDetailedRun ?? mockDetailedRun;
+  // Fall back to mock data when API is unreachable (dev only)
+  const runs = apiRuns ?? (import.meta.env.DEV ? mockRuns : []);
+  const dpsTrend = apiDPSTrend ?? (import.meta.env.DEV ? mockDPSTrend : []);
+  const buffAnalysis = apiBuffAnalysis ?? (import.meta.env.DEV ? mockBuffAnalysis : []);
+  const detailedRun = apiDetailedRun ?? (import.meta.env.DEV ? mockDetailedRun : { contribution_scores: null });
 
   const isLoading = runsLoading || dpsTrendLoading || buffLoading;
   const usingMockData = !apiRuns && !runsLoading;

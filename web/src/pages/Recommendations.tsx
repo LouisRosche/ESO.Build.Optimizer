@@ -11,15 +11,15 @@ export default function Recommendations() {
   const [selectedRunId, setSelectedRunId] = useState<string | null>(null);
 
   const { data: apiRuns, isLoading: runsLoading } = useRuns();
-  const runs = apiRuns ?? mockRuns;
+  const runs = apiRuns ?? (import.meta.env.DEV ? mockRuns : []);
 
   // Use selected run or default to first run
   const activeRunId = selectedRunId ?? runs[0]?.run_id ?? '';
 
   const { data: apiRecommendations, isLoading: recsLoading, refetch: refetchRecs } = useRecommendations(activeRunId);
 
-  // Fall back to mock data when API is unreachable
-  const recommendations = apiRecommendations ?? mockRecommendations;
+  // Fall back to mock data when API is unreachable (dev only)
+  const recommendations = apiRecommendations ?? (import.meta.env.DEV ? mockRecommendations : []);
   const usingMockData = !apiRuns && !runsLoading;
 
   const isLoading = runsLoading || recsLoading;

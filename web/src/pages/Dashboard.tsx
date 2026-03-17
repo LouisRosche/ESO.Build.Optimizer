@@ -29,11 +29,11 @@ export default function Dashboard() {
   const { data: apiDPSTrend, isLoading: dpsTrendLoading } = useDPSTrend({ time_range: '30d' });
   const { data: apiPercentileTrend, isLoading: percentileTrendLoading } = usePercentileTrend({ time_range: '30d' });
 
-  // Fall back to mock data when API is unreachable
-  const runs = apiRuns ?? mockRuns;
-  const statistics = apiStats ?? mockStatistics;
-  const dpsTrend = apiDPSTrend ?? mockDPSTrend;
-  const percentileTrend = apiPercentileTrend ?? mockPercentileTrend;
+  // Fall back to mock data when API is unreachable (dev only)
+  const runs = apiRuns ?? (import.meta.env.DEV ? mockRuns : []);
+  const statistics = apiStats ?? (import.meta.env.DEV ? mockStatistics : { total_runs: 0, successful_runs: 0, average_dps: 0, best_dps: 0, total_play_time_sec: 0, favorite_character: null, favorite_content: null });
+  const dpsTrend = apiDPSTrend ?? (import.meta.env.DEV ? mockDPSTrend : []);
+  const percentileTrend = apiPercentileTrend ?? (import.meta.env.DEV ? mockPercentileTrend : []);
 
   const isLoading = runsLoading || statsLoading;
   const usingMockData = !apiRuns && !runsLoading;

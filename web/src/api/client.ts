@@ -122,7 +122,7 @@ export const api = {
       offset?: number;
     }) => request('/runs', { params }),
 
-    get: (runId: string) => request(`/runs/${runId}`),
+    get: (runId: string) => request(`/runs/${encodeURIComponent(runId)}`),
 
     create: (data: unknown) =>
       request('/runs', {
@@ -131,23 +131,23 @@ export const api = {
       }),
 
     delete: (runId: string) =>
-      request(`/runs/${runId}`, { method: 'DELETE' }),
+      request(`/runs/${encodeURIComponent(runId)}`, { method: 'DELETE' }),
 
     statistics: () => request('/runs/stats/summary'),
 
     compare: (runIdA: string, runIdB: string) =>
-      request(`/runs/compare/${runIdA}/${runIdB}`),
+      request(`/runs/compare/${encodeURIComponent(runIdA)}/${encodeURIComponent(runIdB)}`),
   },
 
   // Recommendations
   recommendations: {
     get: (runId: string, regenerate = false) =>
-      request(`/runs/${runId}/recommendations`, {
+      request(`/runs/${encodeURIComponent(runId)}/recommendations`, {
         params: { regenerate },
       }),
 
     percentiles: (runId: string) =>
-      request(`/runs/${runId}/percentiles`),
+      request(`/runs/${encodeURIComponent(runId)}/percentiles`),
   },
 
   // Features (Skills, Sets)
@@ -162,7 +162,7 @@ export const api = {
       offset?: number;
     }) => request('/features', { params }),
 
-    get: (featureId: string) => request(`/features/${featureId}`),
+    get: (featureId: string) => request(`/features/${encodeURIComponent(featureId)}`),
 
     sets: (params?: {
       set_type?: string;
@@ -177,7 +177,7 @@ export const api = {
   // Characters
   characters: {
     list: () => request('/characters'),
-    get: (characterId: string) => request(`/characters/${characterId}`),
+    get: (characterId: string) => request(`/characters/${encodeURIComponent(characterId)}`),
     runs: (characterName: string, params?: { limit?: number; offset?: number }) =>
       request('/runs', { params: { character_name: characterName, ...params } }),
   },

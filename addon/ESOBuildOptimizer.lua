@@ -38,6 +38,9 @@ addon.SkillAdvisor = nil
 ---------------------------------------------------------------------------
 
 local defaultSavedVars = {
+    -- Schema version for migration detection
+    _schemaVersion = 1,
+
     -- Settings
     settings = {
         enabled = true,
@@ -84,6 +87,8 @@ local defaultSavedVars = {
 ---------------------------------------------------------------------------
 
 local MAX_PENDING_RUNS = 100  -- Maximum pending runs before FIFO eviction
+local MAX_RUNS_HISTORY = 500  -- Maximum stored runs before oldest are pruned
+local SAVEDVARS_VERSION = 1   -- Schema version for migration detection
 
 ---------------------------------------------------------------------------
 -- Library References (optional, graceful fallback if not installed)
@@ -102,14 +107,17 @@ local isPlayerActivated = false
 -- Utility Functions
 ---------------------------------------------------------------------------
 
--- Deep copy function for nested tables
-local function DeepCopy(orig)
+-- Deep copy function for nested tables (with cycle protection)
+local function DeepCopy(orig, seen)
     local origType = type(orig)
     local copy
     if origType == "table" then
+        seen = seen or {}
+        if seen[orig] then return seen[orig] end
         copy = {}
+        seen[orig] = copy
         for origKey, origValue in pairs(orig) do
-            copy[DeepCopy(origKey)] = DeepCopy(origValue)
+            copy[DeepCopy(origKey, seen)] = DeepCopy(origValue, seen)
         end
     else
         copy = orig
@@ -180,6 +188,14 @@ local function InitializeSavedVariables()
     end
 
     addon.savedVars = ESOBuildOptimizerSV
+
+    -- Check schema version for migrations
+    local currentSchema = addon.savedVars._schemaVersion or 0
+    if currentSchema < SAVEDVARS_VERSION then
+        addon:Info("SavedVariables schema upgraded: v%d -> v%d", currentSchema, SAVEDVARS_VERSION)
+        addon.savedVars._schemaVersion = SAVEDVARS_VERSION
+    end
+
     addon:Debug("SavedVariables initialized")
 end
 
@@ -550,6 +566,12 @@ function addon:SaveRun(runData)
 
     -- Add to runs history
     table.insert(self.savedVars.runs, runData)
+
+    -- Prune oldest runs if history exceeds limit
+    while #self.savedVars.runs > MAX_RUNS_HISTORY do
+        table.remove(self.savedVars.runs, 1)
+        self:Debug("Runs history limit exceeded, pruned oldest run")
+    end
 
     -- Add to pending sync with FIFO eviction if limit exceeded
     table.insert(self.savedVars.pendingSync.runs, runData)

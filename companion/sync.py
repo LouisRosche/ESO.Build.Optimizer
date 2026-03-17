@@ -82,9 +82,21 @@ class SyncConfig:
     token_refresh_buffer: int = 300  # Refresh token 5 min before expiry
 
     def __post_init__(self):
-        """Ensure cache directory exists."""
+        """Ensure cache directory exists and validate settings."""
         self.cache_dir = Path(self.cache_dir)
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.cache_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
+
+        # Validate HTTPS enforcement
+        url = self.api_base_url.rstrip("/")
+        if not (
+            url.startswith("https://")
+            or url.startswith("http://localhost")
+            or url.startswith("http://127.0.0.1")
+        ):
+            raise ValueError(
+                f"api_base_url must use HTTPS (got {self.api_base_url!r}). "
+                "Only http://localhost and http://127.0.0.1 are allowed for development."
+            )
 
     @property
     def cache_db_path(self) -> Path:
@@ -705,6 +717,7 @@ class TokenManager:
         if self._http_client is None or self._http_client.is_closed:
             self._http_client = httpx.AsyncClient(
                 timeout=httpx.Timeout(self.config.api_timeout),
+                verify=True,
             )
         return self._http_client
 
@@ -849,7 +862,7 @@ class SyncClient:
         )
 
         self._http_client: Optional[httpx.AsyncClient] = None
-        self._upload_queue: asyncio.Queue[SyncItem] = asyncio.Queue()
+        self._upload_queue: asyncio.Queue[SyncItem] = asyncio.Queue(maxsize=1000)
         self._running = False
         self._sync_task: Optional[asyncio.Task] = None
 
@@ -859,6 +872,7 @@ class SyncClient:
             self._http_client = httpx.AsyncClient(
                 timeout=httpx.Timeout(self.config.api_timeout),
                 limits=httpx.Limits(max_keepalive_connections=5, max_connections=10),
+                verify=True,
             )
         return self._http_client
 
@@ -984,7 +998,10 @@ class SyncClient:
         self.cache.enqueue(item)
 
         # Add to in-memory queue for immediate processing
-        await self._upload_queue.put(item)
+        try:
+            self._upload_queue.put_nowait(item)
+        except asyncio.QueueFull:
+            logger.warning(f"Upload queue full, item {item_id} saved to cache only")
 
         logger.info(f"Queued combat run for upload: {item_id}")
         return item_id
@@ -1008,7 +1025,10 @@ class SyncClient:
         )
 
         self.cache.enqueue(item)
-        await self._upload_queue.put(item)
+        try:
+            self._upload_queue.put_nowait(item)
+        except asyncio.QueueFull:
+            logger.warning(f"Upload queue full, item {item_id} saved to cache only")
 
         logger.info(f"Queued build snapshot for upload: {item_id}")
         return item_id
