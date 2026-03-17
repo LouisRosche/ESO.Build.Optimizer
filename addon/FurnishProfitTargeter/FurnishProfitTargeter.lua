@@ -11,7 +11,7 @@
 
     Author: ESO Build Optimizer Team
     Version: 1.0.0
-    APIVersion: 101047 101048
+    APIVersion: 101047 101048 101049
 ]]--
 
 ---------------------------------------------------------------------------
@@ -59,6 +59,13 @@ local defaultSavedVars = {
 
         -- COD discount target (percentage below TTC average for starter zone buys)
         codDiscountPct = 15,
+
+        -- Guild trader listing fee percentage (ESO default is ~7% for guild stores)
+        guildTraderFeePct = 7,
+
+        -- TTC listing-to-sales conversion factor (sell-through rate estimate)
+        -- Used when MM data unavailable; 0.35 = ~35% of TTC listings result in sales
+        ttcSellThroughRate = 0.35,
 
         -- Material price overrides (manually set floor prices)
         materialOverrides = {},
@@ -477,6 +484,12 @@ local function InitializeSavedVariables()
     if type(s.minSalesCount) ~= "number" or s.minSalesCount < 0 then
         s.minSalesCount = defaultSavedVars.settings.minSalesCount
     end
+    if type(s.guildTraderFeePct) ~= "number" or s.guildTraderFeePct < 0 or s.guildTraderFeePct > 20 then
+        s.guildTraderFeePct = defaultSavedVars.settings.guildTraderFeePct
+    end
+    if type(s.ttcSellThroughRate) ~= "number" or s.ttcSellThroughRate < 0.05 or s.ttcSellThroughRate > 1.0 then
+        s.ttcSellThroughRate = defaultSavedVars.settings.ttcSellThroughRate
+    end
 
     FPT.savedVars = sv
     FPT:Debug("SavedVariables initialized (schema v%d)", SAVEDVARS_VERSION)
@@ -811,6 +824,29 @@ function FPT:DisplayScanResults(results, structuralOnly)
             self:FormatPct(item.roi))
     end
 
+    -- Aggregated portfolio summary
+    if self.VelocityCalculator then
+        local stats = self.VelocityCalculator:GetSummaryStats(results)
+        local feePct = self.savedVars.settings.guildTraderFeePct or 7
+        local windowDays = self.savedVars.settings.velocityWindowDays or 14
+
+        self:Info("")
+        self:Info("%s--- Portfolio Summary ---%s", self.COLORS.GRAY, self.COLORS.RESET)
+        self:Info("  Avg Margin: %s%s%s (after %d%% fee: %s%s%s)",
+            self.COLORS.GREEN, self:FormatGold(stats.avgMargin), self.COLORS.RESET,
+            feePct,
+            self.COLORS.GREEN, self:FormatGold(stats.avgMargin * (1 - feePct / 100)), self.COLORS.RESET)
+        self:Info("  Avg Velocity: %s%.1f sales/%dd%s",
+            self.COLORS.CYAN, stats.avgVelocity, windowDays, self.COLORS.RESET)
+        self:Info("  Est. Weekly Gross: %s%s%s",
+            self.COLORS.GOLD, self:FormatGold(stats.totalEstWeeklyProfit), self.COLORS.RESET)
+
+        local weeklyNet = stats.totalEstWeeklyProfit * (1 - feePct / 100)
+        self:Info("  Est. Weekly Net (-%d%% fee): %s%s%s",
+            feePct,
+            self.COLORS.GREEN, self:FormatGold(weeklyNet), self.COLORS.RESET)
+    end
+
     self:Info("%s===========================================%s", self.COLORS.GOLD, self.COLORS.RESET)
     self:Info("Scanned %d plans. Use /fpt detail <N> for breakdown.", #results)
 end
@@ -888,11 +924,34 @@ function FPT:ShowItemDetail(index)
         self.COLORS.GOLD, self:FormatScore(item.velocityScore), self.COLORS.RESET)
     self:Info("  ROI: %s", self:FormatPct(item.roi))
 
-    if item.salesCount and item.salesCount > 0 and item.profitMargin then
+    -- Fee-adjusted analysis
+    local feePct = self.savedVars.settings.guildTraderFeePct or 7
+    local feeMultiplier = 1 - (feePct / 100)
+    local netRevenue = (item.retailPrice or 0) * feeMultiplier
+    local adjustedMargin = netRevenue - (item.materialCost or 0)
+
+    self:Info("")
+    self:Info("%s--- Fee-Adjusted Analysis (-%d%% guild fee) ---%s", self.COLORS.GRAY, feePct, self.COLORS.RESET)
+    self:Info("  Net Revenue: %s", self:FormatGold(netRevenue))
+    self:Info("  Adjusted Margin: %s%s%s", self.COLORS.GREEN, self:FormatGold(adjustedMargin), self.COLORS.RESET)
+    if item.materialCost and item.materialCost > 0 then
+        local adjustedROI = adjustedMargin / item.materialCost
+        self:Info("  Adjusted ROI: %s", self:FormatPct(adjustedROI))
+    end
+
+    -- Material efficiency
+    if item.totalMaterialCount and item.totalMaterialCount > 0 and adjustedMargin > 0 then
+        local profitPerUnit = adjustedMargin / item.totalMaterialCount
+        self:Info("  Profit/Material Unit: %s%s%s", self.COLORS.CYAN, self:FormatGold(profitPerUnit), self.COLORS.RESET)
+    end
+
+    if item.salesCount and item.salesCount > 0 and adjustedMargin > 0 then
         local windowDays = self.savedVars.settings.velocityWindowDays or 14
         if windowDays > 0 then
-            local dailyProfit = (item.profitMargin * item.salesCount) / windowDays
-            self:Info("  Est. Daily Profit: %s%s%s", self.COLORS.GREEN, self:FormatGold(dailyProfit), self.COLORS.RESET)
+            local dailyProfit = (adjustedMargin * item.salesCount) / windowDays
+            local weeklyProfit = dailyProfit * 7
+            self:Info("  Est. Daily Net Profit: %s%s%s", self.COLORS.GREEN, self:FormatGold(dailyProfit), self.COLORS.RESET)
+            self:Info("  Est. Weekly Net Profit: %s%s%s", self.COLORS.GREEN, self:FormatGold(weeklyProfit), self.COLORS.RESET)
         end
     end
 end
@@ -956,6 +1015,8 @@ function FPT:OpenSettings()
         self:Info("  Min profit margin: %s", self:FormatGold(self.savedVars.settings.minProfitMargin))
         self:Info("  Min sales count: %d", self.savedVars.settings.minSalesCount)
         self:Info("  Price source: %s", self.savedVars.settings.primaryPriceSource)
+        self:Info("  Guild trader fee: %d%%", self.savedVars.settings.guildTraderFeePct)
+        self:Info("  TTC sell-through rate: %.0f%%", self.savedVars.settings.ttcSellThroughRate * 100)
         self:Info("  COD discount: %d%%", self.savedVars.settings.codDiscountPct)
     end
 end
@@ -1027,6 +1088,26 @@ CreateSettingsPanel = function()
             choicesValues = { "mm", "ttc" },
             getFunc = function() return FPT.savedVars.settings.primaryPriceSource end,
             setFunc = function(value) FPT.savedVars.settings.primaryPriceSource = value end,
+        },
+        {
+            type = "header",
+            name = "Financial Model",
+        },
+        {
+            type = "slider",
+            name = "Guild Trader Fee (%)",
+            tooltip = "Guild store listing fee percentage deducted from revenue (ESO default ~7%)",
+            min = 0, max = 20, step = 1,
+            getFunc = function() return FPT.savedVars.settings.guildTraderFeePct end,
+            setFunc = function(value) FPT.savedVars.settings.guildTraderFeePct = value end,
+        },
+        {
+            type = "slider",
+            name = "TTC Sell-Through Rate (%)",
+            tooltip = "Estimated percentage of TTC listings that result in actual sales (used as fallback when MM data unavailable)",
+            min = 5, max = 100, step = 5,
+            getFunc = function() return math.floor(FPT.savedVars.settings.ttcSellThroughRate * 100) end,
+            setFunc = function(value) FPT.savedVars.settings.ttcSellThroughRate = value / 100 end,
         },
         {
             type = "header",

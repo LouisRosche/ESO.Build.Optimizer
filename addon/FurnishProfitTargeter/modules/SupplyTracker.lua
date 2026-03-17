@@ -128,7 +128,7 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
 
     local savings = (marketPrice - unitPaid) * quantity
 
-    -- Record the purchase
+    -- Record the purchase (preserve actual savings, including negative = overpayment)
     local purchase = {
         itemId = itemId,
         materialName = materialName,
@@ -136,7 +136,7 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
         unitPaid = unitPaid,
         totalPaid = totalPaid,
         marketPrice = marketPrice,
-        savings = math.max(0, savings),
+        savings = savings,  -- can be negative (overpayment) for honest tracking
         sender = sender or "Unknown",
         timestamp = GetTimeStamp(),
     }
@@ -151,8 +151,8 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
     -- Update inventory tracking
     sc.materialInventory[itemId] = (sc.materialInventory[itemId] or 0) + quantity
 
-    -- Update totals
-    sc.totalSaved = sc.totalSaved + math.max(0, savings)
+    -- Update totals (track savings honestly including overpayments)
+    sc.totalSaved = sc.totalSaved + savings
     sc.totalSpent = sc.totalSpent + totalPaid
     sc.totalUnits = sc.totalUnits + quantity
 
@@ -164,6 +164,12 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
             materialName, quantity,
             FPT:FormatGold(unitPaid),
             FPT:FormatGold(savings),
+            FPT:FormatGold(marketPrice))
+    elseif savings < 0 then
+        FPT:Debug("COD: %s x%d @ %s/ea (OVERPAID %s vs market %s)",
+            materialName, quantity,
+            FPT:FormatGold(unitPaid),
+            FPT:FormatGold(-savings),
             FPT:FormatGold(marketPrice))
     end
 end
