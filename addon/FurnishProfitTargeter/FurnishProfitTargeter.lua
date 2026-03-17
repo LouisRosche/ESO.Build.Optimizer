@@ -191,6 +191,7 @@ FPT.COLORS = {
 
 local isInitialized = false
 local isPlayerActivated = false
+local CreateSettingsPanel  -- forward declaration (defined after slash commands)
 
 ---------------------------------------------------------------------------
 -- Utility Functions
@@ -963,7 +964,7 @@ end
 -- LAM Settings Panel
 ---------------------------------------------------------------------------
 
-local function CreateSettingsPanel()
+CreateSettingsPanel = function()
     local LAM = LibAddonMenu2
     if not LAM then return end
 

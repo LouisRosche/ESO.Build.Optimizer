@@ -35,9 +35,7 @@ local MAX_VISIBLE_ROWS = 8
 local window = nil
 local rowPool = {}
 local currentResults = {}
-local ROW_POOL_MAX = 100  -- Hard cap to prevent unbounded UI memory growth
 local isVisible = false
-local isDragging = false
 local scrollOffset = 0
 
 ---------------------------------------------------------------------------
