@@ -377,7 +377,7 @@ class LuaTableParser:
                 pos += 1
                 pos = self._skip_whitespace(content, pos)
 
-                key, pos = self._parse_value(content, pos)
+                key, pos = self._parse_value(content, pos, depth)
                 pos = self._skip_whitespace(content, pos)
 
                 if pos >= len(content) or content[pos] != "]":
@@ -391,7 +391,7 @@ class LuaTableParser:
                 pos += 1
 
                 pos = self._skip_whitespace(content, pos)
-                value, pos = self._parse_value(content, pos)
+                value, pos = self._parse_value(content, pos, depth)
 
                 # Check if this breaks array pattern
                 if key != array_index:
@@ -406,16 +406,16 @@ class LuaTableParser:
                     key = ident_match.group(1)
                     pos += ident_match.end()
                     pos = self._skip_whitespace(content, pos)
-                    value, pos = self._parse_value(content, pos)
+                    value, pos = self._parse_value(content, pos, depth)
                     is_array = False
                 else:
                     # Array element (bare value)
-                    value, pos = self._parse_value(content, pos)
+                    value, pos = self._parse_value(content, pos, depth)
                     key = array_index
                     array_index += 1
             else:
                 # Array element (bare value)
-                value, pos = self._parse_value(content, pos)
+                value, pos = self._parse_value(content, pos, depth)
                 key = array_index
                 array_index += 1
 
@@ -439,7 +439,7 @@ class LuaTableParser:
 
         return result, pos
 
-    def _parse_value(self, content: str, pos: int) -> tuple[Any, int]:
+    def _parse_value(self, content: str, pos: int, depth: int = 0) -> tuple[Any, int]:
         """Parse a single Lua value at the given position."""
         pos = self._skip_whitespace(content, pos)
 
@@ -450,7 +450,7 @@ class LuaTableParser:
 
         # Table
         if char == "{":
-            return self._parse_table(content, pos)
+            return self._parse_table(content, pos, depth + 1)
 
         # String (double-quoted)
         if char == '"':

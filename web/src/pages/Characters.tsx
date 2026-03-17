@@ -222,7 +222,7 @@ export default function Characters() {
                     <span className="text-sm font-medium">Improving</span>
                   </div>
                 </div>
-                <div className="h-48">
+                <div className="h-48" role="img" aria-label="DPS history chart for selected character">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={characterDPSHistory}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#393941" />

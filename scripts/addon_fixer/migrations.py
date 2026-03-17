@@ -375,40 +375,9 @@ class MigrationDatabase:
         ]
 
         # Tamriel Tomes API - new in Update 49 (API 101049)
-        tamriel_tomes_migrations = [
-            Migration(
-                old_name="GetTomeProgressionInfo",
-                migration_type=MigrationType.REMOVED,
-                version_removed=101049,
-                category="tamriel_tomes",
-                notes="New in U49: Tamriel Tomes progression. Not available on API < 101049.",
-                replacement_code="-- GetTomeProgressionInfo is new in API 101049 (U49)",
-            ),
-            Migration(
-                old_name="GetNumTomePoints",
-                migration_type=MigrationType.REMOVED,
-                version_removed=101049,
-                category="tamriel_tomes",
-                notes="New in U49: Tome Points currency. Not available on API < 101049.",
-                replacement_code="-- GetNumTomePoints is new in API 101049 (U49)",
-            ),
-            Migration(
-                old_name="GetNumPremiumTomeTokens",
-                migration_type=MigrationType.REMOVED,
-                version_removed=101049,
-                category="tamriel_tomes",
-                notes="New in U49: Premium Tome Tokens currency. Not available on API < 101049.",
-                replacement_code="-- GetNumPremiumTomeTokens is new in API 101049 (U49)",
-            ),
-            Migration(
-                old_name="GetCurrentTomeSeason",
-                migration_type=MigrationType.REMOVED,
-                version_removed=101049,
-                category="tamriel_tomes",
-                notes="New in U49: Tamriel Tomes season info. Not available on API < 101049.",
-                replacement_code="-- GetCurrentTomeSeason is new in API 101049 (U49)",
-            ),
-        ]
+        # These are NEW functions added in U49, not removals. They should not be
+        # in the deprecated/migration list since they are current API additions.
+        tamriel_tomes_migrations = []
 
         # Outfit Slot API changes - now account-wide (Update 49 / API 101049)
         outfit_migrations = [

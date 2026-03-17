@@ -406,46 +406,42 @@
     {
       "id": "tomes-001",
       "oldName": "GetTomeProgressionInfo",
-      "type": "removed",
-      "versionRemoved": 101049,
+      "type": "added",
+      "versionAdded": 101049,
       "category": "tamriel_tomes",
       "confidence": 0.5,
       "autoFixable": false,
-      "notes": "New in U49: Tamriel Tomes progression. Not available on API < 101049.",
-      "replacementCode": "-- GetTomeProgressionInfo is new in API 101049 (U49)"
+      "notes": "New in U49: Tamriel Tomes progression. Not available on API < 101049."
     },
     {
       "id": "tomes-002",
       "oldName": "GetNumTomePoints",
-      "type": "removed",
-      "versionRemoved": 101049,
+      "type": "added",
+      "versionAdded": 101049,
       "category": "tamriel_tomes",
       "confidence": 0.5,
       "autoFixable": false,
-      "notes": "New in U49: Tome Points currency. Not available on API < 101049.",
-      "replacementCode": "-- GetNumTomePoints is new in API 101049 (U49)"
+      "notes": "New in U49: Tome Points currency. Not available on API < 101049."
     },
     {
       "id": "tomes-003",
       "oldName": "GetNumPremiumTomeTokens",
-      "type": "removed",
-      "versionRemoved": 101049,
+      "type": "added",
+      "versionAdded": 101049,
       "category": "tamriel_tomes",
       "confidence": 0.5,
       "autoFixable": false,
-      "notes": "New in U49: Premium Tome Tokens currency. Not available on API < 101049.",
-      "replacementCode": "-- GetNumPremiumTomeTokens is new in API 101049 (U49)"
+      "notes": "New in U49: Premium Tome Tokens currency. Not available on API < 101049."
     },
     {
       "id": "tomes-004",
       "oldName": "GetCurrentTomeSeason",
-      "type": "removed",
-      "versionRemoved": 101049,
+      "type": "added",
+      "versionAdded": 101049,
       "category": "tamriel_tomes",
       "confidence": 0.5,
       "autoFixable": false,
-      "notes": "New in U49: Tamriel Tomes season info. Not available on API < 101049.",
-      "replacementCode": "-- GetCurrentTomeSeason is new in API 101049 (U49)"
+      "notes": "New in U49: Tamriel Tomes season info. Not available on API < 101049."
     },
     {
       "id": "outfit-001",

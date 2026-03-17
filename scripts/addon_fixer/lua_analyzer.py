@@ -354,16 +354,6 @@ class LuaTransformer:
         pattern = r'LibStub\s*:\s*GetLibrary\s*\(\s*["\']([^"\']+)["\']\s*\)'
         content = re.sub(pattern, replace_libstub, content)
 
-        # Add hybrid fallback pattern at the top if LibStub was used
-        # This provides backward compatibility
-        if "LibStub" in content and "LibStub and LibStub" not in content:
-            # Find all unique libraries used
-            libs_used = set(re.findall(r'= (Lib\w+)', content))
-            for lib in libs_used:
-                if lib in LIBRARY_GLOBALS.values():
-                    # Already using global, skip
-                    continue
-
         return content
 
     def _fix_deprecated_functions(self, content: str) -> str:
