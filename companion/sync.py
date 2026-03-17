@@ -20,6 +20,7 @@ import hashlib
 import json
 import logging
 import os
+import random
 import sqlite3
 import threading
 import time
@@ -37,7 +38,7 @@ import httpx
 
 # Configure module logger
 logger = logging.getLogger("eso_sync")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # Type variable for generic operations
 T = TypeVar("T")
@@ -409,6 +410,11 @@ class LocalCache:
         with self._get_connection() as conn:
             conn.executescript(self.SCHEMA)
             conn.commit()
+        # Restrict database file permissions to owner only
+        try:
+            os.chmod(self.db_path, 0o600)
+        except OSError:
+            pass  # May fail on Windows; non-critical
 
     @contextmanager
     def _get_connection(self):
@@ -971,7 +977,7 @@ class SyncClient:
         """Calculate exponential backoff delay."""
         delay = self.config.base_retry_delay * (2 ** attempt)
         # Add jitter (0-25% of delay)
-        jitter = delay * 0.25 * (hash(time.time()) % 100) / 100
+        jitter = random.uniform(0, 0.25 * delay)
         return min(delay + jitter, self.config.max_retry_delay)
 
     # === Upload Operations ===

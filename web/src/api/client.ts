@@ -18,13 +18,25 @@ interface RequestOptions extends RequestInit {
 }
 
 class APIError extends Error {
+  public data: string | null;
+
   constructor(
     public status: number,
     public statusText: string,
-    public data: unknown
+    rawData: unknown
   ) {
     super(`API Error: ${status} ${statusText}`);
     this.name = 'APIError';
+    // Sanitize: only keep a message string, not the full payload
+    if (rawData && typeof rawData === 'object' && 'detail' in rawData) {
+      this.data = String((rawData as Record<string, unknown>).detail);
+    } else if (rawData && typeof rawData === 'object' && 'message' in rawData) {
+      this.data = String((rawData as Record<string, unknown>).message);
+    } else if (typeof rawData === 'string') {
+      this.data = rawData;
+    } else {
+      this.data = null;
+    }
   }
 }
 

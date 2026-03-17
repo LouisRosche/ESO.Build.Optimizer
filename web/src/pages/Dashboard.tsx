@@ -128,7 +128,7 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="DPS trend chart showing damage per second over the last 30 days">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={dpsTrendData}>
                 <defs>
@@ -188,7 +188,7 @@ export default function Dashboard() {
               </span>
             )}
           </div>
-          <div className="h-64">
+          <div className="h-64" role="img" aria-label="Percentile ranking trend chart compared to similar players">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={percentileTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#393941" />

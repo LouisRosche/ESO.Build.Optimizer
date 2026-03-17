@@ -337,11 +337,15 @@ async def get_feature_updates(
             )
         )
 
+    total_changes = len(updates)
+    # Apply pagination
+    updates = updates[offset:offset + limit]
+
     return FeatureUpdatesResponse(
         since_patch=since,
         current_patch=settings.current_patch,
         updates=updates,
-        total_changes=len(updates),
+        total_changes=total_changes,
     )
 
 

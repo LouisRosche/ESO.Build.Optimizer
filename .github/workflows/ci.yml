@@ -140,10 +140,18 @@ jobs:
 
       - name: Lua syntax check
         run: |
+          failed=0
           for file in addon/*.lua addon/modules/*.lua; do
             echo "Checking $file..."
-            luac -p "$file" || echo "Warning: $file has syntax issues"
+            if ! luac -p "$file"; then
+              echo "ERROR: $file has syntax issues"
+              failed=1
+            fi
           done
+          if [ "$failed" -eq 1 ]; then
+            echo "Lua syntax check failed"
+            exit 1
+          fi
 
       - name: Validate addon manifests
         run: bash scripts/validate_manifests.sh

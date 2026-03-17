@@ -51,6 +51,14 @@ async def lifespan(app: FastAPI):
     logger.info(f"Environment: {settings.environment}")
     logger.info(f"Debug mode: {settings.debug}")
 
+    # Warn if production uses in-memory rate limiter
+    if settings.environment == "production" and settings.redis_url is None:
+        logger.warning(
+            "Production environment is using in-memory rate limiter. "
+            "This will not work correctly with multiple workers or instances. "
+            "Set REDIS_URL to use a distributed rate limiter."
+        )
+
     # Initialize database tables
     # For production: run 'alembic upgrade head' instead of init_db()
     try:
