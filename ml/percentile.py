@@ -747,6 +747,45 @@ class PercentileCalculator:
 
     # Private methods
 
+    def _filter_outliers(
+        self,
+        values: np.ndarray,
+        factor: float = 3.0,
+    ) -> np.ndarray:
+        """Remove outliers using IQR-based filtering.
+
+        Values outside the range [Q1 - factor*IQR, Q3 + factor*IQR] are removed.
+
+        Args:
+            values: Array of values to filter.
+            factor: IQR multiplier for outlier threshold (default 3.0).
+
+        Returns:
+            Filtered array with outliers removed.
+        """
+        if len(values) < 4:
+            return values
+
+        q1 = float(np.percentile(values, 25))
+        q3 = float(np.percentile(values, 75))
+        iqr = q3 - q1
+
+        if iqr == 0:
+            return values
+
+        lower_bound = q1 - factor * iqr
+        upper_bound = q3 + factor * iqr
+        mask = (values >= lower_bound) & (values <= upper_bound)
+        filtered = values[mask]
+
+        removed_count = len(values) - len(filtered)
+        if removed_count > 0:
+            logger.debug(
+                f"Removed {removed_count} outliers outside [{lower_bound:.4f}, {upper_bound:.4f}]"
+            )
+
+        return filtered if len(filtered) > 0 else values
+
     def _build_distributions(
         self,
         runs: list[CombatRun],
@@ -763,6 +802,7 @@ class PercentileCalculator:
 
         for category in CONTRIBUTION_CATEGORIES:
             values = np.array([r.metrics.get(category) for r in runs], dtype=np.float64)
+            values = self._filter_outliers(values)
             distributions[category] = np.sort(values)
 
         return distributions
