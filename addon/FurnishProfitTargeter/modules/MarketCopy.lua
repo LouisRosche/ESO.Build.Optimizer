@@ -167,24 +167,33 @@ function MarketCopy:FillTemplate(template)
 
     local filled = template
 
+    -- Helper: escape % in replacement strings for gsub safety
+    -- In Lua, % is special in gsub replacements (%1 = capture).
+    -- Unescaped % from item names would crash with "invalid use of '%'"
+    local function safeReplace(str, pattern, replacement)
+        -- Escape any % in the replacement to %%
+        local safe = string.gsub(replacement, "%%", "%%%%")
+        return string.gsub(str, pattern, safe)
+    end
+
     -- Fill %STYLE% with a top-selling style from last scan
     local topStyle = self:GetTopStyle()
-    filled = string.gsub(filled, "%%STYLE%%", topStyle or "Alinor")
+    filled = safeReplace(filled, "%%STYLE%%", topStyle or "Alinor")
 
     -- Fill %BUNDLES% with bundle names
     local bundleNames = self:GetBundleNameList()
-    filled = string.gsub(filled, "%%BUNDLES%%", bundleNames or "themed bundles")
+    filled = safeReplace(filled, "%%BUNDLES%%", bundleNames or "themed bundles")
 
     -- Fill %BUNDLE_NAME% with first bundle
     local firstBundle = self:GetFirstBundleName()
-    filled = string.gsub(filled, "%%BUNDLE_NAME%%", firstBundle or "Custom Theme")
+    filled = safeReplace(filled, "%%BUNDLE_NAME%%", firstBundle or "Custom Theme")
 
     -- Fill %DESCRIPTION% with first bundle description
     local firstDesc = self:GetFirstBundleDescription()
-    filled = string.gsub(filled, "%%DESCRIPTION%%", firstDesc or "curated themed furniture set")
+    filled = safeReplace(filled, "%%DESCRIPTION%%", firstDesc or "curated themed furniture set")
 
     -- Fill %EVENT% with placeholder
-    filled = string.gsub(filled, "%%EVENT%%", "[Current Event]")
+    filled = safeReplace(filled, "%%EVENT%%", "[Current Event]")
 
     return filled
 end

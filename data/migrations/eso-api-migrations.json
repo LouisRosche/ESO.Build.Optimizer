@@ -697,7 +697,7 @@
     {
       "id": "pat-007",
       "name": "getRecipeInfoResultItemIdPosition",
-      "pattern": "local%s+[^=]+=.-GetRecipeInfo%(",
+      "pattern": "local\\s+[^=]+=.*GetRecipeInfo\\(",
       "replacement": null,
       "category": "provisioning",
       "confidence": 0.9,

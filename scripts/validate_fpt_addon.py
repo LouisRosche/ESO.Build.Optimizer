@@ -318,6 +318,71 @@ def check_global_names(lines: list[str], filename: str, result: ValidationResult
 
 
 # ─────────────────────────────────────────────────────────────
+# Check 3b: Deprecated WINDOW_MANAGER method calls
+# ─────────────────────────────────────────────────────────────
+
+def check_deprecated_window_manager(lines: list[str], filename: str, result: ValidationResult):
+    """Check for deprecated WINDOW_MANAGER:CreateControl/CreateTopLevelWindow calls."""
+    for line_num, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if stripped.startswith("--"):
+            continue
+
+        result.checks_run += 1
+
+        if "WINDOW_MANAGER:CreateControl(" in line:
+            result.issues.append(Issue(
+                file=filename, line=line_num, severity="WARNING",
+                category="deprecated_api",
+                message="WINDOW_MANAGER:CreateControl() is deprecated since API 101041. "
+                        "Use global CreateControl() instead."
+            ))
+
+        if "WINDOW_MANAGER:CreateTopLevelWindow(" in line:
+            result.issues.append(Issue(
+                file=filename, line=line_num, severity="WARNING",
+                category="deprecated_api",
+                message="WINDOW_MANAGER:CreateTopLevelWindow() is deprecated since API 101041. "
+                        "Use global CreateTopLevelWindow() instead."
+            ))
+
+
+# ─────────────────────────────────────────────────────────────
+# Check 3c: Unsafe string.gsub replacement strings
+# ─────────────────────────────────────────────────────────────
+
+def check_gsub_safety(lines: list[str], filename: str, result: ValidationResult):
+    """Check for string.gsub calls where replacement is a variable (could contain %)."""
+    gsub_pattern = re.compile(
+        r'string\.gsub\s*\(\s*\w+\s*,\s*"[^"]+"\s*,\s*([^)]+)\)'
+    )
+
+    for line_num, line in enumerate(lines, 1):
+        stripped = line.strip()
+        if stripped.startswith("--"):
+            continue
+
+        if "string.gsub" not in line:
+            continue
+
+        result.checks_run += 1
+
+        for match in gsub_pattern.finditer(line):
+            replacement = match.group(1).strip()
+            # If replacement is NOT a string literal, it could contain %
+            if not replacement.startswith('"') and not replacement.startswith("'"):
+                # Check if it's a safe function call or if there's a safeReplace wrapper
+                if "safeReplace" not in line and "gsub" not in replacement:
+                    result.issues.append(Issue(
+                        file=filename, line=line_num, severity="CRITICAL",
+                        category="gsub_unsafe",
+                        message=f"string.gsub replacement '{replacement}' is a variable - "
+                                f"if it contains '%', gsub will crash. "
+                                f"Escape with: replacement:gsub('%%', '%%%%')"
+                    ))
+
+
+# ─────────────────────────────────────────────────────────────
 # Check 4: Non-existent ESO constants
 # ─────────────────────────────────────────────────────────────
 
@@ -822,6 +887,8 @@ def run_validation() -> ValidationResult:
         check_api_function_names(lines, rel_path, result)
         check_return_value_counts(lines, rel_path, result)
         check_global_names(lines, rel_path, result)
+        check_deprecated_window_manager(lines, rel_path, result)
+        check_gsub_safety(lines, rel_path, result)
         check_eso_constants(lines, rel_path, result)
         check_lua_patterns(lines, rel_path, result)
         check_item_link_format(lines, rel_path, result)
