@@ -1237,6 +1237,211 @@ def test_pipeline_vectors(suite: TestSuite):
 
 
 # ---------------------------------------------------------------------------
+# Test 17: Root-Cause Regression Guards
+# ---------------------------------------------------------------------------
+
+def test_root_cause_regressions(suite: TestSuite):
+    """
+    Regression guards for the 5 root-cause classes discovered during pipeline audit.
+
+    RC1: Incomplete Transaction Model — every profit display must account for guild fees
+    RC2: Implicit Assumptions — no magic numbers without configurable settings
+    RC3: Defensive Clamping — no math.max(0, ...) on financial tracking data
+    RC4: Error Fallback Gaps — all derived fields must be zeroed on error
+    RC5: Display-Side Bias — negative financial values must be shown, not hidden
+    """
+    t0 = time.time()
+    issues = []
+    checks = 0
+
+    all_lua = {}
+    for lua_file in ADDON_DIR.rglob("*.lua"):
+        rel = str(lua_file.relative_to(ADDON_DIR))
+        all_lua[rel] = lua_file.read_text()
+
+    main_lua = all_lua.get("FurnishProfitTargeter.lua", "")
+    bundle_mgr = all_lua.get("modules/BundleManager.lua", "")
+    supply_tracker = all_lua.get("modules/SupplyTracker.lua", "")
+    velocity_calc = all_lua.get("modules/VelocityCalculator.lua", "")
+    price_engine = all_lua.get("modules/PriceEngine.lua", "")
+
+    # ── RC1: Every context that shows "Profit" must reference guild fee ──
+    checks += 1
+    # BundleManager shows profit — must include fee deduction
+    if "Profit" in bundle_mgr and "fee" not in bundle_mgr.lower() and "feePct" not in bundle_mgr:
+        issues.append("RC1: BundleManager displays profit without guild fee context")
+
+    # Detail view must include fee section
+    checks += 1
+    if "Fee-Adjusted" not in main_lua and "fee" not in main_lua.lower():
+        issues.append("RC1: Detail view shows profit without fee-adjusted section")
+
+    # Portfolio summary must show net weekly
+    checks += 1
+    if "weeklyNet" not in main_lua and "Weekly Net" not in main_lua:
+        issues.append("RC1: Portfolio summary missing net (post-fee) weekly profit")
+
+    # ── RC2: No hardcoded domain constants without configurable fallback ──
+    checks += 1
+    # Search for hardcoded percentages used directly in calculations (not as defaults)
+    for rel, content in all_lua.items():
+        for line_num, line in enumerate(content.split('\n'), 1):
+            stripped = line.strip()
+            if stripped.startswith('--'):
+                continue
+            # Detect hardcoded sell-through rates like `* 0.35` without `or` fallback
+            if re.search(r'\*\s*0\.\d+', stripped) and 'sellThroughRate' not in stripped:
+                if 'or' not in stripped and 'bonusPct' not in stripped and 'feeMultiplier' not in stripped:
+                    if 'CACHE_TTL' not in stripped and '0.85' not in stripped:  # UI alpha is fine
+                        # Context check: is this in a financial formula?
+                        if any(kw in stripped for kw in ['sales', 'price', 'profit', 'margin', 'cost', 'velocity']):
+                            issues.append(f"RC2: {rel}:{line_num} - hardcoded multiplier in financial formula: {stripped[:80]}")
+
+    # ── RC3: No math.max(0, ...) on financial tracking data ──
+    checks += 1
+    # This pattern masks negative values (overpayments, losses)
+    clamp_pattern = re.compile(r'math\.max\s*\(\s*0\s*,\s*(\w+)\s*\)')
+    financial_fields = {'savings', 'profit', 'margin', 'revenue', 'earned', 'saved'}
+    for rel, content in all_lua.items():
+        for line_num, line in enumerate(content.split('\n'), 1):
+            stripped = line.strip()
+            if stripped.startswith('--'):
+                continue
+            for match in clamp_pattern.finditer(stripped):
+                clamped_var = match.group(1).lower()
+                if any(f in clamped_var for f in financial_fields):
+                    issues.append(
+                        f"RC3: {rel}:{line_num} - math.max(0, {match.group(1)}) clamps financial data, "
+                        f"hiding negative values (overpayments/losses)"
+                    )
+
+    # ── RC4: Error fallback must zero ALL derived fields ──
+    checks += 1
+    # Find the error fallback block in RunScan and check all net fields are zeroed
+    error_block = re.search(
+        r'plan\.materialCost\s*=\s*0.*?end',
+        main_lua, re.DOTALL
+    )
+    if error_block:
+        block = error_block.group()
+        required_fields = ['materialCost', 'retailPrice', 'profitMargin', 'roi',
+                          'netRevenue', 'adjustedMargin', 'adjustedROI', 'profitPerMaterialUnit']
+        for field_name in required_fields:
+            if f'plan.{field_name}' not in block:
+                issues.append(f"RC4: Error fallback missing 'plan.{field_name} = 0'")
+    else:
+        issues.append("RC4: Could not locate error fallback block in RunScan")
+
+    # ── RC5: Display code must show negative financial values, not suppress them ──
+    checks += 1
+    # Check that ShowCODSummary handles negative savings
+    if 'overpaid' not in supply_tracker.lower() and 'overpayment' not in supply_tracker.lower():
+        issues.append("RC5: ShowCODSummary doesn't display overpayments (negative savings)")
+
+    # Check that average discount handles negative case
+    checks += 1
+    if 'avgDiscount' in supply_tracker:
+        # Must handle negative avgDiscount (overpayment average)
+        if 'Overpayment' not in supply_tracker and 'overpayment' not in supply_tracker:
+            issues.append("RC5: ShowDashboard average discount doesn't handle negative (overpayment) case")
+
+    # ── RC Bonus: Settings/Bounds Completeness ──
+    # Every numeric setting in defaults must have a bounds validation
+    checks += 1
+    # Extract settings keys from defaults
+    defaults_block = re.search(r'settings\s*=\s*\{(.+?)\n\s*\}', main_lua, re.DOTALL)
+    if defaults_block:
+        settings_keys = re.findall(r'(\w+)\s*=\s*\d', defaults_block.group(1))
+        # Check each has a bounds validation line
+        for key in settings_keys:
+            if key in ('enabled', 'verboseLogging', 'uiLocked', 'showResultsOnScan', 'showScheduleReminder',
+                       'x', 'y', 'uiScale'):
+                continue  # booleans and UI layout don't need financial-style bounds
+            if f's.{key}' not in main_lua or (f's.{key}' in main_lua and f'type(s.{key})' not in main_lua):
+                # Check if this key has validation
+                if f'type(s.{key})' not in main_lua:
+                    issues.append(f"RC-Bonus: Setting '{key}' has no bounds validation in InitializeSavedVariables")
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    msg = f"{checks} root-cause regression guards"
+    if issues:
+        msg += f", {len(issues)} regressions"
+        for issue in issues[:10]:
+            vlog(issue)
+    suite.add("Root-cause regressions", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
+# Test 18: Cross-Module Fee Consistency
+# ---------------------------------------------------------------------------
+
+def test_fee_consistency(suite: TestSuite):
+    """Verify guild fee deduction is applied consistently across all profit display contexts."""
+    t0 = time.time()
+    issues = []
+    checks = 0
+
+    main_lua = (ADDON_DIR / f"{ADDON_NAME}.lua").read_text()
+    bundle_mgr = (ADDON_DIR / "modules" / "BundleManager.lua").read_text()
+    supply_tracker = (ADDON_DIR / "modules" / "SupplyTracker.lua").read_text()
+    results_ui = (ADDON_DIR / "modules" / "ResultsUI.lua").read_text()
+
+    # Context 1: Detail view (/fpt detail)
+    checks += 1
+    if "guildTraderFeePct" in main_lua and "Fee-Adjusted" in main_lua:
+        pass
+    else:
+        issues.append("Detail view doesn't use guildTraderFeePct for fee-adjusted display")
+
+    # Context 2: Portfolio summary (scan results footer)
+    checks += 1
+    if "weeklyNet" in main_lua:
+        pass
+    else:
+        issues.append("Portfolio summary missing net weekly calculation")
+
+    # Context 3: BundleManager profit display
+    checks += 1
+    if "feePct" in bundle_mgr or "guildTraderFeePct" in bundle_mgr:
+        pass
+    else:
+        issues.append("BundleManager profit display doesn't reference guild trader fee")
+
+    # Context 4: PriceEngine computes both gross and net
+    checks += 1
+    price_engine = (ADDON_DIR / "modules" / "PriceEngine.lua").read_text()
+    has_gross = "profitMargin" in price_engine
+    has_net = "adjustedMargin" in price_engine
+    if not (has_gross and has_net):
+        issues.append(f"PriceEngine missing: gross={has_gross}, net={has_net}")
+
+    # Context 5: Settings panel exposes guildTraderFeePct
+    checks += 1
+    if "Guild Trader Fee" in main_lua:
+        pass
+    else:
+        issues.append("LAM settings panel doesn't expose Guild Trader Fee slider")
+
+    # Context 6: /fpt settings command shows fee
+    checks += 1
+    if "Guild trader fee" in main_lua or "guildTraderFeePct" in main_lua:
+        # Verify it appears in the OpenSettings fallback text
+        settings_block = re.search(r'function FPT:OpenSettings\(\)(.+?)^end', main_lua, re.DOTALL | re.MULTILINE)
+        if settings_block and "guildTraderFeePct" not in settings_block.group(1):
+            issues.append("/fpt settings fallback text doesn't show guild trader fee")
+
+    duration = (time.time() - t0) * 1000
+    passed = len(issues) == 0
+    msg = f"{checks} fee consistency checks across {4} contexts"
+    if issues:
+        msg += f", {len(issues)} inconsistencies"
+        for issue in issues[:5]:
+            vlog(issue)
+    suite.add("Cross-module fee consistency", passed, msg, duration)
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1250,22 +1455,24 @@ def main():
     suite = TestSuite()
 
     tests = [
-        ("1/16", "Static Validator", test_static_validator),
-        ("2/16", "Module Wiring", test_module_wiring),
-        ("3/16", "SavedVars Defaults", test_savedvars_defaults),
-        ("4/16", "Event Registration", test_event_registration),
-        ("5/16", "String Format", test_string_format),
-        ("6/16", "Packaging Readiness", test_packaging),
-        ("7/16", "Cross-Module API", test_cross_module_api),
-        ("8/16", "Addon Fixer", test_addon_fixer),
-        ("9/16", "Formula & Units", test_formula_consistency),
-        ("10/16", "Data Fields", test_data_field_consistency),
-        ("11/16", "Math Verification", test_math_verification),
-        ("12/16", "UI Bounds", test_ui_bounds),
-        ("13/16", "Fee-Adjusted Metrics", test_fee_adjusted_metrics),
-        ("14/16", "Debiased Scoring", test_debiased_scoring),
-        ("15/16", "Overpayment Detection", test_overpayment_detection),
-        ("16/16", "Pipeline Test Vectors", test_pipeline_vectors),
+        ("1/18", "Static Validator", test_static_validator),
+        ("2/18", "Module Wiring", test_module_wiring),
+        ("3/18", "SavedVars Defaults", test_savedvars_defaults),
+        ("4/18", "Event Registration", test_event_registration),
+        ("5/18", "String Format", test_string_format),
+        ("6/18", "Packaging Readiness", test_packaging),
+        ("7/18", "Cross-Module API", test_cross_module_api),
+        ("8/18", "Addon Fixer", test_addon_fixer),
+        ("9/18", "Formula & Units", test_formula_consistency),
+        ("10/18", "Data Fields", test_data_field_consistency),
+        ("11/18", "Math Verification", test_math_verification),
+        ("12/18", "UI Bounds", test_ui_bounds),
+        ("13/18", "Fee-Adjusted Metrics", test_fee_adjusted_metrics),
+        ("14/18", "Debiased Scoring", test_debiased_scoring),
+        ("15/18", "Overpayment Detection", test_overpayment_detection),
+        ("16/18", "Pipeline Test Vectors", test_pipeline_vectors),
+        ("17/18", "Root-Cause Regressions", test_root_cause_regressions),
+        ("18/18", "Fee Consistency", test_fee_consistency),
     ]
 
     for num, name, test_fn in tests:

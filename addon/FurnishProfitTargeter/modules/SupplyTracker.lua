@@ -233,10 +233,19 @@ function SupplyTracker:ShowDashboard()
     FPT:Info("  Total Saved vs Market: %s%s%s", FPT.COLORS.GREEN, FPT:FormatGold(sc.totalSaved or 0), FPT.COLORS.RESET)
 
     if (sc.totalSpent or 0) > 0 then
+        -- denominator = totalSpent + totalSaved = total market value of materials
+        -- Can be negative if totalSaved is very negative (extreme overpayment)
         local denominator = (sc.totalSpent or 0) + (sc.totalSaved or 0)
         if denominator > 0 then
             local avgDiscount = ((sc.totalSaved or 0) / denominator) * 100
-            FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+            if avgDiscount >= 0 then
+                FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+            else
+                FPT:Info("  Average Overpayment: %s%.1f%%%s", FPT.COLORS.RED, -avgDiscount, FPT.COLORS.RESET)
+            end
+        elseif denominator <= 0 then
+            -- Market value estimate is zero or negative (no price data available)
+            FPT:Info("  Average Discount: %sN/A (no market data)%s", FPT.COLORS.GRAY, FPT.COLORS.RESET)
         end
     end
 
@@ -264,6 +273,8 @@ function SupplyTracker:ShowCODSummary()
         local savingsStr = ""
         if p.savings and p.savings > 0 then
             savingsStr = string.format(" %s(saved %s)%s", FPT.COLORS.GREEN, FPT:FormatGold(p.savings), FPT.COLORS.RESET)
+        elseif p.savings and p.savings < 0 then
+            savingsStr = string.format(" %s(overpaid %s)%s", FPT.COLORS.RED, FPT:FormatGold(-p.savings), FPT.COLORS.RESET)
         end
 
         FPT:Info("  %s x%d @ %s/ea from %s%s",

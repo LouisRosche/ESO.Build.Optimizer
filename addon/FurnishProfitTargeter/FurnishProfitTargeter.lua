@@ -604,6 +604,8 @@ SLASH_COMMANDS["/fpt"] = function(args)
         FPT:Info("  /fpt debug        - Toggle debug logging")
         FPT:Info("  /fpt log [N]      - Show last N log entries (default 50)")
         FPT:Info("  /fpt exportlog    - Save log buffer to SavedVars for bug reports")
+        FPT:Info("  /fpt selftest     - Run internal pipeline diagnostics")
+        FPT:Info("  /fpt health       - Show price source health status")
         FPT:Info("  /fpt help         - Show this help")
 
     elseif cmd == "top" then
@@ -683,6 +685,12 @@ SLASH_COMMANDS["/fpt"] = function(args)
     elseif cmd == "exportlog" then
         FPT:ExportLogs()
 
+    elseif cmd == "selftest" or cmd == "test" then
+        FPT:RunSelfTest()
+
+    elseif cmd == "health" then
+        FPT:ShowPriceHealth()
+
     else
         FPT:Info("Unknown command: %s. Type /fpt help for commands.", cmd)
     end
@@ -741,6 +749,10 @@ function FPT:RunScan(topN, structuralOnly)
             plan.retailPrice = 0
             plan.profitMargin = 0
             plan.roi = 0
+            plan.netRevenue = 0
+            plan.adjustedMargin = 0
+            plan.adjustedROI = 0
+            plan.profitPerMaterialUnit = 0
         end
     end
 
@@ -777,6 +789,9 @@ function FPT:RunScan(topN, structuralOnly)
     self.savedVars.lastScanResults = results
     self.savedVars.lastScanTimestamp = GetTimeStamp()
     self.savedVars.stats.totalScansRun = self.savedVars.stats.totalScansRun + 1
+
+    -- Validate result integrity (logs issues without blocking)
+    self:ValidateScanResults(results)
 
     -- Display results
     self:DisplayScanResults(results, structuralOnly)
@@ -1018,6 +1033,264 @@ function FPT:OpenSettings()
         self:Info("  Guild trader fee: %d%%", self.savedVars.settings.guildTraderFeePct)
         self:Info("  TTC sell-through rate: %.0f%%", self.savedVars.settings.ttcSellThroughRate * 100)
         self:Info("  COD discount: %d%%", self.savedVars.settings.codDiscountPct)
+    end
+end
+
+---------------------------------------------------------------------------
+-- Internal Diagnostics
+---------------------------------------------------------------------------
+
+function FPT:RunSelfTest()
+    self:Info("%s===== FPT SELF-TEST =====%s", self.COLORS.GOLD, self.COLORS.RESET)
+
+    local passed = 0
+    local failed = 0
+    local warnings = 0
+
+    local function check(name, ok, detail)
+        if ok then
+            passed = passed + 1
+            self:Debug("  PASS: %s", name)
+        else
+            failed = failed + 1
+            self:Info("  %sFAIL:%s %s - %s", self.COLORS.RED, self.COLORS.RESET, name, detail or "")
+        end
+    end
+
+    local function warn(name, detail)
+        warnings = warnings + 1
+        self:Info("  %sWARN:%s %s - %s", self.COLORS.ORANGE, self.COLORS.RESET, name, detail or "")
+    end
+
+    -- T1: Module availability
+    check("PlanScanner loaded", self.PlanScanner ~= nil, "Module not registered")
+    check("PriceEngine loaded", self.PriceEngine ~= nil, "Module not registered")
+    check("VelocityCalculator loaded", self.VelocityCalculator ~= nil, "Module not registered")
+    check("ResultsUI loaded", self.ResultsUI ~= nil, "Module not registered")
+    check("BundleManager loaded", self.BundleManager ~= nil, "Module not registered")
+    check("SupplyTracker loaded", self.SupplyTracker ~= nil, "Module not registered")
+    check("MarketCopy loaded", self.MarketCopy ~= nil, "Module not registered")
+
+    -- T2: Price source availability
+    local hasMM = self:HasMasterMerchant()
+    local hasTTC = self:HasTTC()
+    check("At least one price source", hasMM or hasTTC, "No MM or TTC detected")
+    if not hasMM then warn("Master Merchant", "Not loaded (TTC-only mode)") end
+    if not hasTTC then warn("TTC", "Not loaded (MM-only mode)") end
+
+    -- T3: SavedVars integrity
+    check("SavedVars initialized", self.savedVars ~= nil, "savedVars is nil")
+    if self.savedVars then
+        check("Settings table exists", type(self.savedVars.settings) == "table", "settings corrupted")
+        check("Stats table exists", type(self.savedVars.stats) == "table", "stats corrupted")
+        check("SupplyChain table exists", type(self.savedVars.supplyChain) == "table", "supplyChain corrupted")
+
+        -- T4: Settings bounds validation
+        local s = self.savedVars.settings
+        check("velocityWindowDays in range", s.velocityWindowDays >= 3 and s.velocityWindowDays <= 30,
+            string.format("value=%s", tostring(s.velocityWindowDays)))
+        check("guildTraderFeePct in range", s.guildTraderFeePct >= 0 and s.guildTraderFeePct <= 20,
+            string.format("value=%s", tostring(s.guildTraderFeePct)))
+        check("ttcSellThroughRate in range", s.ttcSellThroughRate >= 0.05 and s.ttcSellThroughRate <= 1.0,
+            string.format("value=%s", tostring(s.ttcSellThroughRate)))
+        check("codDiscountPct in range", s.codDiscountPct >= 5 and s.codDiscountPct <= 30,
+            string.format("value=%s", tostring(s.codDiscountPct)))
+    end
+
+    -- T5: Price engine smoke test (try pricing a known material)
+    if self.PriceEngine then
+        local testItemId = self.MATERIALS.HEARTWOOD  -- 114889
+        local price, source = self.PriceEngine:GetBestPrice(testItemId)
+        check("Can query material price", price ~= nil,
+            string.format("Heartwood returned nil from %s", source or "no source"))
+        if price then
+            check("Material price is positive", price > 0,
+                string.format("Heartwood price=%s", tostring(price)))
+            if price > 10000 then
+                warn("Material price suspiciously high",
+                    string.format("Heartwood=%s (expected < 10,000)", self:FormatGold(price)))
+            end
+        end
+    end
+
+    -- T6: Plan scanner smoke test
+    if self.PlanScanner then
+        local plans = self.PlanScanner:ScanAllPlans()
+        check("PlanScanner returns table", type(plans) == "table", "ScanAllPlans returned " .. type(plans))
+        if #plans > 0 then
+            local sample = plans[1]
+            check("Plan has name", sample.name ~= nil, "First plan missing name")
+            check("Plan has materials", sample.materials ~= nil and #sample.materials > 0,
+                "First plan missing materials")
+            check("Plan has itemLink", sample.itemLink ~= nil, "First plan missing itemLink")
+        else
+            warn("No known plans", "Character may not know any furnishing recipes")
+        end
+    end
+
+    -- T7: Formula invariant checks
+    -- Verify that fee multiplier is < 1 (fee reduces revenue, never increases it)
+    local feePct = self.savedVars and self.savedVars.settings.guildTraderFeePct or 7
+    local feeMultiplier = 1 - (feePct / 100)
+    check("Fee multiplier < 1", feeMultiplier < 1 and feeMultiplier > 0,
+        string.format("feeMultiplier=%s (expected 0 < x < 1)", tostring(feeMultiplier)))
+
+    -- T8: Last scan results integrity
+    if self.savedVars and self.savedVars.lastScanResults then
+        local results = self.savedVars.lastScanResults
+        if #results > 0 then
+            local hasNegativeScore = false
+            local hasNilMargin = false
+            local hasSortError = false
+            for i, item in ipairs(results) do
+                if (item.velocityScore or 0) < 0 then hasNegativeScore = true end
+                if item.profitMargin == nil then hasNilMargin = true end
+                if i > 1 and (item.velocityScore or 0) > (results[i-1].velocityScore or 0) then
+                    hasSortError = true
+                end
+            end
+            check("No negative velocity scores", not hasNegativeScore, "Found item with negative velocityScore")
+            check("No nil profit margins", not hasNilMargin, "Found item with nil profitMargin")
+            check("Results sorted descending", not hasSortError, "Results not properly sorted by velocityScore")
+        end
+    end
+
+    -- Summary
+    self:Info("")
+    local total = passed + failed
+    if failed == 0 then
+        self:Info("%sSELF-TEST PASSED:%s %d/%d checks OK, %d warnings",
+            self.COLORS.GREEN, self.COLORS.RESET, passed, total, warnings)
+    else
+        self:Info("%sSELF-TEST FAILED:%s %d/%d checks OK, %d failed, %d warnings",
+            self.COLORS.RED, self.COLORS.RESET, passed, total, failed, warnings)
+    end
+
+    self:Info("Log buffer: %d/%d entries. Use /fpt exportlog to save for bug reports.", #logRing, LOG_RING_MAX)
+end
+
+function FPT:ShowPriceHealth()
+    self:Info("%s===== PRICE SOURCE HEALTH =====%s", self.COLORS.GOLD, self.COLORS.RESET)
+
+    if not self.PriceEngine then
+        self:Error("PriceEngine module not loaded")
+        return
+    end
+
+    local hasMM = self:HasMasterMerchant()
+    local hasTTC = self:HasTTC()
+
+    self:Info("  Master Merchant: %s",
+        hasMM and (self.COLORS.GREEN .. "AVAILABLE" .. self.COLORS.RESET)
+        or (self.COLORS.RED .. "NOT LOADED" .. self.COLORS.RESET))
+    self:Info("  Tamriel Trade Centre: %s",
+        hasTTC and (self.COLORS.GREEN .. "AVAILABLE" .. self.COLORS.RESET)
+        or (self.COLORS.RED .. "NOT LOADED" .. self.COLORS.RESET))
+    self:Info("  Primary source: %s", self.savedVars.settings.primaryPriceSource)
+
+    -- Test each material for price availability
+    self:Info("")
+    self:Info("%s--- Material Price Coverage ---%s", self.COLORS.GRAY, self.COLORS.RESET)
+
+    local totalMats = 0
+    local coveredMM = 0
+    local coveredTTC = 0
+    local coveredAny = 0
+
+    for itemId, name in pairs(self.MATERIAL_NAMES) do
+        totalMats = totalMats + 1
+        local mmPrice = self.PriceEngine:GetMMPrice(itemId)
+        local ttcPrice = self.PriceEngine:GetTTCPrice(itemId)
+        local hasAny = mmPrice or ttcPrice
+
+        if mmPrice then coveredMM = coveredMM + 1 end
+        if ttcPrice then coveredTTC = coveredTTC + 1 end
+        if hasAny then coveredAny = coveredAny + 1 end
+
+        local status = ""
+        if mmPrice and ttcPrice then
+            local diff = math.abs(mmPrice - ttcPrice)
+            local avg = (mmPrice + ttcPrice) / 2
+            local divergence = avg > 0 and (diff / avg * 100) or 0
+            if divergence > 30 then
+                status = string.format("%s DIVERGENT (%.0f%%)%s", self.COLORS.RED, divergence, self.COLORS.RESET)
+            else
+                status = string.format("%s OK%s", self.COLORS.GREEN, self.COLORS.RESET)
+            end
+            self:Info("  %s: MM=%s TTC=%s %s", name,
+                self:FormatGold(mmPrice), self:FormatGold(ttcPrice), status)
+        elseif mmPrice then
+            self:Info("  %s: MM=%s %sTTC=N/A%s", name,
+                self:FormatGold(mmPrice), self.COLORS.ORANGE, self.COLORS.RESET)
+        elseif ttcPrice then
+            self:Info("  %s: %sMM=N/A%s TTC=%s", name,
+                self.COLORS.ORANGE, self.COLORS.RESET, self:FormatGold(ttcPrice))
+        else
+            self:Info("  %s: %sNO DATA%s", name, self.COLORS.RED, self.COLORS.RESET)
+        end
+    end
+
+    -- Coverage summary
+    self:Info("")
+    self:Info("%s--- Coverage Summary ---%s", self.COLORS.GRAY, self.COLORS.RESET)
+    self:Info("  MM coverage: %d/%d materials (%.0f%%)", coveredMM, totalMats, totalMats > 0 and (coveredMM / totalMats * 100) or 0)
+    self:Info("  TTC coverage: %d/%d materials (%.0f%%)", coveredTTC, totalMats, totalMats > 0 and (coveredTTC / totalMats * 100) or 0)
+    self:Info("  Any source: %d/%d materials (%.0f%%)", coveredAny, totalMats, totalMats > 0 and (coveredAny / totalMats * 100) or 0)
+
+    -- Cache info
+    if self.PriceEngine.GetCacheSize then
+        local cacheSize = self.PriceEngine:GetCacheSize()
+        self:Info("  Price cache: %d entries", cacheSize)
+    end
+
+    if coveredAny < totalMats then
+        self:Info("")
+        self:Info("%sWarning: Some materials have no price data. Scan results may be incomplete.%s",
+            self.COLORS.ORANGE, self.COLORS.RESET)
+    end
+end
+
+---------------------------------------------------------------------------
+-- Scan Result Validation
+---------------------------------------------------------------------------
+
+-- Validate scan results for data integrity issues
+-- Called automatically after each scan; logs issues without blocking results
+function FPT:ValidateScanResults(results)
+    if not results or #results == 0 then return end
+
+    local issues = 0
+
+    for i, item in ipairs(results) do
+        -- Detect impossible margins (retail < COGS shouldn't score > 0)
+        if (item.profitMargin or 0) < 0 and (item.velocityScore or 0) > 0 then
+            issues = issues + 1
+            self:Debug("Integrity: item #%d '%s' has negative margin (%s) but positive velocity score",
+                i, item.name or "unknown", self:FormatGold(item.profitMargin))
+        end
+
+        -- Detect suspiciously high ROI (possible data error)
+        if (item.roi or 0) > 100 then
+            self:Debug("Integrity: item #%d '%s' has ROI of %.0f%% (>10,000%% - possible pricing error)",
+                i, item.name or "unknown", (item.roi or 0) * 100)
+        end
+
+        -- Detect zero COGS with non-zero retail (materials have no price data)
+        if (item.materialCost or 0) == 0 and (item.retailPrice or 0) > 0 then
+            issues = issues + 1
+            self:Debug("Integrity: item #%d '%s' has 0 COGS but %s retail (missing material prices?)",
+                i, item.name or "unknown", self:FormatGold(item.retailPrice))
+        end
+
+        -- Detect stale velocity data (salesCount > 0 but both prices nil)
+        if (item.salesCount or 0) > 0 and (item.mmPrice or 0) == 0 and (item.ttcPrice or 0) == 0 then
+            self:Debug("Integrity: item #%d '%s' has %d sales but no retail price data",
+                i, item.name or "unknown", item.salesCount)
+        end
+    end
+
+    if issues > 0 then
+        self:Debug("Scan validation: %d potential data integrity issues (see debug log)", issues)
     end
 end
 
