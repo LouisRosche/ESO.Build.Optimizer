@@ -587,10 +587,15 @@ ESO.Build.Optimizer/
 │   └── scrapers/             # Web scraping scripts
 │
 ├── addon/                    # Lua addon source
-│   ├── ESOBuildOptimizer.txt # Addon manifest
-│   ├── ESOBuildOptimizer.lua # Main addon file
-│   ├── libs/                 # Library dependencies
-│   └── ui/                   # UI XML/Lua files
+│   ├── ESOBuildOptimizer/    # Combat analytics addon
+│   │   ├── ESOBuildOptimizer.txt
+│   │   ├── ESOBuildOptimizer.lua
+│   │   └── modules/
+│   └── FurnishProfitTargeter/ # Furnishing profit optimizer
+│       ├── FurnishProfitTargeter.txt
+│       ├── FurnishProfitTargeter.lua
+│       ├── modules/          # 7 modules (PriceEngine, VelocityCalculator, etc.)
+│       └── ui/               # Results window XML
 │
 ├── companion/                # Desktop companion app
 │   ├── watcher.py            # SavedVariables file watcher
@@ -618,7 +623,6 @@ ESO.Build.Optimizer/
 ### Completed:
 - [x] Feature dataset (1,981 entries - skills, sets, champion points, companions)
 - [x] Excel generation pipeline with field normalization
-- [x] Research docs on addon gaps
 - [x] Lua addon with combat tracking, build snapshots, metrics UI
 - [x] Lua addon SkillAdvisor module (real-time recommendations, skill highlights)
 - [x] Lua addon ESO best practices compliance (APIVersion 101049, event filtering, manifest format)
@@ -632,6 +636,9 @@ ESO.Build.Optimizer/
 - [x] Comprehensive test suite (pytest + vitest)
 - [x] 122-issue codebase audit completed and fixed
 - [x] ESO Addon Fixer tool (API migrations, LibStub removal, font paths, packaging)
+- [x] FurnishProfitTargeter addon (velocity-scored furnishing profit optimizer)
+  - Guild fee-adjusted metrics, additive debiased scoring, 18-test validation suite
+  - In-game diagnostics: `/fpt selftest`, `/fpt health`, scan result integrity checks
 
 ### Ready for Release:
 - [ ] ESOUI.com addon submission (see Section 10.1)

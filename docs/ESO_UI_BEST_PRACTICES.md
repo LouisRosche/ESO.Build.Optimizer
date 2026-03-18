@@ -380,9 +380,9 @@ end
 
 ### Control Naming
 ```lua
--- Always prefix with addon name
-local control = WINDOW_MANAGER:CreateControl("MyAddon_MainWindow", parent, CT_TOPLEVELCONTROL)
-local label = WINDOW_MANAGER:CreateControl("MyAddon_DPSLabel", parent, CT_LABEL)
+-- Always prefix with addon name. Use global CreateControl (not WINDOW_MANAGER:CreateControl)
+local control = CreateTopLevelWindow("MyAddon_MainWindow")
+local label = CreateControl("MyAddon_DPSLabel", parent, CT_LABEL)
 ```
 
 ### Draw Layers
@@ -401,4 +401,4 @@ HUD_UI_SCENE:AddFragment(fragment)
 
 ---
 
-*Last updated: February 2026 | ESO Update 48*
+*Last updated: March 2026 | ESO Update 49 (API 101049)*
