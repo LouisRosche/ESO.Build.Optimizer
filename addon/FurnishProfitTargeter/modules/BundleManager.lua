@@ -247,10 +247,17 @@ function BundleManager:ShowBundle(nameOrIndex)
     FPT:Info("  Suggested Price (+%d%%): %s%s%s",
         bundle.suggestedMarkupPct or 35,
         FPT.COLORS.GREEN, FPT:FormatGold(bundle.suggestedPrice), FPT.COLORS.RESET)
-    FPT:Info("  Profit per Sale: %s%s%s",
-        FPT.COLORS.GREEN,
-        FPT:FormatGold(bundle.suggestedPrice - bundle.totalCOGS),
-        FPT.COLORS.RESET)
+
+    -- Fee-adjusted profit per sale
+    local feePct = FPT.savedVars.settings.guildTraderFeePct or 7
+    local grossProfit = bundle.suggestedPrice - bundle.totalCOGS
+    local netRevenue = bundle.suggestedPrice * (1 - feePct / 100)
+    local netProfit = netRevenue - bundle.totalCOGS
+    FPT:Info("  Gross Profit: %s%s%s",
+        FPT.COLORS.GREEN, FPT:FormatGold(grossProfit), FPT.COLORS.RESET)
+    FPT:Info("  Net Profit (-%d%% fee): %s%s%s",
+        feePct,
+        FPT.COLORS.GREEN, FPT:FormatGold(netProfit), FPT.COLORS.RESET)
 
     FPT:Info("")
     FPT:Info("%s--- Lifetime ---%s", FPT.COLORS.GRAY, FPT.COLORS.RESET)

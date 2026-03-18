@@ -911,7 +911,7 @@ def check_pricing_api_patterns(lines: list[str], filename: str, result: Validati
 
 def check_unit_correctness(lines: list[str], filename: str, result: ValidationResult):
     """Verify FormatGold is only applied to gold values, not scores or ratios."""
-    non_gold_fields = ["velocityScore", "totalScore"]
+    non_gold_fields = ["velocityScore", "totalScore", "bonusPct"]
 
     for line_num, line in enumerate(lines, 1):
         stripped = line.strip()

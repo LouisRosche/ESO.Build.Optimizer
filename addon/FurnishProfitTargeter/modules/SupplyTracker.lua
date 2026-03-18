@@ -27,16 +27,8 @@ FPT.SupplyTracker = SupplyTracker
 -- COD mail processing event
 local COD_CHECK_INTERVAL_MS = 5000  -- Check pending COD every 5 seconds
 
--- Material item IDs for tracking
-local TRACKED_MATERIALS = {
-    [114889] = "Heartwood",
-    [114890] = "Regulus",
-    [114891] = "Bast",
-    [114892] = "Mundane Rune",
-    [114893] = "Clean Pelts",
-    [114894] = "Decorative Wax",
-    [114895] = "Ochre",
-}
+-- Material item IDs for tracking (references FPT.MATERIAL_NAMES from main file)
+local TRACKED_MATERIALS = FPT.MATERIAL_NAMES
 
 ---------------------------------------------------------------------------
 -- Initialization
@@ -128,7 +120,7 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
 
     local savings = (marketPrice - unitPaid) * quantity
 
-    -- Record the purchase
+    -- Record the purchase (preserve actual savings, including negative = overpayment)
     local purchase = {
         itemId = itemId,
         materialName = materialName,
@@ -136,7 +128,7 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
         unitPaid = unitPaid,
         totalPaid = totalPaid,
         marketPrice = marketPrice,
-        savings = math.max(0, savings),
+        savings = savings,  -- can be negative (overpayment) for honest tracking
         sender = sender or "Unknown",
         timestamp = GetTimeStamp(),
     }
@@ -151,8 +143,8 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
     -- Update inventory tracking
     sc.materialInventory[itemId] = (sc.materialInventory[itemId] or 0) + quantity
 
-    -- Update totals
-    sc.totalSaved = sc.totalSaved + math.max(0, savings)
+    -- Update totals (track savings honestly including overpayments)
+    sc.totalSaved = sc.totalSaved + savings
     sc.totalSpent = sc.totalSpent + totalPaid
     sc.totalUnits = sc.totalUnits + quantity
 
@@ -164,6 +156,12 @@ function SupplyTracker:RecordCODPurchase(itemId, quantity, totalPaid, sender)
             materialName, quantity,
             FPT:FormatGold(unitPaid),
             FPT:FormatGold(savings),
+            FPT:FormatGold(marketPrice))
+    elseif savings < 0 then
+        FPT:Debug("COD: %s x%d @ %s/ea (OVERPAID %s vs market %s)",
+            materialName, quantity,
+            FPT:FormatGold(unitPaid),
+            FPT:FormatGold(-savings),
             FPT:FormatGold(marketPrice))
     end
 end
@@ -227,10 +225,19 @@ function SupplyTracker:ShowDashboard()
     FPT:Info("  Total Saved vs Market: %s%s%s", FPT.COLORS.GREEN, FPT:FormatGold(sc.totalSaved or 0), FPT.COLORS.RESET)
 
     if (sc.totalSpent or 0) > 0 then
+        -- denominator = totalSpent + totalSaved = total market value of materials
+        -- Can be negative if totalSaved is very negative (extreme overpayment)
         local denominator = (sc.totalSpent or 0) + (sc.totalSaved or 0)
         if denominator > 0 then
             local avgDiscount = ((sc.totalSaved or 0) / denominator) * 100
-            FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+            if avgDiscount >= 0 then
+                FPT:Info("  Average Discount: %s%.1f%%%s", FPT.COLORS.GREEN, avgDiscount, FPT.COLORS.RESET)
+            else
+                FPT:Info("  Average Overpayment: %s%.1f%%%s", FPT.COLORS.RED, -avgDiscount, FPT.COLORS.RESET)
+            end
+        elseif denominator <= 0 then
+            -- Market value estimate is zero or negative (no price data available)
+            FPT:Info("  Average Discount: %sN/A (no market data)%s", FPT.COLORS.GRAY, FPT.COLORS.RESET)
         end
     end
 
@@ -258,6 +265,8 @@ function SupplyTracker:ShowCODSummary()
         local savingsStr = ""
         if p.savings and p.savings > 0 then
             savingsStr = string.format(" %s(saved %s)%s", FPT.COLORS.GREEN, FPT:FormatGold(p.savings), FPT.COLORS.RESET)
+        elseif p.savings and p.savings < 0 then
+            savingsStr = string.format(" %s(overpaid %s)%s", FPT.COLORS.RED, FPT:FormatGold(-p.savings), FPT.COLORS.RESET)
         end
 
         FPT:Info("  %s x%d @ %s/ea from %s%s",

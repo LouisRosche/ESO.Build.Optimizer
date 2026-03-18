@@ -368,15 +368,6 @@ ESO releases quarterly updates:
 }
 ```
 
-**Set Categories to Document:**
-- Monster Sets (~80 sets)
-- Dungeon Sets (~150 sets)
-- Trial Sets (~50 sets)
-- Overland Sets (~100 sets)
-- Craftable Sets (~80 sets)
-- Mythic Items (~30 items)
-- Arena Weapons (~20 sets)
-
 ---
 
 ## 5. Development Workflows
@@ -587,10 +578,15 @@ ESO.Build.Optimizer/
 │   └── scrapers/             # Web scraping scripts
 │
 ├── addon/                    # Lua addon source
-│   ├── ESOBuildOptimizer.txt # Addon manifest
-│   ├── ESOBuildOptimizer.lua # Main addon file
-│   ├── libs/                 # Library dependencies
-│   └── ui/                   # UI XML/Lua files
+│   ├── ESOBuildOptimizer/    # Combat analytics addon
+│   │   ├── ESOBuildOptimizer.txt
+│   │   ├── ESOBuildOptimizer.lua
+│   │   └── modules/
+│   └── FurnishProfitTargeter/ # Furnishing profit optimizer
+│       ├── FurnishProfitTargeter.txt
+│       ├── FurnishProfitTargeter.lua
+│       ├── modules/          # 7 modules (PriceEngine, VelocityCalculator, etc.)
+│       └── ui/               # Results window XML
 │
 ├── companion/                # Desktop companion app
 │   ├── watcher.py            # SavedVariables file watcher
@@ -618,7 +614,6 @@ ESO.Build.Optimizer/
 ### Completed:
 - [x] Feature dataset (1,981 entries - skills, sets, champion points, companions)
 - [x] Excel generation pipeline with field normalization
-- [x] Research docs on addon gaps
 - [x] Lua addon with combat tracking, build snapshots, metrics UI
 - [x] Lua addon SkillAdvisor module (real-time recommendations, skill highlights)
 - [x] Lua addon ESO best practices compliance (APIVersion 101049, event filtering, manifest format)
@@ -632,6 +627,9 @@ ESO.Build.Optimizer/
 - [x] Comprehensive test suite (pytest + vitest)
 - [x] 122-issue codebase audit completed and fixed
 - [x] ESO Addon Fixer tool (API migrations, LibStub removal, font paths, packaging)
+- [x] FurnishProfitTargeter addon (velocity-scored furnishing profit optimizer)
+  - Guild fee-adjusted metrics, additive debiased scoring, 18-test validation suite
+  - In-game diagnostics: `/fpt selftest`, `/fpt health`, scan result integrity checks
 
 ### Ready for Release:
 - [ ] ESOUI.com addon submission (see Section 10.1)
@@ -926,16 +924,7 @@ python scripts/refresh_docs.py --fetch
 
 ---
 
-## 15. Questions for Human Review
-
-When uncertain, ask about:
-1. **Balance priorities** - DPS meta vs. survivability vs. group utility
-2. **Content priorities** - Which dungeons/trials to prioritize for percentile data
-3. **Feature requests** - New functionality beyond current scope
-
----
-
-## 16. Lessons Learned & Development Patterns
+## 15. Lessons Learned & Development Patterns
 
 ### 16.1 Lua Parser Quirks (luaparse)
 

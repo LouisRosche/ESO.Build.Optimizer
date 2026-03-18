@@ -52,14 +52,17 @@ Combat metrics with ML-powered recommendations for Elder Scrolls Online.
 
 ```
 ESO.Build.Optimizer/
-├── addon/                  # Lua addon (ESOUI distribution)
+├── addon/                  # Lua addons (ESOUI distribution)
+│   ├── ESOBuildOptimizer/  # Combat analytics addon
+│   └── FurnishProfitTargeter/ # Furnishing profit optimizer
 ├── companion/              # Desktop sync app (Python)
 ├── api/                    # FastAPI backend
 ├── web/                    # React frontend (Vite)
 ├── ml/                     # ML pipeline
 ├── data/                   # Feature database (1,981 entries)
+├── tools/addon-fixer/      # ESO addon fixer (TypeScript)
+├── scripts/                # Build, test, validation scripts
 ├── docs/technical/         # Technical documentation
-├── tests/                  # Test suite
 └── .github/workflows/      # CI/CD pipeline
 ```
 
@@ -92,6 +95,20 @@ python scripts/run_tests.py
 | [React/Vite Guide](docs/technical/REACT_VITE_BEST_PRACTICES.md) | Frontend patterns |
 | [Deployment Guide](docs/technical/DEPLOYMENT_FREE_TIER.md) | Vercel, Render, Neon |
 | [PyInstaller Packaging](docs/technical/PYINSTALLER_PACKAGING.md) | Companion app builds |
+| [ESO UI Best Practices](docs/ESO_UI_BEST_PRACTICES.md) | Addon UI/UX patterns |
+
+### Furnish Profit Targeter (FPT)
+
+A separate addon for furnishing crafters — algorithmic profit calculator using TTC/MM sales velocity data:
+
+```
+/fpt              Run velocity profit scan
+/fpt detail <N>   Detailed item breakdown (COGS, margin, ROI, fee-adjusted)
+/fpt health       Price source health diagnostics
+/fpt selftest     Internal pipeline validation
+```
+
+See `addon/FurnishProfitTargeter/` for source. Tests: `python scripts/test_fpt_prepublish.py`
 
 ### CI/CD Pipeline
 
@@ -132,8 +149,9 @@ GitHub Actions runs on every push:
 
 ## ESOUI Submission
 
-The addon is packaged for ESOUI.com/Minion distribution:
+Two addons packaged for ESOUI.com/Minion distribution:
 
+**ESO Build Optimizer** — Combat analytics with ML recommendations:
 ```
 ESOBuildOptimizer/
 ├── ESOBuildOptimizer.txt     # Manifest (CRLF, UTF-8 no BOM)
@@ -141,9 +159,19 @@ ESOBuildOptimizer/
 └── modules/                  # Combat, build, UI, advisor
 ```
 
-**Manifest Compliance:**
+**Furnish Profit Targeter** — Furniture crafting profit optimizer:
+```
+FurnishProfitTargeter/
+├── FurnishProfitTargeter.txt # Manifest
+├── FurnishProfitTargeter.lua # Main addon
+├── modules/                  # 7 modules (PriceEngine, VelocityCalculator, etc.)
+└── ui/                       # Results window XML
+```
+
+**Manifest Compliance (both addons):**
 - APIVersion: 101047 101048 101049 (Update 47-49)
 - AddOnVersion: 1 (integer)
+- `.addon` manifest for console (PS5/Xbox Series X|S)
 - Event filtering on high-frequency events
 - Single namespaced global table
 
@@ -169,4 +197,4 @@ Data compiled from publicly available ESO game information for educational and o
 
 ---
 
-*Version 1.0.0 | ESO Update 48 | January 2026*
+*Version 1.0.0 | ESO Update 49 (API 101049) | March 2026*

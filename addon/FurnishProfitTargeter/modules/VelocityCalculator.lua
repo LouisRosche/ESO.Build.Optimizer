@@ -48,9 +48,11 @@ function VelocityCalculator:GetSalesVelocity(plan)
         local listingCount = FPT.PriceEngine:GetTTCListingCount(
             plan.itemLink or plan.resultItemId
         )
-        -- TTC listings are NOT sales; apply a conversion factor
-        -- Typical sell-through rate is ~30-40% for furnishings
-        salesCount = math.floor(listingCount * 0.35)
+        -- TTC listings are NOT sales; apply configurable sell-through rate
+        local sellThroughRate = FPT.savedVars.settings.ttcSellThroughRate or 0.35
+        salesCount = math.floor(listingCount * sellThroughRate)
+        FPT:Debug("VelocityCalc: TTC fallback for '%s' - %d listings × %.0f%% = %d est. sales",
+            plan.name or "unknown", listingCount, sellThroughRate * 100, salesCount)
     end
 
     return salesCount
@@ -89,27 +91,34 @@ function VelocityCalculator:CalculateScore(plan)
     if plan.profitMargin < settings.minProfitMargin then
         plan.velocityScore = 0
         plan.excludeReason = "below_min_margin"
+        FPT:Debug("VelocityCalc: excluded '%s' - margin %d < min %d",
+            plan.name or "unknown", plan.profitMargin, settings.minProfitMargin)
         return 0
     end
 
     if salesCount < settings.minSalesCount then
         plan.velocityScore = 0
         plan.excludeReason = "below_min_sales"
+        FPT:Debug("VelocityCalc: excluded '%s' - sales %d < min %d",
+            plan.name or "unknown", salesCount, settings.minSalesCount)
         return 0
     end
 
     -- Core formula: Margin × Velocity
     local velocityScore = plan.profitMargin * salesCount
 
-    -- Apply style bonus: high-demand styles get a 20% boost
+    -- Apply bonuses additively to avoid compounding bias.
+    -- A dual-tagged item (structural + high-demand style) gets +30%, not +32%.
+    -- This prevents systematic overvaluation of items matching multiple tags.
+    local bonusPct = 0
     if plan.isHighDemandStyle then
-        velocityScore = velocityScore * 1.20
+        bonusPct = bonusPct + 0.20  -- 20% boost for high-demand styles
     end
-
-    -- Apply structural bonus: Tier 1 bulk items get a 10% boost
-    -- (they tend to sell in stacks, so actual volume is higher)
     if plan.isStructural then
-        velocityScore = velocityScore * 1.10
+        bonusPct = bonusPct + 0.10  -- 10% boost for Tier 1 structural bulk
+    end
+    if bonusPct > 0 then
+        velocityScore = velocityScore * (1 + bonusPct)
     end
 
     plan.velocityScore = velocityScore

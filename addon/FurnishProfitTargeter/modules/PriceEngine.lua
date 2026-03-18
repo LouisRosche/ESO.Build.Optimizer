@@ -260,12 +260,30 @@ function PriceEngine:CalculatePrices(plan)
     plan.mmPrice = mmPrice or 0
     plan.ttcPrice = ttcPrice or 0
 
-    -- Calculate margin and ROI
+    -- Calculate gross margin (pre-fee) and ROI
     plan.profitMargin = plan.retailPrice - plan.materialCost
     if plan.materialCost > 0 then
         plan.roi = plan.profitMargin / plan.materialCost
     else
         plan.roi = 0
+    end
+
+    -- Calculate fee-adjusted (net) metrics
+    local feePct = FPT.savedVars.settings.guildTraderFeePct or 7
+    local feeMultiplier = 1 - (feePct / 100)
+    plan.netRevenue = plan.retailPrice * feeMultiplier
+    plan.adjustedMargin = plan.netRevenue - plan.materialCost
+    if plan.materialCost > 0 then
+        plan.adjustedROI = plan.adjustedMargin / plan.materialCost
+    else
+        plan.adjustedROI = 0
+    end
+
+    -- Material efficiency: profit per material unit consumed
+    if plan.totalMaterialCount and plan.totalMaterialCount > 0 then
+        plan.profitPerMaterialUnit = plan.adjustedMargin / plan.totalMaterialCount
+    else
+        plan.profitPerMaterialUnit = 0
     end
 end
 

@@ -1,6 +1,6 @@
 # Free Tier Deployment Guide
 
-> **Last Updated**: January 2026
+> **Last Updated**: March 2026
 > **Stack**: Vercel (Frontend) + Render (Backend) + Neon (PostgreSQL)
 > **Sources**: [Neon Pricing](https://neon.com/pricing), [Render Free Tier](https://render.com/docs/free), [Vercel Pricing](https://vercel.com/pricing)
 
