@@ -27,16 +27,8 @@ FPT.SupplyTracker = SupplyTracker
 -- COD mail processing event
 local COD_CHECK_INTERVAL_MS = 5000  -- Check pending COD every 5 seconds
 
--- Material item IDs for tracking
-local TRACKED_MATERIALS = {
-    [114889] = "Heartwood",
-    [114890] = "Regulus",
-    [114891] = "Bast",
-    [114892] = "Mundane Rune",
-    [114893] = "Clean Pelts",
-    [114894] = "Decorative Wax",
-    [114895] = "Ochre",
-}
+-- Material item IDs for tracking (references FPT.MATERIAL_NAMES from main file)
+local TRACKED_MATERIALS = FPT.MATERIAL_NAMES
 
 ---------------------------------------------------------------------------
 -- Initialization

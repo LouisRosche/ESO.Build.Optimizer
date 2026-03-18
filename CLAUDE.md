@@ -368,15 +368,6 @@ ESO releases quarterly updates:
 }
 ```
 
-**Set Categories to Document:**
-- Monster Sets (~80 sets)
-- Dungeon Sets (~150 sets)
-- Trial Sets (~50 sets)
-- Overland Sets (~100 sets)
-- Craftable Sets (~80 sets)
-- Mythic Items (~30 items)
-- Arena Weapons (~20 sets)
-
 ---
 
 ## 5. Development Workflows
@@ -933,16 +924,7 @@ python scripts/refresh_docs.py --fetch
 
 ---
 
-## 15. Questions for Human Review
-
-When uncertain, ask about:
-1. **Balance priorities** - DPS meta vs. survivability vs. group utility
-2. **Content priorities** - Which dungeons/trials to prioritize for percentile data
-3. **Feature requests** - New functionality beyond current scope
-
----
-
-## 16. Lessons Learned & Development Patterns
+## 15. Lessons Learned & Development Patterns
 
 ### 16.1 Lua Parser Quirks (luaparse)
 
