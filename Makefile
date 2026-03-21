@@ -12,6 +12,7 @@ help:
 	@echo "Build & Test:"
 	@echo "  all          - Build and test everything"
 	@echo "  test         - Run all tests"
+	@echo "  pytest       - Run Python unit tests only"
 	@echo "  build        - Build all components"
 	@echo "  lint         - Run all linters"
 	@echo ""
@@ -41,7 +42,7 @@ help:
 
 all: build test lint
 
-test: fixer-test lua-check validate fpt-validate
+test: pytest fixer-test lua-check validate fpt-validate
 	@echo "All tests passed!"
 
 build: fixer-build
@@ -49,6 +50,14 @@ build: fixer-build
 
 lint: fixer-lint lua-check
 	@echo "Linting complete!"
+
+# =============================================================================
+# Python Tests
+# =============================================================================
+
+pytest:
+	@echo "Running Python tests..."
+	pytest tests/ -v --tb=short
 
 # =============================================================================
 # Addon Fixer

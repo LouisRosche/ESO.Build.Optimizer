@@ -141,7 +141,7 @@ jobs:
       - name: Lua syntax check
         run: |
           failed=0
-          for file in addon/*.lua addon/modules/*.lua; do
+          for file in $(find addon -name '*.lua' -type f); do
             echo "Checking $file..."
             if ! luac -p "$file"; then
               echo "ERROR: $file has syntax issues"
