@@ -22,7 +22,7 @@ from api.core.config import settings
 from api.core.rate_limit import RateLimitMiddleware
 from api.models.database import engine, init_db
 from api.models.schemas import ErrorResponse, HealthResponse
-from api.routes import auth, features, recommendations, runs
+from api.routes import analytics, auth, characters, features, recommendations, runs
 
 # =============================================================================
 # Logging Configuration
@@ -338,6 +338,16 @@ app.include_router(
 
 app.include_router(
     features.router,
+    prefix=settings.api_v1_prefix,
+)
+
+app.include_router(
+    analytics.router,
+    prefix=settings.api_v1_prefix,
+)
+
+app.include_router(
+    characters.router,
     prefix=settings.api_v1_prefix,
 )
 

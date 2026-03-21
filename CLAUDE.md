@@ -45,7 +45,8 @@ ESO.Build.Optimizer/
 │   └── build.py/.spec            # PyInstaller packaging
 ├── ml/
 │   ├── percentile.py             # Percentile calculation
-│   └── recommendations.py       # Recommendation engine
+│   ├── recommendations.py       # Recommendation engine
+│   └── synthetic.py              # Synthetic data generator for testing
 ├── web/src/                      # React frontend
 │   ├── pages/                    # Dashboard, Builds, Analytics, etc.
 │   ├── components/               # UI components
@@ -107,49 +108,50 @@ ESO.Build.Optimizer/
 - [x] TypeScript addon fixer CLI with migration database
 - [x] CI/CD pipeline (GitHub Actions, 7 jobs)
 - [x] Technical documentation system (5 guides in `docs/technical/`)
+- [x] ML pipeline — percentile + recommendation algorithms tested with synthetic data (14 integration tests)
+- [x] Web frontend — React Query hooks wired to API, mock data fallback in dev mode
+- [x] FastAPI backend — auth, runs, recommendations, features, analytics, characters endpoints
+- [x] Feature seeding script (`scripts/seed_features.py`) for loading JSON → PostgreSQL
+- [x] Companion app — icons generated, PyInstaller config ready
+- [x] ESOUI packaging — both addons pass pre-publish validation, packaging scripts ready
 
-### Scaffolding (structure exists, not production-ready):
-- [ ] Web frontend — renders mock data only, no real API integration
-- [ ] FastAPI backend — endpoints defined, no production database connected
-- [ ] ML pipeline — algorithms implemented, untested against real combat data
-- [ ] Companion app — file watcher + sync logic written, not packaged or tested end-to-end
+### Needs Production Setup:
+- [ ] Connect FastAPI to Neon PostgreSQL (run `alembic upgrade head` + `make seed`)
+- [ ] Deploy backend to Render, frontend to Vercel
+- [ ] Build and test companion app installer on Windows
+- [ ] Submit addons to ESOUI.com (`make esbo-package` + `make fpt-package`)
 
 ### Not Started:
-- [ ] ESOUI.com addon submission
-- [ ] Production deployment
-- [ ] Companion app installer packaging
 - [ ] Web scraping scripts (data sources identified but no scrapers exist)
+- [ ] Companion app Windows installer (NSIS/WiX)
 
 ---
 
 ## Quick Reference
 
 ```bash
-# Run all Python tests
-pytest tests/ -v
+# Run all tests
+make test              # pytest + fixer + lua + data validation
 
-# Validate JSON data
-python scripts/validate_data.py
+# Addon packaging
+make esbo-test         # ESBO pre-publish validation (12 checks)
+make esbo-package      # Build ESBO ZIP for ESOUI
+make fpt-test          # FPT pre-publish validation (18 checks)
+make fpt-package       # Build FPT ZIP for ESOUI
 
-# Generate Excel from JSON
-python scripts/generate_excel.py
+# Database
+make seed              # Load features/gear from JSON → PostgreSQL
+make seed-dry          # Count entries (no write)
 
 # Addon fixer CLI
 cd tools/addon-fixer
 node dist/cli.js analyze /path/to/addon
 node dist/cli.js fix /path/to/addon
-node dist/cli.js verify /path/to/addon
-node dist/cli.js migrations
-node dist/cli.js info
 
-# FurnishProfitTargeter validation
-python scripts/test_fpt_prepublish.py
-python scripts/validate_fpt_addon.py
-
-# Makefile shortcuts
-make test          # All tests
-make fixer-build   # Build addon fixer
-make fpt-test      # FPT test suite
+# Other
+python scripts/generate_excel.py   # JSON → Excel
+python scripts/validate_data.py    # Validate JSON files
+make fixer-build                   # Build addon fixer
 ```
 
 ---
