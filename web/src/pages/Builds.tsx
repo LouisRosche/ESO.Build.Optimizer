@@ -55,7 +55,7 @@ export default function Builds() {
 
     const currentMultiplier = tierMultipliers[currentAvgTier] ?? 1.0;
     const newMultiplier = tierMultipliers[newAvgTier] ?? 1.0;
-    const baseDPS = activeCharacter.average_dps;
+    const baseDPS = activeCharacter.avg_dps;
     const expectedDPS = Math.round((baseDPS / currentMultiplier) * newMultiplier);
     const difference = expectedDPS - baseDPS;
     const percentChange = ((difference / baseDPS) * 100).toFixed(1);
@@ -111,18 +111,18 @@ export default function Builds() {
               <div className="space-y-2">
                 {characters.map((char) => (
                   <button
-                    key={char.id}
+                    key={char.character_name}
                     onClick={() => setSelectedCharacter(char)}
                     className={clsx(
                       'w-full text-left p-3 rounded-lg transition-colors',
-                      activeCharacter?.id === char.id
+                      activeCharacter?.character_name === char.character_name
                         ? 'bg-eso-gold-500/10 border border-eso-gold-500/30'
                         : 'bg-eso-dark-800 hover:bg-eso-dark-700'
                     )}
                   >
-                    <p className="font-medium text-gray-100">{char.name}</p>
+                    <p className="font-medium text-gray-100">{char.character_name}</p>
                     <p className="text-sm text-gray-500">
-                      {char.class} - {formatDPS(char.average_dps)} avg DPS
+                      CP {char.cp_level ?? 0} - {formatDPS(char.avg_dps)} avg DPS
                     </p>
                   </button>
                 ))}
@@ -135,20 +135,15 @@ export default function Builds() {
               <h2 className="text-lg font-semibold text-gray-100 mb-4">Current Build</h2>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Class</p>
+                  <p className="text-xs text-gray-500 mb-1">Character</p>
                   <p className="text-gray-100">
-                    {activeCharacter.class}
-                    {activeCharacter.subclass && ` / ${activeCharacter.subclass}`}
+                    {activeCharacter.character_name} - CP {activeCharacter.cp_level ?? 0}
                   </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Race</p>
-                  <p className="text-gray-100">{activeCharacter.race}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 mb-1">Current Sets</p>
                   <div className="flex flex-wrap gap-1">
-                    {activeCharacter.current_sets.map((set) => (
+                    {((activeCharacter.build && 'sets' in activeCharacter.build ? (activeCharacter.build as { sets: string[] }).sets : []) as string[]).map((set) => (
                       <span
                         key={set}
                         className="text-xs px-2 py-1 bg-eso-dark-800 rounded text-gray-300"
@@ -162,7 +157,7 @@ export default function Builds() {
                   <div className="flex justify-between">
                     <span className="text-gray-500">Average DPS</span>
                     <span className="font-medium text-gray-100">
-                      {formatDPS(activeCharacter.average_dps)}
+                      {formatDPS(activeCharacter.avg_dps)}
                     </span>
                   </div>
                   <div className="flex justify-between mt-1">

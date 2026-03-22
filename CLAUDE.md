@@ -74,7 +74,7 @@ ESO.Build.Optimizer/
 | ML pipeline | `ml/` | `percentile.py`, `recommendations.py` |
 | Web frontend | `web/` | See `docs/technical/REACT_VITE_BEST_PRACTICES.md` |
 | Addon fixer | `tools/addon-fixer/` | TypeScript, run `npm test` after changes |
-| Deployment | `docker/`, `render.yaml`, `web/vercel.json` | See `docs/technical/DEPLOYMENT_FREE_TIER.md` |
+| Deployment | `render.yaml`, `web/vercel.json` | See `docs/DEPLOYMENT_RUNBOOK.md` |
 
 ---
 

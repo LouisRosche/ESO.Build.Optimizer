@@ -64,9 +64,9 @@ export default function Analytics() {
 
   // Buff uptime data for radar chart
   const buffRadarData = useMemo(() => buffAnalysis.map((buff) => ({
-    buff: buff.name.replace('Major ', '').replace('Minor ', ''),
-    current: buff.average_uptime * 100,
-    target: buff.target_uptime * 100,
+    buff: buff.buff_name.replace('Major ', '').replace('Minor ', ''),
+    current: buff.avg_uptime * 100,
+    target: 90, // Default target uptime
   })), [buffAnalysis]);
 
   // Deaths per content type
@@ -353,25 +353,25 @@ export default function Analytics() {
         <h2 className="text-lg font-semibold text-gray-100 mb-6">Buff Uptime Details</h2>
         <div className="space-y-4">
           {buffAnalysis.map((buff) => {
-            const uptimePercent = Math.round(buff.average_uptime * 100);
-            const targetPercent = Math.round(buff.target_uptime * 100);
+            const uptimePercent = Math.round(buff.avg_uptime * 100);
+            const targetPercent = 90;
             const gap = targetPercent - uptimePercent;
 
             return (
-              <div key={buff.name} className="flex items-center gap-4">
+              <div key={buff.buff_name} className="flex items-center gap-4">
                 <div className="w-36 flex-shrink-0">
-                  <p className="text-sm font-medium text-gray-100">{buff.name}</p>
+                  <p className="text-sm font-medium text-gray-100">{buff.buff_name}</p>
                   <div className="flex items-center gap-1">
-                    {buff.importance === 'critical' && (
+                    {buff.importance === 'high' && (
                       <AlertTriangle className="w-3 h-3 text-eso-red-400" />
                     )}
                     <span
                       className={clsx(
                         'text-xs',
-                        buff.importance === 'critical'
-                          ? 'text-eso-red-400'
-                          : buff.importance === 'high'
+                        buff.importance === 'high'
                           ? 'text-eso-gold-400'
+                          : buff.importance === 'medium'
+                          ? 'text-gray-300'
                           : 'text-gray-500'
                       )}
                     >
