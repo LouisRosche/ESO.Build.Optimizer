@@ -15,7 +15,7 @@ import RunCard from '../components/RunCard';
 import { useCharacters, useRuns, useDPSTrend } from '../hooks/useApi';
 import { mockCharacters, mockRuns, formatDPS, mockDPSTrend } from '../data/mockData';
 import { classColors } from '../utils/classColors';
-import type { Character } from '../types';
+import type { Character, BuildSnapshot } from '../types';
 
 export default function Characters() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
@@ -23,7 +23,7 @@ export default function Characters() {
   const { data: apiCharacters, isLoading: charsLoading } = useCharacters();
   const { data: apiRuns, isLoading: runsLoading } = useRuns();
   const { data: apiDPSTrend } = useDPSTrend(
-    selectedCharacter ? { character_name: selectedCharacter.name } : undefined
+    selectedCharacter ? { character_name: selectedCharacter.character_name } : undefined
   );
 
   // Fall back to mock data when API is unreachable (dev only)
@@ -34,23 +34,27 @@ export default function Characters() {
   const isLoading = charsLoading && runsLoading;
   const usingMockData = !apiCharacters && !charsLoading;
 
-  // Get runs for selected character - memoized to prevent unnecessary recalculations
+  // Helper to extract build snapshot fields safely
+  const getBuild = (char: Character): Partial<BuildSnapshot> =>
+    (char.build && 'class' in char.build) ? char.build as BuildSnapshot : {};
+
+  // Get runs for selected character
   const characterRuns = useMemo(
     () =>
       selectedCharacter
-        ? runs.filter((run) => run.character_name === selectedCharacter.name)
+        ? runs.filter((run) => run.character_name === selectedCharacter.character_name)
         : [],
-    [selectedCharacter?.name, runs]
+    [selectedCharacter?.character_name, runs]
   );
 
-  // DPS history for selected character - memoized to prevent unnecessary recalculations
+  // DPS history for selected character
   const characterDPSHistory = useMemo(
     () =>
-      dpsTrend.map((point, index) => ({
+      dpsTrend.map((point) => ({
         date: new Date(point.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        dps: point.dps + (selectedCharacter ? (selectedCharacter.id === 'char-001' ? 0 : -5000 - index * 500) : 0),
+        dps: point.avg_dps,
       })),
-    [selectedCharacter?.id, dpsTrend]
+    [dpsTrend]
   );
 
   if (isLoading) {
@@ -95,10 +99,10 @@ export default function Characters() {
             <div className="space-y-4">
               {characters.map((character) => (
                 <CharacterCard
-                  key={character.id}
+                  key={character.character_name}
                   character={character}
                   onClick={() => setSelectedCharacter(character)}
-                  isSelected={selectedCharacter?.id === character.id}
+                  isSelected={selectedCharacter?.character_name === character.character_name}
                 />
               ))}
             </div>
@@ -114,25 +118,25 @@ export default function Characters() {
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 rounded-xl bg-eso-dark-800 flex items-center justify-center">
-                      <span className={clsx('text-3xl', classColors[selectedCharacter.class])}>
-                        {selectedCharacter.class.charAt(0)}
+                      <span className={clsx('text-3xl', classColors[getBuild(selectedCharacter).class ?? 'Dragonknight'])}>
+                        {(getBuild(selectedCharacter).class ?? '?').charAt(0)}
                       </span>
                     </div>
                     <div>
                       <h2 className="text-xl font-bold text-gray-100">
-                        {selectedCharacter.name}
+                        {selectedCharacter.character_name}
                       </h2>
-                      <p className={clsx('text-sm', classColors[selectedCharacter.class])}>
-                        {selectedCharacter.class}
-                        {selectedCharacter.subclass && ` / ${selectedCharacter.subclass}`}
+                      <p className={clsx('text-sm', classColors[getBuild(selectedCharacter).class ?? 'Dragonknight'])}>
+                        {getBuild(selectedCharacter).class ?? 'Unknown'}
+                        {getBuild(selectedCharacter).subclass && ` / ${getBuild(selectedCharacter).subclass}`}
                       </p>
                       <p className="text-sm text-gray-500">
-                        {selectedCharacter.race} - CP {selectedCharacter.cp_level}
+                        {getBuild(selectedCharacter).race ?? ''} - CP {selectedCharacter.cp_level ?? 0}
                       </p>
                     </div>
                   </div>
                   <span className="badge-info text-lg px-4 py-2">
-                    CP {selectedCharacter.cp_level}
+                    CP {selectedCharacter.cp_level ?? 0}
                   </span>
                 </div>
 
@@ -144,7 +148,7 @@ export default function Characters() {
                       <span className="text-xs text-gray-500">Avg DPS</span>
                     </div>
                     <p className="text-xl font-bold text-gray-100">
-                      {formatDPS(selectedCharacter.average_dps)}
+                      {formatDPS(selectedCharacter.avg_dps)}
                     </p>
                   </div>
                   <div className="bg-eso-dark-800 rounded-lg p-4">
@@ -168,10 +172,12 @@ export default function Characters() {
                   <div className="bg-eso-dark-800 rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-1">
                       <Calendar className="w-4 h-4 text-gray-400" />
-                      <span className="text-xs text-gray-500">Favorite</span>
+                      <span className="text-xs text-gray-500">Last Played</span>
                     </div>
                     <p className="text-sm font-bold text-gray-100 truncate">
-                      {selectedCharacter.favorite_content}
+                      {selectedCharacter.last_played
+                        ? new Date(selectedCharacter.last_played).toLocaleDateString()
+                        : 'N/A'}
                     </p>
                   </div>
                 </div>
@@ -184,7 +190,7 @@ export default function Characters() {
                   <div>
                     <p className="text-xs text-gray-500 mb-2">Equipped Sets</p>
                     <div className="space-y-2">
-                      {selectedCharacter.current_sets.map((set) => (
+                      {(getBuild(selectedCharacter).sets ?? []).map((set) => (
                         <div
                           key={set}
                           className="flex items-center justify-between bg-eso-dark-800 rounded-lg px-4 py-3"
@@ -196,10 +202,13 @@ export default function Characters() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-2">Class Skills</p>
+                    <p className="text-xs text-gray-500 mb-2">Skills</p>
                     <div className="bg-eso-dark-800 rounded-lg p-4">
                       <div className="grid grid-cols-3 gap-2">
-                        {['Molten Whip', 'Burning Embers', 'Venomous Claw', 'Flames of Oblivion', 'Bull Netch', 'Standard of Might'].map((skill) => (
+                        {[
+                          ...(getBuild(selectedCharacter).skills_front ?? []),
+                          ...(getBuild(selectedCharacter).skills_back ?? []),
+                        ].slice(0, 6).map((skill) => (
                           <div
                             key={skill}
                             className="text-center p-2 bg-eso-dark-700 rounded"

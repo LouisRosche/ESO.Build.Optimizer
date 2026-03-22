@@ -136,12 +136,12 @@ async def list_runs(
         query = query.where(CombatRun.content_type == content_type.value)
     if content_name:
         content_name_escaped = content_name.replace("%", r"\%").replace("_", r"\_")
-        query = query.where(CombatRun.content_name.ilike(f"%{content_name_escaped}%"))
+        query = query.where(CombatRun.content_name.ilike(f"%{content_name_escaped}%", escape="\\"))
     if difficulty:
         query = query.where(CombatRun.difficulty == difficulty.value)
     if character_name:
         character_name_escaped = character_name.replace("%", r"\%").replace("_", r"\_")
-        query = query.where(CombatRun.character_name.ilike(f"%{character_name_escaped}%"))
+        query = query.where(CombatRun.character_name.ilike(f"%{character_name_escaped}%", escape="\\"))
     if success is not None:
         query = query.where(CombatRun.success == success)
     if from_date:

@@ -127,5 +127,5 @@
       "description": "Source URL for this data"
     }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }

@@ -21,6 +21,7 @@ from ml.recommendations import (
     BuildSnapshot,
     CombatMetrics as RecCombatMetrics,
     CombatRun as RecCombatRun,
+    ContentInfo as RecContentInfo,
     ContributionScores,
 )
 
@@ -220,16 +221,11 @@ def generate_recommendation_run(
         player_id=f"player-{random.randint(1, 100):03d}",
         character_name=f"TestChar",
         timestamp=datetime.now(timezone.utc),
-        content=RecCombatRun.__dataclass_fields__["content"].type(
+        content=RecContentInfo(
             content_type="dungeon",
             name=content_name,
             difficulty="veteran",
-        ) if hasattr(RecCombatRun, "__dataclass_fields__") else type("ContentInfo", (), {
-            "content_type": "dungeon",
-            "name": content_name,
-            "difficulty": "veteran",
-            "matches": lambda self, other: self.name == other.name,
-        })(),
+        ),
         duration_sec=duration,
         success=random.random() < (0.5 + skill_level * 0.4),
         group_size=4,

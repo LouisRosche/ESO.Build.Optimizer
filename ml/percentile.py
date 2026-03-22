@@ -167,10 +167,18 @@ class ContributionMetrics:
 
     def __post_init__(self):
         """Validate and clamp all values to [0.0, 1.0] range."""
+        import math
         for category in CONTRIBUTION_CATEGORIES:
             value = getattr(self, category)
-            clamped = max(0.0, min(1.0, float(value)))
-            if clamped != float(value):
+            fval = float(value)
+            if math.isnan(fval) or math.isinf(fval):
+                logging.warning(
+                    f"ContributionMetrics.{category} value {value} is not finite, defaulting to 0.0"
+                )
+                setattr(self, category, 0.0)
+                continue
+            clamped = max(0.0, min(1.0, fval))
+            if clamped != fval:
                 logging.warning(
                     f"ContributionMetrics.{category} value {value} clamped to {clamped}"
                 )
@@ -784,7 +792,10 @@ class PercentileCalculator:
                 f"Removed {removed_count} outliers outside [{lower_bound:.4f}, {upper_bound:.4f}]"
             )
 
-        return filtered if len(filtered) > 0 else values
+        if len(filtered) > 0:
+            return filtered
+        logger.warning("Outlier filter removed all values; returning unfiltered data")
+        return values
 
     def _build_distributions(
         self,

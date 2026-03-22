@@ -19,7 +19,7 @@ export default function Recommendations() {
   const { data: apiRecommendations, isLoading: recsLoading, refetch: refetchRecs } = useRecommendations(activeRunId);
 
   // Fall back to mock data when API is unreachable (dev only)
-  const recommendations = apiRecommendations ?? (import.meta.env.DEV ? mockRecommendations : []);
+  const recommendations = apiRecommendations?.recommendations ?? (import.meta.env.DEV ? mockRecommendations : []);
   const usingMockData = !apiRuns && !runsLoading;
 
   const isLoading = runsLoading || recsLoading;

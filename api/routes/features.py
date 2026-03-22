@@ -83,9 +83,9 @@ async def list_features(
         search_pattern = f"%{search_escaped}%"
         query = query.where(
             or_(
-                Feature.name.ilike(search_pattern),
-                Feature.base_effect.ilike(search_pattern),
-                Feature.tags.ilike(search_pattern),
+                Feature.name.ilike(search_pattern, escape="\\"),
+                Feature.base_effect.ilike(search_pattern, escape="\\"),
+                Feature.tags.ilike(search_pattern, escape="\\"),
             )
         )
 
@@ -153,9 +153,9 @@ async def list_gear_sets(
         search_pattern = f"%{search_escaped}%"
         query = query.where(
             or_(
-                GearSet.name.ilike(search_pattern),
-                GearSet.location.ilike(search_pattern),
-                GearSet.tags.ilike(search_pattern),
+                GearSet.name.ilike(search_pattern, escape="\\"),
+                GearSet.location.ilike(search_pattern, escape="\\"),
+                GearSet.tags.ilike(search_pattern, escape="\\"),
             )
         )
 
@@ -394,9 +394,9 @@ async def search_features(
         select(Feature)
         .where(
             or_(
-                Feature.name.ilike(search_pattern),
-                Feature.base_effect.ilike(search_pattern),
-                Feature.tags.ilike(search_pattern),
+                Feature.name.ilike(search_pattern, escape="\\"),
+                Feature.base_effect.ilike(search_pattern, escape="\\"),
+                Feature.tags.ilike(search_pattern, escape="\\"),
             )
         )
         .limit(limit // 2)
@@ -410,9 +410,9 @@ async def search_features(
         select(GearSet)
         .where(
             or_(
-                GearSet.name.ilike(search_pattern),
-                GearSet.location.ilike(search_pattern),
-                GearSet.tags.ilike(search_pattern),
+                GearSet.name.ilike(search_pattern, escape="\\"),
+                GearSet.location.ilike(search_pattern, escape="\\"),
+                GearSet.tags.ilike(search_pattern, escape="\\"),
             )
         )
         .limit(limit // 2)

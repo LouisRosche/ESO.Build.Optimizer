@@ -9,7 +9,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -129,7 +129,7 @@ async def login(
 
     if not user:
         # Constant-time: always run bcrypt to prevent timing attacks
-        verify_password(credentials.password, "$2b$12$LJ3m4ys3Lez3RkBOajAqWu")  # dummy hash
+        verify_password(credentials.password, "$2b$12$LJ3m4ys3Lez3RkBOajAqWuW7Vuj4VjTCzFNfHnCsUF8pEbxh0M6W.")  # dummy hash
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",
@@ -249,6 +249,18 @@ async def get_current_user_info(
 class PasswordChange(UserLogin):
     """Schema for password change request."""
     new_password: str = Field(..., min_length=8, max_length=128)
+
+    @field_validator("new_password")
+    @classmethod
+    def validate_password_complexity(cls, v: str) -> str:
+        """Require at least one uppercase, one lowercase, and one digit."""
+        if not any(c.isupper() for c in v):
+            raise ValueError("Password must contain at least one uppercase letter")
+        if not any(c.islower() for c in v):
+            raise ValueError("Password must contain at least one lowercase letter")
+        if not any(c.isdigit() for c in v):
+            raise ValueError("Password must contain at least one digit")
+        return v
 
 
 @router.post(

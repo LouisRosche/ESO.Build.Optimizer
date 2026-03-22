@@ -15,11 +15,12 @@ export type Difficulty = 'normal' | 'veteran' | 'hardmode';
 // Set Types
 export type SetType = 'Dungeon' | 'Trial' | 'Overland' | 'Monster' | 'Craftable' | 'Mythic' | 'Arena' | 'PvP';
 export type PVETier = 'S' | 'A' | 'B' | 'C' | 'F';
+export type BindType = 'Bind on Pickup' | 'Bind on Equip' | 'Craftable';
 
 // Recommendation Categories
 export type RecommendationCategory = 'gear' | 'skill' | 'execution' | 'build';
 
-// Combat Run
+// Combat Run (full detail response)
 export interface CombatRun {
   run_id: string;
   player_id: string;
@@ -34,8 +35,9 @@ export interface CombatRun {
   contribution_scores?: ContributionScores;
 }
 
+// ContentInfo uses Pydantic field names (not aliases) in serialization
 export interface ContentInfo {
-  type: ContentType;
+  content_type: ContentType;
   name: string;
   difficulty: Difficulty;
 }
@@ -96,7 +98,7 @@ export interface ContributionScores {
   resource_efficiency: number;
 }
 
-// Run List Item (simplified)
+// Run List Item (matches CombatRunListItem schema — flat fields, no nesting)
 export interface CombatRunListItem {
   run_id: string;
   character_name: string;
@@ -109,7 +111,7 @@ export interface CombatRunListItem {
   dps: number;
 }
 
-// Run Statistics
+// Run Statistics (matches /runs/stats/summary response)
 export interface RunStatistics {
   total_runs: number;
   successful_runs: number;
@@ -141,18 +143,21 @@ export interface RecommendationsResponse {
   confidence: 'low' | 'medium' | 'high';
 }
 
-// Gear Set
+// Gear Set (matches GearSetBase schema)
 export interface GearSet {
   set_id: string;
   name: string;
   set_type: SetType;
   weight: string;
+  bind_type: BindType;
+  tradeable: boolean;
   location: string;
   dlc_required?: string;
   pve_tier?: PVETier;
   bonuses: Record<string, SetBonusEffect>;
   role_affinity?: RoleAffinity;
   tags?: string;
+  patch_updated?: string;
 }
 
 export interface SetBonusEffect {
@@ -166,47 +171,45 @@ export interface SetBonusEffect {
   cooldown_sec?: number;
 }
 
+// RoleAffinity — matches actual JSON data (3 fields; damage_taken optional)
 export interface RoleAffinity {
   damage_dealt: number;
   buff_uptime: number;
   healing_done: number;
-  damage_taken: number;
+  damage_taken?: number;
 }
 
-// Character
+// Character (matches /characters endpoint response — derived from run history)
 export interface Character {
-  id: string;
-  name: string;
-  class: ESOClass;
-  subclass?: ESOClass;
-  race: string;
-  cp_level: number;
+  character_name: string;
   total_runs: number;
-  average_dps: number;
   best_dps: number;
-  last_played: string;
-  favorite_content: string;
-  current_sets: string[];
+  avg_dps: number;
+  last_played: string | null;
+  cp_level: number | null;
+  build: BuildSnapshot | Record<string, never>;
 }
 
-// Percentile Data Point
+// DPS Trend Data Point (matches /analytics/dps-trend response)
+export interface DPSTrendPoint {
+  date: string;
+  avg_dps: number;
+  max_dps: number;
+  run_count: number;
+}
+
+// Percentile Data Point (matches /analytics/percentile-trend response)
 export interface PercentileDataPoint {
   date: string;
   percentile: number;
   dps: number;
+  content_name: string;
 }
 
-// DPS Trend Data Point
-export interface DPSTrendPoint {
-  date: string;
-  dps: number;
-  content: string;
-}
-
-// Buff Analysis
+// Buff Analysis (matches /analytics/buff-analysis response)
 export interface BuffAnalysis {
-  name: string;
-  average_uptime: number;
-  target_uptime: number;
-  importance: 'critical' | 'high' | 'medium' | 'low';
+  buff_name: string;
+  avg_uptime: number;
+  sample_count: number;
+  importance: 'high' | 'medium' | 'low';
 }

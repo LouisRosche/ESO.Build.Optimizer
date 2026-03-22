@@ -12,6 +12,7 @@ import type {
   CombatRunListItem,
   RunStatistics,
   Recommendation,
+  RecommendationsResponse,
   Character,
   GearSet,
   DPSTrendPoint,
@@ -102,9 +103,9 @@ export function useDeleteRun() {
 
 // Recommendations
 export function useRecommendations(runId: string, regenerate = false) {
-  return useQuery<Recommendation[]>({
+  return useQuery<RecommendationsResponse>({
     queryKey: [...queryKeys.recommendations(runId), { regenerate }],
-    queryFn: () => api.recommendations.get(runId, regenerate) as Promise<Recommendation[]>,
+    queryFn: () => api.recommendations.get(runId, regenerate) as Promise<RecommendationsResponse>,
     enabled: !!runId,
     retry: 1,
   });

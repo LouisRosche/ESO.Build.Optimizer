@@ -900,7 +900,7 @@ class RecommendationEngine:
         else:
             base_confidence = 0.4
 
-        # Adjust confidence based on percentile gap (more confident for larger gaps)
+        # Adjust confidence based on percentile gap (more room to improve = more confident)
         confidence = base_confidence * (0.5 + min(percentile_gap, 0.5))
         confidence = min(0.95, max(0.3, confidence))
 

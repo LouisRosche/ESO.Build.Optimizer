@@ -121,6 +121,25 @@ def validate_manifest(addon_dir: Path) -> list[str]:
     return errors
 
 
+def validate_console_manifest(addon_dir: Path) -> list[str]:
+    """Validate .addon console manifest matches .txt."""
+    errors = []
+    txt = addon_dir / f"{ADDON_NAME}.txt"
+    addon = addon_dir / f"{ADDON_NAME}.addon"
+
+    if not addon.exists():
+        errors.append(f"Console manifest missing: {ADDON_NAME}.addon")
+        return errors
+
+    txt_content = txt.read_bytes().replace(b"\r\n", b"\n")
+    addon_content = addon.read_bytes().replace(b"\r\n", b"\n")
+
+    if txt_content != addon_content:
+        errors.append(".txt and .addon manifests have different content")
+
+    return errors
+
+
 def validate_lua_syntax(addon_dir: Path) -> list[str]:
     """Basic Lua syntax validation (no runtime needed)."""
     errors = []
@@ -243,6 +262,14 @@ def create_package(addon_dir: Path, output_dir: Path, dry_run: bool = False) -> 
 
     print("Validating manifest...")
     errors = validate_manifest(addon_dir)
+    all_errors.extend(errors)
+    for e in errors:
+        print(f"  ERROR: {e}")
+    if not errors:
+        print("  OK")
+
+    print("Validating console manifest...")
+    errors = validate_console_manifest(addon_dir)
     all_errors.extend(errors)
     for e in errors:
         print(f"  ERROR: {e}")
