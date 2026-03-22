@@ -386,3 +386,147 @@ class TestSyntheticDataQuality:
 
         # Top DPS players should have higher buff uptime on average
         assert top_buff_avg > bottom_buff_avg
+
+    def test_generate_recommendation_run(self):
+        """Test that generate_recommendation_run produces a valid CombatRun."""
+        from ml.synthetic import generate_recommendation_run
+        from ml.recommendations import CombatRun as RecCombatRun, ContentInfo as RecContentInfo
+
+        run = generate_recommendation_run(skill_level=0.7)
+
+        assert isinstance(run, RecCombatRun)
+        assert isinstance(run.content, RecContentInfo)
+        assert run.content.content_type == "dungeon"
+        assert run.content.difficulty == "veteran"
+        assert run.build_snapshot is not None
+        assert run.metrics is not None
+        assert run.contribution_scores is not None
+
+    def test_generate_recommendation_run_skill_range(self):
+        """Test recommendation runs at extreme skill levels."""
+        from ml.synthetic import generate_recommendation_run
+
+        low = generate_recommendation_run(skill_level=0.05)
+        high = generate_recommendation_run(skill_level=0.95)
+
+        # High-skill player should have higher contribution scores
+        assert high.contribution_scores.damage_dealt > low.contribution_scores.damage_dealt
+
+
+class TestNaNHandling:
+    """Verify NaN and edge-case input handling."""
+
+    def test_nan_defaults_to_zero(self):
+        """NaN values in ContributionMetrics should default to 0.0, not 1.0."""
+        from ml.percentile import ContributionMetrics
+
+        metrics = ContributionMetrics(
+            damage_dealt=float('nan'),
+            buff_uptime=float('nan'),
+        )
+
+        assert metrics.damage_dealt == 0.0
+        assert metrics.buff_uptime == 0.0
+
+    def test_inf_defaults_to_zero(self):
+        """Infinity values should default to 0.0."""
+        from ml.percentile import ContributionMetrics
+
+        metrics = ContributionMetrics(
+            damage_dealt=float('inf'),
+            healing_done=float('-inf'),
+        )
+
+        assert metrics.damage_dealt == 0.0
+        assert metrics.healing_done == 0.0
+
+    def test_nan_run_in_percentile_calculation(self):
+        """A run with NaN metrics should calculate without crashing."""
+        from ml.percentile import (
+            CombatRun, ContentInfo, ContentType, ContributionMetrics,
+            Difficulty, PercentileCalculator, RoleType,
+        )
+
+        calc = PercentileCalculator()
+
+        nan_run = CombatRun(
+            run_id="nan-test",
+            player_id="p-nan",
+            character_name="NaNChar",
+            timestamp=datetime.now(),
+            content=ContentInfo(ContentType.DUNGEON, "Lair of Maarselok", Difficulty.VETERAN),
+            duration_sec=300,
+            success=True,
+            group_size=4,
+            cp_level=2100,
+            role=RoleType.DPS,
+            metrics=ContributionMetrics(
+                damage_dealt=float('nan'),
+                buff_uptime=float('nan'),
+            ),
+        )
+
+        # Should produce a result with 0-valued metrics, not crash
+        from ml.synthetic import generate_percentile_population
+        pop = generate_percentile_population(count=50)
+        result = calc.calculate_percentile(nan_run, pop)
+        assert result is not None
+        assert result.percentiles["damage_dealt"] <= 0.1  # 0.0 metric should rank very low
+
+
+class TestConfidenceScoring:
+    """Test confidence scoring at various percentile levels."""
+
+    def test_improvement_estimate_below_median(self):
+        """Players below median should get non-zero improvement estimates."""
+        from ml.recommendations import RecommendationEngine, RecommendationCategory
+
+        engine = RecommendationEngine()
+
+        desc, confidence = engine.estimate_improvement(
+            current_percentile=0.2,
+            metric="damage_dealt",
+            change_type=RecommendationCategory.GEAR,
+            sample_size=100,
+        )
+
+        assert confidence > 0.5  # High sample + low percentile = good confidence
+        assert "%" in desc
+
+    def test_improvement_estimate_above_median(self):
+        """Players above median should still get valid (lower) confidence."""
+        from ml.recommendations import RecommendationEngine, RecommendationCategory
+
+        engine = RecommendationEngine()
+
+        desc, confidence = engine.estimate_improvement(
+            current_percentile=0.85,
+            metric="damage_dealt",
+            change_type=RecommendationCategory.GEAR,
+            sample_size=100,
+        )
+
+        assert 0.0 < confidence <= 1.0
+        assert "%" in desc
+
+    def test_confidence_increases_with_sample_size(self):
+        """Larger samples should yield higher confidence."""
+        from ml.recommendations import RecommendationEngine, RecommendationCategory
+
+        engine = RecommendationEngine()
+
+        _, conf_small = engine.estimate_improvement(
+            current_percentile=0.3,
+            metric="damage_dealt",
+            change_type=RecommendationCategory.GEAR,
+            sample_size=5,
+        )
+
+        _, conf_large = engine.estimate_improvement(
+            current_percentile=0.3,
+            metric="damage_dealt",
+            change_type=RecommendationCategory.GEAR,
+            sample_size=200,
+        )
+
+        assert conf_large > conf_small
