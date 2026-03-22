@@ -226,6 +226,273 @@ def test_recommendation_schema():
     assert rec.confidence == 0.85
 
 
+class TestSchemaValidation:
+    """Edge-case schema validation tests."""
+
+    def test_password_requires_uppercase(self):
+        """Password must contain uppercase letter."""
+        from api.models.schemas import UserCreate
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError, match="uppercase"):
+            UserCreate(email="test@test.com", username="user", password="lowercase1")
+
+    def test_password_requires_digit(self):
+        """Password must contain digit."""
+        from api.models.schemas import UserCreate
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError, match="digit"):
+            UserCreate(email="test@test.com", username="user", password="NoDigitsHere")
+
+    def test_password_min_length(self):
+        """Password must be at least 8 characters."""
+        from api.models.schemas import UserCreate
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            UserCreate(email="test@test.com", username="user", password="Ab1")
+
+    def test_combat_metrics_negative_values_rejected(self):
+        """Negative values should be rejected for combat metrics."""
+        from api.models.schemas import CombatMetrics
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            CombatMetrics(damage_done=-100)
+
+    def test_contribution_scores_clamped(self):
+        """Contribution scores must be in [0.0, 1.0]."""
+        from api.models.schemas import ContributionScores
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            ContributionScores(damage_dealt=1.5)
+
+        with pytest.raises(ValidationError):
+            ContributionScores(buff_uptime=-0.1)
+
+    def test_build_snapshot_skills_max_length(self):
+        """Skills bar can't have more than 6 skills."""
+        from api.models.schemas import BuildSnapshot
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            BuildSnapshot(
+                **{
+                    "class": "Dragonknight",
+                    "race": "Dark Elf",
+                    "cp_level": 2100,
+                    "sets": [],
+                    "skills_front": ["s1", "s2", "s3", "s4", "s5", "s6", "s7"],
+                    "skills_back": [],
+                }
+            )
+
+    def test_build_snapshot_cp_level_bounds(self):
+        """CP level must be 0-3600."""
+        from api.models.schemas import BuildSnapshot
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            BuildSnapshot(
+                **{
+                    "class": "Dragonknight",
+                    "race": "Dark Elf",
+                    "cp_level": 5000,
+                    "sets": [],
+                    "skills_front": [],
+                    "skills_back": [],
+                }
+            )
+
+    def test_combat_run_group_size_bounds(self):
+        """Group size must be 1-24."""
+        from api.models.schemas import CombatRunBase, ContentInfo, BuildSnapshot, CombatMetrics
+        from pydantic import ValidationError
+
+        content = ContentInfo(type="dungeon", name="Test", difficulty="veteran")
+        build = BuildSnapshot(
+            **{
+                "class": "Dragonknight",
+                "race": "Dark Elf",
+                "cp_level": 2100,
+                "sets": [],
+                "skills_front": [],
+                "skills_back": [],
+            }
+        )
+        metrics = CombatMetrics()
+
+        with pytest.raises(ValidationError):
+            CombatRunBase(
+                character_name="Test",
+                content=content,
+                duration_sec=300,
+                success=True,
+                group_size=25,
+                build_snapshot=build,
+                metrics=metrics,
+            )
+
+    def test_recommendation_priority_bounds(self):
+        """Recommendation priority must be 1-10."""
+        from api.models.schemas import RecommendationBase
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            RecommendationBase(
+                category="gear",
+                priority=0,
+                current_state="x",
+                recommended_change="y",
+                expected_improvement="z",
+                reasoning="r",
+                confidence=0.5,
+            )
+
+        with pytest.raises(ValidationError):
+            RecommendationBase(
+                category="gear",
+                priority=11,
+                current_state="x",
+                recommended_change="y",
+                expected_improvement="z",
+                reasoning="r",
+                confidence=0.5,
+            )
+
+    def test_recommendation_confidence_bounds(self):
+        """Recommendation confidence must be [0.0, 1.0]."""
+        from api.models.schemas import RecommendationBase
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            RecommendationBase(
+                category="gear",
+                priority=1,
+                current_state="x",
+                recommended_change="y",
+                expected_improvement="z",
+                reasoning="r",
+                confidence=1.5,
+            )
+
+    def test_crit_rate_bounds(self):
+        """Crit rate must be 0.0-1.0."""
+        from api.models.schemas import CombatMetrics
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            CombatMetrics(crit_rate=2.0)
+
+    def test_content_type_enum_values(self):
+        """Only valid content types are accepted."""
+        from api.models.schemas import ContentInfo
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            ContentInfo(type="raid", name="Test", difficulty="veteran")
+
+    def test_difficulty_enum_values(self):
+        """Only valid difficulty values are accepted."""
+        from api.models.schemas import ContentInfo
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError):
+            ContentInfo(type="dungeon", name="Test", difficulty="mythic")
+
+    def test_valid_combat_run_full(self):
+        """Full valid combat run passes all validation."""
+        from api.models.schemas import CombatRunCreate, ContentInfo, BuildSnapshot, CombatMetrics
+
+        run = CombatRunCreate(
+            character_name="TestDK",
+            content=ContentInfo(type="dungeon", name="Lair of Maarselok", difficulty="veteran"),
+            duration_sec=300,
+            success=True,
+            group_size=4,
+            build_snapshot=BuildSnapshot(
+                **{
+                    "class": "Dragonknight",
+                    "race": "Dark Elf",
+                    "cp_level": 2100,
+                    "sets": ["Kinras's Wrath", "Bahsei's Mania"],
+                    "skills_front": ["Molten Whip"],
+                    "skills_back": ["Unstable Wall of Fire"],
+                }
+            ),
+            metrics=CombatMetrics(
+                damage_done=15000000,
+                dps=50000,
+                crit_rate=0.62,
+            ),
+        )
+
+        assert run.character_name == "TestDK"
+        assert run.content.content_type.value == "dungeon"
+
+    def test_recommendations_list_response_schema(self):
+        """RecommendationsListResponse accepts ML adapter output format."""
+        from api.models.schemas import RecommendationsListResponse, RecommendationResponse
+        from uuid import uuid4
+
+        run_id = uuid4()
+        rec_id = uuid4()
+
+        resp = RecommendationsListResponse(
+            run_id=run_id,
+            recommendations=[
+                RecommendationResponse(
+                    recommendation_id=rec_id,
+                    run_id=run_id,
+                    category="gear",
+                    priority=1,
+                    current_state="Using suboptimal gear",
+                    recommended_change="Switch to trial sets",
+                    expected_improvement="+8.5% DPS",
+                    reasoning="Top performers use these sets",
+                    confidence=0.82,
+                )
+            ],
+            percentiles={"damage_dealt": 0.35, "buff_uptime": 0.42},
+            sample_size=150,
+            confidence="high",
+        )
+
+        assert resp.sample_size == 150
+        assert len(resp.recommendations) == 1
+        assert resp.recommendations[0].confidence == 0.82
+
+    def test_gear_set_schema(self):
+        """GearSetBase validates complex nested structure."""
+        from api.models.schemas import GearSetBase, SetBonusEffect, RoleAffinity
+
+        gear = GearSetBase(
+            set_id="KINRAS_001",
+            name="Kinras's Wrath",
+            set_type="Dungeon",
+            weight="Light",
+            bind_type="Bind on Pickup",
+            tradeable=False,
+            location="Black Drake Villa",
+            bonuses={
+                "2pc": SetBonusEffect(stat="Spell Damage", value=129),
+                "5pc": SetBonusEffect(
+                    effect="Adds stacks of Burning Heart",
+                    proc_condition="Light attacks",
+                    buff_granted="Major Berserk",
+                ),
+            },
+            pve_tier="S",
+            role_affinity=RoleAffinity(damage_dealt=0.95, buff_uptime=0.8),
+            patch_updated="U48",
+        )
+
+        assert gear.name == "Kinras's Wrath"
+        assert gear.bonuses["5pc"].buff_granted == "Major Berserk"
+
+
 class TestAPIEndpoints:
     """Test API endpoint responses using TestClient with mocked DB."""
 
