@@ -60,7 +60,7 @@ class Settings(BaseSettings):
     sentry_dsn: str | None = None
 
     # ESO Game Data
-    current_patch: str = "U48"
+    current_patch: str = "U49"
 
     @field_validator("allowed_origins", mode="before")
     @classmethod

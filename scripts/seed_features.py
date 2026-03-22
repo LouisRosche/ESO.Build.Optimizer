@@ -17,9 +17,6 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -100,6 +97,9 @@ async def seed_database(database_url: str, dry_run: bool = False) -> None:
         logger.info("Dry run — no database changes made.")
         return
 
+    from sqlalchemy import text
+    from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+
     engine = create_async_engine(database_url, echo=False)
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
@@ -164,13 +164,16 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if args.database_url:
-        db_url = args.database_url
+    if args.dry_run:
+        # Dry run doesn't need database connection
+        asyncio.run(seed_database("", dry_run=True))
     else:
-        from api.core.config import settings
-        db_url = settings.database_url
-
-    asyncio.run(seed_database(db_url, dry_run=args.dry_run))
+        if args.database_url:
+            db_url = args.database_url
+        else:
+            from api.core.config import settings
+            db_url = settings.database_url
+        asyncio.run(seed_database(db_url, dry_run=False))
 
 
 if __name__ == "__main__":
