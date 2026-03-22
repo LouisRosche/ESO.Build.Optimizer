@@ -214,8 +214,8 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     op.drop_table("rate_limits")
-    op.drop_table("gear_sets")
-    op.drop_table("features")
     op.drop_table("recommendations")
     op.drop_table("combat_runs")
+    op.drop_table("gear_sets")
+    op.drop_table("features")
     op.drop_table("users")
