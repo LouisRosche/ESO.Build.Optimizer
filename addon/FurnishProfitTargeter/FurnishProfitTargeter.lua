@@ -334,18 +334,6 @@ function FPT:GetItemLinkFromId(itemId)
     return string.format("|H1:item:%d:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0:0|h|h", itemId)
 end
 
--- Check if an addon is loaded
-function FPT:IsAddonLoaded(addonName)
-    local mgr = GetAddOnManager()
-    for i = 1, mgr:GetNumAddOns() do
-        local name, _, _, _, enabled = mgr:GetAddOnInfo(i)
-        if name == addonName and enabled then
-            return true
-        end
-    end
-    return false
-end
-
 -- Check for Master Merchant availability
 function FPT:HasMasterMerchant()
     return MasterMerchant ~= nil
