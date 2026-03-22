@@ -12,6 +12,7 @@ help:
 	@echo "Build & Test:"
 	@echo "  all          - Build and test everything"
 	@echo "  test         - Run all tests"
+	@echo "  pytest       - Run Python unit tests only"
 	@echo "  build        - Build all components"
 	@echo "  lint         - Run all linters"
 	@echo ""
@@ -28,9 +29,17 @@ help:
 	@echo "  lua-check    - Lint Lua addon code"
 	@echo ""
 	@echo "FurnishProfitTargeter:"
-	@echo "  fpt-test     - Run FPT pre-publish test suite (8 checks)"
-	@echo "  fpt-validate - Run FPT static validator (8800+ checks)"
-	@echo "  fpt-package  - Build ESOUI distribution ZIP"
+	@echo "  fpt-test     - Run FPT pre-publish test suite"
+	@echo "  fpt-validate - Run FPT static validator"
+	@echo "  fpt-package  - Build FPT ESOUI distribution ZIP"
+	@echo ""
+	@echo "ESOBuildOptimizer:"
+	@echo "  esbo-test    - Run ESBO pre-publish test suite"
+	@echo "  esbo-package - Build ESBO ESOUI distribution ZIP"
+	@echo ""
+	@echo "Database:"
+	@echo "  seed         - Seed features/gear into database"
+	@echo "  seed-dry     - Count features (no DB write)"
 	@echo ""
 	@echo "Cleanup:"
 	@echo "  clean        - Remove build artifacts"
@@ -41,7 +50,7 @@ help:
 
 all: build test lint
 
-test: fixer-test lua-check validate fpt-validate
+test: pytest fixer-test lua-check validate fpt-validate
 	@echo "All tests passed!"
 
 build: fixer-build
@@ -49,6 +58,14 @@ build: fixer-build
 
 lint: fixer-lint lua-check
 	@echo "Linting complete!"
+
+# =============================================================================
+# Python Tests
+# =============================================================================
+
+pytest:
+	@echo "Running Python tests..."
+	pytest tests/ -v --tb=short
 
 # =============================================================================
 # Addon Fixer
@@ -146,6 +163,34 @@ fpt-package:
 fpt-package-check:
 	@echo "Validating FPT package (dry run)..."
 	python scripts/package_fpt_addon.py --check
+
+# =============================================================================
+# ESOBuildOptimizer
+# =============================================================================
+
+esbo-test:
+	@echo "Running ESBO pre-publish test suite..."
+	python scripts/test_esbo_prepublish.py
+
+esbo-package:
+	@echo "Packaging ESBO addon for ESOUI..."
+	python scripts/package_esbo_addon.py
+
+esbo-package-check:
+	@echo "Validating ESBO package (dry run)..."
+	python scripts/package_esbo_addon.py --check
+
+# =============================================================================
+# Database
+# =============================================================================
+
+seed:
+	@echo "Seeding features and gear sets..."
+	python scripts/seed_features.py
+
+seed-dry:
+	@echo "Counting features (dry run)..."
+	python scripts/seed_features.py --dry-run
 
 # =============================================================================
 # Cleanup
